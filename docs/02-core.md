@@ -1,3 +1,6 @@
 # CORE
-核心部分，暂时没有说明     
-具体说明看该部分分列文件。
+分为四个文件    
+- [user.php](02.1-users.md)
+- [goods.php](02.2-goods.md)
+- [authorization.php](02.3-authorization.md)
+- utils.php
