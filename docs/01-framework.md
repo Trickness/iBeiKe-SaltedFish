@@ -19,3 +19,14 @@ config.php (全局配置文件)
     |- /pic
     |- /theme
 </pre> 
+
+```
+)
+    student_id      CHAR(16) NOT NULL,
+    student_pass    CHAR(32) NOT NULL,
+    student_info    VARCHAR(65535),
+    bbs_id          CHAR(32),
+    PRIMARY KEY(student_id)
+);
+```
+student_info 参见 [用户信息结构](02.1-users.md#用户信息结构（JSONStr）)
