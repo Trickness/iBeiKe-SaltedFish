@@ -21,7 +21,7 @@ config.php (全局配置文件)
 </pre> 
 
 ```
-)
+(
     student_id      CHAR(16) NOT NULL,
     student_pass    CHAR(32) NOT NULL,
     student_info    VARCHAR(65535),
