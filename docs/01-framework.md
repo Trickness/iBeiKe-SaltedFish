@@ -32,4 +32,13 @@ config.php (全局配置文件)
     PRIMARY KEY(student_id)
 );
 ```
+
+Session
+```
+(
+    session_key     CHAR(32) NOT NULL,
+    student_id      CHAR(16) NOT NULL,
+    PRIMARY KEY(session_key)
+);
+```
 student_info 参见 [用户信息结构](02.1-users.md#用户信息结构（JSONStr）)
