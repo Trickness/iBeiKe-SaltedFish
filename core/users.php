@@ -52,8 +52,6 @@ function user_create($student_id,$password){
 	$link->commit();
 }
 
-// user_create("987654","123456");
-
 
 /**
  * 
