@@ -26,6 +26,22 @@ function user_bind($original_un,$original_pw,$students_id,$student_pw){
 
 /**
  * 
+ * 创建用户
+ * 
+ * 
+ * 
+ * @return
+ *      -> true/false
+ * 
+ * 
+ **/
+function user_create($student_id,$password){
+
+}
+
+
+/**
+ * 
  * 登陆到咸鱼站
  *
  * @param
@@ -50,7 +66,7 @@ function user_login($username,$password){
  *      - (@String) session_key
  * 
  **/
-user_logout($session_key){
+function user_logout($session_key){
 
 }
 
