@@ -147,45 +147,12 @@ function convertCliParams($query){
     return $params;
 }
 
-
-
-if(isset($argv)){
-    //if($debug_mod)  var_dump($argv);
-    if($argc < 2){
-        echo "请指定参数\n";
-        echo "  例如 ".argv[0]." ?invoke=fetch_class_score&student_id=xxxx&id_pass=xxxx\n";
-        exit();
+function getRandom($param){
+    $str="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $key = "";
+    for($i=0;$i<$param;$i++){
+        $key .= $str{mt_rand(0,32)};    //生成php随机数
     }
-
-    $t = convertCliParams($argv[1]);
-    if($debug_mod)  var_dump($t);
-
-    if($t['invoke'] == "fetch_class_score"){
-        $student_id = $t['student_id'];
-        $id_pass = $t['id_pass'];
-        $ret = fetch_class_score($student_id,$id_pass);
-        var_dump($ret);
-    }
-    exit();
+    return $key;
 }
-if(isset($_GET)){
-    if(sizeof($_GET) < 2){
-        echo "请指定参数\n";
-        echo "  例如 ?invoke=fetch_class_score&student_id=xxxx&id_pass=xxxx\n";
-        exit();
-    }
-
-    if($debug_mod)  var_dump($_GET);
-
-    if(isset($_GET['invoke'])){
-        if($_GET['invoke'] == "fetch_class_score"){
-            $student_id = $_GET['student_id'];
-            $id_pass = $_GET['id_pass'];
-            $ret = fetch_class_score($student_id,$id_pass);
-            var_dump($ret);
-        }
-    }
-    exit();
-}
-
 ?>

@@ -24,6 +24,7 @@ config.php (全局配置文件)
 (
     student_id      CHAR(16) NOT NULL,
     student_pass    CHAR(32) NOT NULL,
+    pass_salt       CHAR(8)  NOT NULL,
     student_info    VARCHAR(65535),
     info_hash       CHAR(64),
     account_header  VARCHAR(64),
