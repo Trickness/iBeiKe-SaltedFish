@@ -128,7 +128,7 @@ function fetch_class_score($student_id,$id_pass){
             'charge'=>$td->item(3)->textContent
         );
     }
-    var_dump($res);
+    return $ret;
 }
 
 /**
@@ -146,6 +146,9 @@ function convertCliParams($query){
     }
     return $params;
 }
+
+
+
 if(isset($argv)){
     //if($debug_mod)  var_dump($argv);
     if($argc < 2){
@@ -174,11 +177,13 @@ if(isset($_GET)){
 
     if($debug_mod)  var_dump($_GET);
 
-    if($_GET['invoke'] == "fetch_class_score"){
-        $student_id = $_GET['student_id'];
-        $id_pass = $_GET['id_pass'];
-        $ret = fetch_class_score($student_id,$id_pass);
-        var_dump($ret);
+    if(isset($_GET['invoke'])){
+        if($_GET['invoke'] == "fetch_class_score"){
+            $student_id = $_GET['student_id'];
+            $id_pass = $_GET['id_pass'];
+            $ret = fetch_class_score($student_id,$id_pass);
+            var_dump($ret);
+        }
     }
     exit();
 }

@@ -25,6 +25,8 @@ config.php (全局配置文件)
     student_id      CHAR(16) NOT NULL,
     student_pass    CHAR(32) NOT NULL,
     student_info    VARCHAR(65535),
+    info_hash       CHAR(64),
+    account_header  VARCHAR(64),
     bbs_id          CHAR(32),
     PRIMARY KEY(student_id)
 );
