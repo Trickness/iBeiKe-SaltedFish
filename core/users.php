@@ -35,9 +35,24 @@ function user_bind($original_un,$original_pw,$students_id,$student_pw){
  * 
  * 
  **/
-function user_create($student_id,$password){
 
+function user_create($student_id,$password){
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+	$pass_salt = getRandom(8);
+	$student_id = (int)$student_id;
+	$password = md5(md5($password).$pass_salt);
+	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+	$sql = "INSERT INTO salted_fish_user(student_id,student_pass,pass_salt) VALUES ('$student_id','$password','$pass_salt')";
+	var_dump($sql);
+	$link->query($sql);
+    var_dump($link->error);
+	$link->commit();
 }
+
+// user_create("987654","123456");
 
 
 /**
@@ -53,9 +68,27 @@ function user_create($student_id,$password){
  *
  **/
 function user_login($username,$password){
-
+	global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_users_table;
+    // $username = (int)$username;
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $select = "SELECT * from ".$db_users_table." WHERE student_id = '$username'";
+    $query = mysqli_query($link,$select);
+    $res = mysqli_fetch_assoc($query);
+    $pass_salt = $res['pass_salt'];
+    $password = md5(md5($password).$pass_salt);
+    if ($password==$res['student_pass']) {
+    	$session_id = getRandom(32);
+    	$insert = "insert into sessions values ('$session_id','$username')";
+    	$link->query($insert);
+    	 var_dump($link->error);
+    	$link->commit();
+    	return $session_id;
+    }
 }
-
 
 
 /**
