@@ -45,23 +45,14 @@ function user_create($student_id,$password,$student_info){
 	$student_id = (int)$student_id;
 	$password = md5(md5($password).$pass_salt);
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-<<<<<<< HEAD
 	$sql = "INSERT INTO salted_fish_user(student_id,student_pass,pass_salt,student_info) VALUES ('$student_id','$password','$pass_salt','$student_info')";
-	//var_dump($sql);
-	//$link->query($sql);
-    //var_dump($link->error);
-	//$link->commit();
-    if (mysqli_query($link,$sql))
+    $query = mysqli_query($link,$sql);
+    if ($query)
     {
-    var_dump($link->error);
-    return true;
+        return true;
+    }else{
+        return false;
     }
-    else return false;
-=======
-	$sql = "INSERT INTO salted_fish_user(student_id,student_pass,pass_salt) VALUES ('$student_id','$password','$pass_salt')";
-	$link->query($sql);
-	$link->commit();
->>>>>>> origin/master
 }
 /**
  * 
@@ -96,7 +87,6 @@ function user_login($username,$password){
         return $session_key;
     }
 }
-
 /**
  * 
  * 用户登出
