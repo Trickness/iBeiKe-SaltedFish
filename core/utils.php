@@ -1,5 +1,5 @@
 <?php
-require "../config.php";
+require_once "../config.php";
 function curlPost($url,$data,$httpheader,$cookie,$header=false){
 	$fields_string = '';
 	foreach($data as $key => $value)

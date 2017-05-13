@@ -1,6 +1,6 @@
 <?php
-require "../config.php";
-require "./utils.php";
+require_once "../config.php";
+require_once "./utils.php";
 
 
 /**

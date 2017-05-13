@@ -1,6 +1,7 @@
 <?php
-require "../config.php";
-require "./utils.php";
+require_once "../config.php";
+require_once "./utils.php";
+require_once "./authorization.php";
 
 /**
  *
@@ -45,6 +46,7 @@ function user_create($student_id,$password,$student_info){
 	$pass_salt = getRandom(8);
 	$student_id = (int)$student_id;
 	$password = md5(md5($password).$pass_salt);
+    $student_info = urlencode($student_info);
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$sql = "INSERT INTO $db_users_table(student_id,student_pass,pass_salt,student_info) VALUES ('$student_id','$password','$pass_salt','$student_info')";
     $query = mysqli_query($link,$sql);
@@ -121,11 +123,22 @@ function user_logout($session_key)
  *      - (@JSONStr) user_info
  * 
  **/
-function fetch_self_info($session_key){
+function fetch_self_info($session_key)
+{
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_users_table;
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $student_id = get_student_id_from_session_key($session_key);
+    $select = "SELECT student_info from $db_users_table WHERE student_id = '$student_id'";
+    $result = $link->query($select);
+    $res = mysqli_fetch_assoc($result);
+    $student_info = urldecode($res['student_info']);
+    return $student_info;
 
 }
-
-
 /**
  * 
  * 获得他人的信息
@@ -156,7 +169,7 @@ function fetch_user_info($session_id,$student_id){
  *      
  *
  **/
-function update_self_info($updated_user_info，$session_key){
+function update_self_info($updated_user_info,$session_key){
     
 }
 
