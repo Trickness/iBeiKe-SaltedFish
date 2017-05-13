@@ -139,10 +139,11 @@ function fetch_user_info($session_id,$student_id){
  * 更新自己的信息
  * 
  * @param
- *      - (@String) session_key
+ *      - (@String)     session_key
+ *      - (@JSONStr)    updated_user_info
  * 
  * @return
- *      - (@JSONStr) updated_user_info
+ *      
  *
  **/
 function update_self_info($session_key){
