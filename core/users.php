@@ -36,7 +36,7 @@ function user_bind($original_un,$original_pw,$students_id,$student_pw){
  * 
  **/
 
-function user_create($student_id,$password){
+function user_create($student_id,$password,$student_info){
     global $db_host;
     global $db_pass;
     global $db_name;
@@ -45,14 +45,18 @@ function user_create($student_id,$password){
 	$student_id = (int)$student_id;
 	$password = md5(md5($password).$pass_salt);
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$sql = "INSERT INTO salted_fish_user(student_id,student_pass,pass_salt) VALUES ('$student_id','$password','$pass_salt')";
-	var_dump($sql);
-	$link->query($sql);
+	$sql = "INSERT INTO salted_fish_user(student_id,student_pass,pass_salt,student_info) VALUES ('$student_id','$password','$pass_salt','$student_info')";
+	//var_dump($sql);
+	//$link->query($sql);
+    //var_dump($link->error);
+	//$link->commit();
+    if (mysqli_query($link,$sql))
+    {
     var_dump($link->error);
-	$link->commit();
+    return true;
+    }
+    else return false;
 }
-
-
 /**
  * 
  * 登陆到咸鱼站
