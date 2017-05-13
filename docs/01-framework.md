@@ -32,13 +32,18 @@ config.php (全局配置文件)
     PRIMARY KEY(student_id)
 );
 ```
+student_info 参见 [用户信息结构](02.1-users.md#用户信息结构（JSONStr）)
+
 
 Session
 ```
 (
     session_key     CHAR(32) NOT NULL,
     student_id      CHAR(16) NOT NULL,
+    ttl             INT      NOT NULL,
+    vaild_date      DATETIME NOT NULL,
     PRIMARY KEY(session_key)
 );
 ```
-student_info 参见 [用户信息结构](02.1-users.md#用户信息结构（JSONStr）)
+> ttl(Time To Live) 指多少次操作后，该session_key失效（搁置)    
+> vaild_date        为该session key在多久后自动失效

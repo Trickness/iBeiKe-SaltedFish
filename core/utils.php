@@ -155,4 +155,26 @@ function getRandom($param){
     }
     return $key;
 }
+
+
+/**
+ * 
+ * 过滤session_key中的非法字符 
+ * 
+ * @param
+ *      -(@STRING)  session_key
+ * 
+ * @return
+ *      -(@STRING)  filtered session_key
+ *
+ **/
+function filter_session_key($session_key){
+    preg_match_all("/[a-zA-Z0-9]/", $session_key, $x);      //  正则表达式
+    if(count($x[0]) < 32)   return false;
+    $x[0] = implode("",$x[0]);
+    return $x[0];
+}
+
+
+
 ?>
