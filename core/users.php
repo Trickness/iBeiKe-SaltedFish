@@ -50,6 +50,7 @@ function user_create($student_id,$password,$student_info){
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$sql = "INSERT INTO $db_users_table(student_id,student_pass,pass_salt,student_info) VALUES ('$student_id','$password','$pass_salt','$student_info')";
     $query = mysqli_query($link,$sql);
+    $link->close();
     if ($query)
     {
         return true;
@@ -87,6 +88,7 @@ function user_login($username,$password){
         $insert = "insert into sessions values ('$session_key','$username')";
         $link->query($insert);
         $link->commit();
+        $link->close();
         return $session_key;
     }
 }
@@ -110,8 +112,8 @@ function user_logout($session_key)
     $delete = "DELETE from $db_session_table WHERE session_key = '$session_key'";
     $link->query($delete);
     $link->commit();
+    $link->close();
 }
-
 /**
  * 
  * 获得自己的信息
@@ -136,8 +138,8 @@ function fetch_self_info($session_key)
     $result = $link->query($select);
     $res = mysqli_fetch_assoc($result);
     $student_info = urldecode($res['student_info']);
+    $link->close();
     return $student_info;
-
 }
 /**
  * 
@@ -151,7 +153,7 @@ function fetch_self_info($session_key)
  *      - (@JSONStr) user_info
  * 
  **/
-function fetch_user_info($session_id,$student_id){
+function fetch_user_info($student_id,$session_key){
 
 }
 
