@@ -150,15 +150,36 @@ function fetch_self_info($session_key)
  *      - (@String) student_id
  *
  * @return
- *      - (@JSONStr) user_info
+ *      - (@JSONStr) user_info / false  若session_key不存在则返回false
  * 
  **/
-function fetch_user_info($student_id,$session_key){
-
+function fetch_user_info($student_id,$session_key)
+{
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_users_table;
+    global $db_session_table;
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $select = "SELECT * FROM $db_session_table WHERE session_key = '$session_key'";
+    $result = $link->query($select);
+    $res = mysqli_fetch_assoc($result);
+    if ($res['session_key']==$session_key)
+        {
+            $select_1 = "SELECT student_info from $db_users_table WHERE student_id = '$student_id'";
+            $result_1 = $link->query($select_1);
+            $res_1 = mysqli_fetch_assoc($result_1);
+            $student_info = urldecode($res_1['student_info']);
+            $link->close();
+            return $student_info;
+        }   
+    else 
+        {
+            $link->close();
+            return false;
+        }
 }
-
-
-
 /**
  * 
  * 更新自己的信息
