@@ -41,11 +41,12 @@ function user_create($student_id,$password,$student_info){
     global $db_pass;
     global $db_name;
     global $db_user;
+    global $db_users_table;
 	$pass_salt = getRandom(8);
 	$student_id = (int)$student_id;
 	$password = md5(md5($password).$pass_salt);
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$sql = "INSERT INTO salted_fish_user(student_id,student_pass,pass_salt,student_info) VALUES ('$student_id','$password','$pass_salt','$student_info')";
+	$sql = "INSERT INTO $db_users_table(student_id,student_pass,pass_salt,student_info) VALUES ('$student_id','$password','$pass_salt','$student_info')";
     $query = mysqli_query($link,$sql);
     if ($query)
     {
@@ -95,10 +96,19 @@ function user_login($username,$password){
  *      - (@String) session_key
  * 
  **/
-function user_logout($session_key){
-
+function user_logout($session_key)
+{   
+    filter_session_key($session_key);
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_session_table;
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $delete = "DELETE from $db_session_table WHERE session_key = '$session_key'";
+    $link->query($delete);
+    $link->commit();
 }
-
 
 /**
  * 
@@ -146,7 +156,7 @@ function fetch_user_info($session_id,$student_id){
  *      
  *
  **/
-function update_self_info($session_key){
+function update_self_info($updated_user_info，$session_key){
     
 }
 
