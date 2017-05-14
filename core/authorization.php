@@ -20,11 +20,10 @@ function get_student_id_from_session_key($session_key){
     global $db_pass;
     global $db_name;
     global $db_session_table;
-    global $db_users_table;
     $session_key = filter_session_key($session_key);
     if(!$session_key)   return false;
     $mysqli = new mysqli($db_host,$db_user,$db_pass,$db_name) or die("Cannot connect to database");
-    $result = $mysqli->query("SELECT student_id from $db_users_table");
+    $result = $mysqli->query("SELECT student_id from $db_session_table WHERE session_key = '$session_key'");
     $res = mysqli_fetch_assoc($result);
     return $res['student_id'];
 }

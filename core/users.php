@@ -160,25 +160,17 @@ function fetch_user_info($student_id,$session_key)
     global $db_name;
     global $db_user;
     global $db_users_table;
-    global $db_session_table;
-    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $select = "SELECT * FROM $db_session_table WHERE session_key = '$session_key'";
-    $result = $link->query($select);
-    $res = mysqli_fetch_assoc($result);
-    if ($res['session_key']==$session_key)
+    if (get_student_id_from_session_key($session_key))
         {
-            $select_1 = "SELECT student_info from $db_users_table WHERE student_id = '$student_id'";
+            $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+            $select_1 = "SELECT * from $db_users_table WHERE student_id = '$student_id'";
             $result_1 = $link->query($select_1);
             $res_1 = mysqli_fetch_assoc($result_1);
             $student_info = urldecode($res_1['student_info']);
             $link->close();
             return $student_info;
         }   
-    else 
-        {
-            $link->close();
-            return false;
-        }
+    else return false;
 }
 /**
  * 
@@ -189,11 +181,28 @@ function fetch_user_info($student_id,$session_key)
  *      - (@JSONStr)    updated_user_info
  * 
  * @return
- *      
+ *         -> true/false
  *
  **/
-function update_self_info($updated_user_info,$session_key){
-    
+function update_self_info($updated_user_info,$session_key)
+{
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_users_table;
+    if (get_student_id_from_session_key($session_key))
+        {
+            $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+            $student_id = get_student_id_from_session_key($session_key);
+            $updated_user_info = urlencode($updated_user_info); 
+            $update = "UPDATE $db_users_table SET student_info = '$updated_user_info' WHERE student_id = '$student_id';";
+            $link->query($update);
+            $link->commit();
+            $link->close();
+            return true;
+        }
+    else false;
 }
 
 
