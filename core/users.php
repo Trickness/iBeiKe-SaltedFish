@@ -202,7 +202,7 @@ function update_self_info($updated_user_info,$session_key)
             $link->close();
             return true;
         }
-    else false;
+    else return false;
 }
 
 
