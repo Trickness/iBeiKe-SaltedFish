@@ -23,16 +23,11 @@ function revoke_goods($goods_id, $session_key){
 	global $db_goods_table;
 	
 	$student_id = get_student_id_from_session_key($session_key);
-	
-	var_dump($student_id);
-
 	if ($student_id==0) return false;
-
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
 	$query = mysqli_query($link,$iden);
 	$res = mysqli_fetch_assoc($query);
-	
 	if ($res['submitter']!=$student_id){
 		mysqli_close($link);
 		return false;
@@ -73,11 +68,8 @@ function update_goods($goods_info, $session_key){
 		$status = $jsonArray['status'];
 		$submitter = $jsonArray['submitter'];
 		$comments = $jsonArray['comments'];
-
-
 	$student_id = get_student_id_from_session_key($session_key);
 	if ($student_id==0) return false;
-	
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
 	$query = mysqli_query($link,$iden);
