@@ -174,7 +174,24 @@ function filter_session_key($session_key){
     $x[0] = implode("",$x[0]);
     return $x[0];
 }
-
+/**
+ * 
+ * 错误报告 
+ * 
+ * @param
+ *      -(@STRING)  error
+ * 
+ * @return
+ *      -(@jsonstr) json error
+ *
+ **/
+function error_report($err)
+{
+    $arr = array();
+    $arr["error"] = $err;
+    $jsonerr = json_encode($arr);
+    return $jsonerr; 
+}
 
 
 ?>
