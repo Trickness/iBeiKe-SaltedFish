@@ -7,11 +7,11 @@ require_once "./authorization.php";
  *
  * 将论坛账号与学生信息绑定在一起：
  *      - 通过利用学生账号密码登陆本科教学网，获得基本信息来绑定
- *      - 验证成功即绑定
+ *      - 验证成功即注册绑定
  *
  * @param
- *      - (@String) original_un     源论坛用户名 
- *      - (@String) original_pw     源论坛密码
+ *      - (@String) original_un     源论坛用户名  (未使用)
+ *      - (@String) original_pw     源论坛密码   （未使用）
  *      - (@String) student_id      学号
  *      - (@String) student_pw      学号绑定的密码
  *
@@ -19,11 +19,17 @@ require_once "./authorization.php";
  *      - (@String) session_key     会话密钥，作为后面所有操作的唯一凭证
  *
  **/
-function user_bind($original_un,$original_pw,$students_id,$student_pw){
-
+function user_bind($original_un,$original_pw,$student_id,$student_pw){
+    $student_info = confirm_student($student_id,$student_pw);
+    if($student_info == false)
+        return false;
+    $bbs_info = confirm_bbs($original_un, $original_pw);
+    if($bbs_info == false)
+        return false;
+    user_create($student_id,$student_pw,base64_encode(json_encode($student_info)));
+    $session_key = user_login($student_id,$student_pw);
+    return $session_key;
 }
-
-
 
 /**
  * 
@@ -91,6 +97,7 @@ function user_login($username,$password){
         $link->close();
         return $session_key;
     }
+    $link->close();
 }
 /**
  * 
@@ -101,7 +108,7 @@ function user_login($username,$password){
  * 
  **/
 function user_logout($session_key)
-{   
+{
     filter_session_key($session_key);
     global $db_host;
     global $db_pass;

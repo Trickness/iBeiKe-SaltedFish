@@ -52,29 +52,120 @@ function refresh_session_key($session_key){
  *      - $student_pw       (@STRING) 密码（看哪儿有学生信息的）
  * 
  * @return
- *      - student_info      (@JSONSTR)  学生信息，失败返回error
+ *      - student_info      (@Object)  学生信息，失败返回 false
  *
  **/
 function confirm_student($student_id, $student_pw){
-
+    $login_url = "http://seam.ustb.edu.cn:8080/jwgl/Login";
+    $cookie = tempnam('.','~teach');
+    $fields_post = array(
+        'username'=> $student_id,
+        'password'=> $student_pw,
+        'usertype'=>"student",
+        'btnlogon.x'=>"95",
+        'btnlogon.y'=>"13",
+    );
+    $headers_login = array(
+        'Referer'   =>  'http://seam.ustb.edu.cn:8080/jwgl/'
+    );
+    curlPost($login_url,$fields_post,$headers_login,$cookie,true);
+    $url = "http://seam.ustb.edu.cn:8080/jwgl/stuinfo.jsp";
+    $contents = curlGet($url,null,$cookie);
+    $ct = array();
+    $dom = new DOMDocument();
+    @$dom->loadHTML($contents);
+    if(strpos($dom->textContent,"请选择正确的身份")){
+        return false;
+    }
+    $xpath = new DOMXPath($dom);
+    $test = $dom->getElementsByTagName("tbody");
+    $result = $xpath->query("//table/tr/td");
+    $base_count = 6;
+    $item_pre_row = 4;
+    $n_row = 3;
+    $data = array();
+    for($i = $base_count; $i < $base_count+$item_pre_row*$n_row*2; $i++){
+        $data[$result[$i]->textContent] = $result[$i+$item_pre_row]->textContent;
+        if(($i+1-$base_count)%$item_pre_row == 0)
+            $i += $item_pre_row;
+    }
+    $ret = array();
+    unlink($cookie);
+    $ret['student_id'] = array(
+        "access"=>  "protected",
+        "value" =>  $student_id
+    );
+    $ret['name'] = array(
+        "access"=>  "public",
+        "value" =>  $data["姓名"]
+    );
+    $ret['gender'] = array(
+        "access"    => "public",
+        "value"     => $data["性别"]
+    );
+    $ret['birthday'] = array(
+        "access"    => "private",
+        "value"     => $data["出生日期"]
+    );
+    $ret['type']    = array(
+        "access"    => "private",
+        "value"     => $data["学生类别"]
+    );
+    $ret['nationality'] = array(
+        "access"    => "private",
+        "value"     => $data["民族"]
+    );
+    $ret['nickname']    = "'?\/";
+    $ret['header']      = "";
+    $ret['class_info']  = array(
+        "access"    =>  "protected",
+        "department"=> array(
+            "access"    => "protected",
+            "value"     => ""
+        ),
+        "enrollment"=> array(
+            "access"    => "public",
+            "value"     => $data["入学年级"]
+        ),
+        "class_no"  => array(
+            "access"    => "private",
+            "value"     => $data["班级"]
+        )
+    );
+    $ret['dormitory'] = array(
+        "access"    => "protected",
+        "dormitory_id"  => array(
+            "access"        => "protected",
+            "value"         => ""
+        ),
+        "room_no"       => array(
+            "access"        => "private",
+            "value"         => ""
+        ) 
+    );
+    $ret['phone_number'] = array(
+        "access"    => "private",
+        "value"     => ""
+    );
+    return $ret;
 }
 
 
 
 /**
  * 
- * 验证源论坛身份
+ * 验证源论坛身份(尚未完成)
  * 
  * @param
  *      - $bbs_id           (@STRING) 源BBS账号
  *      - $bbs_pw           (@STRING) 源BBS密码
  * 
  * @return
- *      - student_id        (@STRING) 学号
+ *      - bbs_info          (@Object) BBS论坛信息
  *
  **/
 function confirm_bbs($bbs_id,$bbs_pw){
-
+    return true;
 }
 
 ?>
