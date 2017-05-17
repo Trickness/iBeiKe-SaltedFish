@@ -55,15 +55,6 @@ function submit_goods($goods_info, $session_key)
     }
     else  return error_report("Not logged in");
 };
-/*$goods_info = array();
-$goods_info['goods_title'] = "asdasd";
-$goods_info['submitter'] = "123456";
-$goods_info['submit_date'] = "19980101";
-$goods_info['status'] = "online";
-$goods_info['price'] = "300";
-$goods_info['type'] = "sell";
-$goods_info = json_encode($goods_info);
-var_dump(submit_goods($goods_info,"4pagocwl3b3sjl6592o22kgqiw8pb5gn"));*/
 /**
  *
  * 评论物品
@@ -75,7 +66,9 @@ var_dump(submit_goods($goods_info,"4pagocwl3b3sjl6592o22kgqiw8pb5gn"));*/
  * 
  * @return
  *      - $status       (@JSONStr)
- *
+ *		  错误类型报告
+ *        登陆失败sessionkey错误       "{error:"Not logged in"}"
+ *        成功过                      "{error:"success"}" 	"{error:""the first success""}"
  **/
 function comment_goods($goods_id, $comment, $session_key)
 {
@@ -92,11 +85,10 @@ function comment_goods($goods_id, $comment, $session_key)
 		$res = $link->query($select);
 		$res = mysqli_fetch_assoc($res);
 		$old_comment = json_decode($res['comments']);
-		//return $old_comment->comment[0];
 		if (assert($old_comment->comment))
 		{
 			$comment = json_decode($comment);
-			array_push($old_comment->comment,$comment->comment);
+			array_push($old_comment->comment,$comment->comment[0]);
 			$updated_comment = json_encode($old_comment);
 			$update = "UPDATE $db_goods_table SET comments = '$updated_comment' WHERE goods_id = '$goods_id';";
        	 	$link->query($update);
@@ -116,15 +108,51 @@ function comment_goods($goods_id, $comment, $session_key)
     }
     else  return error_report("Not logged in");
 };
-/*$com = array();
-$com['comment'][0]['commenter'] = "12345";
-$com['comment'][0]['comment_date'] = "19980101";
-$com['comment'][0]['comment'] = "asdasd";
-$com = json_encode($com);
-//var_dump($com['comment']['comment']);
-var_dump(comment_goods("9",$com,"4pagocwl3b3sjl6592o22kgqiw8pb5gn"));*/
-
-
+/**
+ * 
+ * 获得商品信息
+ *      从 goods_id, submitter, submit_date, goods_info, comments
+ *      中获取信息，构建JSON，并返回
+ *    根据不同的 session_key 返回经过修改或删减的信息
+ * 
+ * @param
+ *      - (@INT)        goods_id        // 唯一ID     
+ *      - (@STRING)     session_key     // 为空时认为是 guest，private 和 public ACCESS 的字段不予返回
+ * 
+ * @return
+ * 		- (@jsonstr)    goods_info
+ * 
+ **/
+ function fetch_goods_info($goods_id, $session_key)
+ {
+	global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_goods_table;
+	$goods_info = array();
+	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+	$select = "SELECT * FROM $db_goods_table where goods_id='$goods_id'";
+	$res = $link->query($select);
+	$res = mysqli_fetch_assoc($res);
+	$goods_info['goods_id'] = $res['goods_id'];
+	$goods_info['goods_title'] = $res['goods_title'];
+	$goods_info['status'] = $res['status'];
+	$goods_info['goods_info'] = json_decode(urldecode($res['goods_info']));
+	$goods_info['comments'] = json_decode($res['comments'])->comment;
+	if (!get_student_id_from_session_key($session_key))	//来宾用户，未登录
+	{
+		$goods_info = json_encode($goods_info);
+		return $goods_info;
+	}
+	else
+	{
+		$goods_info['submitter'] = $res['submitter'];
+		$goods_info['submit_date'] = $res['goods_title'];
+		$goods_info = json_encode($goods_info);
+		return $goods_info;
+	}
+ }
 /**
  *
  * 撤回物品（物品下线）
