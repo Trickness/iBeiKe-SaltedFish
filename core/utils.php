@@ -1,5 +1,12 @@
 <?php
 require_once "../config.php";
+function __JSON($array,$key,$default=false){
+    if(array_key_exists($key,$array))   return $array[$key];
+    else if(is_callable($default))
+        return call_user_func($default);
+    return $default;
+};
+
 function curlPost($url,$data,$httpheader,$cookie,$header=false){
 	$fields_string = '';
 	foreach($data as $key => $value)
@@ -185,12 +192,28 @@ function filter_session_key($session_key){
  *      -(@jsonstr) json error
  *
  **/
-function error_report($err)
+function generate_error_report($err)
 {
     $arr = array();
     $arr["error"] = $err;
     $jsonerr = json_encode($arr);
     return $jsonerr; 
+}
+
+
+/**
+ * 
+ * 检查images list是否合法，相关文件是否已经存储在服务器上
+ * 
+ * @param
+ *      -(@ARRAY)   images list
+ * 
+ * @return
+ *      -(@BOOLEAN) true/false
+ * 
+**/ 
+function check_images_list($list){
+    return true;
 }
 
 

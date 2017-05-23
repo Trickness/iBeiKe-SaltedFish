@@ -86,7 +86,7 @@ function user_login($username,$password){
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
     $select = "SELECT * from $db_users_table WHERE student_id = '$username'";
     $query = mysqli_query($link,$select);
-    $res = mysqli_fetch_assoc($query);
+    $res = mysqli_fetch_assoc($query) or die("No such user");
     $pass_salt = $res['pass_salt'];
     $password = md5(md5($password).$pass_salt);
     if ($password==$res['student_pass']) {
@@ -143,7 +143,7 @@ function fetch_self_info($session_key)
     $student_id = get_student_id_from_session_key($session_key);
     $select = "SELECT student_info from $db_users_table WHERE student_id = '$student_id'";
     $result = $link->query($select);
-    $res = mysqli_fetch_assoc($result);
+    $res = mysqli_fetch_assoc($result) or die("WTF?");
     $student_info = urldecode($res['student_info']);
     $link->close();
     return $student_info;
@@ -172,7 +172,7 @@ function fetch_user_info($student_id,$session_key)
             $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
             $select_1 = "SELECT * from $db_users_table WHERE student_id = '$student_id'";
             $result_1 = $link->query($select_1);
-            $res_1 = mysqli_fetch_assoc($result_1);
+            $res_1 = mysqli_fetch_assoc($result_1) or die("No such user");
             $student_info = urldecode($res_1['student_info']);
             $link->close();
             return $student_info;
