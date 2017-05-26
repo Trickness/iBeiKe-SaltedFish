@@ -140,7 +140,10 @@
 			$("#right-rt").css({"height":$("#right-ce").css("height")});			
 		});
 
-		$.getJSON("../../core/zone-fetch.php",{session_key:"4pagocwl3b3sjl6592o22kgqiw8pb5gn"},function(data){
+		// 此处注释的为测试用的代码。localStorage在本地编程好像用不了，但放到云上就可以，所以我本地测试时是用这段注释代码来直接测试的
+		// $.getJSON("../../core/zone-fetch.php",{session_key:"4pagocwl3b3sjl6592o22kgqiw8pb5gn"},function(data){
+		var s_key = localStorage.getItem("session_key");
+		$.getJSON("../../core/zone-fetch.php",{session_key:s_key},function(data){
 				$("#nickname").html(data.nickname+"<span style='font-size:20px'>的空间</span>");
 				$("#student_id").text("学号："+data.student_id);
 				$("#name").text("姓名："+data.name);
