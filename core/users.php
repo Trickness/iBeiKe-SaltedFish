@@ -30,7 +30,6 @@ function user_bind($original_un,$original_pw,$student_id,$student_pw){
     $session_key = user_login($student_id,$student_pw);
     return $session_key;
 }
-
 /**
  * 
  * 创建用户
@@ -98,6 +97,7 @@ function user_login($username,$password){
         return $session_key;
     }
     $link->close();
+    return false;
 }
 /**
  * 
