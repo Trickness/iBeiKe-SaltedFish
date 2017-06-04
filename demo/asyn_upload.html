@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <script>
+        function showPreview(source) {
+            var file = source.files[0];
+            if (window.FileReader) {            // 如果浏览器支持 FileReader
+                var fr = new FileReader();      // 新建 FileReader 对象
+                fr.onloadend = function (e) {   // 当img设置
+                    document.getElementById("preview").src = e.target.result;
+                };
+                fr.readAsDataURL(file);         // 读取 img 到 fr 中
+                console.log(fr);                // 控制台打印 fr 结构
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <input type="file" name="file" onchange="showPreview(this)" />
+    <img id="preview" src="" width="70" height="75">
+</body>
+
+</html>
