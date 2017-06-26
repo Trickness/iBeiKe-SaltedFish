@@ -28,7 +28,6 @@ function submit_goods($goods_info, $session_key)
     $submiter = get_student_id_from_session_key($session_key);
     if ($submiter){
         $goods_info = json_decode($goods_info,true);
-<<<<<<< HEAD
 
 		$info_json = array();
 		
@@ -44,25 +43,6 @@ function submit_goods($goods_info, $session_key)
 		$submit_date 	= date("Y/m/d");
         $goods_images = json_encode($goods_images);
 
-=======
-        if (assert($goods_info['goods_title'])&&assert($goods_info['status'])&&assert($goods_info['submitter'])&&assert($goods_info['submit_date']))
-            {
-                $goods_title = $goods_info['goods_title'];
-                $goods_status = $goods_info['status'];
-                $goods_submitter = $goods_info['submitter'];
-                $goods_submit_date = $goods_info['submit_date'];
-            }
-        else  return error_report("Missing keywords");
-        $arr = array();
-        if (assert($goods_info['price']))
-        {$arr['price'] = $goods_info['price'];}
-        if (assert($goods_info['type']))
-        {$arr['type']= $goods_info['type'];}
-        if (assert($goods_info['summary']))
-        {$arr['goods_summary'] = $goods_info['summary'];}
-        $goods_info_inline = json_encode($arr);
-        $goods_info_inline = urlencode($goods_info_inline);
->>>>>>> origin/master
         $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
         $sql = "INSERT INTO $db_goods_table
 				(goods_title,	status,			type,		  price,		 submitter,	 submit_date,	 edit_date,		summary) 
@@ -194,7 +174,6 @@ function revoke_goods($goods_id, $session_key){
 	global $db_goods_table;
 	
 	$student_id = get_student_id_from_session_key($session_key);
-<<<<<<< HEAD
 	if ($student_id==0) die(generate_error_report("access denied"));
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
@@ -206,19 +185,6 @@ function revoke_goods($goods_id, $session_key){
 	}else{
 		$update = "update $db_goods_table set status='unavailable' where goods_id='$goods_id'";
 		$query_1 = mysqli_query($link,$update);
-=======
-	if ($student_id==0) return error_report('Not logged in');
-	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
-	$query = mysqli_query($link,$iden);
-	$res = mysqli_fetch_assoc($query);
-	if (assert($res['status']) && ( assert($res['submitter']) && $res['submitter']==$student_id) ){
-		$update = "update $db_goods_table set status='unavailable' where goods_id='$goods_id'";
-		$query_1 = mysqli_query($link,$update);
-		mysqli_close($link);
-		return error_report('success');
-	}else{
->>>>>>> origin/master
 		mysqli_close($link);
 		return error_report('Not submitter');
 	}
@@ -244,7 +210,6 @@ function update_goods($goods_info, $session_key){
 	global $db_pass;
 	global $db_name;
 	global $db_goods_table;
-<<<<<<< HEAD
 
 	$goods_info 	= json_decode($goods_info,true);
 
@@ -279,30 +244,6 @@ function update_goods($goods_info, $session_key){
 											  edit_date 	= '$edit_date',
 											  summary 		= '$goods_summary',
 											  goods_info 	= '$goods_info'";
-=======
-	$json_array = json_decode($goods_info,true);
-	$edited_info = array();
-		$goods_id = $json_array['goods_id'];
-		$goods_title = $json_array['goods_title'];
-		$status = $json_array['status'];
-		$submitter = $json_array['submitter'];
-		$edited_info['type'] = $json_array['type'];
-		$edited_info['price'] = $json_array['price'];
-		$edited_info['summary'] = $json_array['summary'];
-		$edited_info = urlencode(json_encode($edited_info));
-	$student_id = get_student_id_from_session_key($session_key);
-	if ($student_id==0) return error_report('Not logged in');
-	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
-	$query = mysqli_query($link,$iden);
-	$res = mysqli_fetch_assoc($query);
-	if (assert($res['submitter']) && $res['submitter']==$student_id){
-		$update = "update $db_goods_table set goods_title = '$goods_title',
-											  status = '$status',
-											  submitter = '$submitter',
-											  goods_info = '$edited_info'
-						where goods_id='$goods_id'";
->>>>>>> origin/master
 		$query_1 = mysqli_query($link,$update);
 		mysqli_close($link);
 		return error_report('success');
