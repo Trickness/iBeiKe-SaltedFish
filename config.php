@@ -8,6 +8,6 @@ $db_users_table = "salted_fish_users";
 $db_goods_table = "salted_fish_goods";
 $db_session_table = "sessions";
 
-$debug_mod = true;
+$debug_mod = false;
 
 ?>
