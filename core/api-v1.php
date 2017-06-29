@@ -23,6 +23,7 @@ if(isset($_GET['action'])){     // 有操作
         if($action == "login"){     // 处理登陆操作
             if(isset($_POST['username']) && isset($_POST['password'])){
                 $session_key = user_login($_POST['username'],$_POST['password']);
+                echo $session_key;
                 if($session_key){
                     session_unset();
                     session_destroy();

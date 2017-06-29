@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>登陆</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<style>
+		body{
+			margin: 0;
+			background-image: url("");
+		}
+	</style>
+</head>
+<body>
+		<input type="text" id="username" name="username" />
+		<input type="password" id="password" name="password"/>
+		<button id="submit">提交</button>
+	<script>
+	$("#submit").click(function(){
+		$.post("./api-v1.php?action=login",
+			{
+				username:$("#username").val(),
+				password:$("#password").val()
+			},
+			function(data,status){
+				if (!data) {
+					console.log("登陆失败");
+				}else{
+					console.log("登陆成功");
+				}
+			}
+		);
+	});
+	</script>
+	<div id="status"></div>
+</body>
+</html>

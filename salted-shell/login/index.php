@@ -31,9 +31,61 @@
 				<a href="#" class="button button-3d" style="color: #FF9933;float: right;">注册</a>
 			</div>
 			<div class="col-xs-6">
-				<a href="#" class="button button-3d button-caution" style="color: white;">登陆</a>
+				<a class="button button-3d button-caution" style="color: white;"
+					data-toggle="modal" data-target="#win-lgi">登陆</a>
 			</div>
 		</div>
 	</div>
+
+	<div id="win-lgi" class="modal fade" tabindex="-1" role="dialog" 
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel" style="text-align: center;">
+						登陆
+					</h4>
+				</div>
+				<form method="post" action="../../../core/api-v1.php?action=login">
+				<div class="modal-body">
+					<div class="container">
+						<div class="row">
+							<div class="form-group col-xs-3 col-xs-offset-1">
+								<label for="win-usn">用户名:</label>
+								<input type="text" id="win-usn" name="username" class="form-control"/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-xs-3 col-xs-offset-1">
+								<label for="win-pwd">密码:</label>
+								<input type="password" id="win-pwd" name="password" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" id="btn-lgi" class="btn btn-primary" value="登陆" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+				</form>
+			</div><!-- /.modal-content -->
+		</div>
+	</div>
+
+	<!-- <script>
+	$(document).ready(function(){
+		$("#btn-lgi").click(function(){
+			$.post("../../../core/api-v1.php?action=login",{
+				username:$("#win-usn").val(),
+				password:$("#win-pwd").val()
+			},function(data){
+				console.log(data);
+			});
+		});
+	});
+	</script> -->
 </body>
 </html>
