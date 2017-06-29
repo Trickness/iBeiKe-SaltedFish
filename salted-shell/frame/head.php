@@ -12,7 +12,7 @@
 		}
 	</style>
 	<div style="height: 80px" class="bk">
-		<img src="../../pic/logo.png" style="width: 70px;height: 60px;position: absolute;top: 10px;left: 10px">
+		<img src="../pic/logo.png" style="width: 70px;height: 60px;position: absolute;top: 10px;left: 10px">
 		<div style="position: absolute;top:10px;left: 85px;color: #FF9933;font-size: 40px"><p>贝壳商城</p></div>
 		<div style="position: absolute;top:25px;left: 1320px;font-size: 17px">
 			<a class="a" href="#">登陆</a>

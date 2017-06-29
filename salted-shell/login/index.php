@@ -6,7 +6,7 @@
 	<style>
 		body{
 			margin: 0;
-			background-image: url("../../pic/bk4.png");
+			background-image: url("../pic/bk4.png");
 			background-repeat: no-repeat;
 			background-size: 1550px 900px;
 		}
@@ -19,7 +19,7 @@
 	<link href="https://cdn.bootcss.com/Buttons/2.0.0/css/buttons.min.css" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/Buttons/2.0.0/js/buttons.min.js"></script>
 	<?php
-		include "./head.php";
+		include "../frame/head.php";
 	?>
 	<div class="container" style="width: 900px;height: 600px;margin-top: 50px;">
 		<div class="row" style="text-align: center;color: white;">
