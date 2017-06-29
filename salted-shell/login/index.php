@@ -49,7 +49,7 @@
 						登陆
 					</h4>
 				</div>
-				<form method="post" action="../../../core/api-v1.php?action=login">
+				<form method="post" action="../../core/api-v1.php?action=login">
 				<div class="modal-body">
 					<div class="container">
 						<div class="row">
