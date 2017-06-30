@@ -1,5 +1,5 @@
 <?php
-require_once "../config.php";
+//require_once "../config.php";
 function __JSON($array,$key,$default=false){
     if(array_key_exists($key,$array))   return $array[$key];
     else if(is_callable($default))

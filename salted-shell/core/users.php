@@ -1,7 +1,7 @@
 <?php
-require_once "../config.php";
+/*require_once "../config.php";
 require_once "./utils.php";
-require_once "./authorization.php";
+require_once "./authorization.php";*/
 
 /**
  *
@@ -26,7 +26,7 @@ function user_bind($original_un,$original_pw,$student_id,$student_pw){
     $bbs_info = confirm_bbs($original_un, $original_pw);
     if($bbs_info == false)
         return false;
-    user_create($student_id,$student_pw,base64_encode(json_encode($student_info)));
+    user_create($student_id,$student_pw,json_encode($student_info));
     $session_key = user_login($student_id,$student_pw);
     return $session_key;
 }
@@ -160,14 +160,14 @@ function fetch_self_info($session_key)
  *      - (@JSONStr) user_info / false  若session_key不存在则返回false
  * 
  **/
-function fetch_user_info($student_id,$session_key)
+function fetch_user_info($session_key)
 {
     global $db_host;
     global $db_pass;
     global $db_name;
     global $db_user;
     global $db_users_table;
-    if (get_student_id_from_session_key($session_key))
+    if ($student_id = get_student_id_from_session_key($session_key))
         {
             $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
             $select_1 = "SELECT * from $db_users_table WHERE student_id = '$student_id'";
@@ -177,6 +177,27 @@ function fetch_user_info($student_id,$session_key)
             $link->close();
             return $student_info;
         }   
+    else return false;
+}
+
+// private test function
+// Todo: delete?
+function fetch_user_info_from_id($student_id)
+{
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_users_table;
+    if ($student_id){
+        $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+        $select_1 = "SELECT * from $db_users_table WHERE student_id = '$student_id'";
+        $result_1 = $link->query($select_1);
+        $res_1 = mysqli_fetch_assoc($result_1) or die("No such user");
+        $student_info = urldecode($res_1['student_info']);
+        $link->close();
+        return $student_info;
+    }   
     else return false;
 }
 /**
