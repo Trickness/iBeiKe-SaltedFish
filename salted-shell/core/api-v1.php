@@ -1,11 +1,11 @@
 <?php 
 require_once "../config.php";
-require_once "./utils.php";
-require_once "./users.php";
-require_once "./authorization.php";
+require_once "utils.php";
+require_once "users.php";
+require_once "authorization.php";
 
 // Users main
-session_start();
+/*session_start();
 if(isset($_GET['action'])){     // 有操作
     $action = $_GET['action'];
     if(get_student_id_from_session_key(session_id())){
@@ -62,6 +62,81 @@ if(isset($_GET['action'])){     // 有操作
     }else{
         echo "<p>未登录</p>";
     }
+}*/
+if (isset($_GET['action']))
+{
+    $action =$_GET['action'];
+    if ($action=="check")
+    {
+        $usrname = $_GET['id'];
+        $usrpsw  = $_GET['psw'];
+        echo json_encode(confirm_student($usrname,$usrpsw));
+    }
+    else if ($action=="signin")
+    {
+        $usrname = $_GET['id'];
+        $usrpsw  = $_GET['psw'];
+        echo json_encode(user_bind(0,0,$usrname,$usrpsw));
+    }
+    else if ($action=="change")
+    {
+        $student_id = $_GET['student_id'];
+        $name = $_GET['name'];
+        $nickname=$_GET['nickname'];
+        $header=$_GET['header'];
+        $department=$_GET['department'];
+        $enroolment=$_GET['enroolment'];
+        $class_no=$_GET['class_no'];
+        $dormitory_id=$_GET['dormitory_id'];
+        $room_no=$_GET['room_no'];
+        $phone_number=$_GET['phone_number'];
+        $session_key=$_GET['session_key'];
+        $ret = array();
+        $ret['student_id'] = array(
+        "access"=>  "protected",
+        "value" =>  $student_id
+    );
+    $ret['name'] = array(
+        "access"=>  "public",
+        "value" =>  $name
+    );
+    $ret['nickname']    = $nickname;
+    $ret['header']      = $header;
+    $ret['class_info']  = array(
+        "access"    =>  "protected",
+        "department"=> array(
+            "access"    => "protected",
+            "value"     => $department
+        ),
+        "enrollment"=> array(
+            "access"    => "public",
+            "value"     => $enroolment
+        ),
+        "class_no"  => array(
+            "access"    => "private",
+            "value"     => $class_no
+        )
+    );
+    $ret['dormitory'] = array(
+        "access"    => "protected",
+        "dormitory_id"  => array(
+            "access"        => "protected",
+            "value"         => $dormitory_id
+        ),
+        "room_no"       => array(
+            "access"        => "private",
+            "value"         => $room_no
+        ) 
+    );
+    $ret['phone_number'] = array(
+        "access"    => "private",
+        "value"     => $phone_number
+    );
+    $ret = json_encode($ret);
+        echo update_self_info($ret,$session_key);
+    }
 }
-
+//$usrname = $_GET['id'];
+//$usrpsw  = $_GET['psw'];
+//var_dump(confirm_student("41603510","314159"));
 ?>
