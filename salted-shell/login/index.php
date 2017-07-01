@@ -8,7 +8,7 @@
 			margin: 0;
 			background-image: url("../pic/bk4.png");
 			background-repeat: no-repeat;
-			background-size: 1550px 900px;
+			background-size: 100% 110%;
 		}
 	</style>
 </head>
