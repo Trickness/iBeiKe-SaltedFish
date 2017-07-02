@@ -142,7 +142,7 @@
                         $("#type").val(data["type"]["value"]);
                         $("#switch0").css("display","none");
                         $("#switch1").fadeIn();
-                        $.get("../core/api-v1.php",{action: "signin", id:nm ,psw:ps},function(result){session_key=result;});
+                        //$.get("../core/api-v1.php",{action: "signin", id:nm ,psw:ps},function(result){session_key=result;});
                         };
                         }
                     )};
@@ -251,8 +251,7 @@
         }
         .Submit
         {
-            position: absolute;
-            width: 568px;
+            width: 550px;
             height: 69px;
             border-width: 1px;
             border-color: coral;
@@ -292,7 +291,6 @@
         }
         .switch
         {
-            margin-left: 229px;
             margin-top: 27px;
             width: 100px;
             height: 100px;
@@ -319,6 +317,19 @@
             margin-top: 0px;
             margin-bottom: 0px;
         }
+        input{
+            border:0px;
+        }
+        p{
+            color:white;
+            font-size:165%;
+        }
+        p.input_hint{
+            float:left;
+            line-height:0px;
+            text-align:right;
+            width:110px;
+        }
 	</style>
 </head>
 <body>
@@ -331,80 +342,109 @@
                     font-family: Helvetica Neue;
                     font-size: 36px;">
             <a class="a" herf="#">注册</a>
-            <a class="a" herf="#" style="margin-left:51px;">登陆</a>
+            <a class="a" herf="#">登陆</a>
         </div>
     </div>
     <div class = "signbbox" style="background: #FF4E00;
                                     opacity:0.5; "></div>
-    <div class = "signbbox">
-        <div style="position: absolute;left: 62px; width:568px;height:inherit;">
-            <div class="sign-0" id="switch0">
+    <div class = "signbbox" style="text-align:center;">
+        <div style="position: absolute;left: 50px; width:592px;height:inherit;">
+            <div class="sign-0" id="switch0" style="">
                 <p style="
                     margin-top:60px;
-                    margin-left:217px;
                   font-size:36px;
                   font-familt:Helvetica Neue;
                   color:#FFFFFF;">贝壳商城</p>
                 <p style="
-                    margin-left:122px;
                   font-size:36px;
                   font-familt:Helvetica Neue;
                   color:#FFFFFF;">让你的宝贝动起来！</p>
-                <input type="text"placeholder="请输入您的学号"class="textbox" id="scnmbox"/>
+                <div style="overflow:hidden;margin-top:100px;">
+                    <p class="input_hint">学号：</p>
+                    <input type="text"placeholder="请输入您的学号"class="textbox" id="scnmbox" style="float:left;width:75%;"/>
+                </div>
                 <p class="check" id="scnmck"></p>
-                <input type="password"placeholder="请输入您的本科教学网密码" class="textbox" id="scpsbox"/>
+                <div style="overflow:hidden">
+                    <p class="input_hint">密码：</p>
+                    <input type="password"placeholder="请输入您的本科教学网密码" class="textbox" id="scpsbox" style="float:left;width:75%;"/>
+                </div>
                 <p class="check" id="scpsck"></p>
-                <button class="Submit"id="checkid">验证您身份</button>
+                <button class="Submit"id="checkid" style="margin-top:50px;">验证您身份</button>
             </div>
             
             <div class="sign-1" id="switch1">
                 <p style="
                     margin-top:60px;
-                    margin-left:210px;
                   font-size:36px;
                   font-familt:Helvetica Neue;
-                  color:#FFFFFF;">验证成功!</p>
+                  color:#FFFFFF;">验证成功</p>
                 <p style="
-                    margin-left:60px;
                   font-size:36px;
                   font-familt:Helvetica Neue;
-                  color:#FFFFFF;">您可以修改您的非基本信息</p>
-                <input type="text" class = "textbox" disabled="true" id="name"/>
-                <input type="text" class = "textbox" disabled="true" id="class_no" style="margin-top:27px;"/>
-                <input type="text" class = "textbox" disabled="true" id="enroolment" style="margin-top:27px;" />
+                  color:#FFFFFF;">请确认你的基本信息</p>
+                <div style="overflow:hidden;">
+                    <p class="input_hint">姓名：</p>
+                    <input type="text" class = "textbox" disabled="true" id="name" style="float:left;width:75%;"/>
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">班级：</p>
+                    <input type="text" class = "textbox" disabled="true" id="class_no" style="float:left;width:75%;"/>
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">学年：</p>
+                    <input type="text" class = "textbox" disabled="true" id="enroolment" style="float:left;width:75%;" />
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">类别：</p>
+                    <input type="text" class = "textbox" disabled="true" id="type" style="float:left;width:75%;" />
+                </div>
                 
                 <button class="switch" id="bt1" style="margin-top:40px">下</button>
             </div>
             
             <div class="sign-2" id="switch2">
                 <button class="switch" id="bt2" type="button" style="margin-top:60px">上</button>
-                <input type="text" class = "textbox" disabled="true" id="type" style="margin-top:27px;" />
-                <input type="text" placeholder="请输入您的宿舍楼号" class = "textbox" style="margin-top:27px;" id="dormitory_id"/>
-                <input type="text" placeholder="请输入您的宿舍编号" class = "textbox" style="margin-top:27px;" id="room_no"/>
-                <input type="text" placeholder="请输入您的手机号码" class = "textbox" style="margin-top:27px;" id="phone_number"/>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">斋号：</p>
+                    <input type="text" placeholder="请输入您的宿舍楼号" class = "textbox" style="float:left;width:75%;" id="dormitory_id"/>
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">房号：</p>
+                    <input type="text" placeholder="请输入您的宿舍编号" class = "textbox" style="float:left;width:75%;" id="room_no"/>                    
+                </div> 
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">手机号：</p>
+                    <input type="text" placeholder="请输入您的手机号码" class = "textbox" style="float:left;width:75%;" id="phone_number"/>
+                </div>
                 <p class="check" id="phmb"></p>
                 <button class="switch" id="bt3" style="margin-top:0px;">下</button>
             </div>
             
             <div class="sign-3" id="switch3">
                 <button class="switch" id="bt4" style="margin-top:50px;">上</button>
-                <input type="text" placeholder="请输入您的昵称" class = "textbox" style="margin-top:27px;" id="nickname"/>
-                <input type="password" placeholder="请输入您的新密码" class = "textbox" style="margin-top:27px;" id="password"/>
-                <p class="check" id="pswd"></p>
-                <input type="password" placeholder="请再输入一遍您的新密码" class = "textbox"id="rpassword"/>
-                <p class="check" id="rpswd"></p>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">昵称：</p>
+                    <input type="text" placeholder="请输入您的昵称" class = "textbox" style="float:left;width:75%;" id="nickname"/>
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">新密码：</p>
+                    <div style="float:left;width:75%;">
+                        <input type="password" placeholder="请输入您的新密码" class = "textbox" style="width:100%;" id="password"/>
+                        <p class="check" id="pswd"></p>
+                        <input type="password" placeholder="请再输入一遍您的新密码" class = "textbox"id="rpassword" style="width:100%;"/>
+                        <p class="check" id="rpswd"></p>
+                    </div>
+                </div>
                 <input type="text" placeholder="请输入图片中的验证码" class = "textbox" id="identifycode"/>
-                <button class="Submit" id="signinbutton">注册</button>
+                <button class="Submit" id="signinbutton" style="margin-top:50px;">注册</button>
             </div>
             <div class="sign-4" id="switch4">
                 <p style="
                     margin-top:200px;
-                    margin-left:197px;
                   font-size:36px;
                   font-familt:Helvetica Neue;
                   color:#FFFFFF;">注册成功！</p>
                 <p style="
-                    margin-left:167px;
                   font-size:36px;
                   font-familt:Helvetica Neue;
                   color:#FFFFFF;">即将自动登陆...</p>
