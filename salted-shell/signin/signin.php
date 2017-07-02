@@ -5,29 +5,175 @@
 	<title>注册</title>
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
+        var session_key=0;
+        $(document).ready(function()
+            {
             $("#bt1").click(function(){
                 $("#switch1").css("display","none");
                  $("#switch2").fadeIn("slow");
             });
-            $("#bt2").click(function(){
+            $("#bt2").click(function()
+            {
                 $("#switch2").css("display","none");
                  $("#switch1").fadeIn("slow");
             });
-            $("#male1").click(function()
+            $("#bt3").click(function()
             {
-                $("#male1").css("color","red");
-                $("#male1").css("font-size","38px");
-                $("#fmale1").css("color","#FFFFFF");
-                $("#fmale1").css("font-size","36px");
+                var phone = $("#phone_number").val();
+                var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
+                var flag = reg.test(phone);
+                if (phone=="")
+                    {
+                        $("#phmb").css("color","red");
+                        $("#phmb").html("*手机号码不能为空！");
+                    }
+                else if(!flag)
+                    {
+                        $("#phmb").css("color","red");
+                        $("#phmb").html("*手机号码格式不正确！");
+                    }
+                else{
+                        $("#switch2").css("display","none");
+                        $("#switch3").fadeIn("slow");
+                        $("#phmd").html("");
+                    }
+               
             });
-            $("#fmale1").click(function()
+             $("#bt4").click(function()
             {
-                $("#male1").css("font-size","36px");
-                $("#fmale1").css("font-size","38px");
-                $("#male1").css("color","#FFFFFF");
-                $("#fmale1").css("color","red");
+                $("#switch3").css("display","none");
+                 $("#switch2").fadeIn("slow");
             });
+            $("#rpassword").bind('input propertychange',function() //判断新密码是否一致
+            {
+                var ps= $("#password").val();
+                var rps= $("#rpassword").val();
+                if (rps!=ps)
+                    {
+                    $("#rpswd").css("color","red");
+                    $("#rpswd").html("*请检查您的密码！");
+                    }
+                else if(rps==ps&&ps!="")
+                    {
+                    $("#rpswd").css("color","green");
+                    $("#rpswd").html("密码一致");
+                    }
+            });
+            $("#password").bind('input propertychange',function()  //密码强度
+            {
+                var psw = $("#password").val();
+                var psstrenth = 0;
+                if(psw.length<6)
+                    {   
+                        $("#pswd").css("color","red");
+                        $("#pswd").html("*密码长度不可小于6位！");
+                        return;
+                    }
+                else if(psw.length>=6)
+                   {
+                       for (var i=0;i<psw.length;i++)
+                        {
+                         if(psw.search(/[a-zA-Z]/)!=-1)
+                            psstrenth++;
+                         else if(psw.search(/[-]/)!=-1)
+                            psstrenth++;
+                         else if(psw.search(/[\~\`\!\@\#\$\%\^\&\*\(\)\_\+\-\=\[\]|{\}\;\'\:\"\,\.\/\<\>\?]/)!=-1)
+                            psstrenth+=2;
+                        }
+                   }
+                
+               if (psstrenth<8)
+                    {
+                        $("#pswd").css("color","red");
+                        $("#pswd").html("*密码强度：弱");
+                    }
+                else if(psstrenth<12&&psstrenth>8)
+                    {
+                        $("#pswd").css("color","yellow");
+                        $("#pswd").html("*密码强度：中");
+                    }
+                else if(psstrenth>=12)
+                    {
+                        $("#pswd").css("color","green");
+                        $("#pswd").html("*密码强度：高");
+                    }
+            });
+            $("#scnmbox").bind('input propertychange',function() //判断本科教学网内学号是否为空
+            {
+                var nm= $("#scnmbox").val();
+                if (nm=="")
+                    {
+                    $("#scnmck").css("color","red");
+                    $("#scnmck").html("*请输入您的学号！");
+                    }
+                else
+                    {
+                    $("#scnmck").html("");
+                    }
+            });
+            $("#scpsbox").bind('input propertychange',function() //判断本科教学网内密码是否为空
+            {
+                var ps= $("#scpsbox").val();
+                if (ps=="")
+                    {
+                    $("#scpsck").css("color","red");
+                    $("#scpsck").html("*请输入您的密码！");
+                    }
+                else
+                    {
+                    $("#scpsck").html("");
+                    }
+            });
+            $("#checkid").click(function()
+            {
+                var nm= $("#scnmbox").val();
+                var ps= $("#scpsbox").val();
+                if (nm==""||ps=="")
+                        alert("请输入正确的学号和密码！");
+                else
+                {$.get("../core/api-v1.php",{action: "check", id:nm ,psw:ps},function(result){
+                    var data = JSON.parse(result);
+                    if (data==false)
+                        alert("请输入正确的学号和密码！");
+                    else{
+                        $("#name").val(data["name"]["value"]);
+                        $("#class_no").val(data["class_info"]["class_no"]["value"]);
+                        $("#enroolment").val(data["class_info"]["enrollment"]["value"]);
+                        $("#type").val(data["type"]["value"]);
+                        $("#switch0").css("display","none");
+                        $("#switch1").fadeIn();
+                        //$.get("../core/api-v1.php",{action: "signin", id:nm ,psw:ps},function(result){session_key=result;});
+                        };
+                        }
+                    )};
+            });
+           $("#signinbutton").click(function()
+            {
+                //if ($("#phmd").val()==""&&$("#pswd").val()!="*密码长度不可小于6位！"&&$("#pswd").val!="*密码强度：弱"&&$("#rpswd").val=="密码一致")
+                  //  {
+                        var student_id = $("#scnmbox").val();
+                        var name = $("#name").val();
+                        var nickname = $("#nickname").val();
+                        var header = "URl"; //这是啥
+                        var department = "CT"; //这是啥
+                        var enroolment = $("#enroolment").val();
+                        var class_no = $("#class_no").val();
+                        var dormitory_id = $("#dormitory_id").val();
+                        var room_no = $("#room_no").val();
+                        var phone_number = $("#phone_number").val();
+                        $.get("../core/api-v1.php",{action:"change",student_id:student_id,name:name,nickname:nickname,header:header,department:department,enroolment:enroolment,class_no:class_no,dormitory_id:dormitory_id,room_no:room_no,phone_number:phone_number,session_key:session_key},function(result){
+                        if (result=="1")
+                            {
+                                 $("#switch3").css("display","none");
+                                $("#switch4").fadeIn("slow");
+                            }
+                        else if(result!="1")
+                            {
+                                alert("注册失败！");
+                            }});
+                        
+                    //}
+           });
         });
         
     </script>
@@ -105,8 +251,7 @@
         }
         .Submit
         {
-            position: absolute;
-            width: 568px;
+            width: 550px;
             height: 69px;
             border-width: 1px;
             border-color: coral;
@@ -117,25 +262,36 @@
             text-align: center;
             color: #FFFFFF;
             transition-duration: 0.4s;
-            margin-top: 109px;
+            bottom:  71px;
         }
         .Submit:hover
         {
             background-color: white;
             color: #FF621C;
         }
+        .sign-0
+        {
+          
+        }
         .sign-1
         {
-            
+             display: none; 
         }
         .sign-2
         {
-            display: none;
+            display: none; 
+        }
+        .sign-3
+        {
+            display: none; 
+        }
+        .sign-4
+        {
+            display: none; 
         }
         .switch
         {
-            margin-left: 229px;
-            margin-top: 50px;
+            margin-top: 27px;
             width: 100px;
             height: 100px;
             border-radius: 100px;
@@ -150,22 +306,29 @@
             background-color:#FF621C;
             color: #FFFFFF;
         }
-        .sexs
+
+        .check
         {
-            font-size: 36px;
-            display: inline-block;
+            font-size: 20px;
             color: #FFFFFF;
+            margin-left: 25px;
+            height: 40px;
             line-height: 40px;
+            margin-top: 0px;
+            margin-bottom: 0px;
         }
-        .sexs:hover
-        {
-            color: red;
-            font-size: 38px;
+        input{
+            border:0px;
         }
-        .sex
-        {
-            margin-top: 27px;
-            margin-left: 100px;
+        p{
+            color:white;
+            font-size:165%;
+        }
+        p.input_hint{
+            float:left;
+            line-height:0px;
+            text-align:right;
+            width:110px;
         }
 	</style>
 </head>
@@ -179,46 +342,114 @@
                     font-family: Helvetica Neue;
                     font-size: 36px;">
             <a class="a" herf="#">注册</a>
-            <a class="a" herf="#" style="margin-left:51px;">登陆</a>
+            <a class="a" herf="#">登陆</a>
         </div>
     </div>
     <div class = "signbbox" style="background: #FF4E00;
                                     opacity:0.5; "></div>
-    <div class = "signbbox">
-        <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" style="position: absolute;
-                                                                                left: 62px;
-                                                                                width:568px;
-                                                                               height:inherit;">
-            <div class="sign-1" id="switch1">
+    <div class = "signbbox" style="text-align:center;">
+        <div style="position: absolute;left: 50px; width:592px;height:inherit;">
+            <div class="sign-0" id="switch0" style="">
                 <p style="
                     margin-top:60px;
-                    margin-left:217px;
                   font-size:36px;
                   font-familt:Helvetica Neue;
                   color:#FFFFFF;">贝壳商城</p>
                 <p style="
-                    margin-left:122px;
                   font-size:36px;
                   font-familt:Helvetica Neue;
                   color:#FFFFFF;">让你的宝贝动起来！</p>
-                <input type="text" name="username" placeholder="请输入您的学号" class = "textbox"/>
-                <input type="password" name="password" placeholder="请输入您的密码" class = "textbox" style="margin-top:40px;"/>
-                <input type="password" name="password" placeholder="请再次输入您的密码" class = "textbox" style="margin-top:40px;"/>
-                <button class="switch" id="bt1" type="button">下</button>
-            </div>
-            <div class="sign-2" id="switch2">
-                <button class="switch" id="bt2" type="button">上</button>
-                <div class="sex">
-                    <input type="radio" name="gender" value="男" id="male" style="display:none">
-                        <label for="male" class="sexs" id="male1">♂我是汉子</label>
-                    <input type="radio" name="gender" value="女" id="fmale" style="display:none">
-                        <label for="fmale" class="sexs" id="fmale1">♀我是妹子</label>
+                <div style="overflow:hidden;margin-top:100px;">
+                    <p class="input_hint">学号：</p>
+                    <input type="text"placeholder="请输入您的学号"class="textbox" id="scnmbox" style="float:left;width:75%;"/>
                 </div>
-                 <input type="text" name="major" placeholder="请输入您所在的专业" class = "textbox"style="margin-top:27px;"/>
-                <input type="text" name="identifyingcode" placeholder="请输入您的验证码" class = "textbox"style="margin-top:27px;"/>
-                <input type="submit" name="submit" class="Submit" value="注册">
+                <p class="check" id="scnmck"></p>
+                <div style="overflow:hidden">
+                    <p class="input_hint">密码：</p>
+                    <input type="password"placeholder="请输入您的本科教学网密码" class="textbox" id="scpsbox" style="float:left;width:75%;"/>
+                </div>
+                <p class="check" id="scpsck"></p>
+                <button class="Submit"id="checkid" style="margin-top:50px;">验证您身份</button>
             </div>
-        </form>
+            
+            <div class="sign-1" id="switch1">
+                <p style="
+                    margin-top:60px;
+                  font-size:36px;
+                  font-familt:Helvetica Neue;
+                  color:#FFFFFF;">验证成功</p>
+                <p style="
+                  font-size:36px;
+                  font-familt:Helvetica Neue;
+                  color:#FFFFFF;">请确认你的基本信息</p>
+                <div style="overflow:hidden;">
+                    <p class="input_hint">姓名：</p>
+                    <input type="text" class = "textbox" disabled="true" id="name" style="float:left;width:75%;"/>
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">班级：</p>
+                    <input type="text" class = "textbox" disabled="true" id="class_no" style="float:left;width:75%;"/>
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">学年：</p>
+                    <input type="text" class = "textbox" disabled="true" id="enroolment" style="float:left;width:75%;" />
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">类别：</p>
+                    <input type="text" class = "textbox" disabled="true" id="type" style="float:left;width:75%;" />
+                </div>
+                
+                <button class="switch" id="bt1" style="margin-top:40px">下</button>
+            </div>
+            
+            <div class="sign-2" id="switch2">
+                <button class="switch" id="bt2" type="button" style="margin-top:60px">上</button>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">斋号：</p>
+                    <input type="text" placeholder="请输入您的宿舍楼号" class = "textbox" style="float:left;width:75%;" id="dormitory_id"/>
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">房号：</p>
+                    <input type="text" placeholder="请输入您的宿舍编号" class = "textbox" style="float:left;width:75%;" id="room_no"/>                    
+                </div> 
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">手机号：</p>
+                    <input type="text" placeholder="请输入您的手机号码" class = "textbox" style="float:left;width:75%;" id="phone_number"/>
+                </div>
+                <p class="check" id="phmb"></p>
+                <button class="switch" id="bt3" style="margin-top:0px;">下</button>
+            </div>
+            
+            <div class="sign-3" id="switch3">
+                <button class="switch" id="bt4" style="margin-top:50px;">上</button>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">昵称：</p>
+                    <input type="text" placeholder="请输入您的昵称" class = "textbox" style="float:left;width:75%;" id="nickname"/>
+                </div>
+                <div style="overflow:hidden;margin-top:27px;">
+                    <p class="input_hint">新密码：</p>
+                    <div style="float:left;width:75%;">
+                        <input type="password" placeholder="请输入您的新密码" class = "textbox" style="width:100%;" id="password"/>
+                        <p class="check" id="pswd"></p>
+                        <input type="password" placeholder="请再输入一遍您的新密码" class = "textbox"id="rpassword" style="width:100%;"/>
+                        <p class="check" id="rpswd"></p>
+                    </div>
+                </div>
+                <input type="text" placeholder="请输入图片中的验证码" class = "textbox" id="identifycode"/>
+                <button class="Submit" id="signinbutton" style="margin-top:50px;">注册</button>
+            </div>
+            <div class="sign-4" id="switch4">
+                <p style="
+                    margin-top:200px;
+                  font-size:36px;
+                  font-familt:Helvetica Neue;
+                  color:#FFFFFF;">注册成功！</p>
+                <p style="
+                  font-size:36px;
+                  font-familt:Helvetica Neue;
+                  color:#FFFFFF;">即将自动登陆...</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
