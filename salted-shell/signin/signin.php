@@ -361,7 +361,7 @@
                   color:#FFFFFF;">让你的宝贝动起来！</p>
                 <div style="overflow:hidden;margin-top:100px;">
                     <p class="input_hint">学号：</p>
-                    <input type="text"placeholder="请输入您的学号"class="textbox" id="scnmbox" style="float:left;width:75%;"/>
+                    <input type="text" placeholder="请输入您的学号" class="textbox" id="scnmbox" style="float:left;width:75%;"/>
                 </div>
                 <p class="check" id="scnmck"></p>
                 <div style="overflow:hidden">

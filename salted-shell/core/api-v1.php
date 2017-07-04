@@ -63,6 +63,7 @@ if(isset($_GET['action'])){     // 有操作
         echo "<p>未登录</p>";
     }
 }*/
+session_start();
 if (isset($_GET['action']))
 {
     $action =$_GET['action'];
@@ -72,13 +73,13 @@ if (isset($_GET['action']))
         $usrpsw  = $_GET['psw'];
         echo json_encode(confirm_student($usrname,$usrpsw));
     }
-    else if ($action=="signin")
+    elseif ($action=="signin")
     {
         $usrname = $_GET['id'];
         $usrpsw  = $_GET['psw'];
         echo json_encode(user_bind(0,0,$usrname,$usrpsw));
     }
-    else if ($action=="change")
+    elseif ($action=="change")
     {
         $student_id = $_GET['student_id'];
         $name = $_GET['name'];
@@ -93,47 +94,65 @@ if (isset($_GET['action']))
         $session_key=$_GET['session_key'];
         $ret = array();
         $ret['student_id'] = array(
-        "access"=>  "protected",
-        "value" =>  $student_id
-    );
-    $ret['name'] = array(
-        "access"=>  "public",
-        "value" =>  $name
-    );
-    $ret['nickname']    = $nickname;
-    $ret['header']      = $header;
-    $ret['class_info']  = array(
-        "access"    =>  "protected",
-        "department"=> array(
+            "access"=>  "protected",
+            "value" =>  $student_id
+        );
+        $ret['name'] = array(
+            "access"=>  "public",
+            "value" =>  $name
+        );
+        $ret['nickname']    = $nickname;
+        $ret['header']      = $header;
+        $ret['class_info']  = array(
+            "access"    =>  "protected",
+            "department"=> array(
+                "access"    => "protected",
+                "value"     => $department
+            ),
+            "enrollment"=> array(
+                "access"    => "public",
+                "value"     => $enroolment
+            ),
+            "class_no"  => array(
+                "access"    => "private",
+                "value"     => $class_no
+            )
+        );
+        $ret['dormitory'] = array(
             "access"    => "protected",
-            "value"     => $department
-        ),
-        "enrollment"=> array(
-            "access"    => "public",
-            "value"     => $enroolment
-        ),
-        "class_no"  => array(
+            "dormitory_id"  => array(
+                "access"        => "protected",
+                "value"         => $dormitory_id
+            ),
+            "room_no"       => array(
+                "access"        => "private",
+                "value"         => $room_no
+            ) 
+        );
+        $ret['phone_number'] = array(
             "access"    => "private",
-            "value"     => $class_no
-        )
-    );
-    $ret['dormitory'] = array(
-        "access"    => "protected",
-        "dormitory_id"  => array(
-            "access"        => "protected",
-            "value"         => $dormitory_id
-        ),
-        "room_no"       => array(
-            "access"        => "private",
-            "value"         => $room_no
-        ) 
-    );
-    $ret['phone_number'] = array(
-        "access"    => "private",
-        "value"     => $phone_number
-    );
-    $ret = json_encode($ret);
+            "value"     => $phone_number
+        );
+        $ret = json_encode($ret);
         echo update_self_info($ret,$session_key);
+    }elseif ($action == "login") {
+        if (isset($_POST['username'])&&isset($_POST['password'])) {
+            $username = trim($_POST['username']);
+            $password = trim($_POST['password']);
+            if (user_login($username,$password)) {
+                $session_key = user_login($username,$password);
+                session_unset();
+                session_destroy();
+                session_id($session_key);
+                session_start();
+                echo get_student_id_from_session_key($session_key);
+            }else echo false;
+        }else{
+            echo false;
+        }
+    }elseif ($action == "logout") {
+        session_unset();
+        session_destroy();
     }
 }
 //$usrname = $_GET['id'];
