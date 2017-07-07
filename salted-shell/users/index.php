@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>个人主页</title>
+    <?php
+    session_start();
+    ?>
     <style>
         body {
             margin : 0;
@@ -142,11 +145,11 @@
         require_once "../core/utils.php";
         require_once "../core/authorization.php";
         require_once "../config.php";
-        //session_start();
+        
         //$session = session_id();
         //$student_id = get_student_id_from_session_key($session);
-
         $student_id = $_GET['id'];
+
     ?>
 </head>
 <body>
