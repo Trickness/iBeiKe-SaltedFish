@@ -2,6 +2,7 @@
 require_once "../config.php";
 require_once "utils.php";
 require_once "users.php";
+require_once "goods.php";
 require_once "authorization.php";
 require_once "orders.php";
 
@@ -64,6 +65,7 @@ if(isset($_GET['action'])){     // 有操作
         echo "<p>未登录</p>";
     }
 }*/
+/*
 session_start();
 if (isset($_GET['action']))
 {
@@ -211,5 +213,108 @@ if (isset($_GET['action']))
 }
 //$usrname = $_GET['id'];
 //$usrpsw  = $_GET['psw'];
-//var_dump(confirm_student("41603510","314159"));
+//var_dump(confirm_student("41603510","314159"));*/
+
+session_start();
+if(!isset($_GET['action'])) die('{"status":"failed","error":"Please check doc for usage"}');
+$action = $_GET["action"];
+if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
+    if($action == "logout"){
+        user_logout(session_id());
+        echo json_encode(array(
+            "status" => "success"
+        ));
+    }elseif($action == "update_self_info"){
+        if(isset($_POST['info'])){
+            $info = json_decode(fetch_info_from_user($student_id),true);
+            var_dump($info);
+            $data = json_decode(urldecode($_POST['info']),true);
+            if(isset($data['nickname'])){
+                $info['nickname'] = $data['nickname'];
+            }
+            if(isset($data['dormitory'])){
+                if(isset($data['dormitory']['access'])) $info['dormitory']['access'] = $data['dormitory']['access'];
+                if(isset($data['dormitory']['dormitory_id'])){
+                    if(isset($data['dormitory']['dormitory_id']['access'])) $info['dormitory']['dormitory_id']['access'] = $data['dormitory']['dormitory_id']['access'];
+                    if(isset($data['dormitory']['dormitory_id']['value']))  $info['dormitory']['dormitory_id']['value']  = $data['dormitory']['dormitory_id']['value'] ;
+                }
+                if(isset($data['dormitory']['room_no'])){
+                    if(isset($data['dormitory']['room_no']['access'])) $info['dormitory']['room_no']['access'] = $data['dormitory']['room_no']['access'];
+                    if(isset($data['dormitory']['room_no']['value']))  $info['dormitory']['room_no']['value']  = $data['dormitory']['room_no']['value'] ;
+                }
+                if(isset($data['phone_number'])){
+                    if(isset($data['phone_number']['access']))          $info['phone_number']['access'] = $data['phone_number']['access'];
+                    if(isset($data['phone_number']['value']))           $info['phone_number']['value']  = $data['phone_number']['value'];
+                }
+                $info_hash = update_user_info(json_encode($info),$student_id);
+                echo json_encode(array(
+                    "status" => "success",
+                    "info_hash" => $info_hash
+                ));
+            }
+        }else{
+            die(generate_error_report("Please check doc for usage"));
+        }
+    }elseif($action == "new_order"){
+        if(!isset(
+                $_GET['goods_id'],
+                $_GET['deliver_fee'],
+                $_GET['goods_count'],
+                $_GET['price_per_goods']
+            )){die("Please check code for usage");}
+        $goods_id = $_GET['goods_id'];
+        $deliver_fee = $_GET['deliver_fee'];
+        $goods_count = $_GET['goods_count'];
+        $price_per_goods = $_GET['price_per_goods'];
+        $order_id = create_order_from_user($student_id, $goods_id, $deliver_fee, $goods_count, $price_per_goods);
+        if($order_id){
+            echo json_encode(array(
+                "status" => "success",
+                "order_id" => $order_id
+            ));
+        }else{
+            echo json_encode(array(
+                "status" => "failed"
+            ));
+        }
+    }elseif($action == "cancel_order"){
+        if(!isset($_GET['order_id']))
+            die(generate_error_report("Please check doc for usage"));
+        $order_id = cancel_order_from_user($student_id, $_GET['order_id']);
+        echo json_encode(array(
+            "status" =>"success",
+            "order_id" => $order_id
+        ));
+    }else{
+        die(generate_error_report("Please check doc for usage"));
+    }
+}else{                                              // 未登录
+    if($action == "login"){                             // 登陆操作
+        $session_key = false;
+        if(isset($_GET['username']) and isset($_GET['password']))
+            $session_key = user_login($_GET['username'],$_GET['password']);
+        elseif(isset($_POST['username']) and isset($_POST['password']))
+            $session_key = user_login($_GET['username'],$_GET['password']);
+        if($session_key){
+            session_unset();
+            session_destroy();
+            session_id($session_key);
+            session_start();
+            echo json_encode(array(
+                "status" => "success",
+                "session" => $session_key
+            ));
+        }else{
+            echo generate_error_report("Wrong username or password");
+        }
+    }elseif($action == "check"){                     // 检查用户是否为学生 TODO:检验
+        if(isset($_GET["student_id"]) and isset($_GET["password"]))
+            echo json_encode(confirm_student($_GET["student_id"],$_GET["password"]));
+        else
+            die(generate_error_report("Please specify student id and password"));
+    }else{
+        die(generate_error_report("Cannot handle your action(Try to login for more actions?)"));
+    }
+
+}
 ?>

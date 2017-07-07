@@ -195,6 +195,7 @@ function filter_session_key($session_key){
 function generate_error_report($err)
 {
     $arr = array();
+    $arr["status"] = "failed";
     $arr["error"] = $err;
     $jsonerr = json_encode($arr);
     return $jsonerr; 

@@ -261,7 +261,7 @@ function fetch_goods_submitter($goods_id){
 	$sql = "select * from $db_goods_table where goods_id='$goods_id'";
 	$result = $link->query($sql);
 	if($result){
-		$result = mysqli_query($result);
+		$result = mysqli_fetch_assoc($result);
 		return $result['submitter'];
 	}else{
 		return false;

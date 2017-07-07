@@ -132,21 +132,26 @@ function user_logout($session_key)
  *      - (@JSONStr) user_info
  * 
  **/
-function fetch_self_info($session_key)
-{
+ function fetch_info_from_user($id){
     global $db_host;
     global $db_pass;
     global $db_name;
     global $db_user;
     global $db_users_table;
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $student_id = get_student_id_from_session_key($session_key);
-    $select = "SELECT student_info from $db_users_table WHERE student_id = '$student_id'";
+    $select = "SELECT student_info from $db_users_table WHERE student_id = '$id'";
     $result = $link->query($select);
-    $res = mysqli_fetch_assoc($result) or die("WTF?");
+    $res = mysqli_fetch_assoc($result) or die("Cannot fetch info for userid=".$id);
     $student_info = urldecode($res['student_info']);
     $link->close();
     return $student_info;
+ }
+function fetch_self_info($session_key){
+    if($student_id = get_student_id_from_session_key($session_key)){
+        return fetch_info_from_user($student_id);
+    }else{
+        die(generate_error_report("Access denied"));
+    }
 }
 /**
  * 
@@ -205,32 +210,29 @@ function fetch_user_info_from_id($student_id)
  * 更新自己的信息
  * 
  * @param
- *      - (@String)     session_key
  *      - (@JSONStr)    updated_user_info
  * 
  * @return
  *         -> true/false
  *
  **/
-function update_self_info($updated_user_info,$session_key)
+function update_user_info($updated_user_info,$user_id)
 {
     global $db_host;
     global $db_pass;
     global $db_name;
     global $db_user;
     global $db_users_table;
-    if (get_student_id_from_session_key($session_key))
-        {
-            $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-            $student_id = get_student_id_from_session_key($session_key);
-            $updated_user_info = urlencode($updated_user_info); 
-            $update = "UPDATE $db_users_table SET student_info = '$updated_user_info' WHERE student_id = '$student_id';";
-            $link->query($update);
-            $link->commit();
-            $link->close();
-            return true;
-        }
-    else return false;
+
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $student_id = get_student_id_from_session_key($session_key);
+    $info_hash = md5($updated_user_info);
+    $updated_user_info = urlencode($updated_user_info); 
+    $update = "UPDATE $db_users_table SET student_info='$updated_user_info' info_hash='$info_hash' WHERE student_id = '$student_id';";
+    $link->query($update);
+    $link->commit();
+    $link->close();
+    return $info_hash;
 }
 
 
