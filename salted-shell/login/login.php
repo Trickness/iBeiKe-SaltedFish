@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>注册</title>
+    <title>登陆</title>
     <script src="../js/jquery-3.2.1.min.js"></script>
     <style>
         body
@@ -72,13 +72,13 @@
             width: 500px;height: 550px;position: relative;top: -445px;
         }
         .lgn-box-below{
-            width: 500px;height: 550px;position: relative;top: 75px;
+            width: 500px;height: 515px;position: relative;top: 75px;
             background-color: #FF4E00;
             opacity: 0.5;
             border-radius: 5px;
         }
         .input{
-            width: 360px;
+            width: 340px;
             height: 40px;
             border-radius: 5px;
             font-size: 20px;
@@ -131,7 +131,7 @@
             <a class="a" herf="#">登陆</a>
         </div> 
     </div>
-    <center>
+    <center style="height: 600px;">
             <div class="lgn-box-below"></div>
             <div class="lgn-box">
                 <div id="motto">

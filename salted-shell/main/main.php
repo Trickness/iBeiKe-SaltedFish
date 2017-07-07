@@ -5,106 +5,115 @@
 	<title>贝壳商城-让你的闲置动起来(O(∩_∩)O)</title>
 	<style>
 		body{
-			min-width: 1536px;
+			margin:0;
+			/*background-color: #e8e8e8;*/
 		}
-		.bk{ 
-		  background: linear-gradient(to bottom, rgba(255,204,102,1), rgba(255,153,0,1));
-		  width: 100%;
-		  height: 50px;
-		  padding-left: 10%;
-		}
-		.bk1{
-			background: linear-gradient(to bottom, rgba(255,204,102,1), rgba(255,153,0,1));
-		}
-		.classify{
-
-			border: 1px solid #CCCCCC;
+		#topbanner{
+			background-color: rgb(253,152,80);
+			height: 75px;
+			position: fixed;
 			width: 100%;
-			height: 50px;
-			padding: 15px;
+			z-index: 10;
+		}
+		#logo{
+			margin-left: 18px;
+			height: 70px;
+			width: 60px;
+		}
+		#title{
+			height: 36px;
+    		width: 150px;
+    		color: white;
+    		font-size: 25px;
+    		position: fixed;
+    		top: 19px;
+    		left: 95px;
+		}
+		.top-tl{
+			z-index: 1;
+			font-size: 20px;
+			color: white;
+			padding:2px;
+			position: fixed;
+			top: 22px;
+		}
+		.top-tl:after{
+			content: '';position: absolute;
+			top: 0;left: 0;right: 0;bottom: 0;
+			border-radius: 2px;
+			z-index: -1;
 			transition-duration: 0.4s;
 		}
-		.classify:hover{
-			border-left: 5px solid #FFCC00;
+		.top-tl:hover:after{
+			background-color: white;
+			opacity: 0.8;
 		}
-		.nv li{
-			font-size: 15px;
-			border-radius: 5px;
+		.active:after{
+			content: '';
+			position: absolute;
+			top: 0;left: 0;right: 0;bottom: 0;
+			background-color: white;
+			opacity: 0.5;
+			border-radius: 2px;
+			z-index: -1;
+		}
+		a{
+			text-decoration: none;font-size: 14px;color: black;
+		}
+		a:hover{
+			text-decoration: underline;
+		}
+		input[name='search']{
+			height: 36px;width: 120px;background-color: #FD9850;color: white;border:none;float: left;
 			transition-duration: 0.4s;
 		}
-		.nv li:hover{
-			background-color: #FF9900;
-		}
-		.a
-        {
-            color: #FF621C;
-            line-height: 48px;
-            padding-bottom: 8px;
-            transition-duration: 0.4s;
-        }
-        .a:hover
-        {   
-            font-size: 38px;
-            color: #ff0066;
-            border-bottom-color: #ff0066;
-            border-bottom-width: 3px;
-            border-bottom-style: solid;
+		input[name='search']:hover{
+			background-color: #FFCC66;
 		}
 	</style>
 </head>
 <body>
-	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
-	<link href="https://cdn.bootcss.com/Buttons/2.0.0/css/buttons.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/Buttons/2.0.0/js/buttons.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+	<script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/animate.min.css">
+	<script src="../js/swiper.animate1.0.2.min.js"></script>
 
-	<div class="container-fluid">
-		<div class="col-xs-3">
-			<img src="../pic/beikelogo.png" style="width: 60px;height: 60px;">
-			<img src="../pic/beikeshop.png" style="height: 60px;">
-		</div>
-		<div class="col-xs-2" style="float:right;">
-			<a class="a" href="../signin/signin.php">登陆</a>
-			<a class="a" href="../signin/signin.php" style="margin-left: 30px;">注册</a>
-		</div>
+
+	<div id="topbanner">
+		<img id="logo" src="../pic/beikelogo.png">
+		<div id="title">贝壳商城</div>
+		<div id="market-tl" class="top-tl active" style="left: 250px;">商城</div>
+		<div id="users-tl" class="top-tl" style="left: 340px;">个人中心</div>
 	</div>
 	
-	<nav class="navbar navbar-default bk">
-		<div class="container-fluid">
-			<ul class="nav navbar-nav nv">
-				<li><a style="color:white;" href="#">首页</a></li>
-				<li><a style="color:white;" href="#">新品抢鲜</a></li>
-				<li><a style="color:white;" href="#">优选市场</a></li>
-				<li><a style="color:white;" href="#">推荐店家</a></li>
-			</ul>
-    	</div>
-    </nav>
-	
-	<div class="container" style="width: 100%">
-		<div class="row">
-			<div class="col-xs-2 col-xs-offset-1">
-				<h4>优选市场</h4>
-			</div>
-			
-			<link rel="stylesheet" type="text/css" href="./search-tips.css">
-			<div class="search-tips col-xs-5">
-				<form method="get">
-					<input type="text" name="search" class="search" placeholder="选你所爱" autocomplete="off" />
-					<input type="submit" class="submit" class="sub" value="搜索"/>
-				</form>
-				<div class="search-auto"></div>
-			</div>
+	<center id="main-show" style="position: relative;height: 620px;top:100px;z-index: 1;">
+		<div id="head-row" style="width:1228px;height: 20px;">
+			<a href="../login/login.php" style="color: #FD9850;float: left;">请登录</a>
+			<a href="../signin/signin.php" style="margin-left: 5px;float: left;">免费注册</a>
+			<a href="#" style="margin-left: 20px;float: left;">手机逛商城</a>
+			<a href="#" style="float: right;">新手须知</a>
+			<a href="#" style="margin-right: 15px;float: right;">联系客服</a>
+			<a href="#" style="margin-right: 15px;float: right;">卖家中心</a>
+		</div>
+		<div id="neck-row" style="width: 1228px;margin-top: 20px;height: 40px;">
+			<form method="get">
+				<input type="text" name="sch" class="search" placeholder="选你所爱" style="width: 580px;height: 28px;border:3px solid #FD9850;float: left;padding-left: 5px;outline: 0;" autocomplete="off">
+				<input type="submit" name="search" style="" value="搜索">
+			</form>
+
 			<script>
+			// 自动搜索
  				$(document).ready(function() {
  					var availableTags = [];
- 					$("input[name='search']").keyup(function(){
+ 					$("input[name='sch']").keyup(function(){
  						var value = $(this).val();
+ 						
  						$.get("./sch-goods.php",{val:value},function(data){
  							// availableTags = data;
+ 							console.log(data);
  							data = data.split("+");
  							data.splice(0,1);
  							availableTags = data;
@@ -115,119 +124,355 @@
  					});
   				});
   			</script>
+
+			<div style="float: left;margin-top: 8px;margin-left: 20px;">
+				<a href="#" style="color: #FD9850;margin-left: 12px;">实体商品</a>
+				<a href="#" style="color: #FD9850;margin-left: 12px;">非实体商品</a>
+				<a href="#" style="color: #FD9850;margin-left: 12px;margin-right: 12px;">贝城信息</a>|
+				<a href="#" style="margin-left: 12px;">学习</a>
+				<a href="#" style="margin-left: 12px;">生活</a>
+				<a href="#" style="margin-left: 12px;">电子</a>
+				<a href="#" style="margin-left: 12px;">娱乐</a>
+				<a href="#" style="margin-left: 12px;">旅行</a>
+			</div>
 		</div>
-		
-		<div class="row">
-			<div class="col-xs-2 col-xs-offset-1" style="max-width: 200px;">
-				<div id="office" class="classify">
-					<a href="#" style="color: #FF6600;">办公用品</a>
-				</div>
-				<div id="computer" class="classify">
-					<a href="#" style="color: #FF6600;">电子产品</a>
-				</div>
-				<div id="digital" class="classify">
-					<a href="#" style="color: #FF6600;">数码产品</a>
-				</div>
-				<div id="food" class="classify">
-					<a href="#" style="color: #FF6600;">食品</a>
-				</div>
-				<div id="daily" class="classify">
-					<a href="#" style="color: #FF6600;">生活日用</a>
+
+		<style>
+			.list-item{
+				/*width: 220px;
+				background-color: #FF6666;
+				margin-left:-5px;
+				border-radius: 5px;*/
+
+				height: 40px;
+				transition-duration: 0.4s;
+				margin-bottom: 2px;
+				/*border:1px solid green;*/
+			}
+			.list-item a{
+				float: left;
+				color: white;
+				font-size:15px;
+				margin:9px; 
+			}
+			.list-item img{
+				float: left;margin-left: 25px;margin-top: 5px;
+			}
+			.list-item:hover{
+				background-color: #FFCC33;
+			}
+		</style>
+
+		<div id="chest-row" style="width: 1228px;height: 520px;margin-top: 20px;">
+			<div id="lt-attr" style="width: 215px;height: 520px;background-color: #FD9850;
+			     float: left;border-radius: 5px;margin-right: 5px;">
+				<h3 style="float: left;margin-left: 27px;color: white;margin-bottom: 12px;">优选市场</h3>
+				<div id="attr-list" style="width: inherit;height: 400px;/*border:1px solid black;*/margin-top:60px;">
+					<div class="list-item" id="office">
+						<img src="../pic/office1.png">
+						<a href="#">办公用品</a>
+					</div>
+					<div class="list-item" id="electronic">
+						<img src="../pic/electronic.png">
+						<a href="#">电子产品</a>
+					</div>
+					<div class="list-item" id="sports">
+						<img src="../pic/sports.png">
+						<a href="#">体育用品</a>
+					</div>
+					<div class="list-item" id="food">
+						<img src="../pic/food.png">
+						<a href="#">食物</a>
+					</div>
+					<div class="list-item" id="daily">
+						<img src="../pic/daily.png">
+						<a href="#">日常用品</a>
+					</div>
 				</div>
 			</div>
-			<div class="col-xs-6" style="max-width: 740px;">
-				<div id="myCarousel" class="carousel slide">
-				<!-- 轮播（Carousel）指标 -->
-					<ol class="carousel-indicators">
-						<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-						<li data-target="#myCarousel" data-slide-to="1"></li>
-						<li data-target="#myCarousel" data-slide-to="2"></li>
-					</ol>   
-				<!-- 轮播（Carousel）项目 -->
-					<div class="carousel-inner" style="height: 250px">
-						<div class="item active">
-							<img src="../pic/backgroundimg.PNG" style="height: 250px;width: 500px;" alt="First slide">
+			<div id="rt-panel" style="float: left;width: 1008px;">
+				<div id="cen-show" style="width: 745px;float: left;">
+
+					<style>
+						#adv-con img{height: 130px;width: 177px;margin-right: 6px;float: left;transition-duration: 0.4s;}
+						#adv-con img:hover{opacity: 0.5;}
+	
+						.cart{height: 78px;width: inherit;margin-bottom: 2px;background-color: white;border-top:1px solid #CCCCCC;	border-bottom: 1px solid #CCCCCC;}
+						.cart:hover{color: #FD9850;text-decoration: underline;}
+						.cart img{width: 65px;height: 60px;float: left;margin: 8px;margin-left: 5px;}
+						/*.cart input[type='checkbox']{float: left;margin-top: 30px;margin-left: 10px;}
+						.cart input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 20px;width: 20px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
+						.cart input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -3px -1px;}*/
+						.store input[type='checkbox']{float: left;margin-left: 10px;}
+						.store input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 18px;width: 18px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
+						.store input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -4px -3px;}
+
+						.store .st-name{margin:0;float: left;margin-left:5px;font-size: 14px;margin-top: 3px;}
+						.store .name{width: 120px;float: left;margin:0;margin-top: 20px;font-size: 12px;text-align: left;}
+						.store .price{width: 130px;color: #FD9850;font-size: 12px;float: left;margin:0;text-align: left;}
+						.store .des{color: #CCCCCC;font-size: 10px;float: left;margin:0;width: 130px;text-align: left;}
+						.store .amount{color: #CCCCCC;font-size: 10px;float: left;margin:0;width: 130px;text-align: right;}
+						.store .edit{float:right;font-size: 13px;color: gray;margin-top: 3px;}
+						.store .edit a{font-size: 12px;}
+					</style>
+					<div class="swiper-container" style="height: 330px;margin-left: 10px;float: left;width: inherit;">
+	    				<div class="swiper-wrapper">
+	    	   				<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInRight" swiper-animate-duration="0.5s" 
+	    	   					swiper-animate-delay="0.3s" src="../pic/bk4.png" style="height: 300px;width: 740px;"></div>
+	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInUp" swiper-animate-duration="0.5s" 
+	    	   					swiper-animate-delay="0.3s" src="../pic/beikelogo.png" style="height: 300px;width: 740px;"></div>
+	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s" 
+	    	   					swiper-animate-delay="0.3s" src="../pic/beikeshop.png" style="height: 300px;width: 740px;"></div>
+	    				</div>
+	    				<!-- 如果需要分页器 -->
+	    				<div class="swiper-pagination"></div>
+	    
+	    				<!-- 如果需要导航按钮 -->
+	    				<div class="swiper-button-prev"></div>
+	    				<div class="swiper-button-next"></div>
+	    	
+	    				<!-- 如果需要滚动条 -->
+	    				<div class="swiper-scrollbar"></div>
+					</div>
+				
+					<div id="bot-adv" style="height: 180px;margin-left: 10px;margin-top: 10px;float: left;">
+						<div id="adv-tl" style="width: inherit;height: 40px;border-bottom:2px solid #FD9850;">
+							<p style="font-size: 20px;color: #FD9850;float: left;margin: 0;margin-top: 10px;">热门店铺</p>
+							<p style="font-size: 14px;color: #666666;float: left;margin: 0;margin-top: 15px;margin-left: 10px;">
+								畅销商品，天天上贝壳！</p>
 						</div>
-						<div class="item"><center>
-							<img src="../pic/bk4.png" style="height: 250px;width: 300px;" alt="Second slide">
-						</center></div>
-						<div class="item">
-							<img src="../pic/dom.PNG" style="height: 250px;width: 500px;" alt="Third slide">
+						<div id="adv-con" style="width: inherit;height: 130px;margin-top: 8px;">
+							<a href="#"><img src="./adv.png"></a>
+							<a href="#"><img src="./adv.png"></a>
+							<a href="#"><img src="./adv.png"></a>
+							<a href="#"><img src="./adv.png"></a>
 						</div>
 					</div>
-				<!-- 轮播（Carousel）导航 -->
-					<a class="carousel-control left" href="#myCarousel" 
-	 					data-slide="prev"><div style="width:50px;height:50px;border:2px solid white;border-radius:25px;margin-top:100px;margin-left:10px;font-size:30px;">&lsaquo;</div></a>
-					<a class="carousel-control right" href="#myCarousel" 
-						data-slide="next"><div style="width:50px;height:50px;border:2px solid white;border-radius:25px;margin-top:100px;font-size:30px;">&rsaquo;</div></a>
-					<script>
-						$(function () {
-							$("#myCarousel").carousel({
-								interval:1500
-							});
-						});	
-					</script> 
+				</div>
+
+				<div id="shop-cart" style="float: right;width: 250px;height: 450px;">
+					<div id="cart-hd" style="width: inherit;;height: 40px;border-bottom:2px solid #FD9850;color: #FD9850;">
+						<h3 style="float:left;margin-bottom:10px;margin-top: 10px;">我的购物车</h3>
+					</div>
+					<div id="cart" style="width: inherit;height: 400px;margin-top: 8px;">
+						
+						<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
+							<div style="width: inherit;height: 27px;">
+								<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
+								<p class="st-name">商店1</p>
+								<div class="edit"><a href="#">编辑</a>|<a href="#">删除</a></div>
+							</div>
+							<a href="#"><div class="cart">
+								<input type="checkbox" id="abcd" style="margin-top:30px;" name="choose">
+								<img src="./cover.png">
+								<p class="name">爆款</p>
+								<p class="des">这是描述</p>
+								<p class="price">￥21</p>
+							</div></a>
+						</div>
+						
+						<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
+							<div style="width: inherit;height: 27px;">
+								<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
+								<p class="st-name">商店1</p>
+							</div>
+							<a href="#"><div class="cart">
+								<input type="checkbox" id="abcd" style="margin-top:30px;" name="choose">
+								<img src="./cover.png">
+								<p class="name">爆款</p>
+								<p class="des">这是描述</p>
+								<p class="price">￥21</p>
+							</div></a>
+						</div>
+						<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
+							<div style="width: inherit;height: 27px;">
+								<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
+								<p class="st-name">商店1</p>
+							</div>
+							<a href="#"><div class="cart">
+								<input type="checkbox" id="abcd" style="margin-top:30px;" name="choose">
+								<img src="./cover.png">
+								<p class="name">爆款</p>
+								<p class="des">这是描述</p>
+								<p class="price">￥21</p>
+							</div></a>
+						</div>
+
+						<?php
+						$storeTpl = '<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
+										<div style="width: inherit;height: 27px;">
+											<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
+											<p class="st-name">%s</p>
+											<div class="edit"><a href="%s">编辑</a>|<a href="%s">删除</a></div>
+										</div>
+										%s
+									</div>
+									 ';
+						$cartTpl = '<a href="%s"><div class="cart">
+										<input type="checkbox" style="margin-top:30px;" name="choose">
+										<img src="%s">
+										<p class="name">%s</p>
+										<p class="des">%s</p>
+										<p class="price">￥%s</p>
+										<p class="amount">X%s</p>
+									</div></a>';
+						$cart = sprintf($cartTpl,"#","./adv.png","2016期末试题","描述示范","11","2");
+						$store = sprintf($storeTpl,"商店示范","#","#",$cart);
+						echo $store;
+						?>
+					</div>
+				</div>
+
+				<div id="rep-rank" style="float: right;width: 250px;height: 50px;margin-top:20px;color: #FD9850;border-bottom: 2px solid #FD9850;">
+					<h3 style="float: left;">信誉排行</h3>
 				</div>
 			</div>
 
-			<style>
-				.rt{
-					/*background: linear-gradient(to bottom, rgba(255,204,102,1), rgba(255,153,0,1));*/
-					width: 100%;height: 50px;
-					margin-bottom:10px;
-					font-size: 20px;text-align: center;padding-top: 10px;
-				}
-			</style>
-			<div class="col-xs-2" style="background-color: #EEEEEE;">
-				<div class="rt">
-					<a href="#" class="button button-block button-rounded button-highlight">发布闲置</a>
-				</div>
-				<div class="rt">
-					<a href="#" class="button button-block button-rounded button-highlight">新手教程</a>
-				</div>
-			</div>
-			<div class="col-xs-2" style="background-color: #EEEEEE;margin-top: 20px;padding: 20px;height: 100px;">
-				<p>收录商品数量：</p>
-				<p>总交易量：</p>
-			</div>
-		</div>
+			<div class="attr-show" id="ofi-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">办公用品</div>
+			<div class="attr-show" id="ele-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">电子产品</div>
+			<div class="attr-show" id="spo-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">体育用品</div>
+			<div class="attr-show" id="foo-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">食品</div>
+			<div class="attr-show" id="dai-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">日常用品</div>
+			<script>
+				$(document).mousemove(function(){
+					if ($("#office").is(":hover") || $("#ofi-show").is(":hover")) {
+						$("#ofi-show").css("display","block");
+					}else{
+						$("#ofi-show").css("display","none");
+					}
+					if ($("#electronic").is(":hover") || $("#ele-show").is(":hover")) {
+						$("#ele-show").css("display","block");
+					}else{
+						$("#ele-show").css("display","none");
+					}
+					if ($("#sports").is(":hover") || $("#spo-show").is(":hover")) {
+						$("#spo-show").css("display","block");
+					}else{
+						$("#spo-show").css("display","none");
+					}
+					if ($("#food").is(":hover") || $("#foo-show").is(":hover")) {
+						$("#foo-show").css("display","block");
+					}else{
+						$("#foo-show").css("display","none");
+					}
+					if ($("#daily").is(":hover") || $("#dai-show").is(":hover")) {
+						$("#dai-show").css("display","block");
+					}else{
+						$("#dai-show").css("display","none");
+					}
+				});
+			</script>
 
-		<div class="row"  style="margin-top: 20px;">
-				<div class="col-xs-offset-1 col-xs-7">
-					<ul class="nav nav-tabs">
-  						<li id="new" role="presentation" class="active"><a href="#abc">最新</a></li>
-  						<li id="hot" role="presentation"><a href="#">最热</a></li>
-					</ul>
-				</div>
 		</div>
-		<div class="row">
-			<div class="col-xs-7 col-xs-offset-1">
-				<div class="row" style="margin-top: 20px;">
-					<div id="block1" style="background-color: #EEEEEE;width: 100%;height: 500px;display: block;"></div>
-					<div id="block2" style="background-color: #FFCC66;width: 100%;height: 500px;display: none;"></div>
-				</div>
-			</div>
-			<div class="col-xs-2" style="height: 500px;background-color: #EEEEEE;margin-top: 20px;margin-left: 45px;"></div>
-		</div>
-
+	</center>
+	<center id="goods-show" style="z-index: 1;margin-top: 115px;">
 		<script>
-			$("#new").click(function(){
-				$("#block1").css('display','block');
-				$("#block2").css('display','none');
-				$("#block3").css('display','none');
-				$(".nav li").removeClass("active");
-				$(this).addClass("active");
-			});
-			$("#hot").click(function(){
-				$("#block1").css('display','none');
-				$("#block2").css('display','block');
-				$("#block3").css('display','none');
-				$(".nav li").removeClass("active");	
-				$(this).addClass("active");	
-			});
-		</script>
+		function jud(){
+			if ($("#tabs-1").css("display")=="block") {
+    			$("#tabs1").css("background-color","#FD9850");
+    			$("#tabs2").css("background-color","white");
+    		}else{
+    			$("#tabs2").css("background-color","#FD9850");
+    			$("#tabs1").css("background-color","white");
+    		}
+		}
+  		$(document).ready(function() {
+  			jud();
+    		$( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+    		$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" ).click(function(){
+    			jud();
+    		});
 
-	</div>
+    		var mySwiper = new Swiper ('.swiper-container', {
+    			onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
+    				swiperAnimateCache(swiper); //隐藏动画元素 
+    				swiperAnimate(swiper); //初始化完成开始动画
+  				}, 
+  				onSlideChangeEnd: function(swiper){ 
+    				swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
+  				},
+    			loop: true,
+    
+    			// 如果需要分页器
+    			pagination: '.swiper-pagination',
+    
+    			// 如果需要前进后退按钮
+    			nextButton: '.swiper-button-next',
+    			prevButton: '.swiper-button-prev',
+    
+    			// 如果需要滚动条
+    			scrollbar: '.swiper-scrollbar', 
+    			autoplay: 3000,
+  			});     
+		});
+  		</script>
+  		<style>
+		.goods{
+			color: black;
+			width: 225px;
+			margin:6px;
+			height:250px;
+			border:1px solid #CCCCCC;
+			float: left;
+			border-radius: 5px;
+			transition-duration: 0.4s;
+		}
+		.goods:hover{
+			background-color: #e8e8e8;
+			color: #FD9850;
+		}
+		.goods img{
+			width: 180px;
+			height: 120px;
+			margin-top: 20px;
+		}
+  		</style>
+  		<div style="width: 1228px;">
+			<div id="tabs" style="width:960px;border:none;float: left;">
+  				<ul>
+    				<li id="tabs1"><a href="#tabs-1" >最新</a></li>
+    				<li id="tabs2"><a href="#tabs-2">最热</a></li>
+  				</ul>
+  				<div id="tabs-1" style="height: 500px;padding: 0;">
+					<a href="#"><div class="goods">
+						<img src="./cover.png">
+						<h3>商品示范</h3>
+						<p id="des">这是一段商品的介绍</p>
+					</div></a>
+					<a href="#"><div class="goods">
+						<img src="./cover.png">
+						<h3>商品示范</h3>
+						<p id="des">这是一段商品的介绍</p>
+					</div></a>
+					<a href="#"><div class="goods">
+						<img src="./cover.png">
+						<h3>商品示范</h3>
+						<p id="des">这是一段商品的介绍</p>
+					</div></a>
+					<a href="#"><div class="goods">
+						<img src="./cover.png">
+						<h3>商品示范</h3>
+						<p id="des">这是一段商品的介绍</p>
+					</div></a>
+					<?php
+						$goodsTpl = '<a href=" %s "><div class="goods">
+										<img src=" %s ">
+										<h3>%s</h3>
+										<p id="des">%s</p>
+									</div></a>';
+						$goods = sprintf($goodsTpl,"#","./adv.png","abc","这是一段文字");
+						for ($i=0; $i < 6; $i++) { 
+							echo $goods;
+						}
+					?>
+  				</div>
+  				<div id="tabs-2" style="height: 500px;padding: 0;">
+					最热
+  				</div>
+			</div>
+		</div>
+	</center>
 
+	<!-- <div id="attr-show" style="width: 600px;height: 600px;background-color: green;float: left;z-index: 1;position: absolute;left: 0;height: 0;"></div> -->
 </body>
 </html>
