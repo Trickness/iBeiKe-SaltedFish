@@ -1,3 +1,4 @@
 ./config.php
 ./salted-shell/config.php
 ~*
+salted-shell/test.php

@@ -1,7 +1,4 @@
 <?php
-require_once "../config.php";
-require_once "./utils.php";
-require_once "./authorization.php";
 //error_reporting(0); 
 /**
  * 
@@ -27,34 +24,36 @@ function submit_goods($goods_info, $session_key)
     global $db_goods_table;
     $submiter = get_student_id_from_session_key($session_key);
     if ($submiter){
-        $goods_info = json_decode($goods_info,true);
-
-		$info_json = array();
-		
-		$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error")));
-		$goods_price 	= urlencode(__JSON($goods_info,"price") 		or 	die(generate_error_report("syntax error")));
-		$goods_summary 	= urlencode(__JSON($goods_info,"summary") 		or 	die(generate_error_report("syntax error")));
-		//$goods_images = urlencode(__JSON($goods_info,"images") 		or 	die(generate_error_report("syntax error")));
-		$goods_status 	= __JSON($goods_info,"status") 					or 	die(generate_error_report("syntax error")) ;
-		$goods_type 	= __JSON($goods_info,"type") 					or 	die(generate_error_report("syntax error")) ;
-		//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
-		if(($goods_type != "rent") 		or ($goods_status != "sale"))		die(generate_error_report("syntax error")) ;
-		if(($goods_status!="available") or ($goods_status != "withdrawal"))	die(generate_error_report("syntax error")) ;
-		$submit_date 	= date("Y/m/d");
-        $goods_images = json_encode($goods_images);
-
-        $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-        $sql = "INSERT INTO $db_goods_table
-				(goods_title,	status,			type,		  price,		 submitter,	 submit_date,	 edit_date,		summary) 
-				VALUES 
-				('$goods_title','$goods_status','$goods_type','$goods_price','$submitter','$submit_date','$submit_date','$goods_summary')";
-        $link->query($sql);
-        $link->commit();
-        $link->close();
-        return error_report("success");
+        submit_goods_from_id($goods_info,$submiter);
     }
     else  return error_report("Not logged in");
 };
+function submit_goods_from_id($goods_info,$id){
+	$goods_info = json_decode($goods_info,true);
+
+	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error")));
+	$goods_price 	= urlencode(__JSON($goods_info,"price") 		or 	die(generate_error_report("syntax error")));
+	$goods_summary 	= urlencode(__JSON($goods_info,"summary") 		or 	die(generate_error_report("syntax error")));
+	//$goods_images = urlencode(__JSON($goods_info,"images") 		or 	die(generate_error_report("syntax error")));
+	$goods_status 	= __JSON($goods_info,"status") 					or 	die(generate_error_report("syntax error")) ;
+	$goods_type 	= __JSON($goods_info,"type") 					or 	die(generate_error_report("syntax error")) ;
+	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
+	if(($goods_type != "rent") 		or ($goods_status != "sale"))		die(generate_error_report("syntax error")) ;
+	if(($goods_status!="available") or ($goods_status != "withdrawal"))	die(generate_error_report("syntax error")) ;
+	$submit_date 	= date("Y/m/d");
+	//$goods_images = json_encode($goods_images);
+
+	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+	$sql = "INSERT INTO $db_goods_table
+			(goods_title,	status,			type,		  price,		 submitter,	 submit_date,	 edit_date,		summary) 
+			VALUES 
+			('$goods_title','$goods_status','$goods_type','$goods_price','$submitter','$submit_date','$submit_date','$goods_summary')";
+	$link->query($sql);
+	$link->commit();
+	$link->close();
+	return error_report("success");
+}
+
 /**
  *
  * 评论物品
@@ -148,7 +147,7 @@ function comment_goods($goods_id, $comment, $session_key)
 		return $goods_info;
 	}
 	else
-	{
+	{	
 		$goods_info = json_encode($goods_info);
 		return $goods_info;
 	}
@@ -247,9 +246,26 @@ function update_goods($goods_info, $session_key){
 		$query_1 = mysqli_query($link,$update);
 		mysqli_close($link);
 		return error_report('success');
-	}else{
-		mysqli_close($link);
-		return error_report('Not submitter');
 	}
+}
+
+
+function fetch_goods_submitter($goods_id){
+	global $db_host;
+	global $db_user;
+	global $db_pass;
+	global $db_name;
+	global $db_goods_table;
+
+	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+	$sql = "select * from $db_goods_table where goods_id='$goods_id'";
+	$result = $link->query($sql);
+	if($result){
+		$result = mysqli_query($result);
+		return $result['submitter'];
+	}else{
+		return false;
+	}
+
 }
 ?>
