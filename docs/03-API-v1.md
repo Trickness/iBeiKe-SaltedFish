@@ -5,7 +5,7 @@
 > ?action=login&username=[USERNAME]&password=[PASSWORD]
 
 返回：     
-> 成功：{"status":"success","session":"SESSION"}
+> 成功：{"status":"success","session":[SESSION]}
 
 > 失败 {"status":"failed"}
         
@@ -23,6 +23,14 @@
 
 返回：
 > 本科教学网信息（JSON）      
+
+## 注册[未测试]      
+参数：     
+> ?action=signup&student_id=[STUDENT ID]&password=[PASSWORD]    
+
+返回：
+> 成功：{"status":"success","session":[SESSION]}       
+> 失败：{"status":"failed", "error":"wrong username or password"}  
 
 ## 更新自己信息(未测试)       
 参数：     

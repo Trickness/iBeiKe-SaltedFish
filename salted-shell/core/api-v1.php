@@ -312,6 +312,24 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             echo json_encode(confirm_student($_GET["student_id"],$_GET["password"]));
         else
             die(generate_error_report("Please specify student id and password"));
+    }elseif($action == "signup"){
+        if(isset($_GET['student_id']) and isset($_GET['password'])){
+            $session = user_bind($_GET['student_id'],$_GET['password']);
+            if($session_key){
+                session_unset();
+                session_destroy();
+                session_id($session_key);
+                session_start();
+                echo json_encode(array(
+                    "status" => "success",
+                    "session" => $session_key
+                ));
+            }else{
+                echo generate_error_report("Wrong username or password");
+            }
+        }else{
+            die(generate_error_report("Please specify id and password"));
+        }
     }else{
         die(generate_error_report("Cannot handle your action(Try to login for more actions?)"));
     }

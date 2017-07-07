@@ -26,7 +26,9 @@ function user_bind($original_un,$original_pw,$student_id,$student_pw){
     $bbs_info = confirm_bbs($original_un, $original_pw);
     if($bbs_info == false)
         return false;
-    user_create($student_id,$student_pw,json_encode($student_info));
+    $result = user_create($student_id,$student_pw,json_encode($student_info));
+    if(!$result)
+        return false;
     $session_key = user_login($student_id,$student_pw);
     return $session_key;
 }
