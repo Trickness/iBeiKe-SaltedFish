@@ -3,6 +3,7 @@ require_once "../config.php";
 require_once "utils.php";
 require_once "users.php";
 require_once "authorization.php";
+require_once "orders.php";
 
 // Users main
 /*session_start();
@@ -168,7 +169,7 @@ if (isset($_GET['action']))
                 session_start();
                 $student_id = get_student_id_from_session_key($session_key);
                 $_SESSION['student_id'] = $student_id;
-                echo $student_id;
+                echo $session_key;
             }else echo false;
         }else{
             echo false;
@@ -176,6 +177,36 @@ if (isset($_GET['action']))
     }elseif ($action == "logout") {
         session_unset();
         session_destroy();
+    }elseif ($action == "new_order"){
+        $session = session_id();
+        if(get_student_id_from_session_key($session)){  // logined in
+            if(!isset(
+                    $_GET['goods_id'],
+                    $_GET['deliver_fee'],
+                    $_GET['goods_count'],
+                    $_GET['price_per_goods']
+                )){die("Please check code for usage");}
+            $goods_id = $_GET['goods_id'];
+            $deliver_fee = $_GET['deliver_fee'];
+            $goods_count = $_GET['goods_count'];
+            $price_per_goods = $_GET['price_per_goods'];
+            $order_id = create_order($session, $goods_id, $deliver_fee, $goods_count, $price_per_goods);
+            if($order_id){
+                $result = array(
+                    "status" => "success",
+                    "order_id" => $order_id
+                );
+                echo json_encode($result);
+            }else{
+                $result = array(
+                    "status" => "failed"
+                );
+                echo json_encode($result);
+            }
+
+        }else{
+            die("Access diend");
+        }
     }
 }
 //$usrname = $_GET['id'];

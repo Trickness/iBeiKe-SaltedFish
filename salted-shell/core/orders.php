@@ -20,8 +20,14 @@ function create_order_from_user($submit_user,$goods_id,$deliver_fee,$goods_count
     }
 }
 function create_order($session_key,$goods_id,$deliver_fee,$goods_count,$price_per_goods){
-    if($student_id = get_student_from_session_key($session_key)){
-        return create_order($student_id,$goods_id,$deliver_fee,$goods_count,$price_per_goods);
+    if($student_id = get_student_id_from_session_key($session_key)){
+        $result = create_order_from_user($student_id,$goods_id,$deliver_fee,$goods_count,$price_per_goods);
+        if($result){
+            post_create_order();
+            return $result;
+        }else{
+            return false;
+        }
     }else{
         return false;
     }
@@ -50,7 +56,7 @@ function cancel_order($session_key,$order_id){
     global $db_user;
     global $db_order_table;
 
-    $current = get_student_from_session_key($session_key);
+    $current = get_student_id_from_session_key($session_key);
     if(!$current){
         return false;
     }
@@ -64,6 +70,7 @@ function cancel_order($session_key,$order_id){
         $user_id  = $result['user_id'];
         if($current == $user_id || $current == fetch_goods_submitter($goods_id)){
             cancel_order_($order_id);
+            post_cancel_order();
             return true;
         }else{
             die ("Access dined");
@@ -81,7 +88,7 @@ function complete_order($session_key, $order_id){
     global $db_user;
     global $db_order_table;
 
-    $current = get_student_from_session_key($session_key);
+    $current = get_student_id_from_session_key($session_key);
     if(!$current){
         return false;
     }
@@ -95,10 +102,21 @@ function complete_order($session_key, $order_id){
         $user_id  = $result['user_id'];
         if($current == $user_id || $current == fetch_goods_submitter($goods_id)){
             complete_order_($order_id);
+            post_complete_order();
             return true;
         }else{
             die ("Access dined");
         }
     }
+}
+
+function post_create_order(){
+
+}
+function post_cancel_order(){
+
+}
+function post_complete_order(){
+
 }
 ?>
