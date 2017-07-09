@@ -6,6 +6,7 @@
 	<style>
 		body{
 			margin:0;
+			min-width: 1228px;
 			/*background-color: #e8e8e8;*/
 		}
 		#topbanner{
@@ -14,6 +15,9 @@
 			position: fixed;
 			width: 100%;
 			z-index: 10;
+		}
+		#topbanner a{
+			text-decoration: none;
 		}
 		#logo{
 			margin-left: 18px;
@@ -70,6 +74,9 @@
 		input[name='search']:hover{
 			background-color: #FFCC66;
 		}
+		#main-show,#goods-show{
+			position: absolute;
+		}
 	</style>
 </head>
 <body>
@@ -86,10 +93,18 @@
 		<img id="logo" src="../pic/beikelogo.png">
 		<div id="title">贝壳商城</div>
 		<div id="market-tl" class="top-tl active" style="left: 250px;">商城</div>
-		<div id="users-tl" class="top-tl" style="left: 340px;">个人中心</div>
+		<a href="../users/index.php"><div id="users-tl" class="top-tl" style="left: 340px;">个人中心</div></a>
 	</div>
 	
-	<center id="main-show" style="position: relative;height: 620px;top:100px;z-index: 1;">
+	<script>
+	$(document).ready(function(){
+		var wth = parseInt($("body").css('width').split("px")[0]);
+		console.log((wth-1228)/2);
+		$("#main-show").css("left",(wth-1228)/2);
+		$("#goods-show").css("left",(wth-1228)/2);
+	});
+	</script>
+	<div id="main-show" style="height: 620px;top:100px;z-index: 1;">
 		<div id="head-row" style="width:1228px;height: 20px;">
 			<a href="../login/login.php" style="color: #FD9850;float: left;">请登录</a>
 			<a href="../signin/signin.php" style="margin-left: 5px;float: left;">免费注册</a>
@@ -169,7 +184,7 @@
 				<h3 style="float: left;margin-left: 27px;color: white;margin-bottom: 12px;">优选市场</h3>
 				<div id="attr-list" style="width: inherit;height: 400px;/*border:1px solid black;*/margin-top:60px;">
 					<div class="list-item" id="office">
-						<img src="../pic/office1.png">
+						<img src="../pic/office.png">
 						<a href="#">办公用品</a>
 					</div>
 					<div class="list-item" id="electronic">
@@ -197,21 +212,24 @@
 						#adv-con img{height: 130px;width: 177px;margin-right: 6px;float: left;transition-duration: 0.4s;}
 						#adv-con img:hover{opacity: 0.5;}
 	
-						.cart{height: 78px;width: inherit;margin-bottom: 2px;background-color: white;border-top:1px solid #CCCCCC;	border-bottom: 1px solid #CCCCCC;}
+						.cart{height: 65px;width: inherit;background-color: white;border-top: 1px solid #CCCCCC;border-bottom: 1px solid #CCCCCC;}
 						.cart:hover{color: #FD9850;text-decoration: underline;}
-						.cart img{width: 65px;height: 60px;float: left;margin: 8px;margin-left: 5px;}
+						.cart img{width: 55px;height: 50px;float: left;margin: 8px;margin-left: 5px;}
+						.cart b{width: 30px; float: left;}
 						/*.cart input[type='checkbox']{float: left;margin-top: 30px;margin-left: 10px;}
 						.cart input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 20px;width: 20px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
 						.cart input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -3px -1px;}*/
+						.store{margin-bottom:8px;border: 1px solid #e8e8e8;}
+						.store:hover{box-shadow: 2px 2px 2px #e8e8e8;}
 						.store input[type='checkbox']{float: left;margin-left: 10px;}
 						.store input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 18px;width: 18px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
 						.store input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -4px -3px;}
 
 						.store .st-name{margin:0;float: left;margin-left:5px;font-size: 14px;margin-top: 3px;}
-						.store .name{width: 120px;float: left;margin:0;margin-top: 20px;font-size: 12px;text-align: left;}
+						.store .name{width: 120px;float: left;margin: 0;margin-top: 10px;font-size: 12px;text-align: left;}
 						.store .price{width: 130px;color: #FD9850;font-size: 12px;float: left;margin:0;text-align: left;}
 						.store .des{color: #CCCCCC;font-size: 10px;float: left;margin:0;width: 130px;text-align: left;}
-						.store .amount{color: #CCCCCC;font-size: 10px;float: left;margin:0;width: 130px;text-align: right;}
+						.store .amount{color: #CCCCCC;font-size: 10px;float: left;margin:0;margin-top: 2px;text-align: right;}
 						.store .edit{float:right;font-size: 13px;color: gray;margin-top: 3px;}
 						.store .edit a{font-size: 12px;}
 					</style>
@@ -228,8 +246,8 @@
 	    				<div class="swiper-pagination"></div>
 	    
 	    				<!-- 如果需要导航按钮 -->
-	    				<div class="swiper-button-prev"></div>
-	    				<div class="swiper-button-next"></div>
+	    				<div class="swiper-button-prev swiper-button-white"></div>
+	    				<div class="swiper-button-next swiper-button-white"></div>
 	    	
 	    				<!-- 如果需要滚动条 -->
 	    				<div class="swiper-scrollbar"></div>
@@ -269,7 +287,15 @@
 								<p class="des">这是描述</p>
 								<p class="price">￥21</p>
 							</div></a>
+							<a href="#"><div class="cart">
+								<input type="checkbox" id="abcd" style="margin-top:30px;" name="choose">
+								<img src="./cover.png">
+								<p class="name">爆款</p>
+								<p class="des">这是描述</p>
+								<p class="price">￥21</p>
+							</div></a>
 						</div>
+						
 						
 						<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
 							<div style="width: inherit;height: 27px;">
@@ -284,44 +310,40 @@
 								<p class="price">￥21</p>
 							</div></a>
 						</div>
-						<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
-							<div style="width: inherit;height: 27px;">
-								<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
-								<p class="st-name">商店1</p>
-							</div>
-							<a href="#"><div class="cart">
-								<input type="checkbox" id="abcd" style="margin-top:30px;" name="choose">
-								<img src="./cover.png">
-								<p class="name">爆款</p>
-								<p class="des">这是描述</p>
-								<p class="price">￥21</p>
-							</div></a>
-						</div>
+
 
 						<?php
-						$storeTpl = '<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
-										<div style="width: inherit;height: 27px;">
-											<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
-											<p class="st-name">%s</p>
-											<div class="edit"><a href="%s">编辑</a>|<a href="%s">删除</a></div>
-										</div>
-										%s
-									</div>
-									 ';
-						$cartTpl = '<a href="%s"><div class="cart">
-										<input type="checkbox" style="margin-top:30px;" name="choose">
-										<img src="%s">
-										<p class="name">%s</p>
-										<p class="des">%s</p>
-										<p class="price">￥%s</p>
-										<p class="amount">X%s</p>
-									</div></a>';
-						$cart = sprintf($cartTpl,"#","./adv.png","2016期末试题","描述示范","11","2");
-						$store = sprintf($storeTpl,"商店示范","#","#",$cart);
-						echo $store;
+						// $storeTpl = '<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
+						// 				<div style="width: inherit;height: 27px;">
+						// 					<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
+						// 					<p class="st-name">%s</p>
+						// 					<div class="edit"><a href="%s">编辑</a>|<a href="%s">删除</a></div>
+						// 				</div>
+						// 				%s
+						// 			</div>
+						// 			 ';
+						// $cartTpl = '<a href="%s"><div class="cart">
+						// 				<input type="checkbox" style="margin-top:30px;" name="choose">
+						// 				<img src="%s">
+						// 				<p class="name">%s</p>
+						// 				<p class="des">%s</p>
+						// 				<p class="price">￥%s</p>
+						// 				<p class="amount">X%s</p>
+						// 			</div></a>';
+						// $cart = sprintf($cartTpl,"#","./adv.png","2016期末试题","描述示范","11","2");
+						// $store = sprintf($storeTpl,"商店示范","#","#",$cart);
+						// echo $store;
 						?>
 					</div>
 				</div>
+
+				<script>
+				$(document).ready(function(){
+						$.get("../core/api-main-goods.php",{orders:"cart"},function(data){
+							$("#cart").html(data);
+						})
+					});
+				</script>
 
 				<div id="rep-rank" style="float: right;width: 250px;height: 50px;margin-top:20px;color: #FD9850;border-bottom: 2px solid #FD9850;">
 					<h3 style="float: left;">信誉排行</h3>
@@ -329,6 +351,7 @@
 			</div>
 
 			<div class="attr-show" id="ofi-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">办公用品</div>
+
 			<div class="attr-show" id="ele-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">电子产品</div>
 			<div class="attr-show" id="spo-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">体育用品</div>
 			<div class="attr-show" id="foo-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">食品</div>
@@ -337,6 +360,7 @@
 				$(document).mousemove(function(){
 					if ($("#office").is(":hover") || $("#ofi-show").is(":hover")) {
 						$("#ofi-show").css("display","block");
+						// $("#goods-show").css("top","20px");
 					}else{
 						$("#ofi-show").css("display","none");
 					}
@@ -364,8 +388,8 @@
 			</script>
 
 		</div>
-	</center>
-	<center id="goods-show" style="z-index: 1;margin-top: 115px;">
+	</div>
+	<div id="goods-show" style="z-index: 1;top:740px;">
 		<script>
 		function jud(){
 			if ($("#tabs-1").css("display")=="block") {
@@ -416,6 +440,7 @@
 			float: left;
 			border-radius: 5px;
 			transition-duration: 0.4s;
+			text-align: center;
 		}
 		.goods:hover{
 			background-color: #e8e8e8;
@@ -426,6 +451,8 @@
 			height: 120px;
 			margin-top: 20px;
 		}
+		.goods h2{margin: 0;margin-left: 15px;color: #FD9850;text-align: left;width: 200px;}
+		.goods p{margin: 0;font-size: 12px;text-align: left;color: #404040;width: 170px;height: 40px;margin-left: 25px;}
   		</style>
   		<div style="width: 1228px;">
 			<div id="tabs" style="width:960px;border:none;float: left;">
@@ -436,42 +463,52 @@
   				<div id="tabs-1" style="height: 500px;padding: 0;">
 					<a href="#"><div class="goods">
 						<img src="./cover.png">
-						<h3>商品示范</h3>
-						<p id="des">这是一段商品的介绍</p>
+						<h2>￥21</h2>
+						<p>商品名称12345687897894613fsdfweaf</p>
+						<p>卖家名称</p>
 					</div></a>
 					<a href="#"><div class="goods">
 						<img src="./cover.png">
-						<h3>商品示范</h3>
-						<p id="des">这是一段商品的介绍</p>
+						<h2>￥21</h2>
+						<p>商品名称</p>
+						<p>卖家名称</p>
 					</div></a>
 					<a href="#"><div class="goods">
 						<img src="./cover.png">
-						<h3>商品示范</h3>
-						<p id="des">这是一段商品的介绍</p>
-					</div></a>
-					<a href="#"><div class="goods">
-						<img src="./cover.png">
-						<h3>商品示范</h3>
-						<p id="des">这是一段商品的介绍</p>
+						<h2>￥21</h2>
+						<p>商品名称</p>
+						<p>卖家名称</p>
 					</div></a>
 					<?php
-						$goodsTpl = '<a href=" %s "><div class="goods">
-										<img src=" %s ">
-										<h3>%s</h3>
-										<p id="des">%s</p>
-									</div></a>';
-						$goods = sprintf($goodsTpl,"#","./adv.png","abc","这是一段文字");
-						for ($i=0; $i < 6; $i++) { 
-							echo $goods;
-						}
+						// $goodsTpl = '<a href=" %s "><div class="goods">
+						// 				<img src=" %s ">
+						// 				<h3>%s</h3>
+						// 				<p id="des">%s</p>
+						// 			</div></a>';
+						// $goods = sprintf($goodsTpl,"#","./adv.png","abc","这是一段文字");
+						// for ($i=0; $i < 6; $i++) { 
+						// 	echo $goods;
+						// }
 					?>
   				</div>
   				<div id="tabs-2" style="height: 500px;padding: 0;">
 					最热
   				</div>
+
+				<script>
+					$(document).ready(function(){
+						$.get("../core/api-main-goods.php",{
+							rank:"new",
+							amount:20
+						},function(data){
+							$("#tabs-1").html(data);
+						})
+					});					
+				</script>
+
 			</div>
 		</div>
-	</center>
+	</div>
 
 	<!-- <div id="attr-show" style="width: 600px;height: 600px;background-color: green;float: left;z-index: 1;position: absolute;left: 0;height: 0;"></div> -->
 </body>

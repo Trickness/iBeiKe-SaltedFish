@@ -142,7 +142,9 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['submitter'] 	= $res['submitter'];
 	if (!get_student_id_from_session_key($session_key))	//来宾用户，未登录
 	{
-		$goods_info['submitter'] = $goods_info['submitter'].substr(4)."****";
+		// $goods_info['submitter'] = $goods_info['submitter'].substr(4)."****";
+		$goods_info['submitter'] = substr(trim($goods_info['submitter']),0,4)."****";
+		// 
 		$goods_info = json_encode($goods_info);
 		return $goods_info;
 	}
