@@ -150,7 +150,7 @@
     </center>
     <script>
     $("#login").click(function(){
-        $.post("../core/api-v1.php?action=login",{
+        $.get("../core/api-v1.php?action=login",{
             username:$("#username").val(),
             password:$("#password").val()
         },function(data){
@@ -158,8 +158,9 @@
                 // console.log("failed");
                 $("#status").css("display","block");
             }else{
-                // console.log(data);
-                window.location="../users/index.php?id="+data;
+                // var obj = eval('('+ data +')');
+                // console.log(data['status']);
+                window.location="../users/index.php";
             }
         });
     });

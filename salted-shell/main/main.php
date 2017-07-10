@@ -159,19 +159,19 @@
 				margin-left:-5px;
 				border-radius: 5px;*/
 
-				height: 40px;
+				height: 60px;
 				transition-duration: 0.4s;
-				margin-bottom: 2px;
+				/*margin-bottom: 2px;*/
 				/*border:1px solid green;*/
 			}
 			.list-item a{
 				float: left;
 				color: white;
-				font-size:15px;
-				margin:9px; 
+				font-size:20px;
+				margin:15px; 
 			}
 			.list-item img{
-				float: left;margin-left: 25px;margin-top: 5px;
+				float: left;margin-left: 25px;margin-top: 10px;width: 32px;height: 32px;
 			}
 			.list-item:hover{
 				background-color: #FFCC33;
@@ -179,32 +179,24 @@
 		</style>
 
 		<div id="chest-row" style="width: 1228px;height: 520px;margin-top: 20px;">
-			<div id="lt-attr" style="width: 215px;height: 520px;background-color: #FD9850;
-			     float: left;border-radius: 5px;margin-right: 5px;">
-				<h3 style="float: left;margin-left: 27px;color: white;margin-bottom: 12px;">优选市场</h3>
+			<div id="lt-attr" style="width: 215px;height: 520px;background-color: #FD9850;float: left;border-radius: 5px;margin-right: 5px;">
+				<h3 style="float: left;margin-left: 27px;color: white;margin-bottom: 12px;">商品类目(待议)</h3>
 				<div id="attr-list" style="width: inherit;height: 400px;/*border:1px solid black;*/margin-top:60px;">
-					<div class="list-item" id="office">
-						<img src="../pic/office.png">
-						<a href="#">办公用品</a>
+					<div class="list-item" name="reality">
+						<img src="../pic/bag.png">
+						<a href="#">实体商品</a>
 					</div>
-					<div class="list-item" id="electronic">
-						<img src="../pic/electronic.png">
-						<a href="#">电子产品</a>
+					<div class="list-item" name="virtual">
+						<img src="../pic/cyber.png">
+						<a href="#">非实体商品</a>
 					</div>
-					<div class="list-item" id="sports">
-						<img src="../pic/sports.png">
-						<a href="#">体育用品</a>
-					</div>
-					<div class="list-item" id="food">
-						<img src="../pic/food.png">
-						<a href="#">食物</a>
-					</div>
-					<div class="list-item" id="daily">
-						<img src="../pic/daily.png">
-						<a href="#">日常用品</a>
+					<div class="list-item" name="beikeinfo">
+						<img src="../pic/wave.png">
+						<a href="#">贝壳信息</a>
 					</div>
 				</div>
 			</div>
+
 			<div id="rt-panel" style="float: left;width: 1008px;">
 				<div id="cen-show" style="width: 745px;float: left;">
 
@@ -236,11 +228,11 @@
 					<div class="swiper-container" style="height: 330px;margin-left: 10px;float: left;width: inherit;">
 	    				<div class="swiper-wrapper">
 	    	   				<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInRight" swiper-animate-duration="0.5s" 
-	    	   					swiper-animate-delay="0.3s" src="../pic/bk4.png" style="height: 300px;width: 740px;"></div>
+	    	   					swiper-animate-delay="0.3s" src="./slider1.jpg" style="height: 300px;width: 740px;"></div>
 	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInUp" swiper-animate-duration="0.5s" 
-	    	   					swiper-animate-delay="0.3s" src="../pic/beikelogo.png" style="height: 300px;width: 740px;"></div>
+	    	   					swiper-animate-delay="0.3s" src="./slider2.jpg" style="height: 300px;width: 740px;"></div>
 	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s" 
-	    	   					swiper-animate-delay="0.3s" src="../pic/beikeshop.png" style="height: 300px;width: 740px;"></div>
+	    	   					swiper-animate-delay="0.3s" src="./slider3.jpg" style="height: 300px;width: 740px;"></div>
 	    				</div>
 	    				<!-- 如果需要分页器 -->
 	    				<div class="swiper-pagination"></div>
@@ -350,45 +342,289 @@
 				</div>
 			</div>
 
-			<div class="attr-show" id="ofi-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">办公用品</div>
+			<style>
+				.attr-show{width: 800px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-480px;display: none;border:4px solid #FD9850;border-radius: 5px;}
+				.second-cat{
+					width: inherit;height: 65px;
+				}
+				.cat-tl{
+					width: inherit;height: 30px;border-bottom: 1px solid #FD9850;margin-top: 15px;
+				}
+				.second-cat a{
+					float: left;width: 70px;font-size: 12px;text-align: center;margin-top: 10px;
+				}
+				[name='virtual+'] .second-cat a{width: 180px;height: 100px;margin:0;}
+				[name='beikeinfo+'] .second-cat a{width: 180px;height: 100px;margin:0;}
+				.second-cat img{width: inherit;height: 100px;margin-top: 10px;border-radius: 10px;transition-duration: 0.4s;}
+				.second-cat img:hover{width: 185px;height: 110px;}
+				.attr-show a:hover{color: #FD9850;}
+				.sec-cat{width: 180px;height: inherit;margin-left: 12px;float: left;/*border:1px solid green;*/}
+			</style>
 
-			<div class="attr-show" id="ele-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">电子产品</div>
-			<div class="attr-show" id="spo-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">体育用品</div>
-			<div class="attr-show" id="foo-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">食品</div>
-			<div class="attr-show" id="dai-show" style="width: 700px;height: 370px;background-color: white;float: left;z-index: 1;position: relative;left: 213px;top:-520px;display: none;border:2px solid #FD9850;border-radius: 5px;">日常用品</div>
+			<div class="attr-show" id="vir-show" name="virtual+">
+				<div class="sec-cat">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">轰趴聚会</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#"><img src="../pic/image1/party.png" ></a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">视频</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/camera.png" ></a>
+					</div>
+				</div>
+				<div class="sec-cat">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">北京周边游</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/beijing.png" ></a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">PPT</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/ppt.png" ></a>
+					</div>
+				</div>
+				<div class="sec-cat">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">摄影</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/camera1.png" ></a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">乐器培训</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/instrument.png" ></a>
+					</div>
+				</div>
+				<div class="sec-cat">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">设计</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/design.png" ></a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">其他</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="attr-show" id="inf-show" name="beikeinfo+">
+				<div class="sec-cat">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">校内组织</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#"><img src="../pic/image1/ustb.png" ></a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">赛事</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/camera.png" ></a>
+					</div>
+				</div>
+				<div class="sec-cat">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">组织招新</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/beijing.png" ></a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">讲座</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/ppt.png" ></a>
+					</div>
+				</div>
+				<div class="sec-cat">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">项目招募</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/camera1.png" ></a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">晚会</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/instrument.png" ></a>
+					</div>
+				</div>
+				<div class="sec-cat">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">志愿活动</a>
+					</div>
+					<div class="second-cat" style="margin-bottom: 70px;">
+						<a href="#" style="font-size: 17px;"><img src="../pic/image1/design.png" ></a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">其他</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="attr-show" id="rea-show" name="reality+">
+				<div style="width: 220px;height: inherit;margin-left: 40px;float: left;">
+					<div class="cat-tl">
+						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">开学季</a>
+					</div>
+					<div class="second-cat">
+						<a href="#">全部</a>
+						<a href="#">二手教材书</a>
+						<a href="#">军训用品</a>
+						<a href="#">被子</a>
+						<a href="#">电话卡</a>
+						<a href="#">其他</a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/electronic.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">电子产品</a>
+					</div>
+					<div class="second-cat">
+						<a href="#">全部</a>
+						<a href="#">手机配件</a>
+						<a href="#">电脑配件</a>
+						<a href="#">其他</a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/book.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">书类</a>
+					</div>
+					<div class="second-cat">
+						<a href="#">全部</a>
+						<a href="#">教材</a>
+						<a href="#">课外书</a>
+						<a href="#">杂志订阅</a>
+						<a href="#">GRE</a>
+						<a href="#">雅思托福</a>
+						<a href="#">学霸笔记</a>
+						<a href="#">复习材料</a>
+						<a href="#">其他</a>
+					</div>
+				</div>
+				<div style="width: 220px;height: inherit;margin-left: 40px;float: left;">
+					<div class="cat-tl">
+						<img src="../pic/food.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">吃喝</a>
+					</div>
+					<div class="second-cat">
+						<a href="#">全部</a>
+						<a href="#">零食</a>
+						<a href="#">特产</a>
+						<a href="#">饮品</a>
+						<a href="#">其他</a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/daily.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">生活用品</a>
+					</div>
+					<div class="second-cat">
+						<a href="#">全部</a>
+						<a href="#">床上用品</a>
+						<a href="#">学习用品</a>
+						<a href="#">洗漱用品</a>
+						<a href="#">日常用品</a>
+						<a href="#">其他</a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/cloths.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">服饰</a>
+					</div>
+					<div class="second-cat">
+						<a href="#">全部</a>
+						<a href="#">男装</a>
+						<a href="#">女装</a>
+						<a href="#">鞋</a>
+						<a href="#">帽</a>
+						<a href="#">围巾</a>
+						<a href="#">手套</a>
+						<a href="#">其他</a>
+					</div>
+				</div>
+				<div style="width: 220px;height: inherit;margin-left: 40px;float: left;">
+					<div class="cat-tl">
+						<img src="../pic/music.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">乐器</a>
+					</div>
+					<div class="second-cat">
+						<a href="#">全部</a>
+						<a href="#">吉他</a>
+						<a href="#">小提琴</a>
+						<a href="#">尤克里里</a>
+						<a href="#">口琴</a>
+						<a href="#">其他</a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/sports.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">体育用品</a>
+					</div>
+					<div class="second-cat">
+						<a href="#">全部</a>
+						<a href="#">球类</a>
+						<a href="#">竞技类</a>
+						<a href="#">有氧类</a>
+						<a href="#">健身类</a>
+						<a href="#">其他</a>
+					</div>
+					<div class="cat-tl">
+						<img src="../pic/dress.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">服装定制</a>
+					</div>
+					<div class="second-cat" style="height: 10px;"></div>
+					<div class="cat-tl">
+						<img src="../pic/magnifier.png" style="width: 25px;height: 25px;margin-left:15px;" />
+						<a href="#" style="font-size: 17px;">其他</a>
+					</div>
+					<div class="second-cat" style="height: 10px;"><div>
+				</div>
+			</div>
+			
+			
 			<script>
 				$(document).mousemove(function(){
-					if ($("#office").is(":hover") || $("#ofi-show").is(":hover")) {
-						$("#ofi-show").css("display","block");
-						// $("#goods-show").css("top","20px");
-					}else{
-						$("#ofi-show").css("display","none");
-					}
-					if ($("#electronic").is(":hover") || $("#ele-show").is(":hover")) {
-						$("#ele-show").css("display","block");
-					}else{
-						$("#ele-show").css("display","none");
-					}
-					if ($("#sports").is(":hover") || $("#spo-show").is(":hover")) {
-						$("#spo-show").css("display","block");
-					}else{
-						$("#spo-show").css("display","none");
-					}
-					if ($("#food").is(":hover") || $("#foo-show").is(":hover")) {
-						$("#foo-show").css("display","block");
-					}else{
-						$("#foo-show").css("display","none");
-					}
-					if ($("#daily").is(":hover") || $("#dai-show").is(":hover")) {
-						$("#dai-show").css("display","block");
-					}else{
-						$("#dai-show").css("display","none");
-					}
+					$(".list-item").each(function(){
+						var name = $(this).attr("name");
+						if ($(this).is(":hover")|| $("div[name='"+name+"+']").is(":hover")){
+							$(".attr-show").css("display","none");
+							$("div[name='"+name+"+']").css("display","block");
+							return false;
+						}else{
+							$("div[name='"+name+"+']").css("display","none");
+						}
+					});
 				});
 			</script>
 
 		</div>
-	</div>
+	</div></div></div>
+
 	<div id="goods-show" style="z-index: 1;top:740px;">
 		<script>
 		function jud(){
@@ -509,7 +745,5 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- <div id="attr-show" style="width: 600px;height: 600px;background-color: green;float: left;z-index: 1;position: absolute;left: 0;height: 0;"></div> -->
 </body>
 </html>

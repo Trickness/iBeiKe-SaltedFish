@@ -146,9 +146,9 @@
         require_once "../core/authorization.php";
         require_once "../config.php";
         
-        //$session = session_id();
-        //$student_id = get_student_id_from_session_key($session);
-        $student_id = $_GET['id'];
+        $session = session_id();
+        $student_id = get_student_id_from_session_key($session);
+        // $student_id = $_GET['id'];
 
     ?>
 </head>
