@@ -150,18 +150,23 @@
     </center>
     <script>
     $("#login").click(function(){
-        $.get("../core/api-v1.php?action=login",{
+        $.getJSON("../core/api-v1.php?action=login",{
             username:$("#username").val(),
             password:$("#password").val()
         },function(data){
-            if (!data) {
-                // console.log("failed");
-                $("#status").css("display","block");
-            }else{
-                // var obj = eval('('+ data +')');
-                // console.log(data['status']);
-                window.location="../users/index.php";
+            var status = data.status;
+            switch(status){
+                case "success":
+                    window.location="../users/index.php";
+                    break;
+                case "failed":
+                    $("#status").css("display","block");
+                    break;
+                default:
+                    $("#status").css("display","block");
+                    break;
             }
+                
         });
     });
     </script>
