@@ -285,6 +285,11 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             "status" =>"success",
             "order_id" => $order_id
         ));
+    }elseif ($action == "login") {
+        echo json_encode(array(
+            "status" => "success",
+            "session" => session_id()
+        ));
     }else{
         die(generate_error_report("Please check doc for usage"));
     }
