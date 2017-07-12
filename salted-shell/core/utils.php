@@ -181,6 +181,10 @@ function filter_session_key($session_key){
     $x[0] = implode("",$x[0]);
     return $x[0];
 }
+
+function filter_password($password){
+    return $password;   // TODOS
+}
 /**
  * 
  * 错误报告 
