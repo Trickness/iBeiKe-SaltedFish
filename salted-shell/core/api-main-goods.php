@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once "../core/users.php";
-require_once "../core/utils.php";
-require_once "../core/authorization.php";
+require_once "./users.php";
+require_once "./utils.php";
+require_once "./authorization.php";
 require_once "../config.php";
 require_once "./goods.php";
 // function show_goods($rank,$amount){
@@ -36,6 +36,7 @@ require_once "./goods.php";
 			$good = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
 			$goods = $goods.sprintf($goodsTpl,"#","./adv.png",$good['price'],$good['goods_title'],$good['submitter']);
 		}
+		mysqli_close($link);
 		echo $goods;
 	}elseif (isset($_GET['orders'])) {
 		if ($_GET['orders']=="cart") {
@@ -72,8 +73,9 @@ require_once "./goods.php";
 					echo $store;
 				}
 			}else{
-				return false;
+				echo false;
 			}
+			mysqli_close($link);
 		}
 	}
 ?>

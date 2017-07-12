@@ -28,7 +28,7 @@ function submit_goods($goods_info, $session_key)
     }
     else  return error_report("Not logged in");
 };
-function submit_goods_from_id($goods_info,$id){
+function submit_goods_from_id($goods_info,$submitter){
 	$goods_info = json_decode($goods_info,true);
 
 	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error")));
@@ -146,11 +146,13 @@ function comment_goods($goods_id, $comment, $session_key)
 		$goods_info['submitter'] = substr(trim($goods_info['submitter']),0,4)."****";
 		// 
 		$goods_info = json_encode($goods_info);
+		mysqli_close($link);
 		return $goods_info;
 	}
 	else
 	{	
 		$goods_info = json_encode($goods_info);
+		mysqli_close($link);
 		return $goods_info;
 	}
  }

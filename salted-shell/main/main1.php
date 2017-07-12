@@ -2,6 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<?php 
+		session_start();
+	?>
 	<title>贝壳商城-让你的闲置动起来(O(∩_∩)O)</title>
 	<style>
 		body{
@@ -85,6 +88,28 @@
 			left: 1400px;
 			top:600px;
 		}
+		.goods{
+			color: black;
+			width: 225px;
+			margin:6px;
+			height:250px;
+			border:1px solid #CCCCCC;
+			float: left;
+			border-radius: 5px;
+			transition-duration: 0.4s;
+			text-align: center;
+		}
+		.goods:hover{
+			background-color: #e8e8e8;
+			color: #FD9850;
+		}
+		.goods img{
+			width: 180px;
+			height: 120px;
+			margin-top: 20px;
+		}
+		.goods h2{margin: 0;margin-left: 15px;color: #FD9850;text-align: left;width: 200px;}
+		.goods p{margin: 0;font-size: 12px;text-align: left;color: #404040;width: 170px;height: 40px;margin-left: 25px;}
 	</style>
 </head>
 <body>
@@ -189,7 +214,7 @@
 			}
 		</style>
 
-		<div id="chest-row" style="width: 1228px;height: 520px;margin-top: 20px;">
+		<div id="chest-row" style="width: 1228px;/*height: 520px;*/margin-top: 20px;"></div>
 			<div id="lt-attr" style="width: 215px;height: 520px;background-color: #FD9850;float: left;border-radius: 5px;margin-right: 5px;">
 				<h3 style="float: left;margin-left: 27px;color: white;margin-bottom: 12px;">商品类目(待议)</h3>
 				<div id="attr-list" style="width: inherit;height: 400px;/*border:1px solid black;*/margin-top:60px;">
@@ -209,148 +234,13 @@
 			</div>
 
 			<div id="rt-panel" style="float: left;width: 1008px;">
-				<div id="cen-show" style="width: 745px;float: left;">
-
-					<style>
-						#adv-con img{height: 130px;width: 177px;margin-right: 6px;float: left;transition-duration: 0.4s;}
-						#adv-con img:hover{opacity: 0.5;}
-	
-						.cart{height: 65px;width: inherit;background-color: white;border-top: 1px solid #CCCCCC;border-bottom: 1px solid #CCCCCC;}
-						.cart:hover{color: #FD9850;text-decoration: underline;}
-						.cart img{width: 55px;height: 50px;float: left;margin: 8px;margin-left: 5px;}
-						.cart b{width: 30px; float: left;}
-						/*.cart input[type='checkbox']{float: left;margin-top: 30px;margin-left: 10px;}
-						.cart input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 20px;width: 20px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
-						.cart input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -3px -1px;}*/
-						.store{margin-bottom:8px;border: 1px solid #e8e8e8;}
-						.store:hover{box-shadow: 2px 2px 2px #e8e8e8;}
-						.store input[type='checkbox']{float: left;margin-left: 10px;}
-						.store input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 18px;width: 18px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
-						.store input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -4px -3px;}
-
-						.store .st-name{margin:0;float: left;margin-left:5px;font-size: 14px;margin-top: 3px;}
-						.store .name{width: 120px;float: left;margin: 0;margin-top: 10px;font-size: 12px;text-align: left;}
-						.store .price{width: 130px;color: #FD9850;font-size: 12px;float: left;margin:0;text-align: left;}
-						.store .des{color: #CCCCCC;font-size: 10px;float: left;margin:0;width: 130px;text-align: left;}
-						.store .amount{color: #CCCCCC;font-size: 10px;float: left;margin:0;margin-top: 2px;text-align: right;}
-						.store .edit{float:right;font-size: 13px;color: gray;margin-top: 3px;}
-						.store .edit a{font-size: 12px;}
-					</style>
-					<div class="swiper-container" style="height: 330px;margin-left: 10px;float: left;width: inherit;">
-	    				<div class="swiper-wrapper">
-	    	   				<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInRight" swiper-animate-duration="0.5s" 
-	    	   					swiper-animate-delay="0.3s" src="./slider1.jpg" style="height: 300px;width: 740px;"></div>
-	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInUp" swiper-animate-duration="0.5s" 
-	    	   					swiper-animate-delay="0.3s" src="./slider2.jpg" style="height: 300px;width: 740px;"></div>
-	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s" 
-	    	   					swiper-animate-delay="0.3s" src="./slider3.jpg" style="height: 300px;width: 740px;"></div>
-	    				</div>
-	    				<!-- 如果需要分页器 -->
-	    				<div class="swiper-pagination"></div>
-	    
-	    				<!-- 如果需要导航按钮 -->
-	    				<div class="swiper-button-prev swiper-button-white"></div>
-	    				<div class="swiper-button-next swiper-button-white"></div>
-	    	
-	    				<!-- 如果需要滚动条 -->
-	    				<div class="swiper-scrollbar"></div>
-					</div>
-				
-					<div id="bot-adv" style="height: 180px;margin-left: 10px;margin-top: 10px;float: left;">
-						<div id="adv-tl" style="width: inherit;height: 40px;border-bottom:2px solid #FD9850;">
-							<p style="font-size: 20px;color: #FD9850;float: left;margin: 0;margin-top: 10px;">热门店铺</p>
-							<p style="font-size: 14px;color: #666666;float: left;margin: 0;margin-top: 15px;margin-left: 10px;">
-								畅销商品，天天上贝壳！</p>
-						</div>
-						<div id="adv-con" style="width: inherit;height: 130px;margin-top: 8px;">
-							<a href="#"><img src="./adv.png"></a>
-							<a href="#"><img src="./adv.png"></a>
-							<a href="#"><img src="./adv.png"></a>
-							<a href="#"><img src="./adv.png"></a>
-						</div>
-					</div>
-				</div>
-
-				<div id="shop-cart" style="float: right;width: 250px;height: 450px;">
-					<div id="cart-hd" style="width: inherit;;height: 40px;border-bottom:2px solid #FD9850;color: #FD9850;">
-						<h3 style="float:left;margin-bottom:10px;margin-top: 10px;">我的购物车</h3>
-					</div>
-					<div id="cart" style="width: inherit;height: 400px;margin-top: 8px;">
-						
-						<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
-							<div style="width: inherit;height: 27px;">
-								<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
-								<p class="st-name">商店1</p>
-								<div class="edit"><a href="#">编辑</a>|<a href="#">删除</a></div>
-							</div>
-							<a href="#"><div class="cart">
-								<input type="checkbox" id="abcd" style="margin-top:30px;" name="choose">
-								<img src="./cover.png">
-								<p class="name">爆款</p>
-								<p class="des">这是描述</p>
-								<p class="price">￥21</p>
-							</div></a>
-							<a href="#"><div class="cart">
-								<input type="checkbox" id="abcd" style="margin-top:30px;" name="choose">
-								<img src="./cover.png">
-								<p class="name">爆款</p>
-								<p class="des">这是描述</p>
-								<p class="price">￥21</p>
-							</div></a>
-						</div>
-						
-						
-						<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
-							<div style="width: inherit;height: 27px;">
-								<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
-								<p class="st-name">商店1</p>
-							</div>
-							<a href="#"><div class="cart">
-								<input type="checkbox" id="abcd" style="margin-top:30px;" name="choose">
-								<img src="./cover.png">
-								<p class="name">爆款</p>
-								<p class="des">这是描述</p>
-								<p class="price">￥21</p>
-							</div></a>
-						</div>
-
-
-						<?php
-						// $storeTpl = '<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
-						// 				<div style="width: inherit;height: 27px;">
-						// 					<input type="checkbox" id="abcd" style="margin-top: 8px;" name="choose">
-						// 					<p class="st-name">%s</p>
-						// 					<div class="edit"><a href="%s">编辑</a>|<a href="%s">删除</a></div>
-						// 				</div>
-						// 				%s
-						// 			</div>
-						// 			 ';
-						// $cartTpl = '<a href="%s"><div class="cart">
-						// 				<input type="checkbox" style="margin-top:30px;" name="choose">
-						// 				<img src="%s">
-						// 				<p class="name">%s</p>
-						// 				<p class="des">%s</p>
-						// 				<p class="price">￥%s</p>
-						// 				<p class="amount">X%s</p>
-						// 			</div></a>';
-						// $cart = sprintf($cartTpl,"#","./adv.png","2016期末试题","描述示范","11","2");
-						// $store = sprintf($storeTpl,"商店示范","#","#",$cart);
-						// echo $store;
-						?>
-					</div>
-				</div>
-
-				<script>
-				$(document).ready(function(){
-						$.get("../core/api-main-goods.php",{orders:"cart"},function(data){
-							$("#cart").html(data);
-						})
-					});
-				</script>
-
-				<div id="rep-rank" style="float: right;width: 250px;height: 50px;margin-top:20px;color: #FD9850;border-bottom: 2px solid #FD9850;">
-					<h3 style="float: left;">信誉排行</h3>
-				</div>
+			<?php
+				if (!isset($_GET['list'])) {
+					include "./rt-panel.php";
+				}elseif (isset($_GET['list'])) {
+					include "./rt-list.php";
+				}
+			?>
 			</div>
 
 			<style>
@@ -371,6 +261,12 @@
 				.attr-show a:hover{color: #FD9850;}
 				.sec-cat{width: 180px;height: inherit;margin-left: 12px;float: left;/*border:1px solid green;*/}
 			</style>
+
+			<script>
+			$(document).ready(function(){
+				$(".attr-show").css("top","-"+($("#rt-panel").css("height")));
+			});
+			</script>
 
 			<div class="attr-show" id="vir-show" name="virtual+">
 				<div class="sec-cat">
@@ -436,7 +332,7 @@
 				</div>
 			</div>
 
-			<div class="attr-show" id="inf-show" name="beikeinfo+">
+			<!-- <div class="attr-show" id="inf-show" name="beikeinfo+" style="height: 0;width: 0;">
 				<div class="sec-cat">
 					<div class="cat-tl">
 						<a href="#" style="font-size: 17px;">校内组织</a>
@@ -496,7 +392,9 @@
 						<a href="#" style="font-size: 17px;">其他</a>
 					</div>
 				</div>
-			</div>
+			</div> -->
+
+			<div class="attr-show" id="inf-show" name="beikeinfo+" style="height: 0;width: 0;"></div>
 
 			<div class="attr-show" id="rea-show" name="reality+">
 				<div style="width: 220px;height: inherit;margin-left: 40px;float: left;">
@@ -631,198 +529,14 @@
 				});
 			</script>
 
-		</div>
+		<!-- </div> -->
 	</div></div></div>
 
 
 	<?php
 		if (!isset($_GET['list'])) {
-			
+			include "./goods-show.php";
 		}
 	?>
-	<div id="goods-show" style="z-index: 1;top:740px;">
-		<script>
-		function jud(){
-			if ($("#tabs-1").css("display")=="block") {
-    			$("#tabs1").css("background-color","#FD9850");
-    			$("#tabs2").css("background-color","white");
-    		}else{
-    			$("#tabs2").css("background-color","#FD9850");
-    			$("#tabs1").css("background-color","white");
-    		}
-		}
-  		$(document).ready(function() {
-  			jud();
-    		$( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-    		$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" ).click(function(){
-    			jud();
-    		});
-
-    		var mySwiper = new Swiper ('.swiper-container', {
-    			onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
-    				swiperAnimateCache(swiper); //隐藏动画元素 
-    				swiperAnimate(swiper); //初始化完成开始动画
-  				}, 
-  				onSlideChangeEnd: function(swiper){ 
-    				swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
-  				},
-    			loop: true,
-    
-    			// 如果需要分页器
-    			pagination: '.swiper-pagination',
-    
-    			// 如果需要前进后退按钮
-    			nextButton: '.swiper-button-next',
-    			prevButton: '.swiper-button-prev',
-    
-    			// 如果需要滚动条
-    			scrollbar: '.swiper-scrollbar', 
-    			autoplay: 3000,
-  			});     
-		});
-  		</script>
-  		<style>
-		.goods{
-			color: black;
-			width: 225px;
-			margin:6px;
-			height:250px;
-			border:1px solid #CCCCCC;
-			float: left;
-			border-radius: 5px;
-			transition-duration: 0.4s;
-			text-align: center;
-		}
-		.goods:hover{
-			background-color: #e8e8e8;
-			color: #FD9850;
-		}
-		.goods img{
-			width: 180px;
-			height: 120px;
-			margin-top: 20px;
-		}
-		.goods h2{margin: 0;margin-left: 15px;color: #FD9850;text-align: left;width: 200px;}
-		.goods p{margin: 0;font-size: 12px;text-align: left;color: #404040;width: 170px;height: 40px;margin-left: 25px;}
-		#goods-selector{width: inherit;height: 50px;margin-top: 10px;border-bottom: 2px solid #FD9850;padding-left: 10px;}
-		#goods-selector .panel{width: inherit;height:40px;border-bottom: 1px solid #CCCCCC;padding-left: 40px;}
-		#goods-selector .panel a{margin-right:50px;}
-		#goods-selector .panel div{float: left;width: 100px;margin-top: 9px;}    #goods-selector .panel div:hover{color:#FD9850;}
-		#goods-selector .panel img{width: 32px;height: 32px;margin-right:5px;float: left;}
-		#goods-selector select{height: 35px;width: 130px;border-radius: 5px;font-size: 15px;margin-right: 5px;padding-left: 10px;}
-  		</style>
-  		<div style="width: 1228px;">
-			<div id="tabs" style="width:960px;border:none;float: left;">
-  				<ul>
-    				<li id="tabs1"><a href="#tabs-1" >最新</a></li>
-    				<li id="tabs2"><a href="#tabs-2">最热</a></li>
-  				</ul>
-  				<div id="tabs-1" style="height: 1200px;padding: 0;">
-  					<div id="goods-selector">
-						<!-- <div class="panel">
-							<a href="#"><img src="../pic/bag.png"></img><div>实体商品</div></a>
-							<a href="#"><img src="../pic/cyber.png"></img><div>非实体商品</div></a>
-							<a href="#"><img src="../pic/wave.png"></img><div>贝壳信息</div></a>
-						</div>
-						<div class="panel">
-							<div class="pl-tab" name="rea">
-								<a href="#"><div>开学季</div></a>
-								<a href="#"><div>吃喝</div></a>
-								<a href="#"><div>电子产品</div></a>
-								<a href="#"><div>体育用品</div></a>
-								<a href="#"><div>生活用品</div></a>
-							</div>
-						</div>
-						<div class="panel">
-							
-						</div> -->
-							<select name="fir-cat" id="fir-cat">
-      							<option selected="selected" value="reality">实体商品</option>
-      							<option value="virtual">非实体商品</option>
-    						</select>
-    						<select name="sec-cat" id="sec-cat">
-      							<option selected="selected" value="start">开学季</option>
-      							<option value="electronic">电子产品</option>
-      							<option value="sports">体育用品</option>
-      							<option value="daily">日常用品</option>
-      							<option value="food">吃喝</option>
-      							<option value="book">书类</option>
-      							<option value="cloths">服饰</option>
-      							<option value="dress">服装定制</option>
-      							<option value="instrument">乐器</option>
-      							<option value="others">其他</option>
-      							<!-- <option selected="selected" value="party">轰趴聚会</option><option value="travel">北京周边游</option><option value="photographer">摄影</option><option value="design">设计</option><option value="video">视频</option><option value="ppt">PPT</option><option value="instrument">乐器培训</option> -->
-    						</select>
-    						<input type="submit" name="search-catagory" class="button button-glow button-highlight button-small" value="搜索">
-  					</div>
-					
-					<script>
-					$(document).ready(function(){
-						$("#fir-cat").change(function(){
-							var value = $(this).val();
-							switch (value){
-								case "reality":
-									$("#sec-cat").html('<option selected="selected" value="start">开学季</option><option value="electronic">电子产品</option><option value="sports">体育用品</option><option value="daily">日常用品</option><option value="food">吃喝</option><option value="book">书类</option><option value="cloths">服饰</option><option value="dress">服装定制</option><option value="instrument">乐器</option><option value="others">其他</option>');
-									break;
-								case "virtual":
-									$("#sec-cat").html('<option selected="selected" value="party">轰趴聚会</option><option value="travel">北京周边游</option><option value="photographer">摄影</option><option value="design">设计</option><option value="video">视频</option><option value="ppt">PPT</option><option value="mus-edu">乐器培训</option><option value="others">其他</option>');
-									break;
-								default:
-									break;
-							}
-						});
-					});
-					</script>
-
-  					<div id="tabs1-show">
-						<a href="#"><div class="goods">
-							<img src="./cover.png">
-							<h2>￥21</h2>
-							<p>商品名称12345687897894613fsdfweaf</p>
-							<p>卖家名称</p>
-						</div></a>
-						<a href="#"><div class="goods">
-							<img src="./cover.png">
-							<h2>￥21</h2>
-							<p>商品名称</p>
-							<p>卖家名称</p>
-						</div></a>
-						<a href="#"><div class="goods">
-							<img src="./cover.png">
-							<h2>￥21</h2>
-							<p>商品名称</p>
-							<p>卖家名称</p>
-						</div></a>
-						<?php
-							// $goodsTpl = '<a href=" %s "><div class="goods">
-							// 				<img src=" %s ">
-							// 				<h3>%s</h3>
-							// 				<p id="des">%s</p>
-							// 			</div></a>';
-							// $goods = sprintf($goodsTpl,"#","./adv.png","abc","这是一段文字");
-							// for ($i=0; $i < 6; $i++) { 
-							// 	echo $goods;
-							// }
-						?>
-					</div>
-  				</div>
-  				<div id="tabs-2" style="height: 500px;padding: 0;">
-					最热
-  				</div>
-
-				<script>
-					// $(document).ready(function(){
-					// 	$.get("../core/api-main-goods.php",{
-					// 		rank:"new",
-					// 		amount:20
-					// 	},function(data){
-					// 		$("#tabs1-show").html(data);
-					// 	})
-					// });					
-				</script>
-
-			</div>
-		</div>
-	</div>
 </body>
 </html>
