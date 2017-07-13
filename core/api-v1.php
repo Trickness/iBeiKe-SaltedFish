@@ -15,7 +15,7 @@ if(isset($_GET['action'])){     // 有操作
             session_destroy();
         }else if($action = "fetch_self_info"){
             $result = fetch_self_info(session_id());
-            var_dump(json_decode(base64_decode($result)));
+            echo json_decode(base64_decode($result));
         }
         if($debug_mod)
             echo "<br/><a href='api-v1.php'>返回</a>";

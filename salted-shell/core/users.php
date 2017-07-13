@@ -1,6 +1,6 @@
 <?php
-/*require_once "../config.php";
-require_once "./utils.php";
+//require_once "../config.php";
+/*require_once "./utils.php";
 require_once "./authorization.php";*/
 
 /**
@@ -77,6 +77,25 @@ function user_create($student_id,$password,$student_info){
  *                                  十天后自动失效
  *
  **/
+function check_pass($username,$password){
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_users_table;
+    $username = (int)$username;
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $select = "SELECT * from $db_users_table WHERE student_id = '$username'";
+    $query = mysqli_query($link,$select);
+    $res = mysqli_fetch_assoc($query) or die(generate_error_report("No such user"));
+    $pass_salt = $res['pass_salt'];
+    $password = md5(md5($password).$pass_salt);
+    if($password == $res['student_pass']){
+        return true;
+    }else{
+        return false;
+    }
+}
 function user_login($username,$password){
 	global $db_host;
     global $db_pass;
@@ -87,7 +106,7 @@ function user_login($username,$password){
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
     $select = "SELECT * from $db_users_table WHERE student_id = '$username'";
     $query = mysqli_query($link,$select);
-    $res = mysqli_fetch_assoc($query) or die("No such user");
+    $res = mysqli_fetch_assoc($query) or die(generate_error_report("No such user"));
     $pass_salt = $res['pass_salt'];
     $password = md5(md5($password).$pass_salt);
     if ($password==$res['student_pass']) {
@@ -174,12 +193,11 @@ function fetch_user_info($session_key)
     global $db_name;
     global $db_user;
     global $db_users_table;
-    if ($student_id = get_student_id_from_session_key($session_key))
-        {
+    if ($student_id = get_student_id_from_session_key($session_key)){
             $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
             $select_1 = "SELECT * from $db_users_table WHERE student_id = '$student_id'";
             $result_1 = $link->query($select_1);
-            $res_1 = mysqli_fetch_assoc($result_1) or die("No such user");
+            $res_1 = mysqli_fetch_assoc($result_1) or die(generate_error_report("No such user"));
             $student_info = urldecode($res_1['student_info']);
             $link->close();
             return $student_info;
@@ -200,7 +218,7 @@ function fetch_user_info_from_id($student_id)
         $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
         $select_1 = "SELECT * from $db_users_table WHERE student_id = '$student_id'";
         $result_1 = $link->query($select_1);
-        $res_1 = mysqli_fetch_assoc($result_1) or die("No such user");
+        $res_1 = mysqli_fetch_assoc($result_1) or die(generate_error_report("No such user"));
         $student_info = urldecode($res_1['student_info']);
         $link->close();
         return $student_info;
@@ -237,5 +255,23 @@ function update_user_info($updated_user_info,$user_id)
     return $info_hash;
 }
 
+function change_password($student_id, $new_password){
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_users_table;
+
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $sql = "SELECT pass_salt FROM $db_users_table WHERE student_id='$student_id'";
+    $result = $link->query($sql);
+    $salt = (mysqli_fetch_assoc($result));
+    $salt = $salt['pass_salt'];
+    $new_pass = md5(md5($new_password).$salt);
+    $sql = "UPDATE $db_users_table SET student_pass='$new_pass' WHERE student_id='$student_id'";
+    $link->query($sql);
+    $link->commit();
+    return true;
+} 
 
 ?>

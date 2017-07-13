@@ -56,7 +56,7 @@
     				<li id="tabs2"><a href="#tabs-2">最热</a></li>
   				</ul>
   				<div id="tabs-1" style="height: 1200px;padding: 0;">
-  					<div id="goods-selector">
+  					<!-- <div id="goods-selector"> -->
 						<!-- <div class="panel">
 							<a href="#"><img src="../pic/bag.png"></img><div>实体商品</div></a>
 							<a href="#"><img src="../pic/cyber.png"></img><div>非实体商品</div></a>
@@ -74,7 +74,7 @@
 						<div class="panel">
 							
 						</div> -->
-							<select name="fir-cat" id="fir-cat">
+							<!-- <select name="fir-cat" id="fir-cat">
       							<option selected="selected" value="reality">实体商品</option>
       							<option value="virtual">非实体商品</option>
     						</select>
@@ -90,10 +90,10 @@
       							<option value="instrument">乐器</option>
       							<option value="others">其他</option>
       						</select>
-      							<!-- <option selected="selected" value="party">轰趴聚会</option><option value="travel">北京周边游</option><option value="photographer">摄影</option><option value="design">设计</option><option value="video">视频</option><option value="ppt">PPT</option><option value="instrument">乐器培训</option>
-    						</select>
-    						<input type="submit" name="search-catagory" class="button button-glow button-highlight button-small" value="搜索"> -->
-  					</div>
+      							<option selected="selected" value="party">轰趴聚会</option><option value="travel">北京周边游</option><option value="photographer">摄影</option><option value="design">设计</option><option value="video">视频</option><option value="ppt">PPT</option><option value="instrument">乐器培训</option>
+    						</select> -->
+    						<!-- <input type="submit" name="search-catagory" class="button button-glow button-highlight button-small" value="搜索"> -->
+  					<!-- </div> -->
 					
 					<script>
 					$(document).ready(function(){
@@ -153,7 +153,7 @@
 					$(document).ready(function(){
 						$.get("../core/api-main-goods.php",{
 							rank:"new",
-							amount:20
+							amount:12
 						},function(data){
 							$("#tabs1-show").html(data);
 						})

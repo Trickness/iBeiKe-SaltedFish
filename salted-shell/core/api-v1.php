@@ -227,7 +227,6 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     }elseif($action == "update_self_info"){
         if(isset($_POST['info'])){
             $info = json_decode(fetch_info_from_user($student_id),true);
-            var_dump($info);
             $data = json_decode(urldecode($_POST['info']),true);
             if(isset($data['nickname'])){
                 $info['nickname'] = $data['nickname'];
@@ -290,6 +289,25 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             "status" => "success",
             "session" => session_id()
         ));
+    }elseif($action == "change_password"){
+        if(isset($_GET['original_pass']) && isset($_GET['new_pass'])){
+            $original_pass = filter_password($_GET['original_pass']);
+            $new_pass = filter_password($_GET['new_pass']);
+            if(check_pass($student_id,$original_pass)){
+                if(change_password($student_id,$new_pass)){
+                    echo json_encode(array(
+                        "status" => "success"
+                    ));
+                    // todos: remove all session connected to this account
+                }else{
+                    die("Error occured?");
+                }
+            }else{
+                die("Wrong password");
+            }
+        }else{
+            die(generate_error_report("Please use GET to specify original_pass and new_pass"));
+        }
     }else{
         die(generate_error_report("Please check doc for usage"));
     }
