@@ -402,7 +402,7 @@
                                     opacity:0.5; "></div>
     <div class = "signbbox" style="text-align:center;top: -445px;">
         <div style="position: absolute;width: 500px;height: inherit;">
-            <div class="sign-0" id="switch0" style="display: none;">
+            <div class="sign-0" id="switch0">
                 <p style="margin-top: 60px;font-size: 2em;font-family: Helvetica Neue;color: #FFFFFF;">贝壳商城</p>
                 <p style="font-size: 28px;font-family: Helvetica Neue;color: #FFFFFF;">让你的宝贝动起来！</p>
                 <div style="overflow: hidden;margin-top: 25px;">
@@ -459,7 +459,7 @@
                 <button class="switch" id="bt3" style="margin-top:0px;">下</button>
             </div>
             
-            <div class="sign-3" id="switch3" style="display: block;">
+            <div class="sign-3" id="switch3">
                 <button class="switch" id="bt4">上</button>
                 <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">昵称：</p>
