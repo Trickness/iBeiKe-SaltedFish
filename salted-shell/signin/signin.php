@@ -131,8 +131,7 @@
                 if (nm==""||ps=="")
                         alert("请输入正确的学号和密码！");
                 else
-                {$.get("../core/api-v1.php",{action: "check", id:nm ,psw:ps},function(result){
-                    var data = JSON.parse(result);
+                {$.getJSON("../core/api-v1.php",{action: "check", id:nm ,psw:ps},function(data){
                     if (data==false)
                         alert("请输入正确的学号和密码！");
                     else{
@@ -186,31 +185,44 @@
             background-size: cover;
             background-position: center center;
             background-attachment: fixed;
+            height: 600px;
         }
         .header
         {
-            width: 100%;
-            height: 115px;
+            width: 100%;    /**/
+            height: 70px;
             background: #FFFFFF;
             border-bottom-style: solid;
-            border-bottom-color:#95989A;
+            border-bottom-color: #95989A;
             border-bottom-width: 1px;
         }
         .logo
         {
-            position: absolute;
+            /*position: absolute;
             width: 74px;
             height: 90px;
+            top: 11px;
+            left: 31px;*/
+
+            position: absolute;     /**/
+            width: 50px;
+            height: 50px;
             top: 11px;
             left: 31px;
         }
         .shangcheng
         {
-            position: absolute;
+            /*position: absolute;
             width: 144px;
             height: 48px;
             top: 30px;
-            left: 124px;
+            left: 124px;*/
+
+            position: absolute;     /**/
+            width: 144px;
+            height: 48px;
+            top: 10px;
+            left: 82px;
         }
         .a
         {
@@ -229,20 +241,38 @@
 		}
         .signbbox
         {
-            position: absolute;
+            /*position: absolute;
             left: -moz-calc(50% - 692px/2);
             left: -webkit-calc(50% - 692px/2);
             left: calc(50% - 692px/2);
             top: 253px;
             width: 692px;
             height: 680px;
+            border-radius: 5px;*/
+
+            position: relative;     /**/
+            left: -moz-calc(50% - 692px/2);
+            left: -webkit-calc(50% - 692px/2);
+            left: calc(50% - 500px/2);
+            top: 75px;
+            width: 500px;
+            height: 515px;
             border-radius: 5px;
         }
         .textbox
         {
-            width:543px;
+            /*width:543px;
             height:50px;
             background-color:#FFFFFF;
+            font-family: Helvetica Neue;
+            font-size: 20px;
+            padding-left: 25px;
+            color: #95989A;
+            border-radius: 3px;*/
+
+            width: 335px;   /**/
+            height: 40px;
+            background-color: #FFFFFF;
             font-family: Helvetica Neue;
             font-size: 20px;
             padding-left: 25px;
@@ -251,7 +281,7 @@
         }
         .Submit
         {
-            width: 550px;
+            /*width: 550px;
             height: 69px;
             border-width: 1px;
             border-color: coral;
@@ -262,7 +292,20 @@
             text-align: center;
             color: #FFFFFF;
             transition-duration: 0.4s;
-            bottom:  71px;
+            bottom:  71px;*/
+
+            width: 445px;   /**/
+            height: 50px;
+            border-width: 1px;
+            border-color: coral;
+            border-radius: 5px;
+            background: #FF621C;
+            font-family: Helvetica Neue;
+            font-size: 28px;
+            text-align: center;
+            color: #FFFFFF;
+            transition-duration: 0.4s;
+            bottom: 71px;
         }
         .Submit:hover
         {
@@ -309,10 +352,18 @@
 
         .check
         {
-            font-size: 20px;
+            /*font-size: 20px;
             color: #FFFFFF;
             margin-left: 25px;
             height: 40px;
+            line-height: 40px;
+            margin-top: 0px;
+            margin-bottom: 0px;*/
+
+            font-size: 165%;    /**/
+            color: #FFFFFF;
+            margin-left: 25px;
+            height: 30px;
             line-height: 40px;
             margin-top: 0px;
             margin-bottom: 0px;
@@ -325,10 +376,16 @@
             font-size:165%;
         }
         p.input_hint{
-            float:left;
+            /*float:left;
             line-height:0px;
             text-align:right;
-            width:110px;
+            width:110px;*/
+            
+            font-size: 20px;
+            float: left;    /**/
+            line-height: 0px;
+            text-align: right;
+            margin-left: 35px;
         }
 	</style>
 </head>
@@ -336,107 +393,120 @@
     <div class= "header">
         <img src="../pic/beikelogo.png" class="logo">
         <img src="../pic/beikeshop.png" class = "shangcheng">
-        <div style="float:right;
-                    margin-top:30px;
-                    margin-right:113px;
-                    font-family: Helvetica Neue;
-                    font-size: 36px;">
+        <div style="float: right;margin-top: 13px;margin-right: 38px;font-family: Helvetica Neue;font-size: 20px;">
             <a class="a" herf="#">注册</a>
             <a class="a" herf="#">登陆</a>
         </div>
     </div>
     <div class = "signbbox" style="background: #FF4E00;
                                     opacity:0.5; "></div>
-    <div class = "signbbox" style="text-align:center;">
-        <div style="position: absolute;left: 50px; width:592px;height:inherit;">
-            <div class="sign-0" id="switch0" style="">
-                <p style="
-                    margin-top:60px;
-                  font-size:36px;
-                  font-familt:Helvetica Neue;
-                  color:#FFFFFF;">贝壳商城</p>
-                <p style="
-                  font-size:36px;
-                  font-familt:Helvetica Neue;
-                  color:#FFFFFF;">让你的宝贝动起来！</p>
-                <div style="overflow:hidden;margin-top:100px;">
+    <div class = "signbbox" style="text-align:center;top: -445px;">
+        <div style="position: absolute;width: 500px;height: inherit;">
+            <div class="sign-0" id="switch0" style="display: none;">
+                <p style="margin-top: 60px;font-size: 2em;font-family: Helvetica Neue;color: #FFFFFF;">贝壳商城</p>
+                <p style="font-size: 28px;font-family: Helvetica Neue;color: #FFFFFF;">让你的宝贝动起来！</p>
+                <div style="overflow: hidden;margin-top: 25px;">
                     <p class="input_hint">学号：</p>
-                    <input type="text" placeholder="请输入您的学号" class="textbox" id="scnmbox" style="float:left;width:75%;"/>
+                    <input type="text" placeholder="请输入您的学号" class="textbox" id="scnmbox" style="float:left;"/>
                 </div>
                 <p class="check" id="scnmck"></p>
                 <div style="overflow:hidden">
                     <p class="input_hint">密码：</p>
-                    <input type="password"placeholder="请输入您的本科教学网密码" class="textbox" id="scpsbox" style="float:left;width:75%;"/>
+                    <input type="password"placeholder="请输入您的本科教学网密码" class="textbox" id="scpsbox" style="float:left;"/>
                 </div>
                 <p class="check" id="scpsck"></p>
-                <button class="Submit"id="checkid" style="margin-top:50px;">验证您身份</button>
+                <button class="Submit" id="checkid" style="margin-top:10px;">验证您身份</button>
             </div>
             
             <div class="sign-1" id="switch1">
-                <p style="
-                    margin-top:60px;
-                  font-size:36px;
-                  font-familt:Helvetica Neue;
-                  color:#FFFFFF;">验证成功</p>
-                <p style="
-                  font-size:36px;
-                  font-familt:Helvetica Neue;
-                  color:#FFFFFF;">请确认你的基本信息</p>
+                <p style="margin-top: 40px;font-size: 165%;font-family: Helvetica Neue;color: #FFFFFF;">验证成功</p>
+                <p style="font-size: 20px;font-family: Helvetica Neue;color: #FFFFFF;">请确认你的基本信息</p>
                 <div style="overflow:hidden;">
                     <p class="input_hint">姓名：</p>
-                    <input type="text" class = "textbox" disabled="true" id="name" style="float:left;width:75%;"/>
+                    <input type="text" class = "textbox" disabled="true" id="name" style="float:left;"/>
                 </div>
-                <div style="overflow:hidden;margin-top:27px;">
+                <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">班级：</p>
-                    <input type="text" class = "textbox" disabled="true" id="class_no" style="float:left;width:75%;"/>
+                    <input type="text" class = "textbox" disabled="true" id="class_no" style="float:left;"/>
                 </div>
-                <div style="overflow:hidden;margin-top:27px;">
+                <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">学年：</p>
-                    <input type="text" class = "textbox" disabled="true" id="enroolment" style="float:left;width:75%;" />
+                    <input type="text" class = "textbox" disabled="true" id="enroolment" style="float:left;" />
                 </div>
-                <div style="overflow:hidden;margin-top:27px;">
+                <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">类别：</p>
-                    <input type="text" class = "textbox" disabled="true" id="type" style="float:left;width:75%;" />
+                    <input type="text" class = "textbox" disabled="true" id="type" style="float:left;" />
                 </div>
                 
-                <button class="switch" id="bt1" style="margin-top:40px">下</button>
+                <button class="switch" id="bt1">下</button>
             </div>
             
             <div class="sign-2" id="switch2">
                 <button class="switch" id="bt2" type="button" style="margin-top:60px">上</button>
-                <div style="overflow:hidden;margin-top:27px;">
+                <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">斋号：</p>
-                    <input type="text" placeholder="请输入您的宿舍楼号" class = "textbox" style="float:left;width:75%;" id="dormitory_id"/>
+                    <input type="text" placeholder="请输入您的宿舍楼号" class = "textbox" style="float:left;margin-left:20px;" id="dormitory_id"/>
                 </div>
-                <div style="overflow:hidden;margin-top:27px;">
+                <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">房号：</p>
-                    <input type="text" placeholder="请输入您的宿舍编号" class = "textbox" style="float:left;width:75%;" id="room_no"/>                    
+                    <input type="text" placeholder="请输入您的宿舍编号" class = "textbox" style="float:left;margin-left:20px;" id="room_no"/>                    
                 </div> 
-                <div style="overflow:hidden;margin-top:27px;">
+                <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">手机号：</p>
-                    <input type="text" placeholder="请输入您的手机号码" class = "textbox" style="float:left;width:75%;" id="phone_number"/>
+                    <input type="text" placeholder="请输入您的手机号码" class = "textbox" style="float:left;" id="phone_number"/>
                 </div>
                 <p class="check" id="phmb"></p>
                 <button class="switch" id="bt3" style="margin-top:0px;">下</button>
             </div>
             
-            <div class="sign-3" id="switch3">
-                <button class="switch" id="bt4" style="margin-top:50px;">上</button>
-                <div style="overflow:hidden;margin-top:27px;">
+            <div class="sign-3" id="switch3" style="display: block;">
+                <button class="switch" id="bt4">上</button>
+                <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">昵称：</p>
-                    <input type="text" placeholder="请输入您的昵称" class = "textbox" style="float:left;width:75%;" id="nickname"/>
+                    <input type="text" placeholder="请输入您的昵称" class = "textbox" style="float:left;margin-left: 20px;" id="nickname"/>
                 </div>
-                <div style="overflow:hidden;margin-top:27px;">
+                <div style="overflow:hidden;margin-top:20px;">
                     <p class="input_hint">新密码：</p>
-                    <div style="float:left;width:75%;">
+                    <div style="float:left;">
                         <input type="password" placeholder="请输入您的新密码" class = "textbox" style="width:100%;" id="password"/>
                         <p class="check" id="pswd"></p>
-                        <input type="password" placeholder="请再输入一遍您的新密码" class = "textbox"id="rpassword" style="width:100%;"/>
+                        <input type="password" placeholder="请再输入一遍您的新密码" class = "textbox" id="rpassword" style="width:100%;"/>
                         <p class="check" id="rpswd"></p>
                     </div>
                 </div>
-                <input type="text" placeholder="请输入图片中的验证码" class = "textbox" id="identifycode"/>
-                <button class="Submit" id="signinbutton" style="margin-top:50px;">注册</button>
+                
+                <script>
+                    $(document).ready(function(){
+                        $.get("./captcha/sample/make.php",{action:"getcap"},function(data){
+                            $("#captcha").attr("src",data);
+                        });
+                        $("#captcha").click(function(data){
+                            $.get("./captcha/sample/make.php",{action:"getcap"},function(data){
+                                $("#captcha").attr("src",data);
+                            });
+                        });
+                        $("#pha").change(function(){
+                            $.get("./captcha/sample/make.php",{
+                                action:"check",
+                                phr:$("#pha").val()
+                            },function(data){
+                                if (data==true) {
+                                    $("#check-result").text("验证码正确");
+                                }else{
+                                    $("#check-result").text("验证码错误");
+                                }
+                            })
+                        });
+                    });
+                </script>
+
+                <img id="captcha" src="#" alt="验证码图片" style="float: left;width: 136px;height: 40px;margin-left: 30px;" />
+                <input type="text" id="pha" placeholder="请输入图片中的验证码" style="width:255px;" class = "textbox" id="identifycode"/>
+                <div style="float: left;margin-left: 30px;margin-top: 15px;color: white;font-size: 14px;">
+                    <div id="captcha-tips" style="float: left;">点击图片，可更换验证码</div>
+                    <div id="check-result" style="float: left;margin-left: 30px;color: yellow;"></div>
+                </div>
+                <button class="Submit" id="signinbutton" style="margin-top:20px;">注册</button>
             </div>
             <div class="sign-4" id="switch4">
                 <p style="

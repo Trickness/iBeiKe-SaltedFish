@@ -125,17 +125,7 @@
 
 	<div id="go-back"><a href="#main-show">回到顶端</a></div>
 
-	<?php
-		$main_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
-		$main_url = explode("?",$main_url)[0];
-	?>
-
-	<div id="topbanner">
-		<img id="logo" src="../pic/beikelogo.png">
-		<a href="<?php echo $main_url; ?>"><div id="title">贝壳商城</div></a>
-		<div id="market-tl" class="top-tl active" style="left: 250px;">商城</div>
-		<a href="../users/index.php"><div id="users-tl" class="top-tl" style="left: 340px;">个人中心</div></a>
-	</div>
+	<?php include "../frame/head_user.php"; ?>
 	
 	<script>
 	$(document).ready(function(){
@@ -143,6 +133,7 @@
 		console.log((wth-1228)/2);
 		$("#main-show").css("left",(wth-1228)/2);
 		$("#goods-show").css("left",(wth-1228)/2);
+		$("#market-tl").addClass("active");
 	});
 	</script>
 	<div id="main-show" style="height: 620px;top:100px;z-index: 1;">

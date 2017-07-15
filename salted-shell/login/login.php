@@ -157,12 +157,16 @@
             var status = data.status;
             switch(status){
                 case "success":
+                    console.log(status);
                     window.location="../users/index.php";
                     break;
                 case "failed":
+                    console.log(status);
+                    console.log(data.error);
                     $("#status").css("display","block");
                     break;
                 default:
+                    console.log(status);
                     $("#status").css("display","block");
                     break;
             }
