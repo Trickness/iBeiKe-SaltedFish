@@ -11,4 +11,8 @@ $db_session_table = "sessions";
 
 $debug_mod = false;
 
+$addons = array(
+    "ueditor" => "../addons/ueditor/php"
+);
+
 ?>

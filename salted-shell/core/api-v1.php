@@ -308,6 +308,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }else{
             die(generate_error_report("Please use GET to specify original_pass and new_pass"));
         }
+    }elseif($action == "submit_goods"){
     }else{
         die(generate_error_report("Please check doc for usage"));
     }
