@@ -224,7 +224,7 @@
 					</div>
 					<div class="list-item" name="beikeinfo">
 						<img src="../pic/wave.png">
-						<a href="?catagory=beikeinfo" id="beikeinfo">贝壳信息</a>
+						<a href="../info/info.php" id="beikeinfo">贝壳信息</a>
 					</div>
 				</div>
 			</div>

@@ -10,13 +10,13 @@
 		a:hover{color: #FD9850;}
 		#head-row{position: absolute;top: 130px;height: 400px;width: 965px;}
 		#user-info{float: left;width: 165px;height: inherit;}
-		#info{width: 180px;height: 265px;padding-left: 20px;}
+		#info{width: 160px;height: 265px;padding-left: 20px;}
 
 		#cen-row{float: left;height: inherit;width: 780px;}
 		#cen-bottom{float: left;border-bottom: 2px solid #FD9850;width: 750px;margin-top: 10px;margin-left: 20px;}
-		#bottom-tl{font-size: 22px;float: left;margin-bottom: 5px;}
-		#rt-new{width: 250px;height: inherit;position: absolute;top: 130px;height: 1000px;}
-		#new-tl{border-bottom: 2px solid #FD9850;font-size: 22px;padding-bottom: 10px;width: inherit;}
+		#bottom-tl{font-size: 22px;float: left;margin-bottom: 5px;color: #FD9850;}
+		#rt-new{width: 250px;height: inherit;position: absolute;top: 120px;height: 1000px;}
+		#new-tl{border-bottom: 2px solid #FD9850;font-size: 22px;padding-bottom: 10px;width: inherit;color: #FD9850;}
 
 		#recent{position: absolute;top: 530px;width: 780px;height: 600px;}
 	</style>
@@ -29,7 +29,6 @@
         require_once "../config.php";
         
         $session = session_id();
-        // $self_info = fetch_self_info($session);
 	?>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -38,6 +37,8 @@
 	<script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../css/animate.min.css">
 	<script src="../js/swiper.animate1.0.2.min.js"></script>
+	<link href="https://cdn.bootcss.com/Buttons/2.0.0/css/buttons.min.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/Buttons/2.0.0/js/buttons.min.js"></script>
 
 	<script>
 	$(document).ready(function(){
@@ -59,34 +60,92 @@
 			<style>
 				#head-info,#basic-info{line-height: 25px;}
 				#basic-tl{color:#FD9850;font-size: 18px;margin-top: 10px;margin-bottom: 10px;}
+				#info label{float: left;}
+				.info-item{height: 22px;}
 			</style>
 			<div id="info">
 				<div id="head-info">
-					ID:<br>
-					昵称:<br>
+					<div><label>ID:</label><span id="student_id" class="info-item"></span><br></div>
+					<div><label>昵称:</label><span id="nickname" class="info-item"></span><br></div>
 				</div>
 				<div id="basic-tl"><b>基本信息</b></div>
 				<div id="basic-info">
-					姓名:<br>
-					学生类别:<br>
-					性别:<br>
-					生日:<br>
-					宿舍:<br>
-					手机号:
+					<div><label>姓名:</label><span id="name" class="info-item"></span><br></div>
+					<div><label>学生类别:</label><span id="type" class="info-item"></span><br></div>
+					<div><label>性别:</label><span id="gender" class="info-item"></span><br></div>
+					<div><label>生日:</label><span id="birthday" class="info-item"></span><br></div>
+					<div><label>宿舍:</label><span id="dormitory" class="info-item"></span><br></div>
+					<div><label>手机号:</label><span id="phone_number" class="info-item"></span></div>
 				</div>
+			</div>
+			<div id="info-bottom" style="padding-left: 30px;">
+				<button id="change-info" class="button button-action button-rounded button-highlight button-small button-longshadow-left" >
+					修改信息</button>
+				<button id="update-info" style="display: none;margin-bottom: 5px;" class="button button-action button-rounded 
+					button-highlight button-tiny button-longshadow-left">提交</button>
+				<button id="update-cancel" style="display: none;" class="button button-action button-rounded button-highlight button-tiny 
+					button-longshadow-left">取消</button>
 			</div>
 
 			<script>
+				var self_info = "";
 				$(document).ready(function(){
-					$.getJSON("../core/api-users-info.php?action=self",{session:"<?php echo $session;?>"},function(data){
-						$("#head-info").html("ID:"+data.student_id+"<br>"+"昵称:"+data.nickname);
-						$("#basic-info").html("姓名:"+data.name+"<br>"+
-											  "学生类别:"+data.type+"<br>"+
-											  "性别:"+data.gender+"<br>"+
-											  "生日:"+data.birthday+"<br>"+
-											  "宿舍:"+data.dormitory.dormitory_id+"#"+data.dormitory.room_no+"<br>"+
-											  "手机号:"+data.phone_number
-							);
+					function change_info(data){
+						$("#student_id").html(data.student_id);
+						$("#nickname").html(data.nickname);
+						$("#name").html(data.name);
+						$("#type").html(data.type);
+						$("#gender").html(data.gender);
+						$("#birthday").html(data.birthday);
+						$("#dormitory").html(data.dormitory);
+						$("#phone_number").html(data.phone_number);
+					}
+
+					$.getJSON("../core/api-users-info.php?action=self",function(data){
+						self_info = data;
+						self_info.dormitory = self_info.dormitory.dormitory_id+"#"+self_info.dormitory.room_no;
+						change_info(self_info);
+					});
+					$("#change-info").click(function(){
+						$(".info-item").each(function(){
+							$(this).css("float","right");
+							$(this).html("<input type='text' class='item' name='"+$(this).attr("id")+"' style='width:85px;margin:0;' value='"+self_info[$(this).attr("id")]+"' />");
+						});
+						$(this).css('display','none');
+						$("#update-info").css("display","block");
+						$("#update-cancel").css("display","block");
+						$("#info-bottom").css("padding-left","70px");
+					});
+					$("#update-cancel").click(function(){
+						change_info(self_info);
+						$(".info-item").css("float","left");
+						$(this).css('display','none');
+						$("#update-info").css("display","none");
+						$("#change-info").css("display","block");
+						$("#info-bottom").css("padding-left","30px");
+					});
+					$("#update-info").click(function(){
+						var new_info = self_info;
+						$(".item").each(function(){
+							if ($(this).attr('name')=="dormitory") {
+								var dom_info =  $(this).val().split("#");
+								dom_info = {dormitory_id:dom_info[0],room_no:dom_info[1]};
+								new_info[$(this).attr('name')] = dom_info;
+							}else{
+								new_info[$(this).attr('name')] = $(this).val();
+							}
+						});
+						$.get("../core/api-users-info.php?action=update",{user_info:JSON.stringify(new_info)},function(data){
+							if (data!=false) {
+								new_info.dormitory = new_info.dormitory.dormitory_id+"#"+new_info.dormitory.room_no;
+								change_info(new_info);
+								$(".info-item").css("float","left");
+								$("#update-cancel").css('display','none');
+								$("#update-info").css("display","none");
+								$("#change-info").css("display","block");
+								$("#info-bottom").css("padding-left","30px");
+							}
+						});
 					});
 				});
 			</script>

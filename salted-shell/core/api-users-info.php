@@ -13,13 +13,8 @@ global $db_goods_table;
 session_start();
 if (isset($_GET['action'])) {
 	if ($_GET['action']=="self") {
-		if (isset($_GET['session'])) {
-			$session = $_GET['session'];
-			echo fetch_self_info($session);
-			// var_dump(json_decode(fetch_self_info($session),true));
-		}else{
-			echo fetch_self_info("123");
-		}
+		$session = session_id();
+		echo fetch_self_info($session);
 	}elseif ($_GET['action']=="new") {
 		$goods_list = "";
 		$newTpl = '<a href="%s"><div class="new-item">
@@ -37,6 +32,24 @@ if (isset($_GET['action'])) {
 		}
 		echo $goods_list;
 		mysqli_close($link);
+	}elseif ($_GET['action']=="update") {
+		if (isset($_GET['user_info'])) {
+			echo update_user_info($_GET['user_info'],session_id());
+		}else{
+			echo false;
+		}
+	}elseif ($_GET['action']=="one_col") {
+		$student_info = fetch_self_info(session_id());
+		if (isset($_GET['col'])) {
+			$col = $_GET['col'];
+			if ($student_info) {
+				$student_info = json_decode($student_info,true);
+				echo $student_info[$col];
+			}else{
+				echo false;
+			}
+		}else echo false;
+		// echo $student_info;
 	}
 }
 ?>

@@ -61,7 +61,7 @@
 					</div>
 				</div>
 
-				<div id="shop-cart" style="float: right;width: 250px;height: 450px;">
+				<div id="shop-cart" style="float: right;width: 250px;height: 450px;position: relative;top:-16px;">
 					<div id="cart-hd" style="width: inherit;;height: 40px;border-bottom:2px solid #FD9850;color: #FD9850;">
 						<h3 style="float:left;margin-bottom:10px;margin-top: 10px;">我的购物车</h3>
 					</div>

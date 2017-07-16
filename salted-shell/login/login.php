@@ -127,8 +127,8 @@
         <img src="../pic/beikelogo.png" class="logo">
         <img src="../pic/beikeshop.png" class = "shangcheng">
         <div style="float: right;margin-top: 13px;margin-right: 38px;font-family: Helvetica Neue;font-size: 20px;">
-            <a class="a" herf="#">注册</a>
-            <a class="a" herf="#">登陆</a>
+            <a class="a" href="../signin/signin.php">注册</a>
+            <a class="a" href="../login/login.php">登陆</a>
         </div> 
     </div>
     <center style="height: 600px;">
