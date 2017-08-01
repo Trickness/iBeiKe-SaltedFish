@@ -52,6 +52,27 @@
 			z-index: -1;
 		}
 </style>
+<script>
+	$("#logout-tl").click(function(){
+		$.getJSON("../core/api-v1.php?action=logout",{}
+		,function(data){
+            var status = data.status;
+            switch(status){
+                case "success":
+                    console.log(status);
+                    window.location="../login/login.php";
+                    break;
+                case "failed":
+                    console.log(status);
+                    console.log(data.error);
+                    break;
+                default:
+                    console.log(status);
+                    break;
+            }
+		})
+	});
+</script>
 <?php
 		// $main_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
 		// $main_url = explode("?",$main_url)[0];
@@ -62,4 +83,5 @@
 		<a href="../main/main.php"><div id="title">贝壳商城</div></a>
 		<a href="../main/main.php"><div id="market-tl" class="top-tl" style="left: 250px;">商城</div></a>
 		<a href="../users/index.php"><div id="users-tl" class="top-tl" style="left: 340px;">个人中心</div></a>
+		<a id="logout-tl" href="../core/api-v1.php?action=logout"><div class="top-tl" style="left: 480px;align:right;">注销</div></a>
 	</div>

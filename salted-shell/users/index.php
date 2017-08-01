@@ -79,13 +79,13 @@
 			<script>
 				$(document).ready(function(){
 					$.getJSON("../core/api-users-info.php?action=self",{session:"<?php echo $session;?>"},function(data){
-						$("#head-info").html("ID:"+data.student_id+"<br>"+"昵称:"+data.nickname);
-						$("#basic-info").html("姓名:"+data.name+"<br>"+
-											  "学生类别:"+data.type+"<br>"+
-											  "性别:"+data.gender+"<br>"+
-											  "生日:"+data.birthday+"<br>"+
-											  "宿舍:"+data.dormitory.dormitory_id+"#"+data.dormitory.room_no+"<br>"+
-											  "手机号:"+data.phone_number
+						console.log(data);
+						$("#head-info").html("ID:"+data.student_id.value+"<br>"+"昵称:"+data.nickname);
+						$("#basic-info").html("姓名:"+data.name.value+"<br>"+
+											  "学生类别:"+data.type.value+"<br>"+
+											  "性别:"+data.gender.value+"<br>"+
+											  "生日:"+data.birthday.value+"<br>"+
+											  "宿舍:"+data.dormitory.dormitory_id+"#"+data.dormitory.room_no+"<br>"
 							);
 					});
 				});
