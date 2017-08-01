@@ -58,11 +58,36 @@
 		#sign-info a:hover{margin: -5px; font-size: 30px;}
 		/*#sign-tl img:hover{height: 60px;width: 60px;border-radius: 30px;margin-left: -5px;margin-top:-5px;}*/
 </style>
+
+<script>
+	$("#logout-tl").click(function(){
+		$.getJSON("../core/api-v1.php?action=logout",{}
+		,function(data){
+            var status = data.status;
+            switch(status){
+                case "success":
+                    console.log(status);
+                    window.location="../login/login.php";
+                    break;
+                case "failed":
+                    console.log(status);
+                    console.log(data.error);
+                    break;
+                default:
+                    console.log(status);
+                    break;
+            }
+		})
+	});
+</script>
+
+
 	<div id="topbanner">
 		<img id="logo" src="../pic/beikelogo.png">
 		<a href="../main/main.php"><div id="title">贝壳商城</div></a>
 		<a href="../main/main.php"><div id="market-tl" class="top-tl" style="left: 250px;">商城</div></a>
 		<a href="../users/index.php"><div id="users-tl" class="top-tl" style="left: 340px;">个人中心</div></a>
+
 		<a href="../info/info.php"><div id="info-tl" class="top-tl" style="left: 465px;">信息中心</div></a>
 		<div id="sign-tl">
 			<img src="../main/cover.png">
@@ -81,4 +106,5 @@
 				})
 			});
 		</script>
+		<a id="logout-tl" href="../core/api-v1.php?action=logout"><div class="top-tl" style="left: 590px;align:right;">注销</div></a>
 	</div>

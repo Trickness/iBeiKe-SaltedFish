@@ -75,7 +75,6 @@
 					<div><label>性别:</label><span id="gender" class="info-item"></span><br></div>
 					<div><label>生日:</label><span id="birthday" class="info-item"></span><br></div>
 					<div><label>宿舍:</label><span id="dormitory" class="info-item"></span><br></div>
-					<div><label>手机号:</label><span id="phone_number" class="info-item"></span></div>
 				</div>
 			</div>
 			<div id="info-bottom" style="padding-left: 30px;">
@@ -145,6 +144,16 @@
 								$("#change-info").css("display","block");
 								$("#info-bottom").css("padding-left","30px");
 							}
+						});
+						$.getJSON("../core/api-users-info.php?action=self",{session:"<?php echo $session;?>"},function(data){
+							console.log(data);
+							$("#head-info").html("ID:"+data.student_id.value+"<br>"+"昵称:"+data.nickname);
+							$("#basic-info").html("姓名:"+data.name.value+"<br>"+
+											  "学生类别:"+data.type.value+"<br>"+
+											  "性别:"+data.gender.value+"<br>"+
+											  "生日:"+data.birthday.value+"<br>"+
+											  "宿舍:"+data.dormitory.dormitory_id+"#"+data.dormitory.room_no+"<br>"
+							);
 						});
 					});
 				});
