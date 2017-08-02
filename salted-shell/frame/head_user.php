@@ -76,10 +76,12 @@
 <?php
 		// $main_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
 		// $main_url = explode("?",$main_url)[0];
+		require_once '../config.php';
 		require_once '../core/authorization.php';
 		require_once '../core/utils.php';
 		if(!session_id())
 			session_start();
+
 		if(!get_student_id_from_session_key(session_id()))
 			die(generate_error_report("You haven't logined!"));
 	?>

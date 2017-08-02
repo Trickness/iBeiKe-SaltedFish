@@ -29,17 +29,26 @@ function submit_goods($goods_info, $session_key)
     else  return error_report("Not logged in");
 };
 function submit_goods_from_id($goods_info,$submitter){
+	global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_goods_table;
 	$goods_info = json_decode($goods_info,true);
 
-	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error")));
-	$goods_price 	= urlencode(__JSON($goods_info,"price") 		or 	die(generate_error_report("syntax error")));
-	$goods_summary 	= urlencode(__JSON($goods_info,"summary") 		or 	die(generate_error_report("syntax error")));
+	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error1")));
+	$goods_price 	= urlencode(__JSON($goods_info,"price") 		or 	die(generate_error_report("syntax error2")));
+	//$goods_summary 	= urlencode(__JSON($goods_info,"summary") 	or 	die(generate_error_report("syntax error")));
 	//$goods_images = urlencode(__JSON($goods_info,"images") 		or 	die(generate_error_report("syntax error")));
-	$goods_status 	= __JSON($goods_info,"status") 					or 	die(generate_error_report("syntax error")) ;
-	$goods_type 	= __JSON($goods_info,"type") 					or 	die(generate_error_report("syntax error")) ;
+	$goods_status 	= __JSON($goods_info,"status") 					or 	die(generate_error_report("syntax error3")) ;
+	$goods_type 	= __JSON($goods_info,"type") 					or 	die(generate_error_report("syntax error4")) ;
+	$goods_tags 	= __JSON($goods_info,"tags") 					or 	die(generate_error_report("syntax error7")) ;
+
 	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
-	if(($goods_type != "rent") 		or ($goods_status != "sale"))		die(generate_error_report("syntax error")) ;
-	if(($goods_status!="available") or ($goods_status != "withdrawal"))	die(generate_error_report("syntax error")) ;
+	$goods_summary  = mb_substr(__JSON($goods_info,"content"),0,100,"utf-8");
+	var_dump($goods_type);
+	if(($goods_type != "rent") 	    and($goods_status != "sale"))		die(generate_error_report("syntax error5")) ;
+	if(($goods_status!="available") and($goods_status != "withdrawal"))	die(generate_error_report("syntax error6")) ;
 	$submit_date 	= date("Y/m/d");
 	//$goods_images = json_encode($goods_images);
 
@@ -48,10 +57,13 @@ function submit_goods_from_id($goods_info,$submitter){
 			(goods_title,	status,			type,		  price,		 submitter,	 submit_date,	 edit_date,		summary) 
 			VALUES 
 			('$goods_title','$goods_status','$goods_type','$goods_price','$submitter','$submit_date','$submit_date','$goods_summary')";
+	var_dump($sql);
 	$link->query($sql);
 	$link->commit();
 	$link->close();
-	return error_report("success");
+	return json_encode(array(
+		"status" => "success"
+	));
 }
 
 /**
