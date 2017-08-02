@@ -125,7 +125,7 @@
 
 	<div id="go-back"><a href="#main-show">回到顶端</a></div>
 
-	<?php include "../frame/head_user.php"; ?>
+	<?php  include "../frame/head_user.php"; ?>
 	
 	<script>
 	$(document).ready(function(){

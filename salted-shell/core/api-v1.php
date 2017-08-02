@@ -308,7 +308,10 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }else{
             die(generate_error_report("Please use GET to specify original_pass and new_pass"));
         }
-    }elseif($action == "submit_goods"){
+    }elseif($action == "submit_goods"){     // Todo: 输入检查注意
+        $json_data = $_POST['goods_info'];
+        echo submit_goods_from_id($json_data, $student_id);
+        
     }else{
         die(generate_error_report("Please check doc for usage"));
     }
