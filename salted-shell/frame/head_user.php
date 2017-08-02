@@ -3,6 +3,7 @@
 			background-color: rgb(253,152,80);
 			height: 75px;
 			position: fixed;
+			top:0;
 			width: 100%;
 			z-index: 10;
 		}

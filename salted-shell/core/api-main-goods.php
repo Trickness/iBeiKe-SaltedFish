@@ -53,12 +53,11 @@ require_once "./goods.php";
 										<input type="checkbox" style="margin-top:30px;" name="choose">
 										<img src="%s">
 										<p class="name">%s</p>
-										<p class="des">%s</p>
 										<p class="price"><b>￥%s</b><b class="amount">X%s</b></p>
 									</div></a>';
 
 			$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-			$session_key = "2tf8acott323vkwes50pe6b1okafw9qt";
+			$session_key = session_id();
 			$student_id = get_student_id_from_session_key($session_key);
 			if ($student_id) {
 				$sql = "SELECT * FROM $db_order_table WHERE user_id = '$student_id' ORDER BY submit_time DESC LIMIT 0,4";
@@ -68,7 +67,7 @@ require_once "./goods.php";
 					$good = json_decode(fetch_goods_info($res['goods_id'],$session_key),true);
 					// $cost = $res['price_per_goodse']*$res['goods_count']+$res['deliver_fee'];
 
-					$cart_item = sprintf($cartTpl,"#","./adv.png",$good['goods_title'],$good['summary'],$res['price_per_goods'],$res['goods_count']);
+					$cart_item = sprintf($cartTpl,"#","./adv.png",$good['goods_title'],$res['price_per_goods'],$res['goods_count']);
 					$store = sprintf($storeTpl,$good['submitter'],"#","#",$cart_item);
 					echo $store;
 				}
