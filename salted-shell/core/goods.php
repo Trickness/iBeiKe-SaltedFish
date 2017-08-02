@@ -138,7 +138,7 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['type'] 		= $res['type'];
 	$goods_info['price'] 		= urldecode($res['price']);
 	$goods_info['summary'] 		= urldecode($res['summary']);
-	$goods_info['comments'] 	= json_decode($res['comments'])->comment;
+	$goods_info['comments'] 	= json_decode($res['comments'],true)['comment'];
 	$goods_info['submitter'] 	= $res['submitter'];
 	if (!get_student_id_from_session_key($session_key))	//来宾用户，未登录
 	{

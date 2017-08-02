@@ -55,7 +55,7 @@
 	<?php include '../frame/head_user.php'; ?>
 	<div id="head-row">
 		<div id="user-info">
-			<img src="../main/adv.png" style="width: 120px;height: 120px;border-radius: 60px;margin:35px;margin-bottom:10px;margin-top:0;border:1px solid black;">
+			<img src="../main/adv.png" style="width: 120px;height: 120px;border-radius: 60px;margin:35px;margin-bottom:10px;margin-top:0;">
 
 			<style>
 				#head-info,#basic-info{line-height: 25px;}
@@ -90,72 +90,73 @@
 				var self_info = "";
 				$(document).ready(function(){
 					function change_info(data){
-						$("#student_id").html(data.student_id);
+						$("#student_id").html(data.student_id.value);
 						$("#nickname").html(data.nickname);
-						$("#name").html(data.name);
-						$("#type").html(data.type);
-						$("#gender").html(data.gender);
-						$("#birthday").html(data.birthday);
-						$("#dormitory").html(data.dormitory);
-						$("#phone_number").html(data.phone_number);
+						$("#name").html(data.name.value);
+						$("#type").html(data.type.value);
+						$("#gender").html(data.gender.value);
+						$("#birthday").html(data.birthday.value);
+						$("#dormitory").html(data.dormitory.value);
 					}
 
 					$.getJSON("../core/api-users-info.php?action=self",function(data){
 						self_info = data;
-						self_info.dormitory = self_info.dormitory.dormitory_id+"#"+self_info.dormitory.room_no;
+						// self_info.nickname.value = data.nickname;
+						self_info.dormitory.value = self_info.dormitory.dormitory_id.value+"#"+self_info.dormitory.room_no.value;
 						change_info(self_info);
 					});
-					$("#change-info").click(function(){
-						$(".info-item").each(function(){
-							$(this).css("float","right");
-							$(this).html("<input type='text' class='item' name='"+$(this).attr("id")+"' style='width:85px;margin:0;' value='"+self_info[$(this).attr("id")]+"' />");
-						});
-						$(this).css('display','none');
-						$("#update-info").css("display","block");
-						$("#update-cancel").css("display","block");
-						$("#info-bottom").css("padding-left","70px");
-					});
-					$("#update-cancel").click(function(){
-						change_info(self_info);
-						$(".info-item").css("float","left");
-						$(this).css('display','none');
-						$("#update-info").css("display","none");
-						$("#change-info").css("display","block");
-						$("#info-bottom").css("padding-left","30px");
-					});
-					$("#update-info").click(function(){
-						var new_info = self_info;
-						$(".item").each(function(){
-							if ($(this).attr('name')=="dormitory") {
-								var dom_info =  $(this).val().split("#");
-								dom_info = {dormitory_id:dom_info[0],room_no:dom_info[1]};
-								new_info[$(this).attr('name')] = dom_info;
-							}else{
-								new_info[$(this).attr('name')] = $(this).val();
-							}
-						});
-						$.get("../core/api-users-info.php?action=update",{user_info:JSON.stringify(new_info)},function(data){
-							if (data!=false) {
-								new_info.dormitory = new_info.dormitory.dormitory_id+"#"+new_info.dormitory.room_no;
-								change_info(new_info);
-								$(".info-item").css("float","left");
-								$("#update-cancel").css('display','none');
-								$("#update-info").css("display","none");
-								$("#change-info").css("display","block");
-								$("#info-bottom").css("padding-left","30px");
-							}
-						});
-						$.getJSON("../core/api-users-info.php?action=self",{session:"<?php echo $session;?>"},function(data){
-							console.log(data);
-							$("#head-info").html("ID:"+data.student_id.value+"<br>"+"昵称:"+data.nickname);
-							$("#basic-info").html("姓名:"+data.name.value+"<br>"+
-											  "学生类别:"+data.type.value+"<br>"+
-											  "性别:"+data.gender.value+"<br>"+
-											  "生日:"+data.birthday.value+"<br>"+
-											  "宿舍:"+data.dormitory.dormitory_id+"#"+data.dormitory.room_no+"<br>"
-							);
-						});
-					});
+					
+					// $("#change-info").click(function(){
+					// 	$(".info-item").each(function(){
+					// 		$(this).css("float","right");
+					// 		$(this).html("<input type='text' class='item' name='"+$(this).attr("id")+"' style='width:85px;margin:0;' value='"+self_info[$(this).attr("id")]['value']+"' />");
+					// 	});
+					// 	$(this).css('display','none');
+					// 	$("#update-info").css("display","block");
+					// 	$("#update-cancel").css("display","block");
+					// 	$("#info-bottom").css("padding-left","70px");
+					// });
+					// $("#update-cancel").click(function(){
+					// 	change_info(self_info);
+					// 	$(".info-item").css("float","left");
+					// 	$(this).css('display','none');
+					// 	$("#update-info").css("display","none");
+					// 	$("#change-info").css("display","block");
+					// 	$("#info-bottom").css("padding-left","30px");
+					// });
+					// $("#update-info").click(function(){
+					// 	var new_info = self_info;
+					// 	$(".item").each(function(){
+					// 		if ($(this).attr('name')=="dormitory") {
+					// 			var dom_info =  $(this).val().split("#");
+					// 			dom_info = {dormitory_id:dom_info[0],room_no:dom_info[1]};
+					// 			new_info[$(this).attr('name')] = dom_info;
+					// 		}else{
+					// 			new_info[$(this).attr('name')] = $(this).val();
+					// 		}
+					// 	});
+					// 	$.get("../core/api-users-info.php?action=update",{user_info:JSON.stringify(new_info)},function(data){
+					// 		if (data!=false) {
+					// 			new_info.dormitory = new_info.dormitory.dormitory_id+"#"+new_info.dormitory.room_no;
+					// 			change_info(new_info);
+					// 			$(".info-item").css("float","left");
+					// 			$("#update-cancel").css('display','none');
+					// 			$("#update-info").css("display","none");
+					// 			$("#change-info").css("display","block");
+					// 			$("#info-bottom").css("padding-left","30px");
+					// 		}
+					// 	});
+					// 	$.getJSON("../core/api-users-info.php?action=self",{session:"<?php echo $session;?>"},function(data){
+					// 		console.log(data);
+					// 		$("#head-info").html("ID:"+data.student_id.value+"<br>"+"昵称:"+data.nickname);
+					// 		$("#basic-info").html("姓名:"+data.name.value+"<br>"+
+					// 						  "学生类别:"+data.type.value+"<br>"+
+					// 						  "性别:"+data.gender.value+"<br>"+
+					// 						  "生日:"+data.birthday.value+"<br>"+
+					// 						  "宿舍:"+data.dormitory.dormitory_id+"#"+data.dormitory.room_no+"<br>"
+					// 		);
+					// 	});
+					// });
 				});
 			</script>
 		</div>
