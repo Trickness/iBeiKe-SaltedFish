@@ -26,7 +26,7 @@ function submit_goods($goods_info, $session_key)
     if ($submiter){
         submit_goods_from_id($goods_info,$submiter);
     }
-    else  return error_report("Not logged in");
+    else  return generate_error_report("Not logged in");
 };
 function submit_goods_from_id($goods_info,$submitter){
 	global $db_host;
@@ -88,33 +88,47 @@ function comment_goods($goods_id, $comment, $session_key)
     global $db_name;
     global $db_user;
     global $db_goods_table;
-    $submiter = get_student_id_from_session_key($session_key) or die(generate_error_report("access denied"));
-	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$select = "SELECT * FROM $db_goods_table where goods_id='$goods_id'";
-	$res = $link->query($select);
-	$res = mysqli_fetch_assoc($res) or die("No such goods");
-	$old_comment = json_decode($res['comments']);
-	if (assert($old_comment->comment))
-	{
-		$comment = json_decode($comment);
-		array_push($old_comment->comment,$comment->comment[0]);
-		$updated_comment = json_encode($old_comment);
-		$update = "UPDATE $db_goods_table SET comments = '$updated_comment' WHERE goods_id = '$goods_id';";
-		$link->query($update);
-		$link->commit();
-		$link->close();
-		return error_report("success");
+    $commenter = get_student_id_from_session_key($session_key) or die(generate_error_report("access denied"));
+	if ($commenter) {
+		$comment_ele = array(
+			'commenter'=>$commenter,
+			'comment_date'=> Date("Y-m-d"),
+			'comment' => $comment
+		);
+		$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+		$select = "SELECT * FROM $db_goods_table where goods_id='$goods_id'";
+		$res = $link->query($select);
+		$res = mysqli_fetch_assoc($res) or die("No such goods");
+		if (isset($res['comments']))
+		{	
+			$old_comment = json_decode($res['comments'],true);
+			array_unshift($old_comment,$comment_ele);
+			$updated_comment = json_encode($old_comment);
+			$update = "UPDATE $db_goods_table SET comments = '$updated_comment' WHERE goods_id = '$goods_id';";
+			$link->query($update);
+			$link->commit();
+			$link->close();
+			return json_encode(array(
+				"status" => "success"
+			));
+		}
+		else
+		{
+			$updated_comment = "[".json_encode($comment_ele)."]";
+			$update = "UPDATE $db_goods_table SET comments = '$updated_comment' WHERE goods_id = '$goods_id';";
+			$link->query($update);
+			$link->commit();
+			$link->close();
+			return json_encode(array(
+				"status" => "success"
+			));
+		}
+	}else{
+		return json_encode(array(
+			"status" => "no comment"
+		));
 	}
-	else
-	{
-		$updated_comment = $comment;
-		$update = "UPDATE $db_goods_table SET comments = '$updated_comment' WHERE goods_id = '$goods_id';";
-		$link->query($update);
-		$link->commit();
-		$link->close();
-		return error_report("the first success");
-	}
-};
+}
 /**
  * 
  * 获得商品信息
@@ -150,7 +164,8 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['type'] 		= $res['type'];
 	$goods_info['price'] 		= urldecode($res['price']);
 	$goods_info['summary'] 		= urldecode($res['summary']);
-	$goods_info['comments'] 	= json_decode($res['comments'],true)['comment'];
+	// $goods_info['comments'] 	= json_decode($res['comments'],true);
+	$goods_info['comments'] 	= $res['comments'];
 	$goods_info['submitter'] 	= $res['submitter'];
 	if (!get_student_id_from_session_key($session_key))	//来宾用户，未登录
 	{
@@ -201,7 +216,7 @@ function revoke_goods($goods_id, $session_key){
 		$update = "update $db_goods_table set status='unavailable' where goods_id='$goods_id'";
 		$query_1 = mysqli_query($link,$update);
 		mysqli_close($link);
-		return error_report('Not submitter');
+		return generate_error_report('Not submitter');
 	}
 }
 /**
@@ -261,7 +276,7 @@ function update_goods($goods_info, $session_key){
 											  goods_info 	= '$goods_info'";
 		$query_1 = mysqli_query($link,$update);
 		mysqli_close($link);
-		return error_report('success');
+		return generate_error_report('success');
 	}
 }
 
