@@ -3,7 +3,7 @@
 			background-color: rgb(253,152,80);
 			height: 75px;
 			position: fixed;
-			top:0;
+            top:0;
 			width: 100%;
 			z-index: 10;
 		}
@@ -81,18 +81,7 @@
 		})
 	});
 </script>
-<?php
-		// $main_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
-		// $main_url = explode("?",$main_url)[0];
-		require_once '../config.php';
-		require_once '../core/authorization.php';
-		require_once '../core/utils.php';
-		if(!session_id())
-			session_start();
 
-		if(!get_student_id_from_session_key(session_id()))
-			die(generate_error_report("You haven't logined!"));
-	?>
 
 	<div id="topbanner">
 		<img id="logo" src="../pic/beikelogo.png">
@@ -112,11 +101,11 @@
 					if (data=='{"status":"failed","error":"Access denied"}') {
 						$("#sign-info").html('<a href="../login/login.php">登陆</a>'+'<a style="margin-left:20px;" href="../signin/signin.php">免费注册</a>');
 					}else{
-						$("#sign-info").html('<a href="../users/index.php">'+data+'</a>');
+						$("#sign-info").html('<a href="../users/index.php">'+data+'</a><a id="logout-tl" href="../core/api-v1.php?action=logout"><div class="top-tl" style="left: 590px;align:right;">注销</div></a>');
 					}
 					console.log(data);
 				})
 			});
 		</script>
-		<a id="logout-tl" href="../core/api-v1.php?action=logout"><div class="top-tl" style="left: 590px;align:right;">注销</div></a>
+		
 	</div>
