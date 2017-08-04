@@ -36,27 +36,38 @@ function submit_goods_from_id($goods_info,$submitter){
     global $db_goods_table;
 	$goods_info = json_decode($goods_info,true);
 
-	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error1")));
-	$goods_price 	= urlencode(__JSON($goods_info,"price") 		or 	die(generate_error_report("syntax error2")));
+	$goods_title 	= __JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error, no title specified"));
+	$goods_price 	= __JSON($goods_info,"price") 		or 	die(generate_error_report("syntax error, no price specified"));
 	//$goods_summary 	= urlencode(__JSON($goods_info,"summary") 	or 	die(generate_error_report("syntax error")));
 	//$goods_images = urlencode(__JSON($goods_info,"images") 		or 	die(generate_error_report("syntax error")));
-	$goods_status 	= __JSON($goods_info,"status") 					or 	die(generate_error_report("syntax error3")) ;
-	$goods_type 	= __JSON($goods_info,"type") 					or 	die(generate_error_report("syntax error4")) ;
-	$goods_tags 	= __JSON($goods_info,"tags") 					or 	die(generate_error_report("syntax error7")) ;
+	$goods_status 	= __JSON($goods_info,"status") 					or 	die(generate_error_report("syntax error, no status specified")) ;
+	$goods_type 	= __JSON($goods_info,"type") 					or 	die(generate_error_report("syntax error, no type specified")) ;
+	$goods_count 	= __JSON($goods_info,"count")					or 	die(generate_error_report("syntax error, no count specified")) ;
+	$goods_tags 	= __JSON($goods_info,"tags",'[]');
+	$lv1 			= __JSON($goods_info,"cl_lv_1","");
+	$lv2 			= __JSON($goods_info,"cl_lv_2","");
+	$lv3 			= __JSON($goods_info,"cl_lv_3","");
+	$goods_tags_str = "";
+	foreach($goods_tags as $tag){
+		$tag = urlencode($tag);
+		$goods_tags_str = $goods_tags_str." ".$tag;
+	}
 
 	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
 	$goods_summary  = mb_substr(__JSON($goods_info,"content"),0,100,"utf-8");
-	var_dump($goods_type);
 	if(($goods_type != "rent") 	    and($goods_status != "sale"))		die(generate_error_report("syntax error5")) ;
 	if(($goods_status!="available") and($goods_status != "withdrawal"))	die(generate_error_report("syntax error6")) ;
 	$submit_date 	= date("Y/m/d");
 	//$goods_images = json_encode($goods_images);
 
+	$goods_title = urlencode($goods_title);
+	$goods_price = urlencode($goods_price);
+
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$sql = "INSERT INTO $db_goods_table
-			(goods_title,	status,			type,		  price,		 submitter,	 submit_date,	 edit_date,		summary) 
+			(goods_title,	status,			type,		  price,		 submitter,	 submit_date,	 edit_date,		summary,	count, tags, cl_lv_1, cl_lv_2, cl_lv_3) 
 			VALUES 
-			('$goods_title','$goods_status','$goods_type','$goods_price','$submitter','$submit_date','$submit_date','$goods_summary')";
+			('$goods_title','$goods_status','$goods_type','$goods_price','$submitter','$submit_date','$submit_date','$goods_summary','$goods_count','$goods_tags_str','$lv1','$lv2','$lv3')";
 	var_dump($sql);
 	$link->query($sql);
 	$link->commit();
@@ -161,13 +172,15 @@ function comment_goods($goods_id, $comment, $session_key)
 	$res = mysqli_fetch_assoc($res) or die("No such goods");
 	$goods_info['goods_id'] 	= $res['goods_id'];
 	$goods_info['goods_title'] 	= urldecode($res['goods_title']);
+	$goods_info['price'] 		= urldecode($res['price']);
+	$goods_info['count'] 		= $res['count'];
 	$goods_info['submit_date'] 	= $res['submit_date'];
 	$goods_info['edit_date'] 	= $res['edit_date'];
 	$goods_info['status'] 		= $res['status'];
 	$goods_info['type'] 		= $res['type'];
-	$goods_info['price'] 		= urldecode($res['price']);
 	$goods_info['summary'] 		= urldecode($res['summary']);
 	$goods_info['comments'] 	= json_decode($res['comments'],true);
+	$goods_info['tags'] 		= $res['tags'].split(" ");
 	//$goods_info['comments'] 	= $res['comments'];
 	$goods_info['submitter'] 	= $res['submitter'];
 
