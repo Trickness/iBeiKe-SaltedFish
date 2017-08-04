@@ -34,7 +34,7 @@ require_once "./goods.php";
 		while ($res = mysqli_fetch_array($query)) {
 			// $list[] = $res['goods_id'];
 			$good = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
-			$goods = $goods.sprintf($goodsTpl,"#","./adv.png",$good['price'],$good['goods_title'],$good['submitter']);
+			$goods = $goods.sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./adv.png",$good['price'],$good['goods_title'],$good['submitter']);
 		}
 		mysqli_close($link);
 		echo $goods;

@@ -106,7 +106,6 @@ function comment_goods($goods_id, $comment, $session_key)
 			'comment_date'=> Date("Y-m-d"),
 			'comment' => urlencode($comment)
 		);
-		var_dump($comment_ele);
 		$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 		$select = "SELECT * FROM $db_goods_table where goods_id='$goods_id'";
 		$res = $link->query($select);
@@ -114,10 +113,8 @@ function comment_goods($goods_id, $comment, $session_key)
 		if (isset($res['comments']))
 		{	
 			$old_comment = json_decode($res['comments'],true);
-			var_dump($old_comment);
 			array_unshift($old_comment,$comment_ele);
 			$updated_comment = json_encode($old_comment);
-			var_dump($updated_comment);
 			$update = "UPDATE $db_goods_table SET comments = '$updated_comment' WHERE goods_id = '$goods_id';";
 			$link->query($update);
 			$link->commit();
@@ -184,8 +181,15 @@ function comment_goods($goods_id, $comment, $session_key)
 	//$goods_info['comments'] 	= $res['comments'];
 	$goods_info['submitter'] 	= $res['submitter'];
 
-	foreach($goods_info['comments'] as $index => $value)
-        $goods_info['comments'][$index]['comment'] = urldecode($goods_info['comments'][$index]['comment']);
+	// $index = 0;
+	// foreach($goods_info['comments'] as  $value){
+    //     $goods_info['comments'][$index]['comment'] = urldecode($goods_info['comments'][$index]['comment']);
+	// 	// $goods_info['comments'][$index]['comment'] = urldecode($value['comment']);
+	// 	$index++;
+	// }
+	for ($i=0; $i <sizeof($goods_info['comments']) ; $i++) { 
+		 $goods_info['comments'][$i]['comment'] = urldecode($goods_info['comments'][$i]['comment']);
+	}
 	if (!get_student_id_from_session_key($session_key))	//来宾用户，未登录
 	{
 		// $goods_info['submitter'] = $goods_info['submitter'].substr(4)."****";
