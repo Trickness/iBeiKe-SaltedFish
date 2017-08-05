@@ -177,7 +177,9 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['type'] 		= $res['type'];
 	$goods_info['summary'] 		= urldecode($res['summary']);
 	$goods_info['comments'] 	= json_decode($res['comments'],true);
-	$goods_info['tags'] 		= $res['tags'].split(" ");
+	// $goods_info['tags'] 		= $res['tags'].split(" ");
+	$goods_info['tags'] 		= explode(" ",$res['tags']);
+
 	//$goods_info['comments'] 	= $res['comments'];
 	$goods_info['submitter'] 	= $res['submitter'];
 

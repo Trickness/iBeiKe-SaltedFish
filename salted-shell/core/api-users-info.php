@@ -50,6 +50,26 @@ if (isset($_GET['action'])) {
 			}
 		}else echo false;
 		// echo $student_info;
+	}elseif ($_GET['action']=="my_goods") {
+		$goodsTpl = '<tr>
+					<td><img src="../main/cover.png" alt="封面" ><div>%s</div> </td>
+					<td>￥%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td><button class="btn btn-success">更改</button></td>
+				</tr>';
+		$goods_list = "";
+		if($student_id = get_student_id_from_session_key(session_id())){
+			$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+			$sql = "SELECT goods_id FROM $db_goods_table WHERE submitter = '$student_id' ORDER BY submit_date DESC";
+			$query = mysqli_query($link,$sql);
+			while ($res = mysqli_fetch_array($query)) {
+				$goods_info = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
+				$good = sprintf($goodsTpl,$goods_info['goods_title'],$goods_info['price'],$goods_info['status'],$goods_info['type']);
+				$goods_list .= $good;
+			}
+			echo $goods_list;
+		}
 	}
 }
 
