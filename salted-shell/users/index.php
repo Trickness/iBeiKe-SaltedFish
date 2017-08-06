@@ -10,7 +10,7 @@
 		a:hover{color: #FD9850;}
 		#head-row{position: absolute;top: 130px;height: 400px;width: 965px;}
 		#user-info{float: left;width: 165px;height: inherit;}
-		#info{width: 160px;height: 265px;padding-left: 20px;}
+		#info{width: 160px;height: 240px;padding-left: 20px;}
 
 		#cen-row{float: left;height: inherit;width: 780px;}
 		#cen-bottom{float: left;border-bottom: 2px solid #FD9850;width: 750px;margin-top: 10px;margin-left: 20px;}
@@ -78,13 +78,27 @@
 				</div>
 			</div>
 			<div id="info-bottom" style="padding-left: 30px;">
-				<button id="change-info" class="button button-action button-rounded button-highlight button-small button-longshadow-left" >
+				<!-- <button id="change-info" class="button button-action button-rounded button-highlight button-small" >
 					修改信息</button>
-				<button id="update-info" style="display: none;margin-bottom: 5px;" class="button button-action button-rounded 
+				<button id="upload-goods" class="button button-action button-rounded button-highlight button-small">发布商品</button>
+				<button id="upload-info" class="button button-action button-rounded button-highlight button-small">发布信息</button> -->
+
+				<!-- <button id="update-info" style="display: none;margin-bottom: 5px;" class="button button-action button-rounded 
 					button-highlight button-tiny button-longshadow-left">提交</button>
 				<button id="update-cancel" style="display: none;" class="button button-action button-rounded button-highlight button-tiny 
-					button-longshadow-left">取消</button>
+					button-longshadow-left">取消</button> -->
 			</div>
+			<span class="button-dropdown button-dropdown-primary" data-buttons="dropdown" style="margin-left:15px;">
+    					<button class="button button-primary button-large button-pill" style="font-size:15px;">
+      						<i class="fa fa-bars"></i>骚操作
+    					</button>
+ 
+    				<ul class="button-dropdown-list is-below">
+      					<li><a href="http://www.bootcss.com/"><i class="fa fa-heart-o"></i>个人信息修改</a></li>
+      					<li class="button-dropdown-divider"><a href="../goods/upload.php">上传商品</a></li>
+      					<li><a href="#">发布信息</a></li>
+    				</ul>
+  			</span>
 
 			<script>
 				var self_info = "";
@@ -188,26 +202,26 @@
 
 	<div id="rt-new">
 		<style>
-			.new-item{width: 228px;height: 210px;border: 1px solid #CCCCCC;margin: 10px;transition-duration: 0.4s;}
+			.new-item{width: 220px;height: 280px;margin: 10px;transition-duration: 0.4s;border-radius:10px;border: 1px solid #CCCCCC;background-color: #e8e8e8;}
 			.new-tl{padding-left: 10px;}
 			.new-dec{padding-left: 10px;font-size: 12px;}
-			.new-item:hover{background-color: #e8e8e8;}
-			.new-item img{width: 228px;height: 151px;}
+			.new-item:hover{box-shadow:5px 5px 5px #CCCCCC;}
+			.new-item img{width: 220px;height: 220px;border-radius:10px;}
 		</style>
 		<div id="new-tl">最新内容</div>
 		<div id="new-content">
 			<a href="#"><div class="new-item">
-				<img src="../main/cover.png">
+				<img src="../main/goods.jpg">
 				<div class="new-tl">商品名称</div>
 				<div class="new-dec">文字描述XXXXXXX</div>
 			</div></a>
 			<a href="#"><div class="new-item">
-				<img src="../main/cover.png">
+				<img src="../main/goods.jpg">
 				<div class="new-tl">商品名称</div>
 				<div class="new-dec">文字描述XXXXXXX</div>
 			</div></a>
 			<a href="#"><div class="new-item">
-				<img src="../main/cover.png">
+				<img src="../main/goods.jpg">
 				<div class="new-tl">商品名称</div>
 				<div class="new-dec">文字描述XXXXXXX</div>
 			</div></a>

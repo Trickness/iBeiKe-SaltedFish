@@ -114,6 +114,36 @@
 					</script>
 
   					<div id="tabs1-show">
+						<a href="#"><div class="goods">
+							<img src="./goods.jpg">
+							<h2><span style="font-size:15px;">￥</span>%s</h2>
+							<p style="font-size:14px;">%s</p>
+							<p>%s</p>
+						</div></a>
+						<a href="#"><div class="goods">
+							<img src="./goods.jpg">
+							<h2>￥%s</h2>
+							<p style="font-size:14px;">%s</p>
+							<p>%s</p>
+						</div></a>
+						<a href="#"><div class="goods">
+							<img src="./goods.jpg">
+							<h2>￥%s</h2>
+							<p style="font-size:14px;">%s</p>
+							<p>%s</p>
+						</div></a>
+						<a href="#"><div class="goods">
+							<img src="./goods.jpg">
+							<h2>￥%s</h2>
+							<p style="font-size:14px;">%s</p>
+							<p>%s</p>
+						</div></a>
+						<a href="#"><div class="goods">
+							<img src="./goods.jpg">
+							<h2>￥%s</h2>
+							<p style="font-size:14px;">%s</p>
+							<p>%s</p>
+						</div></a>
 						<!-- <a href="#"><div class="goods">
 							<img src="./cover.png">
 							<h2>￥21</h2>

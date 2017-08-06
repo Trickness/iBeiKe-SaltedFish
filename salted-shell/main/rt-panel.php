@@ -5,26 +5,30 @@
 						#adv-con img{height: 130px;width: 177px;margin-right: 6px;float: left;transition-duration: 0.4s;}
 						#adv-con img:hover{opacity: 0.5;}
 	
-						.cart{height: 65px;width: inherit;background-color: white;border-top: 1px solid #CCCCCC;border-bottom: 1px solid #CCCCCC;}
+						.cart{height: 65px;width: inherit;background-color: white;border-top: 1px solid #CCCCCC;border-radius:10px;}
 						.cart:hover{color: #FD9850;text-decoration: underline;}
 						.cart img{width: 55px;height: 50px;float: left;margin: 8px;margin-left: 5px;}
 						.cart b{width: 30px; float: left;}
+
 						/*.cart input[type='checkbox']{float: left;margin-top: 30px;margin-left: 10px;}
 						.cart input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 20px;width: 20px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
 						.cart input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -3px -1px;}*/
-						.store{margin-bottom:8px;border: 1px solid #e8e8e8;}
-						.store:hover{box-shadow: 2px 2px 2px #e8e8e8;}
+
+						.store{margin-bottom:8px;border: 1px solid #CCCCCC;border-radius:10px;transition:0.4s;}
+						.store:hover{box-shadow: 5px 5px 5px #CCCCCC;}
 						.store input[type='checkbox']{float: left;margin-left: 10px;}
 						.store input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 18px;width: 18px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
 						.store input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -4px -3px;}
 
-						.store .st-name{margin:0;float: left;margin-left:5px;font-size: 14px;margin-top: 3px;}
+						.store .st-name{margin:0;float: left;margin-left:10px;font-size: 14px;margin-top: 3px;}
 						.store .name{width: 120px;float: left;margin: 0;margin-top: 10px;font-size: 12px;text-align: left;}
 						.store .price{width: 130px;color: #FD9850;font-size: 12px;float: left;margin:0;text-align: left;}
 						.store .des{color: #CCCCCC;font-size: 10px;float: left;margin:0;width: 130px;text-align: left;}
 						.store .amount{color: #CCCCCC;font-size: 10px;float: left;margin:0;margin-top: 2px;text-align: right;}
-						.store .edit{float:right;font-size: 13px;color: gray;margin-top: 3px;}
+						.store .edit{float:right;font-size: 13px;color: gray;margin-top: 3px;margin-right:10px;}
 						.store .edit a{font-size: 12px;}
+
+						.swiper-container img{border-radius:10px;}
 					</style>
 					<div class="swiper-container" style="height: 330px;margin-left: 10px;float: left;width: inherit;">
 	    				<div class="swiper-wrapper">
@@ -39,8 +43,8 @@
 	    				<div class="swiper-pagination"></div>
 	    
 	    				<!-- 如果需要导航按钮 -->
-	    				<div class="swiper-button-prev swiper-button-white"></div>
-	    				<div class="swiper-button-next swiper-button-white"></div>
+	    				<div class="swiper-button-prev swiper-button-white" style="top:43%"></div>
+	    				<div class="swiper-button-next swiper-button-white" style="top:43%"></div>
 	    	
 	    				<!-- 如果需要滚动条 -->
 	    				<div class="swiper-scrollbar"></div>

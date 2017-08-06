@@ -90,26 +90,29 @@
 		}
 		.goods{
 			color: black;
-			width: 225px;
+			width: 220px;
 			margin:6px;
-			height:250px;
-			border:1px solid #CCCCCC;
+			height:335px;
+			border: 1px solid white;
 			float: left;
 			border-radius: 5px;
 			transition-duration: 0.4s;
 			text-align: center;
 		}
 		.goods:hover{
-			background-color: #e8e8e8;
+			 background-color: #e8e8e8; 
 			color: #FD9850;
+			border: 1px solid #CCCCCC; 
+			box-shadow:2px 2px 2px #CCCCCC;
 		}
 		.goods img{
-			width: 180px;
-			height: 120px;
-			margin-top: 20px;
+			width: 220px;
+			height: 220px;
+			border-radius: 5px;
+			 /* margin: 2px;  */
 		}
 		.goods h2{margin: 0;margin-left: 15px;color: #FD9850;text-align: left;width: 200px;}
-		.goods p{margin: 0;font-size: 12px;text-align: left;color: #404040;width: 170px;height: 40px;margin-left: 25px;}
+		.goods p{margin: 0;font-size: 12px;text-align: left;color: #404040;width: 170px;height: 25px;margin-left: 15px;}
 	</style>
 </head>
 <body>
@@ -216,11 +219,11 @@
 				<div id="attr-list" style="width: inherit;height: 400px;/*border:1px solid black;*/margin-top:60px;">
 					<div class="list-item" name="reality">
 						<img src="../pic/bag.png">
-						<a href="?catagory=reality">实体商品</a>
+						<a href="?catagory=reality&cl=lv_1">实体商品</a>
 					</div>
 					<div class="list-item" name="virtual">
 						<img src="../pic/cyber.png">
-						<a href="?catagory=virtual" id="virtual">非实体商品</a>
+						<a href="?catagory=virtual&cl=lv_1" id="virtual">非实体商品</a>
 					</div>
 					<div class="list-item" name="beikeinfo">
 						<img src="../pic/wave.png">
@@ -294,7 +297,7 @@
 				<div class="sec-cat">
 					<div class="cat-tl" name="party">
 						<img src="../pic/party.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=party" style="font-size: 17px;">轰趴聚会</a>
+						<a href="?catagory=轰趴聚会&cl=lv_2" style="font-size: 17px;">轰趴聚会</a>
 					</div>
 					<div class="second-cat" name="party" style="margin-bottom: 70px;">
 						<a href="?catagory=party"><img src="../pic/image1/party.png" ></a>
@@ -302,44 +305,44 @@
 
 					<div class="cat-tl" name="video">
 						<img src="../pic/video.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=video" style="font-size: 17px;">视频</a>
+						<a href="?catagory=video&cl=lv_2" style="font-size: 17px;">视频</a>
 					</div>
 					<div class="second-cat" name="video" style="margin-bottom: 70px;">
-						<a href="?catagory=video" style="font-size: 17px;"><img src="../pic/image1/camera.png" ></a>
+						<a href="?catagory=video&cl=lv_2" style="font-size: 17px;"><img src="../pic/image1/camera.png" ></a>
 					</div>
 				</div>
 				<div class="sec-cat">
 					<div class="cat-tl" name="travel">
 						<img src="../pic/travel.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=travel" style="font-size: 17px;">北京周边游</a>
+						<a href="?catagory=travel&cl=lv_2" style="font-size: 17px;">北京周边游</a>
 					</div>
 					<div class="second-cat" name="travel" style="margin-bottom: 70px;">
-						<a  href="?catagory=travel" style="font-size: 17px;"><img src="../pic/image1/beijing.png" ></a>
+						<a  href="?catagory=travel&cl=lv_2" style="font-size: 17px;"><img src="../pic/image1/beijing.png" ></a>
 					</div>
 
 					<div class="cat-tl" name="PPT">
 						<img src="../pic/ppt.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a  href="?catagory=PPT" style="font-size: 17px;">PPT</a>
+						<a  href="?catagory=PPT&cl=lv_2" style="font-size: 17px;">PPT</a>
 					</div>
 					<div class="second-cat" name="PPT" style="margin-bottom: 70px;">
-						<a href="?catagory=PPT" style="font-size: 17px;"><img src="../pic/image1/ppt.png" ></a>
+						<a href="?catagory=PPT&cl=lv_2" style="font-size: 17px;"><img src="../pic/image1/ppt.png" ></a>
 					</div>
 				</div>
 				<div class="sec-cat">
 					<div class="cat-tl" name="photo">
 						<img src="../pic/camera.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=photo" style="font-size: 17px;">摄影</a>
+						<a href="?catagory=photo&cl=lv_2" style="font-size: 17px;">摄影</a>
 					</div>
 					<div class="second-cat" name="photo" style="margin-bottom: 70px;">
-						<a href="?catagory=photo" style="font-size: 17px;"><img src="../pic/image1/camera1.png" ></a>
+						<a href="?catagory=photo&cl=lv_2" style="font-size: 17px;"><img src="../pic/image1/camera1.png" ></a>
 					</div>
 
 					<div class="cat-tl">
 						<img src="../pic/guitar.png" name="music-edu" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=music-edu" style="font-size: 17px;">乐器培训</a>
+						<a href="?catagory=music-edu&cl=lv_2" style="font-size: 17px;">乐器培训</a>
 					</div>
 					<div class="second-cat" name="music-edu" style="margin-bottom: 70px;">
-						<a href="?catagory=music-edu" style="font-size: 17px;"><img src="../pic/image1/instrument.png" ></a>
+						<a href="?catagory=music-edu&cl=lv_2" style="font-size: 17px;"><img src="../pic/image1/instrument.png" ></a>
 					</div>
 				</div>
 				<div class="sec-cat">
@@ -357,68 +360,6 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- <div class="attr-show" id="inf-show" name="beikeinfo+" style="height: 0;width: 0;">
-				<div class="sec-cat">
-					<div class="cat-tl">
-						<a href="#" style="font-size: 17px;">校内组织</a>
-					</div>
-					<div class="second-cat" style="margin-bottom: 70px;">
-						<a href="#"><img src="../pic/image1/ustb.png" ></a>
-					</div>
-					<div class="cat-tl">
-						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="#" style="font-size: 17px;">赛事</a>
-					</div>
-					<div class="second-cat" style="margin-bottom: 70px;">
-						<a href="#" style="font-size: 17px;"><img src="../pic/image1/camera.png" ></a>
-					</div>
-				</div>
-				<div class="sec-cat">
-					<div class="cat-tl">
-						<a href="#" style="font-size: 17px;">组织招新</a>
-					</div>
-					<div class="second-cat" style="margin-bottom: 70px;">
-						<a href="#" style="font-size: 17px;"><img src="../pic/image1/union.png" ></a>
-					</div>
-					<div class="cat-tl">
-						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="#" style="font-size: 17px;">讲座</a>
-					</div>
-					<div class="second-cat" style="margin-bottom: 70px;">
-						<a href="#" style="font-size: 17px;"><img src="../pic/image1/ppt.png" ></a>
-					</div>
-				</div>
-				<div class="sec-cat">
-					<div class="cat-tl">
-						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="#" style="font-size: 17px;">项目招募</a>
-					</div>
-					<div class="second-cat" style="margin-bottom: 70px;">
-						<a href="#" style="font-size: 17px;"><img src="../pic/image1/camera1.png" ></a>
-					</div>
-					<div class="cat-tl">
-						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="#" style="font-size: 17px;">晚会</a>
-					</div>
-					<div class="second-cat" style="margin-bottom: 70px;">
-						<a href="#" style="font-size: 17px;"><img src="../pic/image1/instrument.png" ></a>
-					</div>
-				</div>
-				<div class="sec-cat">
-					<div class="cat-tl">
-						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="#" style="font-size: 17px;">志愿活动</a>
-					</div>
-					<div class="second-cat" style="margin-bottom: 70px;">
-						<a href="#" style="font-size: 17px;"><img src="../pic/image1/design.png" ></a>
-					</div>
-					<div class="cat-tl">
-						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="#" style="font-size: 17px;">其他</a>
-					</div>
-				</div>
-			</div> -->
 
 			<div class="attr-show" id="inf-show" name="beikeinfo+" style="height: 0;width: 0;"></div>
 

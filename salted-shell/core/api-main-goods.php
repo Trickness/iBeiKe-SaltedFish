@@ -18,9 +18,9 @@ require_once "./goods.php";
     	// $rank = "new";
 	    $goodsTpl = '<a href="%s"><div class="goods">
 						<img src="%s">
-						<h2>￥%s</h2>
-						<p style="font-size:14px;">%s</p>
-						<p>%s</p>
+						<h2><span style="font-size:15px;">￥</span>%s</h2>
+						<p style="font-size:16px;">%s</p>
+						<p style="color:gray">%s</p>
 					</div></a>';
 
 		$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
@@ -34,13 +34,13 @@ require_once "./goods.php";
 		while ($res = mysqli_fetch_array($query)) {
 			// $list[] = $res['goods_id'];
 			$good = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
-			$goods = $goods.sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./adv.png",$good['price'],$good['goods_title'],$good['submitter']);
+			$goods = $goods.sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"../main/goods.jpg",$good['price'],$good['goods_title'],$good['submitter']);
 		}
 		mysqli_close($link);
 		echo $goods;
 	}elseif (isset($_GET['orders'])) {
 		if ($_GET['orders']=="cart") {
-			$storeTpl = '<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">
+			$storeTpl = '<div class="store" style="width: inherit;">
 										<div style="width: inherit;height: 27px;">
 											
 											<p class="st-name">%s</p>
@@ -67,7 +67,7 @@ require_once "./goods.php";
 					$good = json_decode(fetch_goods_info($res['goods_id'],$session_key),true);
 					// $cost = $res['price_per_goodse']*$res['goods_count']+$res['deliver_fee'];
 
-					$cart_item = sprintf($cartTpl,"#","./adv.png",$good['goods_title'],$res['price_per_goods'],$res['goods_count']);
+					$cart_item = sprintf($cartTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./adv.png",$good['goods_title'],$res['price_per_goods'],$res['goods_count']);
 					$store = sprintf($storeTpl,$good['submitter'],"#","#",$cart_item);
 					echo $store;
 				}
