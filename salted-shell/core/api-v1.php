@@ -312,6 +312,11 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         $json_data = $_POST['goods_info'];
         echo submit_goods_from_id($json_data, $student_id);
         
+    }else if($action == "accept_order"){
+        if(!isset($_GET['order_id'])){
+            die(generate_error_report("Please check doc for usage"));
+        }
+        accept_order_from_user($student_id, intval($_GET['order_id']));
     }else{
         die(generate_error_report("Please check doc for usage"));
     }
