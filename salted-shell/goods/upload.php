@@ -28,6 +28,10 @@
 <input id="count" type="text" name="count">
 <br/> 
 
+运费
+<input id="d_fee" type="text" name="d_fee">
+<br/> 
+
 状态
 <select id="status" type="text" name="status">
 <option value="available">available</option>
@@ -137,6 +141,7 @@
         jsonData.count=$("#count").val();
         jsonData.tags=$("#tags").val().split(" ");
         jsonData.type=$("#type").val();
+        jsonData.delivery_fee=$("#d_fee").val();
         jsonData.cl_lv_1=$("#cl_lv_1").val();
         jsonData.cl_lv_2=$("#cl_lv_2").val();
         jsonData.cl_lv_3=$("#cl_lv_3").val();

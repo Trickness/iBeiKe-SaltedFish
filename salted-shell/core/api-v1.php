@@ -254,37 +254,11 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }else{
             die(generate_error_report("Please check doc for usage"));
         }
-    }elseif($action == "new_order"){
-        if(!isset(
-                $_GET['goods_id'],
-                $_GET['deliver_fee'],
-                $_GET['goods_count'],
-                $_GET['price_per_goods']
-            )){die("Please check code for usage");}
-        $goods_id = $_GET['goods_id'];
-        $deliver_fee = $_GET['deliver_fee'];
-        $goods_count = $_GET['goods_count'];
-        $price_per_goods = $_GET['price_per_goods'];
-        $order_id = create_order_from_user($student_id, $goods_id, $deliver_fee, $goods_count, $price_per_goods);
-        if($order_id){
-            echo json_encode(array(
-                "status" => "success",
-                "order_id" => $order_id
-            ));
-        }else{
-            echo json_encode(array(
-                "status" => "failed"
-            ));
-        }
     }elseif($action == "cancel_order"){
         if(!isset($_GET['order_id']))
             die(generate_error_report("Please check doc for usage"));
-        $order_id = cancel_order_from_user($student_id, $_GET['order_id']);
-        echo json_encode(array(
-            "status" =>"success",
-            "order_id" => $order_id
-        ));
-    }elseif ($action == "login") {
+        die(cancel_order_from_user($student_id, $_GET['order_id']));
+    }elseif($action == "login") {
         echo json_encode(array(
             "status" => "success",
             "session" => session_id()
@@ -310,15 +284,55 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }
     }elseif($action == "submit_goods"){     // Todo: 输入检查注意
         $json_data = $_POST['goods_info'];
-        echo submit_goods_from_id($json_data, $student_id);
-        
-    }else if($action == "accept_order"){
+        die(submit_goods_from_id($json_data, $student_id));
+    }elseif($action == "new_order"){
+        if(!isset(
+                $_GET['goods_id'],
+                $_GET['deliver_fee'],
+                $_GET['goods_count'],
+                $_GET['price_per_goods']
+            )){die("Please check code for usage");}
+        $goods_id = $_GET['goods_id'];
+        $deliver_fee = $_GET['deliver_fee'];
+        $goods_count = $_GET['goods_count'];
+        $price_per_goods = $_GET['price_per_goods'];
+        $order_id = create_order_from_user($student_id, $goods_id, $deliver_fee, $goods_count, $price_per_goods);
+        if($order_id){
+            echo json_encode(array(
+                "status" => "success",
+                "order_id" => $order_id
+            ));
+        }else{
+            echo json_encode(array(
+                "status" => "failed"
+            ));
+        }
+    }elseif($action == "accept_order"){
         if(!isset($_GET['order_id'])){
             die(generate_error_report("Please check doc for usage"));
         }
         accept_order_from_user($student_id, intval($_GET['order_id']));
-    }else{
-        die(generate_error_report("Please check doc for usage"));
+    }elseif($action == "complete_order"){
+        if(!isset($_GET['order_id'])){
+            die(generate_error_report("Please check doc for usage"));
+        }
+        die(complete_order_from_user($student_id, intval($_GET['order_id'])));
+    }elseif($action == "finish_order"){
+        if(!isset($_GET['order_id'])){
+            die(generate_error_report("Please check doc for usage"));
+        }
+        die(finish_order_from_user($student_id, intval($_GET['order_id'])));
+    }elseif($action == "list_orders"){
+        $filter = array();
+        $limit = 10;
+        $page = 1;
+        if(isset($_GET['status']))
+            $filter['status'] = $_GET['status'];        // Todo: 输入检查注意
+        if(isset($_GET['limit']))
+            $limit = intval($_GET['limit']);
+        if(isset($_GET['page']))
+            $page = intval($_GET['page']);
+        die(list_orders_from_user($student_id, $filter, $page, $limit));
     }
 }else{                                              // 未登录
     if($action == "login"){                             // 登陆操作
@@ -365,6 +379,5 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     }else{
         die(generate_error_report("Cannot handle your action(Try to login for more actions?)"));
     }
-
 }
 ?>

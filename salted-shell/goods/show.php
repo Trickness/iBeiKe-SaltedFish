@@ -48,8 +48,9 @@
                     $("#submitter_phone").html(data.submitter_info.phone_number);
 
                     var total_comment = "";
-                    for(var i=0;i<data.comments.length;i++){
-                        total_comment += '<div style="border:1px solid black;"><div>'+data.comments[i].commenter+'</div><div>'+data.comments[i].comment_date+'</div><div>'+data.comments[i].comment+'</div></div>';
+                    if(data.comments != null){
+                        for(var i=0;i<data.comments.length;i++)
+                            total_comment += '<div style="border:1px solid black;"><div>'+data.comments[i].commenter+'</div><div>'+data.comments[i].comment_date+'</div><div>'+data.comments[i].comment+'</div></div>';
                     }
                     $("#comment_content").html(total_comment);
                 });
@@ -70,7 +71,13 @@
                         order_info.goods_count =  $('input[name="count"]').val();
                         order_info.price_per_goods = goods_info.price; 
                         order_info = JSON.stringify(order_info);
-                        $.get("../core/api-show-goods.php",{goods_id:goods_id,action:"new_order",order_info:order_info},function(data){
+                        $.get("../core/api-v1.php",{
+                                    goods_id:goods_id,
+                                    action:"new_order",
+                                    deliver_fee:$('#order_deliver_fee').html(),
+                                    goods_count:$('input[name="count"]').val(),
+                                    price_per_goods:goods_info.price
+                                },function(data){
                             console.log(data);
                         });
                     }
@@ -187,7 +194,7 @@
                     if (goods_info!=null) {
                         $("#order_tl").html(goods_info.goods_title);
                         $("#order_price").html(goods_info.price);
-                        $("#order_deliver_fee").html("15");
+                        $("#order_deliver_fee").html(goods_info.delivery_fee);
                         var total = goods_info.price * $('input[name="count"]').val()+parseInt($('#order_deliver_fee').html());
                         $("#order_total").html(total);
                         $("#order_content").css("display","block");
