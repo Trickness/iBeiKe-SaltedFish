@@ -40,6 +40,9 @@
 	<link href="https://cdn.bootcss.com/Buttons/2.0.0/css/buttons.min.css" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/Buttons/2.0.0/js/buttons.min.js"></script>
 
+	<link href="https://cdn.bootcss.com/bootstrap-switch/4.0.0-alpha.1/css/bootstrap-switch.min.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/bootstrap-switch/4.0.0-alpha.1/js/bootstrap-switch.min.js"></script>
+
 	<script>
 	$(document).ready(function(){
 		var wth = parseInt($("body").css('width').split("px")[0]);
@@ -89,7 +92,7 @@
 					button-longshadow-left">取消</button> -->
 			</div>
 			<span class="button-dropdown button-dropdown-primary" data-buttons="dropdown" style="margin-left:15px;">
-    					<button class="button button-primary button-large button-pill" style="font-size:15px;">
+    					<button class="button button-primary button-large" style="font-size:15px;">
       						<i class="fa fa-bars"></i>骚操作
     					</button>
  
@@ -242,31 +245,99 @@
 		.recent-dec{padding-left: 10px;font-size: 12px;}
 		.recent-item:hover{background-color: #e8e8e8;}
 		.recent-item img{width: 228px;height: 151px;}
+
+		.recent-order{border: 0.7mm dashed #CCCCCC;height: 115px;width: 718px;margin-left: 10px;border-radius: 10px;margin-bottom:20px;}
+		.recent-order:hover{border: 0.7mm solid #e8e8e8;}
 	</style>
 	<div id="recent">
-		<a href="#"><div class="recent-item">
-				<img src="../main/cover.png">
-				<div class="recent-tl">商品名称</div>
-				<div class="recent-dec">文字描述XXXXXXX</div>
-		</div></a>
-		<a href="#"><div class="recent-item">
-				<img src="../main/cover.png">
-				<div class="recent-tl">商品名称</div>
-				<div class="recent-dec">文字描述XXXXXXX</div>
-		</div></a>
-		<a href="#"><div class="recent-item">
-				<img src="../main/cover.png">
-				<div class="recent-tl">商品名称</div>
-				<div class="recent-dec">文字描述XXXXXXX</div>
-		</div></a>
-		<a href="#"><div class="recent-item">
-				<img src="../main/cover.png">
-				<div class="recent-tl">商品名称</div>
-				<div class="recent-dec">文字描述XXXXXXX</div>
-		</div></a>
+		
+		<!--此处为带滚动条效果的div的样式表  -->
+		<style>
+		    #scroll-div {
+        		width:750px;
+    		    height:400px;
+    		    overflow:auto;
+				margin-left:15px;
+				border-radius:10px;
+    		}  
+			#scroll-div::-webkit-scrollbar {
+    		    width:12px;
+    		    height:10px;
+    		}
+    		#scroll-div::-webkit-scrollbar-button    {
+    		    background-color: #FF7677;
+    			border-radius: 10px;
+    		}
+    		#scroll-div::-webkit-scrollbar-track     {}
+    		#scroll-div::-webkit-scrollbar-track-piece {}
+    		#scroll-div::-webkit-scrollbar-thumb{
+    		    background:#FFA711;
+    		    border-radius:4px;
+    		}
+    		#scroll-div::-webkit-scrollbar-corner {
+    		    background:#82AFFF;
+    		}
+    		#scroll-div::-webkit-scrollbar-resizer  {
+    		    background:#FF0BEE;
+    		}
+		</style>
+		<!--此处为，带滚动条效果的div  -->
+		<div id='scroll-div'>
+        	
+			<div id="scroll-sam" class="recent-order">
+				<div style="background-color:#e8e8e8;width:inherit;height:40px;border-radius: 10px;">
+					<div style="padding:6px;float:left;"><input name="status" type="checkbox" style="margin:7px;" checked /></div>
+					<div style="float:left;margin-top:7px;margin-left:10px;"><span>下单时间：2017-06-06</span></div>			
+				</div>
+				<div>
+					<style>
+					#order_show td{text-align:center;height:70px;font-size:14px;}
+					</style>
+					<table id="order_show">
+						<tr>
+							<td style="width:240px;text-align:left;padding-left:10px;">
+								<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">
+								<p style="float:left;margin-left:5px;">正版膜法指南</p>
+							</td>
+							<td style="width:80px;"><span style="font-size:12px;">￥</span>65.00</td>
+							<td style="width:40px;"><span style="font-size:12px;">X</span>2</td>
+							<td>=</td>
+							<td style="width:85px;"><span style="font-size:12px;">￥</span>130.00</td>
+							<td style="width:120px;">买家已下单<br>等待卖家接单</td>
+							<td style="width:120px;">编辑<br>追加评论</td>
+						</tr>
+					</table>		
+				</div>
+			</div>
+
+    	</div>
+
+		<!--此处仅为示例用的js，实际应用时需删除  -->
+		<script>
+			$(document).ready(function(){
+				var scroll = $("#scroll-div").html();
+				for (var i = 0; i < 3; i++) {
+					scroll+=scroll;
+					
+				}
+				$("#scroll-div").html(scroll);
+			});
+		</script>
+		<!--示例js  -->
 	</div>
 
 	<script>
+		$(document).ready(function(){
+			$('[name="status"]').bootstrapSwitch({
+				size:"small",
+				onColor:"success",
+				offColor:"warning",
+				onSwitchChange:function(event,state){
+					console.log(state);
+				}
+			});
+		});
+
 		var mySwiper = new Swiper ('.swiper-container', {
     			onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
     				swiperAnimateCache(swiper); //隐藏动画元素 
