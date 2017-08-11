@@ -99,6 +99,7 @@
     				<ul class="button-dropdown-list is-below">
       					<li><a href="http://www.bootcss.com/"><i class="fa fa-heart-o"></i>个人信息修改</a></li>
       					<li class="button-dropdown-divider"><a href="../goods/upload.php">上传商品</a></li>
+						<li class="button-dropdown-divider"><a href="../users/orders.php">我的订单</a></li>
       					<li><a href="#">发布信息</a></li>
     				</ul>
   			</span>
