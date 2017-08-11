@@ -28,6 +28,7 @@
         require_once "../config.php";
         
         $session = session_id();
+        echo "Details in console";
 	?>
 </body>
 </html>

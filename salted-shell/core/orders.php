@@ -256,15 +256,15 @@ function list_orders_from_user($user_id, $filters=[],$page=1, $limit=10){
             $filter_str = " WHERE";
         else
             $filter_str." AND ";
-        $filter_str.$key."='".$value."'";
+        $filter_str = $filter_str." ".$key."='".$value."'";
     }
+    $filter_str = $filter_str." AND";
     if($filter_str == "")
         $filter_str = " WHERE";
     $base = ($page-1)*$limit;
     $sql = $sql.$filter_str;
     $sql = $sql." submit_user='$user_id'";
     $sql = $sql." LIMIT $base, $limit";   
-
     $results = $link->query($sql);
     $return_var = array(
         "status" => "success",
