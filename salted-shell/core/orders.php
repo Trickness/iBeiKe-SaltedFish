@@ -224,7 +224,7 @@ function finish_order_from_user($student_id, $order_id){
     }
 }
 
-function change_order_staus($order_id, $status){
+function change_order_status($order_id, $status){
     global $db_host;
     global $db_pass;
     global $db_name;

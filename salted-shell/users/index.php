@@ -240,19 +240,15 @@
 	</script>
 
 	<style>
-		.recent-item{width: 228px;height: 210px;border: 1px solid #CCCCCC;margin-left: 25px;margin-bottom: 10px;transition-duration: 0.4s;float: left;}
-		.recent-tl{padding-left: 10px;}
-		.recent-dec{padding-left: 10px;font-size: 12px;}
-		.recent-item:hover{background-color: #e8e8e8;}
-		.recent-item img{width: 228px;height: 151px;}
-
-		.recent-order{border: 0.7mm dashed #CCCCCC;height: 115px;width: 718px;margin-left: 10px;border-radius: 10px;margin-bottom:20px;}
+		.recent-order{border: 0.7mm dashed #CCCCCC;height: 115px;width: 718px;margin-left: 25px;border-radius: 10px;margin-bottom:20px;}
 		.recent-order:hover{border: 0.7mm solid #e8e8e8;}
+		.recent-order td{text-align:center;height:70px;font-size:14px;border-left:1px solid #CCCCCC}
+		.recent-tl{background-color:#e8e8e8;width:inherit;height:40px;border-radius: 10px;}
+		.recent-tl div{float:left;margin-top:7px;margin-left:10px;}
 	</style>
 	<div id="recent">
-		
 		<!--此处为带滚动条效果的div的样式表  -->
-		<style>
+		<!-- <style>
 		    #scroll-div {
         		width:750px;
     		    height:400px;
@@ -280,40 +276,36 @@
     		#scroll-div::-webkit-scrollbar-resizer  {
     		    background:#FF0BEE;
     		}
-		</style>
+		</style> -->
 		<!--此处为，带滚动条效果的div  -->
-		<div id='scroll-div'>
+		<!-- <div id='scroll-div'>
         	
-			<div id="scroll-sam" class="recent-order">
-				<div style="background-color:#e8e8e8;width:inherit;height:40px;border-radius: 10px;">
-					<div style="padding:6px;float:left;"><input name="status" type="checkbox" style="margin:7px;" checked /></div>
-					<div style="float:left;margin-top:7px;margin-left:10px;"><span>下单时间：2017-06-06</span></div>			
+			<div class="recent-order">
+				<div class="recent-tl">
+					<div>下单时间：<span name="submit_time">2017-06-06</span></div>			
 				</div>
 				<div>
-					<style>
-					#order_show td{text-align:center;height:70px;font-size:14px;}
-					</style>
-					<table id="order_show">
+					<table>
 						<tr>
 							<td style="width:240px;text-align:left;padding-left:10px;">
 								<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">
-								<p style="float:left;margin-left:5px;">正版膜法指南</p>
+								<p style="float:left;margin-left:5px;">正版魔法指南</p>
 							</td>
 							<td style="width:80px;"><span style="font-size:12px;">￥</span>65.00</td>
 							<td style="width:40px;"><span style="font-size:12px;">X</span>2</td>
 							<td>=</td>
 							<td style="width:85px;"><span style="font-size:12px;">￥</span>130.00</td>
 							<td style="width:120px;">买家已下单<br>等待卖家接单</td>
-							<td style="width:120px;">编辑<br>追加评论</td>
+							<td style="width:120px;">编辑<br>删除<br>追加评论</td>
 						</tr>
 					</table>		
 				</div>
 			</div>
 
-    	</div>
+    	</div> -->
 
 		<!--此处仅为示例用的js，实际应用时需删除  -->
-		<script>
+		<!-- <script>
 			$(document).ready(function(){
 				var scroll = $("#scroll-div").html();
 				for (var i = 0; i < 3; i++) {
@@ -321,20 +313,119 @@
 					
 				}
 				$("#scroll-div").html(scroll);
+
+				
 			});
-		</script>
+		</script> -->
 		<!--示例js  -->
+		<div id="order-sort" style="width:720px;height:35px;margin-left:25px;">
+			<label for="status-sort">订单状态</label>
+			<select id="status-sort" style="margin:5px;">
+				<option value="all" selected>全部</option>
+				<option value="waiting">等待卖家接单</option>
+				<option value="accepted">卖家已接单</option>
+				<option value="completed">已确认收货</option>
+				<option value="finished">订单已完成</option>
+			</select>
+			<label for="page-sort">页码</label><input type="text" id="page-sort" value="1" />
+			<button id="sort-submit">筛选</button>
+		</div>
+		<div id="recent-content">
+
+			
+		
+		</div>
+
+			<div class="recent-order" style="display:none;" id="order-sam">
+					<div class="recent-tl">
+						<div>下单时间：<span name="submit_time">2017-06-06</span></div>			
+					</div>
+					<div>
+						<table>
+							<tr>
+								<td style="width:190px;text-align:left;padding-left:10px;">
+									<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">
+									<p style="float:left;margin-left:5px;" name="goods_title">正版魔法指南</p>
+								</td>
+								<td style="width:80px;">
+									<span style="font-size:12px;">￥</span>
+									<span name="price_per_goods">65.00</span>
+								</td>
+								<td style="width:50px;">
+									<span name="goods_count">2</span>
+								</td>
+								<td style="width:70px;">
+									<span style="font-size:12px;">￥</span>
+									<span name="deliver_fee">15.00</span>
+								</td>
+								<td style="width:85px;">
+									<span style="font-size:12px;">￥</span>
+									<span name="total_cost">130.00</span>
+								</td>
+								<td style="width:100px;" name="status">
+									买家已下单<br>
+									等待卖家接单
+								</td>
+								<td style="width:100px;">
+									<a href="#">编辑</a><br>
+									<a href="#">删除</a><br>
+									<a href="#">追加评论</a>
+								</td>
+							</tr>
+						</table>		
+					</div>
+			</div>
+	
 	</div>
 
 	<script>
+
 		$(document).ready(function(){
-			$('[name="status"]').bootstrapSwitch({
-				size:"small",
-				onColor:"success",
-				offColor:"warning",
-				onSwitchChange:function(event,state){
-					console.log(state);
+			var order_sam = $("#order-sam").html();
+			
+			function show_orders(data){
+				var recent = "";
+				for (var i = 0; i < data.length; i++) {
+					console.log(data[i]);
+					recent += '<div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div>';
 				}
+				$("#recent-content").html(recent);
+				for (var i = 0; i < data.length; i++) {
+					$("#"+data[i].order_id+' [name="submit_time"]').html(data[i].submit_time.split(".")[0]);
+					$("#"+data[i].order_id+' [name="price_per_goods"]').html(data[i].price_per_goods);
+					$("#"+data[i].order_id+' [name="goods_count"]').html(data[i].goods_count);
+					$("#"+data[i].order_id+' [name="deliver_fee"]').html(data[i].deliver_fee);
+					var total_cost = parseFloat(data[i].price_per_goods) * parseFloat(data[i].goods_count) + parseFloat(data[i].deliver_fee);
+					$("#"+data[i].order_id+' [name="total_cost"]').html(total_cost);
+					var status = "";
+					switch (data[i].status) {
+						case "waiting":
+							status = "等待卖家接单";
+							break;
+						case "accepted":
+							status = "卖家已接单";
+							break;
+						case "completed":
+							status = "商品已送到";
+							break;
+						case "finished":
+							status = "订单已完成";
+							break;
+						default:
+							break;
+					}
+					$("#"+data[i].order_id+' [name="status"]').html(status);
+				}
+			}
+
+			$.getJSON("../core/api-v1.php",{action: "list_orders"},function(data){show_orders(data);});
+			$("#sort-submit").click(function(){
+				var status = $("#status-sort").val();
+				var page = $("#page-sort").val();
+				var sort = {action:"list_orders",status:status,page:page};
+				if (status=="all") sort = {action:"list_orders",page:page};
+				console.log(sort);
+				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data);});
 			});
 		});
 
