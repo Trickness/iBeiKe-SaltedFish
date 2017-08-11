@@ -266,16 +266,18 @@ function list_orders_from_user($user_id, $filters=[],$page=1, $limit=10){
     $sql = $sql." LIMIT $base, $limit";   
 
     $results = $link->query($sql);
-    $return_var = array();
+    $return_var = array(
+        "status" => "success",
+        "orders" => array()
+    );
     $link->close();
     if($results){
-        while($result = mysqli_fetch_assoc($results)){
-            $return_var[] = $result;        // append a new array at the end of this array
-        }
-        $return_var = json_encode($return_var);
-        return $return_var;
+        while($result = mysqli_fetch_assoc($results))
+            $return_var["orders"][] = $result;        // append a new array at the end of this array
+        $return_var['count'] = count($return_var['orders']);
+        return json_encode($return_var);
     }else{
-        return generate_error_report("Database Error as list_order_from_user()");
+        die(generate_error_report("Database Error as list_order_from_user()"));
     }
 }
 
