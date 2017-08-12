@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+            window.onload = function(){
+            $.getJSON("../core/api-v1.php?action=list_orders",function(data){
+                if(data.status === "success"){
+                    $.each(data.orders,function(index, item, array){
+                        console.log(item);
+                            $("#orders_list tr:last").after("<tr><td>" + item.order_id + "</td>\
+                                                                   <td>"+ decodeURIComponent(item.goods_title) +"</td>\
+                                                                <td>" + item.submitter + "</td>\
+                                                                <td>" + item.single_cost + "</td>\
+                                                                <td>" +  item.goods_count + "</td>\
+                                                                <td>" + item.deliver_fee + "</td>\
+                                                                <td>" + item.submit_time + "</td>\
+                                                                <td>" + item.status + "</td></td></tr>"
+                                                            )
+                        });
+                }else{
+                    console.log(data);
+                }
+                
+            });
+        }
+        </script>
+    </head>
+    <body style="margin:0px;">
+        <div>
+            <table border="1" id="orders_list">
+                <tr>
+                    <td>Order Id</td>
+                    <td>Item Name</td>
+                    <td>Brougt from</td>
+                    <td>Item Price</td>
+                    <td>Item Count</td>
+                    <td>Delivery fee</td>
+                    <td>Submit Time</td>
+                    <td>Status</td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

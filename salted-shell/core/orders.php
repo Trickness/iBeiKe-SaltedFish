@@ -1,7 +1,7 @@
 <?php
 
 
-function create_order_from_user($submit_user,$goods_id,$deliver_fee,$goods_count,$price_per_goods){
+function create_order_from_user($order_submitter,$order_type,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer){
     global $db_host;
     global $db_pass;
     global $db_name;
@@ -10,29 +10,32 @@ function create_order_from_user($submit_user,$goods_id,$deliver_fee,$goods_count
     global $db_goods_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT count FROM $db_goods_table WHERE goods_id='$goods_id'";
+    $sql = "SELECT remain FROM $db_goods_table WHERE goods_id='$goods_id'";
     $result = $link->query($sql);
     if($result){
-        if(mysqli_fetch_assoc($result)['count'] < $goods_count){
+        if(mysqli_fetch_assoc($result)['remain'] < $purchase_amount){
             die(generate_error_report("No enough goods"));
         }
     }else{
         die(generate_error_report("No such goods"));
     }
-    $sql = "INSERT INTO $db_order_table (goods_id, submit_user, deliver_fee, goods_count, price_per_goods, status) VALUE ('$goods_id','$submit_user','$deliver_fee','$goods_count','$price_per_goods','waiting')";
+    $sql = "INSERT INTO $db_order_table (goods_id, order_type,order_submitter, delivery_fee, purchase_amount, single_cost, offer, order_status) 
+            VALUE 
+            ('$goods_id','$order_type','$order_submitter','$delivery_fee','$purchase_amount','$single_cost','$offer','waiting')";
+    var_dump($order_type);
     $result = $link->query($sql);
     $insert_id = $link->insert_id;
     $link->commit();
-    $link->close();
     if ($result){
+        $link->close();
         return $insert_id;
     }else{
-        return false;
+        die(generate_error_report($link->error));
     }
 }
-function create_order($session_key,$goods_id,$deliver_fee,$goods_count,$price_per_goods){
+function create_order($session_key,$order_type,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer){
     if($student_id = get_student_id_from_session_key($session_key)){
-        $result = create_order_from_user($student_id,$goods_id,$deliver_fee,$goods_count,$price_per_goods);
+        $result = create_order_from_user($student_id,$order_type,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer);
         if($result){
             post_create_order();
             return $result;
@@ -65,21 +68,20 @@ function cancel_order_from_user($current, $order_id){
     global $db_order_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT goods_id, submit_user,goods_count from $db_order_table where order_id = '$order_id'";
-    var_dump($sql);
+    $sql = "SELECT goods_id, order_submitter,purchase_amount from $db_order_table where order_id = '$order_id'";
     $result = $link->query($sql);
     if($result && $result->num_rows != 0){
         $result = mysqli_fetch_assoc($result);
         $goods_id = $result['goods_id'];
         $user_id  = $result['user_id'];
-        $goods_count = $result['goods_count'];
+        $purchase_amount = $result['purchase_amount'];
         if($current == $user_id || $current == fetch_goods_submitter($goods_id)){
             $sql = "DELETE FROM $db_order_table WHERE order_id = '$order_id'";
             $result = $link->query($sql);
             $link->commit();
             $link->close();
             if($result){
-                increase_goods_count($goods_id, $goods_count);
+                increase_goods_remain($goods_id, $purchase_amount);
                 post_cancel_order();
                 return json_encode(array(
                     "status" => "success"
@@ -112,18 +114,18 @@ function accept_order_from_user($user_id, $order_id){
     global $db_order_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT goods_id,goods_count FROM $db_order_table WHERE order_id='$order_id'";
+    $sql = "SELECT goods_id,purchase_amount FROM $db_order_table WHERE order_id='$order_id'";
     $result = $link->query($sql);
     if($result && $result->num_rows != 0){
         $result = mysqli_fetch_assoc($result);
         $goods_id = $result['goods_id'];
-        $goods_count = $result['goods_count'];
-        $sql = "SELECT submitter,count FROM $db_goods_table WHERE goods_id='$goods_id'";
+        $purchase_amount = $result['purchase_amount'];
+        $sql = "SELECT submitter,remain FROM $db_goods_table WHERE goods_id='$goods_id'";
         $result = $link->query($sql);
         if($result && $result->num_rows != 0){
             $result = mysqli_fetch_assoc($result);
             if("".$result['submitter'] == "".$user_id){
-                if($result['count'] < $goods_count){
+                if($result['remain'] < $purchase_amount){
                     $link->close();
                     die(generate_error_report("Not enouge goods"));
                 }
@@ -135,7 +137,7 @@ function accept_order_from_user($user_id, $order_id){
                     $link->close();
                     die(generate_error_report("Unknonw error"));
                 }
-                decrease_goods_count($goods_id,$goods_count);
+                decrease_goods_remain($goods_id,$purchase_amount);
                 $link->close();
                 post_accept_order();
                 die(json_encode(array(
@@ -199,12 +201,12 @@ function finish_order_from_user($student_id, $order_id){
     global $db_order_table;
     
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT submit_user,status from $db_order_table where order_id = '$order_id'";
+    $sql = "SELECT order_submitter,status from $db_order_table where order_id = '$order_id'";
     $result = $link->query($sql);
     $link->close();
     if($result){
         $result = mysqli_fetch_assoc($result);
-        $user_id  = $result['submit_user'];
+        $user_id  = $result['order_submitter'];
         if($user_id != $student_id){
             die(generate_error_report("This order is not yours"));
         }elseif($result['status'] == "waiting" || $result['status'] == "accepted"){
@@ -247,9 +249,10 @@ function list_orders_from_user($user_id, $filters=[],$page=1, $limit=10){
     global $db_name;
     global $db_user;
     global $db_order_table;
+    global $db_goods_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT * from $db_order_table";
+    $sql = "SELECT * from $db_goods_table RIGHT OUTER JOIN $db_order_table on $db_order_table"."."."goods_id=$db_goods_table"."."."goods_id";
     $filter_str = "";
     foreach($filters as $key=>$value){
         if($filter_str == "")
@@ -258,12 +261,13 @@ function list_orders_from_user($user_id, $filters=[],$page=1, $limit=10){
             $filter_str." AND ";
         $filter_str = $filter_str." ".$key."='".$value."'";
     }
-    $filter_str = $filter_str." AND";
     if($filter_str == "")
         $filter_str = " WHERE";
+    else
+        $filter_str = $filter_str." AND";
     $base = ($page-1)*$limit;
     $sql = $sql.$filter_str;
-    $sql = $sql." submit_user='$user_id'";
+    $sql = $sql." order_submitter='$user_id'";
     $sql = $sql." LIMIT $base, $limit";   
     $results = $link->query($sql);
     $return_var = array(
