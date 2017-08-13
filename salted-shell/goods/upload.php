@@ -20,12 +20,12 @@
 
 
 价格
-<input id="price" type="text" name="price">
+<input id="single_cost" type="text" name="single_cost">
 <br/>
 
 
 数量
-<input id="count" type="text" name="count">
+<input id="remain" type="text" name="remain">
 <br/> 
 
 运费
@@ -33,14 +33,14 @@
 <br/> 
 
 状态
-<select id="status" type="text" name="status">
+<select id="goods_status" type="text" name="goods_status">
 <option value="available">available</option>
 <option value="unavailable">unavailable</option>
 </select>
 <br/>
 
 类型
-<select id="type" type="text" name="type">
+<select id="goods_type" type="text" name="goods_type">
 <option value="rent">rent</option>
 <option value="sale">sale</option>
 </select>
@@ -136,11 +136,11 @@
     $("#submit").click(function(){
         var jsonData = {};
         jsonData.goods_title=$("#title").val();
-        jsonData.price=$("#price").val();
-        jsonData.status=$("#status").val();
-        jsonData.count=$("#count").val();
+        jsonData.single_cost=$("#single_cost").val();
+        jsonData.goods_status=$("#goods_status").val();
+        jsonData.remain=$("#remain").val();
         jsonData.tags=$("#tags").val().split(" ");
-        jsonData.type=$("#type").val();
+        jsonData.goods_type=$("#goods_type").val();
         jsonData.delivery_fee=$("#d_fee").val();
         jsonData.cl_lv_1=$("#cl_lv_1").val();
         jsonData.cl_lv_2=$("#cl_lv_2").val();

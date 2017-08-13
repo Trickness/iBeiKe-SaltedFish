@@ -32,20 +32,21 @@
                     goods_info = data;
                     console.log(goods_info);
                     $("#goods_title").html(data.goods_title);
-                    $("#submitter").html(data.submitter);
-                    $("#status").html(data.status);
+                    $("#goods_owner").html(data.goods_owner);
+                    $("#goods_status").html(data.goods_status);
                     // $("#count").html(data.count);
-                    $("#type").html(data.type);
-                    $("#price").html(data.price);
+                    $("#goods_type").html(data.goods_type);
+                    $("#single_cost").html(data.single_cost);
                     $("#summary_content").html(data.summary);
 
+                    console.log(data);
                     $("#buyer_id").html(data.buyer_info.student_id);
                     $("#buyer_name").html(data.buyer_info.name);
                     $("#buyer_phone").html(data.buyer_info.phone_number);
 
-                    $("#submitter_id").html(data.submitter_info.student_id);
-                    $("#submitter_name").html(data.submitter_info.name);
-                    $("#submitter_phone").html(data.submitter_info.phone_number);
+                    $("#goods_owner_id").html(data.goods_owner_info.student_id);
+                    $("#goods_owner_name").html(data.goods_owner_info.name);
+                    $("#goods_owner_phone").html(data.goods_owner_info.phone_number);
 
                     var total_comment = "";
                     if(data.comments != null){
@@ -59,7 +60,7 @@
 
                 $('input[name="count"]').change(function(){
                     if (goods_info!= null) {
-                        var total = goods_info.price * $('input[name="count"]').val()+parseInt($('#order_deliver_fee').html());
+                        var total = goods_info.single_cost * $('input[name="count"]').val()+parseInt($('#order_deliver_fee').html());
                         $("#order_total").html(total);
                     }
                 });
@@ -69,14 +70,16 @@
                         order_info.goods_id = goods_id;
                         order_info.deliver_fee = $('#order_deliver_fee').html();
                         order_info.goods_count =  $('input[name="count"]').val();
-                        order_info.price_per_goods = goods_info.price; 
+                        order_info.single_cost_per_goods = goods_info.single_cost; 
                         order_info = JSON.stringify(order_info);
                         $.get("../core/api-v1.php",{
                                     goods_id:goods_id,
                                     action:"new_order",
-                                    deliver_fee:$('#order_deliver_fee').html(),
-                                    goods_count:$('input[name="count"]').val(),
-                                    price_per_goods:goods_info.price
+                                    order_type:$('#goods_type').html(),
+                                    delivery_fee:$('#order_deliver_fee').html(),
+                                    purchase_amount:$('input[name="count"]').val(),
+                                    single_cost:goods_info.single_cost,
+                                    offer:parseInt(goods_info.single_cost)*parseInt($('input[name="count"]').val())+parseInt($('#order_deliver_fee').html())
                                 },function(data){
                             console.log(data);
                         });
@@ -93,11 +96,11 @@
         </script>  
         <div style="margin-top:90px;">
             <div><label for="goods_title">商品名称：</label><label id="goods_title"></label></div>
-            <div><label for="submitter">卖家：</label><label id="submitter"></label></div>
-            <div><label for="status">状态：</label><label id="status"></label></div>
+            <div><label for="goods_owner">卖家：</label><label id="goods_owner"></label></div>
+            <div><label for="goods_status">状态：</label><label id="goods_status"></label></div>
             <!-- <div><label for="count">数量：</label><label id="count">0</label></div> -->
-            <div><label for="type">交易方式：</label><label id="type"></label></div>
-            <div><label for="price">价格：</label><label id="price"></label></div>
+            <div><label for="goods_type">交易方式：</label><label id="goods_type"></label></div>
+            <div><label for="single_cost">价格：</label><label id="single_cost"></label></div>
         </div>   
         <button id="make_order">立即下单</button>
         
@@ -150,9 +153,9 @@
                                 <th>联系电话</th>
                             </thead>
                             <tbody>
-                                <td id="submitter_id"></td>
-                                <td id="submitter_name"></td>
-                                <td id="submitter_phone"></td>
+                                <td id="goods_owner_id"></td>
+                                <td id="goods_owner_name"></td>
+                                <td id="goods_owner_phone"></td>
                             </tbody>
                         </table>
                     </div>
@@ -171,7 +174,7 @@
                             </thead>
                             <tbody>
                             <td id="order_tl"></td>
-                                <td id="order_price">0</td>
+                                <td id="order_single_cost">0</td>
                                 <td id="order_count"><input type="number" name="count" value="1" style="width:60px;text-align:center;" /></td>
                                 <td id="order_deliver_fee">0</td>
                                 <td id="order_total">0</td>
@@ -193,9 +196,9 @@
 
                     if (goods_info!=null) {
                         $("#order_tl").html(goods_info.goods_title);
-                        $("#order_price").html(goods_info.price);
+                        $("#order_single_cost").html(goods_info.single_cost);
                         $("#order_deliver_fee").html(goods_info.delivery_fee);
-                        var total = goods_info.price * $('input[name="count"]').val()+parseInt($('#order_deliver_fee').html());
+                        var total = goods_info.single_cost * $('input[name="count"]').val()+parseInt($('#order_deliver_fee').html());
                         $("#order_total").html(total);
                         $("#order_content").css("display","block");
                     }

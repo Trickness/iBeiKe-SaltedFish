@@ -28,7 +28,7 @@ function submit_goods($goods_info, $session_key)
     }
     else  return generate_error_report("Not logged in");
 };
-function submit_goods_from_id($goods_info,$submitter){
+function submit_goods_from_id($goods_info,$goods_owner){
 	global $db_host;
     global $db_pass;
     global $db_name;
@@ -37,12 +37,12 @@ function submit_goods_from_id($goods_info,$submitter){
 	$goods_info = json_decode($goods_info,true);
 
 	$goods_title 	= __JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error, no title specified"));
-	$goods_price 	= __JSON($goods_info,"price") 		or 	die(generate_error_report("syntax error, no price specified"));
-	//$goods_summary 	= urlencode(__JSON($goods_info,"summary") 	or 	die(generate_error_report("syntax error")));
+	$single_cost 	= __JSON($goods_info,"single_cost") 	or 	die(generate_error_report("syntax error, no single cost specified"));
+	//$goods_search_summary 	= urlencode(__JSON($goods_info,"search_summary") 	or 	die(generate_error_report("syntax error")));
 	//$goods_images = urlencode(__JSON($goods_info,"images") 		or 	die(generate_error_report("syntax error")));
-	$goods_status 	= __JSON($goods_info,"status") 					or 	die(generate_error_report("syntax error, no status specified")) ;
-	$goods_type 	= __JSON($goods_info,"type") 					or 	die(generate_error_report("syntax error, no type specified")) ;
-	$goods_count 	= __JSON($goods_info,"count")					or 	die(generate_error_report("syntax error, no count specified")) ;
+	$goods_status 	= __JSON($goods_info,"goods_status") 	or 	die(generate_error_report("syntax error, no goods status specified")) ;
+	$goods_type 	= __JSON($goods_info,"goods_type") 		or 	die(generate_error_report("syntax error, no goods type specified")) ;
+	$goods_remain 	= __JSON($goods_info,"remain")			or 	die(generate_error_report("syntax error, no remain specified")) ;
 	$goods_tags 	= __JSON($goods_info,"tags",'[]');
 	$delivery_fee 	= __JSON($goods_info,"delivery_fee",'0');
 	$lv1 			= __JSON($goods_info,"cl_lv_1","");
@@ -55,20 +55,20 @@ function submit_goods_from_id($goods_info,$submitter){
 	}
 
 	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
-	$goods_summary  = mb_substr(__JSON($goods_info,"content"),0,100,"utf-8");
+	$goods_search_summary  = mb_substr(__JSON($goods_info,"content"),0,100,"utf-8");
 	if(($goods_type != "rent") 	    and($goods_type != "sale"))			die(generate_error_report("syntax error5")) ;
 	if(($goods_status!="available") and($goods_status != "withdrawal"))	die(generate_error_report("syntax error6")) ;
-	$submit_date 	= date("Y/m/d");
+	$ttm 	= date("Y/m/d");
 	//$goods_images = json_encode($goods_images);
 
 	$goods_title = urlencode($goods_title);
-	$goods_price = urlencode($goods_price);
+	$single_cost = urlencode($single_cost);
 
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$sql = "INSERT INTO $db_goods_table
-			(goods_title,	status,			type,		  price,		 submitter,	 submit_date,	 edit_date,		summary,	count, tags, cl_lv_1, cl_lv_2, cl_lv_3, delivery_fee) 
+			(goods_title,	goods_status,			goods_type,		  single_cost,		 goods_owner,	 ttm,	 last_modified,		search_summary,	remain, tags, cl_lv_1, cl_lv_2, cl_lv_3, delivery_fee) 
 			VALUES 
-			('$goods_title','$goods_status','$goods_type','$goods_price','$submitter','$submit_date','$submit_date','$goods_summary','$goods_count','$goods_tags_str','$lv1','$lv2','$lv3', '$delivery_fee')";
+			('$goods_title','$goods_status','$goods_type','$single_cost','$goods_owner','$ttm','$ttm','$goods_search_summary','$goods_remain','$goods_tags_str','$lv1','$lv2','$lv3', '$delivery_fee')";
 	var_dump($sql);
 	$link->query($sql);
 	$link->commit();
@@ -144,7 +144,7 @@ function comment_goods($goods_id, $comment, $session_key)
 /**
  * 
  * 获得商品信息
- *      从 goods_id, submitter, submit_date, goods_info, comments
+ *      从 goods_id, goods_owner, ttm, goods_info, comments
  *      中获取信息，构建JSON，并返回
  *    根据不同的 session_key 返回经过修改或删减的信息
  * 
@@ -170,20 +170,20 @@ function comment_goods($goods_id, $comment, $session_key)
 	$res = mysqli_fetch_assoc($res) or die("No such goods");
 	$goods_info['goods_id'] 	= $res['goods_id'];
 	$goods_info['goods_title'] 	= urldecode($res['goods_title']);
-	$goods_info['price'] 		= urldecode($res['price']);
-	$goods_info['count'] 		= $res['count'];
-	$goods_info['submit_date'] 	= $res['submit_date'];
-	$goods_info['edit_date'] 	= $res['edit_date'];
-	$goods_info['status'] 		= $res['status'];
-	$goods_info['type'] 		= $res['type'];
-	$goods_info['summary'] 		= urldecode($res['summary']);
+	$goods_info['single_cost'] 	= urldecode($res['single_cost']);
+	$goods_info['remain'] 		= $res['remain'];
+	$goods_info['ttm'] 			= $res['ttm'];
+	$goods_info['last_modified'] 	= $res['last_modified'];
+	$goods_info['goods_status'] 		= $res['goods_status'];
+	$goods_info['goods_type'] 		= $res['goods_type'];
+	$goods_info['search_summary'] 		= urldecode($res['search_summary']);
 	$goods_info['comments'] 	= json_decode($res['comments'],true);
 	$goods_info['delivery_fee'] = $res['delivery_fee'];
 	// $goods_info['tags'] 		= $res['tags'].split(" ");
 	$goods_info['tags'] 		= explode(" ",$res['tags']);
 
 	//$goods_info['comments'] 	= $res['comments'];
-	$goods_info['submitter'] 	= $res['submitter'];
+	$goods_info['goods_owner'] 	= $res['goods_owner'];
 
 	// $index = 0;
 	// foreach($goods_info['comments'] as  $value){
@@ -194,17 +194,12 @@ function comment_goods($goods_id, $comment, $session_key)
 	for ($i=0; $i <sizeof($goods_info['comments']) ; $i++) { 
 		 $goods_info['comments'][$i]['comment'] = urldecode($goods_info['comments'][$i]['comment']);
 	}
-	if (!get_student_id_from_session_key($session_key))	//来宾用户，未登录
-	{
-		// $goods_info['submitter'] = $goods_info['submitter'].substr(4)."****";
-		$goods_info['submitter'] = substr(trim($goods_info['submitter']),0,4)."****";
-		// 
+	if (!get_student_id_from_session_key($session_key)){	//来宾用户，未登录
+		$goods_info['goods_owner'] = substr(trim($goods_info['goods_owner']),0,4)."****";
 		$goods_info = json_encode($goods_info);
 		mysqli_close($link);
 		return $goods_info;
-	}
-	else
-	{	
+	}else{	
 		$goods_info = json_encode($goods_info);
 		mysqli_close($link);
 		return $goods_info;
@@ -236,14 +231,14 @@ function revoke_goods($goods_id, $session_key){
 	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
 	$query = mysqli_query($link,$iden);
 	$res = mysqli_fetch_assoc($query) or die("No such goods");
-	if ($res['submitter']!=$student_id){
+	if ($res['goods_owner']!=$student_id){
 		mysqli_close($link);
 		die(generate_error_report("access denied"));
 	}else{
-		$update = "update $db_goods_table set status='unavailable' where goods_id='$goods_id'";
+		$update = "update $db_goods_table set goods_status='unavailable' where goods_id='$goods_id'";
 		$query_1 = mysqli_query($link,$update);
 		mysqli_close($link);
-		return generate_error_report('Not submitter');
+		return generate_error_report('Not owner');
 	}
 }
 /**
@@ -258,7 +253,7 @@ function revoke_goods($goods_id, $session_key){
  *      - $session_key  (@STRING)会话密钥 
  * 
  * @return
- *      - $status       (@JSONStr)
+ *      - $goods_status       (@JSONStr)
  *
  **/
 function update_goods($goods_info, $session_key){
@@ -272,15 +267,15 @@ function update_goods($goods_info, $session_key){
 
 	$goods_id  		= __JSON($goods_info,"goods_id")				or 	die(generate_error_report("syntax error")) ;
 	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error")));
-	$goods_price 	= urlencode(__JSON($goods_info,"price") 		or 	die(generate_error_report("syntax error")));
-	$goods_summary 	= urlencode(__JSON($goods_info,"summary") 		or 	die(generate_error_report("syntax error")));
+	$goods_single_cost 	= urlencode(__JSON($goods_info,"single_cost") 		or 	die(generate_error_report("syntax error")));
+	$goods_search_summary 	= urlencode(__JSON($goods_info,"search_summary") 		or 	die(generate_error_report("syntax error")));
 	//$goods_images = urlencode(__JSON($goods_info,"images") 		or 	die(generate_error_report("syntax error")));
-	$goods_status 	= __JSON($goods_info,"status") 					or 	die(generate_error_report("syntax error")) ;
-	$goods_type 	= __JSON($goods_info,"type") 					or 	die(generate_error_report("syntax error")) ;
+	$goods_status 	= __JSON($goods_info,"goods_status") 					or 	die(generate_error_report("syntax error")) ;
+	$goods_type 	= __JSON($goods_info,"goods_type") 					or 	die(generate_error_report("syntax error")) ;
 	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
 	if(($goods_type != "rent") 		or ($goods_status != "sale"))		die(generate_error_report("syntax error")) ;
 	if(($goods_status!="available") or ($goods_status != "withdrawal"))	die(generate_error_report("syntax error")) ;
-	$edit_date 		= date("Y/m/d");
+	$last_modified 		= date("Y/m/d");
 
 
 	// check authorities
@@ -290,16 +285,16 @@ function update_goods($goods_info, $session_key){
 	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
 	$query = mysqli_query($link,$iden);
 	$res = mysqli_fetch_assoc($query) or die("No such goods");
-	if ($res['submitter']!=$student_id){
+	if ($res['goods_owner']!=$student_id){
 		mysqli_close($link);
 		die(generate_error_report("access denied"));
 	}else{
 		$update = "update $db_goods_table set goods_title 	= '$goods_title',
-											  status 		= '$goods_status',
-											  type 			= '$goods_type',
-											  price 		= '$goods_price',
-											  edit_date 	= '$edit_date',
-											  summary 		= '$goods_summary',
+											  goods_status 		= '$goods_status',
+											  goods_type 			= '$goods_type',
+											  single_cost 		= '$goods_single_cost',
+											  last_modified 	= '$last_modified',
+											  search_summary 		= '$goods_search_summary',
 											  goods_info 	= '$goods_info'";
 		$query_1 = mysqli_query($link,$update);
 		mysqli_close($link);
@@ -308,7 +303,7 @@ function update_goods($goods_info, $session_key){
 }
 
 
-function fetch_goods_submitter($goods_id){
+function fetch_goods_owner($goods_id){
 	global $db_host;
 	global $db_user;
 	global $db_pass;
@@ -320,14 +315,14 @@ function fetch_goods_submitter($goods_id){
 	$result = $link->query($sql);
 	if($result){
 		$result = mysqli_fetch_assoc($result);
-		return $result['submitter'];
+		return $result['goods_owner'];
 	}else{
 		return false;
 	}
 
 }
 
-function decrease_goods_count($goods_id, $num){
+function decrease_goods_remain($goods_id, $num){
 	global $db_host;
 	global $db_user;
 	global $db_pass;
@@ -335,14 +330,14 @@ function decrease_goods_count($goods_id, $num){
 	global $db_goods_table;
 
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$sql = "UPDATE $db_goods_table SET count=count-$num WHERE goods_id='$goods_id'";
+	$sql = "UPDATE $db_goods_table SET remain=remain-$num WHERE goods_id='$goods_id'";
 	$result = $link->query($sql);
 	$link->commit();
 	$link->close();
 	return true;
 }
 
-function increase_goods_count($goods_id, $num){
+function increase_goods_remain($goods_id, $num){
 	global $db_host;
 	global $db_user;
 	global $db_pass;
@@ -350,7 +345,7 @@ function increase_goods_count($goods_id, $num){
 	global $db_goods_table;
 
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$sql = "UPDATE $db_goods_table SET count=count+$num WHERE goods_id='$goods_id'";
+	$sql = "UPDATE $db_goods_table SET remain=remain+$num WHERE goods_id='$goods_id'";
 	$result = $link->query($sql);
 	$link->commit();
 	$link->close();

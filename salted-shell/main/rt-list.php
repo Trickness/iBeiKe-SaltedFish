@@ -40,7 +40,7 @@ function get_goods($list,$page = 1,$target = "goods_title",$goods_num = 12){
     while ($res = mysqli_fetch_array($id_query)) {
     	// var_dump($res['goods_id']);
     	$good_info = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
-		$good = sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./goods.jpg",$good_info['price'],$good_info['goods_title'],$good_info['submitter']);
+		$good = sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./goods.jpg",$good_info['single_cost'],$good_info['goods_title'],$good_info['goods_owner']);
 		$goods_list['list'] = $goods_list['list'].$good;
     }
     $count_sql = "SELECT COUNT(*) AS total_pages FROM $db_goods_table WHERE $target LIKE '%$list%'";

@@ -65,9 +65,9 @@ require_once "./goods.php";
 				$orders = "";
 				while ($res = mysqli_fetch_array($query)) {
 					$good = json_decode(fetch_goods_info($res['goods_id'],$session_key),true);
-					// $cost = $res['price_per_goodse']*$res['goods_count']+$res['deliver_fee'];
+					// $cost = $res['single_coste']*$res['goods_count']+$res['deliver_fee'];
 
-					$cart_item = sprintf($cartTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./adv.png",$good['goods_title'],$res['price_per_goods'],$res['goods_count']);
+					$cart_item = sprintf($cartTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./adv.png",$good['goods_title'],$res['single_cost'],$res['goods_count']);
 					$store = sprintf($storeTpl,$good['submitter'],"#","#",$cart_item);
 					echo $store;
 				}

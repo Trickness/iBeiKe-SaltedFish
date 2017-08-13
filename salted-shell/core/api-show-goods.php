@@ -10,18 +10,18 @@ if (isset($_GET['goods_id'],$_GET['action'])) {
     if ($_GET['action']=="show") {
         $goods_info = json_decode(fetch_goods_info($_GET['goods_id'],session_id()),true);
         $buyer = json_decode(fetch_self_info(session_id()),true);
-        $submitter = json_decode(fetch_info_from_user($goods_info['submitter']),true);
+        $goods_owner = json_decode(fetch_info_from_user($goods_info['goods_owner']),true);
         $buyer_info = array(
             'student_id' => $buyer['student_id']['value'],
             'name' => $buyer['name']['value'],
             'phone_number' => $buyer['phone_number']['value']
         );
-        $submitter_info = array(
-            'student_id' => $submitter['student_id']['value'],
-            'name' => $submitter['name']['value'],
-            'phone_number' => $submitter['phone_number']['value']
+        $goods_owner_info = array(
+            'student_id' => $goods_owner['student_id']['value'],
+            'name' => $goods_owner['name']['value'],
+            'phone_number' => $goods_owner['phone_number']['value']
         );
-        $goods_info['buyer_info'] = $buyer_info;    $goods_info['submitter_info'] = $submitter_info;
+        $goods_info['buyer_info'] = $buyer_info;    $goods_info['goods_owner_info'] = $goods_owner_info;
         echo json_encode($goods_info);
     }elseif ($_GET['action']=="comment") {
         if (isset($_GET['comment'])) {
@@ -33,12 +33,12 @@ if (isset($_GET['goods_id'],$_GET['action'])) {
         // echo $_GET['order_info'];
         if (isset($_GET['order_info'])) {
             $order_info = json_decode($_GET['order_info'],true);
-            // create_order($session_key,$goods_id,$deliver_fee,$goods_count,$price_per_goods)
+            // create_order($session_key,$goods_id,$deliver_fee,$goods_count,$single_cost)
             if ($result = create_order(session_id(),
                                         $order_info['goods_id'],
-                                        $order_info['deliver_fee'],
-                                        $order_info['goods_count'],
-                                        $order_info['price_per_goods']
+                                        $order_info['delivery_fee'],
+                                        $order_info['remain'],
+                                        $order_info['singal_cost']
                                         )) {
                 echo json_encode(array(
 		            "status" => "success",
