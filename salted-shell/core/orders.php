@@ -22,7 +22,6 @@ function create_order_from_user($order_submitter,$order_type,$goods_id,$delivery
     $sql = "INSERT INTO $db_order_table (goods_id, order_type,order_submitter, delivery_fee, purchase_amount, single_cost, offer, order_status) 
             VALUE 
             ('$goods_id','$order_type','$order_submitter','$delivery_fee','$purchase_amount','$single_cost','$offer','waiting')";
-    var_dump($order_type);
     $result = $link->query($sql);
     $insert_id = $link->insert_id;
     $link->commit();

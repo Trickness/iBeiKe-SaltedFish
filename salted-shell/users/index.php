@@ -327,8 +327,8 @@
 
 			<label for="order_status-sort">订单状态</label>
 			<select id="order_status-sort" style="margin:5px;">
+				<option value="all" selected>全部</option>
 				<option value="waiting">等待卖家接单</option>
-
 				<option value="accepted">卖家已接单</option>
 				<option value="completed">已确认收货</option>
 				<option value="finished">订单已完成</option>
@@ -359,7 +359,10 @@
 							卖家：<span name="submit_user">abc</span>
 						</div>			 -->
 
-						<div>下单时间：<span name="ordering_date">2017-06-06</span></div>			
+						<div>
+							下单时间：<span name="ordering_date" style="margin-right:50px;"></span>
+							卖家：<span name="goods_owner"></span>
+						</div>			
 
 					</div>
 					<div>
@@ -367,27 +370,25 @@
 							<tr>
 								<td style="width:190px;text-align:left;padding-left:10px;">
 									<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">
-									<p style="float:left;margin-left:5px;" name="goods_title">正版魔法指南</p>
+									<p style="float:left;margin-left:5px;"><span name="goods_title">正版魔法指南</span></p>
+									<!-- <span name="goods_title"></span> -->
 								</td>
 								<td style="width:80px;">
 									<span style="font-size:12px;">￥</span>
-									<span name="single_cost">65.00</span>
+									<span name="single_cost"></span>
 								</td>
 								<td style="width:50px;">
-									<span name="purchase_amount">2</span>
+									<span name="purchase_amount"></span>
 								</td>
 								<td style="width:70px;">
 									<span style="font-size:12px;">￥</span>
-									<span name="deliver_fee">15.00</span>
+									<span name="delivery_fee"></span>
 								</td>
 								<td style="width:85px;">
 									<span style="font-size:12px;">￥</span>
-									<span name="offer">130.00</span>
+									<span name="offer"></span>
 								</td>
-								<td style="width:100px;" name="order_status">
-									买家已下单<br>
-									等待卖家接单
-								</td>
+								<td style="width:100px;" name="order_status"></td>
 								<td style="width:100px;">
 									<a href="#">编辑</a><br>
 									<a href="#">删除</a><br>
@@ -422,23 +423,22 @@
 				// 	$("#"+data[i].order_id+' [name="total_cost"]').html(total_cost);
 				// 	var status = "";
 				// 	switch (data[i].status) {
-
-				for (var i = 0; i < data.orders.length; i++) {
-					console.log(data.orders[i]);
-					recent += '<div class="recent-order" id="'+data.orders[i].order_id+'">'+order_sam+'</div>';
+				console.log(data);
+				for (var i = 0; i < data.length; i++) {
+					console.log(data[i]);
+					recent += '<a href="../goods/show.php?goods_id='+data[i].goods_id+'"><div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div></a>';
 				}
 				$("#recent-content").html(recent);
-				for (var i = 0; i < data.count; i++) {
-					$("#"+data.orders[i].order_id+' [name="ordering_date"]').html(data.orders[i].ordering_date.split(".")[0]);
-					$("#"+data.orders[i].order_id+' [name="single_cost"]').html(data.orders[i].single_cost);
-					$("#"+data.orders[i].order_id+' [name="purchase_amount"]').html(data.orders[i].purchase_amount);
-					$("#"+data.orders[i].order_id+' [name="deliver_fee"]').html(data.orders[i].deliver_fee);
-					$("#"+data.orders[i].order_id+' [name="goods_title"]').html(decodeURIComponent(data.orders[i].goods_title));
-					var offer = parseFloat(data.orders[i].single_cost) * parseFloat(data.orders[i].purchase_amount) + parseFloat(data.orders[i].deliver_fee);
-					$("#"+data.orders[i].order_id+' [name="offer"]').html(data.orders[i].offer);
+				for (var i = 0; i < data.length; i++) {
+					$("#"+data[i].order_id+' [name="ordering_date"]').html(data[i].ordering_date.split(".")[0]);
+					$("#"+data[i].order_id+' [name="single_cost"]').html(data[i].single_cost);
+					$("#"+data[i].order_id+' [name="purchase_amount"]').html(data[i].purchase_amount);
+					$("#"+data[i].order_id+' [name="delivery_fee"]').html(data[i].delivery_fee);
+					$("#"+data[i].order_id+' [name="goods_title"]').html(decodeURIComponent(data[i].goods_title));
+					$("#"+data[i].order_id+' [name="goods_owner"]').html(data[i].goods_owner);
+					$("#"+data[i].order_id+' [name="offer"]').html(data[i].offer);
 					var order_status = "";
-					switch (data.orders[i].order_status) {
-
+					switch (data[i].order_status) {
 						case "waiting":
 							order_status = "等待卖家接单";
 							break;
@@ -454,11 +454,11 @@
 						default:
 							break;
 					}
-					$("#"+data.orders[i].order_id+' [name="order_status"]').html(order_status);
+					$("#"+data[i].order_id+' [name="order_status"]').html(order_status);
 				}
 			}
 
-			$.getJSON("../core/api-v1.php",{action: "list_orders",status:"waiting"},function(data){show_orders(data.orders);});
+			$.getJSON("../core/api-v1.php",{action: "list_orders",order_status:"waiting"},function(data){show_orders(data.orders);});
 			$("#sort-submit").click(function(){
 				var order_status = $("#order_status-sort").val();
 				var page = $("#page-sort").val();
