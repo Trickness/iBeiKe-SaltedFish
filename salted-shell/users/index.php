@@ -322,8 +322,7 @@
 		<div id="order-sort" style="width:720px;height:35px;margin-left:25px;">
 			<label for="status-sort">订单状态</label>
 			<select id="status-sort" style="margin:5px;">
-				<option value="all" selected>全部</option>
-				<option value="waiting">等待卖家接单</option>
+				<option value="waiting" selected>等待卖家接单</option>
 				<option value="accepted">卖家已接单</option>
 				<option value="completed">已确认收货</option>
 				<option value="finished">订单已完成</option>
@@ -331,15 +330,27 @@
 			<label for="page-sort">页码</label><input type="text" id="page-sort" value="1" />
 			<button id="sort-submit">筛选</button>
 		</div>
-		<div id="recent-content">
 
-			
-		
+		<div id="order-head" style="width:720px;height:35px;margin-left:25px;">
+			<style>#order-head div{float:left;text-align:center;border-bottom:2px solid #FD9860;font-size:14px;}</style>
+			<div style="width:210px;">宝贝</div>
+			<div style="width:85px;">单价</div>
+			<div style="width:50px;">数量</div>
+			<div style="width:78px;">运费</div>
+			<div style="width:90px;">总计</div>
+			<div style="width:100px;">状态</div>
+			<div style="width:100px;">操作</div>
+		</div>
+
+		<div id="recent-content">
 		</div>
 
 			<div class="recent-order" style="display:none;" id="order-sam">
 					<div class="recent-tl">
-						<div>下单时间：<span name="submit_time">2017-06-06</span></div>			
+						<div>
+							下单时间：<span name="submit_time" style="margin-right:50px;">2017-06-06</span>
+							卖家：<span name="submit_user">abc</span>
+						</div>			
 					</div>
 					<div>
 						<table>
@@ -388,11 +399,12 @@
 				var recent = "";
 				for (var i = 0; i < data.length; i++) {
 					console.log(data[i]);
-					recent += '<div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div>';
+					recent += '<a href="../goods/show.php?goods_id='+data[i].goods_id+'"><div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div></a>';
 				}
 				$("#recent-content").html(recent);
 				for (var i = 0; i < data.length; i++) {
 					$("#"+data[i].order_id+' [name="submit_time"]').html(data[i].submit_time.split(".")[0]);
+					$("#"+data[i].order_id+' [name="submit_user"]').html(data[i].submit_user);
 					$("#"+data[i].order_id+' [name="price_per_goods"]').html(data[i].price_per_goods);
 					$("#"+data[i].order_id+' [name="goods_count"]').html(data[i].goods_count);
 					$("#"+data[i].order_id+' [name="deliver_fee"]').html(data[i].deliver_fee);
@@ -419,14 +431,14 @@
 				}
 			}
 
-			$.getJSON("../core/api-v1.php",{action: "list_orders"},function(data){show_orders(data);});
+			$.getJSON("../core/api-v1.php",{action: "list_orders",status:"waiting"},function(data){show_orders(data.orders);});
 			$("#sort-submit").click(function(){
 				var status = $("#status-sort").val();
 				var page = $("#page-sort").val();
 				var sort = {action:"list_orders",status:status,page:page};
 				if (status=="all") sort = {action:"list_orders",page:page};
 				console.log(sort);
-				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data);});
+				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data.orders);});
 			});
 		});
 
