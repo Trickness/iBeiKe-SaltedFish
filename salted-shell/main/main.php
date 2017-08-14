@@ -407,7 +407,7 @@
 				<div style="width: 220px;height: inherit;margin-left: 40px;float: left;">
 					<div class="cat-tl" name="food">
 						<img src="../pic/food.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=food" style="font-size: 17px;">吃喝</a>
+						<a href="?catagory=吃喝" style="font-size: 17px;">吃喝</a>
 					</div>
 					<div class="second-cat">
 						<a href="?catagory=food">全部</a>

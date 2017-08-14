@@ -6,7 +6,7 @@ require_once "../config.php";
 require_once "../core/goods.php";
 $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
 
-function get_goods($list,$page = 1,$target = "goods_title",$goods_num = 12){
+function get_goods($list,$page = 1,$target = "search_summary",$goods_num = 12){
 	global $db_host;
     global $db_pass;
     global $db_name;
@@ -38,7 +38,6 @@ function get_goods($list,$page = 1,$target = "goods_title",$goods_num = 12){
     $id_sel = "SELECT goods_id FROM $db_goods_table WHERE $target LIKE '%$list%' LIMIT $start_num,$goods_num";
     $id_query = mysqli_query($link,$id_sel);
     while ($res = mysqli_fetch_array($id_query)) {
-    	// var_dump($res['goods_id']);
     	$good_info = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
 		$good = sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./goods.jpg",$good_info['single_cost'],$good_info['goods_title'],$good_info['goods_owner']);
 		$goods_list['list'] = $goods_list['list'].$good;
@@ -50,7 +49,6 @@ function get_goods($list,$page = 1,$target = "goods_title",$goods_num = 12){
     mysqli_close($link);
     return $goods_list;
 }
-
 if (isset($_GET['catagory'])) {
 	if (isset($_GET['page'])) {
 		$page_now = $_GET['page'];

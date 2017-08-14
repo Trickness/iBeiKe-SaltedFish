@@ -72,9 +72,9 @@ function cancel_order_from_user($current, $order_id){
     if($result && $result->num_rows != 0){
         $result = mysqli_fetch_assoc($result);
         $goods_id = $result['goods_id'];
-        $user_id  = $result['user_id'];
+        $user_id  = $result['order_submitter'];
         $purchase_amount = $result['purchase_amount'];
-        if($current == $user_id || $current == fetch_goods_submitter($goods_id)){
+        if($current == $user_id || $current == fetch_goods_owner($goods_id)){
             $sql = "DELETE FROM $db_order_table WHERE order_id = '$order_id'";
             $result = $link->query($sql);
             $link->commit();
@@ -218,7 +218,7 @@ function finish_order_from_user($student_id, $order_id){
         }
         $status = change_order_status($order_id, "finished");
         if(!$status)
-            die(generate_error_report("Unknown error with database"));
+            die(generate_error_report("Unknown error with database at finish_order_from_user"));
         post_complete_order();
         return json_encode(array(
             "status" => "success",
