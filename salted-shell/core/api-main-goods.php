@@ -25,7 +25,7 @@ require_once "./goods.php";
 
 		$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 		if ($rank == "new") {
-			$sql = "SELECT goods_id FROM $db_goods_table ORDER BY submit_date DESC LIMIT 0,$amount";
+			$sql = "SELECT goods_id FROM $db_goods_table ORDER BY ttm DESC LIMIT 0,$amount";
 		}elseif ($rank == "hot") {
 			$sql = "SELECT goods_id FROM $db_goods_table LIMIT 0,$amount";
 		}
@@ -34,7 +34,7 @@ require_once "./goods.php";
 		while ($res = mysqli_fetch_array($query)) {
 			// $list[] = $res['goods_id'];
 			$good = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
-			$goods = $goods.sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"../main/goods.jpg",$good['price'],$good['goods_title'],$good['submitter']);
+			$goods = $goods.sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"../main/goods.jpg",$good['single_cost'],$good['goods_title'],$good['goods_owner']);
 		}
 		mysqli_close($link);
 		echo $goods;

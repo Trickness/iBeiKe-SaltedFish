@@ -320,6 +320,11 @@
 		</script> -->
 		<!--示例js  -->
 		<div id="order-sort" style="width:720px;height:35px;margin-left:25px;">
+
+			<!-- <label for="status-sort">订单状态</label>
+			<select id="status-sort" style="margin:5px;">
+				<option value="waiting" selected>等待卖家接单</option> -->
+
 			<label for="order_status-sort">订单状态</label>
 			<select id="order_status-sort" style="margin:5px;">
 				<option value="all" selected>全部</option>
@@ -331,42 +336,59 @@
 			<label for="page-sort">页码</label><input type="text" id="page-sort" value="1" />
 			<button id="sort-submit">筛选</button>
 		</div>
-		<div id="recent-content">
 
-			
-		
+		<div id="order-head" style="width:720px;height:35px;margin-left:25px;">
+			<style>#order-head div{float:left;text-align:center;border-bottom:2px solid #FD9860;font-size:14px;}</style>
+			<div style="width:210px;">宝贝</div>
+			<div style="width:85px;">单价</div>
+			<div style="width:50px;">数量</div>
+			<div style="width:78px;">运费</div>
+			<div style="width:90px;">总计</div>
+			<div style="width:100px;">状态</div>
+			<div style="width:100px;">操作</div>
+		</div>
+
+		<div id="recent-content">
 		</div>
 
 			<div class="recent-order" style="display:none;" id="order-sam">
 					<div class="recent-tl">
-						<div>下单时间：<span name="ordering_date">2017-06-06</span></div>			
+
+						<!-- <div>
+							下单时间：<span name="submit_time" style="margin-right:50px;">2017-06-06</span>
+							卖家：<span name="submit_user">abc</span>
+						</div>			 -->
+
+						<div>
+							下单时间：<span name="ordering_date" style="margin-right:50px;"></span>
+							卖家：<span name="goods_owner"></span>
+						</div>			
+
 					</div>
 					<div>
 						<table>
 							<tr>
 								<td style="width:190px;text-align:left;padding-left:10px;">
 									<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">
-									<p style="float:left;margin-left:5px;" name="goods_title">正版魔法指南</p>
+									<p style="float:left;margin-left:5px;"><span name="goods_title">正版魔法指南</span></p>
+									<!-- <span name="goods_title"></span> -->
 								</td>
 								<td style="width:80px;">
 									<span style="font-size:12px;">￥</span>
-									<span name="single_cost">65.00</span>
+									<span name="single_cost"></span>
 								</td>
 								<td style="width:50px;">
-									<span name="purchase_amount">2</span>
+									<span name="purchase_amount"></span>
 								</td>
 								<td style="width:70px;">
 									<span style="font-size:12px;">￥</span>
-									<span name="deliver_fee">15.00</span>
+									<span name="delivery_fee"></span>
 								</td>
 								<td style="width:85px;">
 									<span style="font-size:12px;">￥</span>
-									<span name="offer">130.00</span>
+									<span name="offer"></span>
 								</td>
-								<td style="width:100px;" name="order_status">
-									买家已下单<br>
-									等待卖家接单
-								</td>
+								<td style="width:100px;" name="order_status"></td>
 								<td style="width:100px;">
 									<a href="#">编辑</a><br>
 									<a href="#">删除</a><br>
@@ -386,21 +408,37 @@
 			
 			function show_orders(data){
 				var recent = "";
-				for (var i = 0; i < data.orders.length; i++) {
-					console.log(data.orders[i]);
-					recent += '<div class="recent-order" id="'+data.orders[i].order_id+'">'+order_sam+'</div>';
+				// for (var i = 0; i < data.length; i++) {
+				// 	console.log(data[i]);
+				// 	recent += '<a href="../goods/show.php?goods_id='+data[i].goods_id+'"><div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div></a>';
+				// }
+				// $("#recent-content").html(recent);
+				// for (var i = 0; i < data.length; i++) {
+				// 	$("#"+data[i].order_id+' [name="submit_time"]').html(data[i].submit_time.split(".")[0]);
+				// 	$("#"+data[i].order_id+' [name="submit_user"]').html(data[i].submit_user);
+				// 	$("#"+data[i].order_id+' [name="price_per_goods"]').html(data[i].price_per_goods);
+				// 	$("#"+data[i].order_id+' [name="goods_count"]').html(data[i].goods_count);
+				// 	$("#"+data[i].order_id+' [name="deliver_fee"]').html(data[i].deliver_fee);
+				// 	var total_cost = parseFloat(data[i].price_per_goods) * parseFloat(data[i].goods_count) + parseFloat(data[i].deliver_fee);
+				// 	$("#"+data[i].order_id+' [name="total_cost"]').html(total_cost);
+				// 	var status = "";
+				// 	switch (data[i].status) {
+				console.log(data);
+				for (var i = 0; i < data.length; i++) {
+					console.log(data[i]);
+					recent += '<a href="../goods/show.php?goods_id='+data[i].goods_id+'"><div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div></a>';
 				}
 				$("#recent-content").html(recent);
-				for (var i = 0; i < data.count; i++) {
-					$("#"+data.orders[i].order_id+' [name="ordering_date"]').html(data.orders[i].ordering_date.split(".")[0]);
-					$("#"+data.orders[i].order_id+' [name="single_cost"]').html(data.orders[i].single_cost);
-					$("#"+data.orders[i].order_id+' [name="purchase_amount"]').html(data.orders[i].purchase_amount);
-					$("#"+data.orders[i].order_id+' [name="deliver_fee"]').html(data.orders[i].deliver_fee);
-					$("#"+data.orders[i].order_id+' [name="goods_title"]').html(decodeURIComponent(data.orders[i].goods_title));
-					var offer = parseFloat(data.orders[i].single_cost) * parseFloat(data.orders[i].purchase_amount) + parseFloat(data.orders[i].deliver_fee);
-					$("#"+data.orders[i].order_id+' [name="offer"]').html(data.orders[i].offer);
+				for (var i = 0; i < data.length; i++) {
+					$("#"+data[i].order_id+' [name="ordering_date"]').html(data[i].ordering_date.split(".")[0]);
+					$("#"+data[i].order_id+' [name="single_cost"]').html(data[i].single_cost);
+					$("#"+data[i].order_id+' [name="purchase_amount"]').html(data[i].purchase_amount);
+					$("#"+data[i].order_id+' [name="delivery_fee"]').html(data[i].delivery_fee);
+					$("#"+data[i].order_id+' [name="goods_title"]').html(decodeURIComponent(data[i].goods_title));
+					$("#"+data[i].order_id+' [name="goods_owner"]').html(data[i].goods_owner);
+					$("#"+data[i].order_id+' [name="offer"]').html(data[i].offer);
 					var order_status = "";
-					switch (data.orders[i].order_status) {
+					switch (data[i].order_status) {
 						case "waiting":
 							order_status = "等待卖家接单";
 							break;
@@ -416,18 +454,18 @@
 						default:
 							break;
 					}
-					$("#"+data.orders[i].order_id+' [name="order_status"]').html(order_status);
+					$("#"+data[i].order_id+' [name="order_status"]').html(order_status);
 				}
 			}
 
-			$.getJSON("../core/api-v1.php",{action: "list_orders"},function(data){show_orders(data);});
+			$.getJSON("../core/api-v1.php",{action: "list_orders",order_status:"waiting"},function(data){show_orders(data.orders);});
 			$("#sort-submit").click(function(){
 				var order_status = $("#order_status-sort").val();
 				var page = $("#page-sort").val();
 				var sort = {action:"list_orders",order_status:order_status,page:page};
 				if (order_status=="all") sort = {action:"list_orders",page:page};
 				console.log(sort);
-				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data);});
+				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data.orders);});
 			});
 		});
 

@@ -121,8 +121,8 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         $filter = array();
         $limit = 10;
         $page = 1;
-        if(isset($_GET['status']))
-            $filter['status'] = urlencode($_GET['status']);        // Todo: 输入检查注意
+        if(isset($_GET['order_status']))
+            $filter['order_status'] = urlencode($_GET['order_status']);        // Todo: 输入检查注意
         if(isset($_GET['limit']))
             $limit = intval($_GET['limit']);
         if(isset($_GET['page']))
