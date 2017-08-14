@@ -114,22 +114,23 @@ function accept_order_from_user($user_id, $order_id){
     global $db_order_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT goods_id,purchase_amount FROM $db_order_table WHERE order_id='$order_id'";
+    $sql = "SELECT goods_id,purchase_amount,order_status FROM $db_order_table WHERE order_id='$order_id'";
     $result = $link->query($sql);
     if($result && $result->num_rows != 0){
         $result = mysqli_fetch_assoc($result);
+        if($result['order_status']!="waiting")  die(generate_error_report("You cannot accept this order[Status = ".$result['order_status']."]"));
         $goods_id = $result['goods_id'];
         $purchase_amount = $result['purchase_amount'];
-        $sql = "SELECT submitter,remain FROM $db_goods_table WHERE goods_id='$goods_id'";
+        $sql = "SELECT goods_owner,remain FROM $db_goods_table WHERE goods_id='$goods_id'";
         $result = $link->query($sql);
         if($result && $result->num_rows != 0){
             $result = mysqli_fetch_assoc($result);
-            if("".$result['submitter'] == "".$user_id){
+            if("".$result['goods_owner'] == "".$user_id){
                 if($result['remain'] < $purchase_amount){
                     $link->close();
                     die(generate_error_report("Not enouge goods"));
                 }
-                $sql = "UPDATE $db_order_table SET status='accepted' WHERE order_id='$order_id'";
+                $sql = "UPDATE $db_order_table SET order_status='accepted' WHERE order_id='$order_id'";
                 $result = $link->query($sql);
                 $link->commit();
                 if(!$result){
@@ -166,20 +167,22 @@ function complete_order_from_user($student_id, $order_id){      // 卖方完成�
     global $db_order_table;
     
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT goods_id, status from $db_order_table where order_id = '$order_id'";
+    $sql = "SELECT goods_id, order_status from $db_order_table where order_id = '$order_id'";
     $result = $link->query($sql);
     $link->close();
     if($result){
         $result = mysqli_fetch_assoc($result);
         $goods_id = $result['goods_id'];
-        if(fetch_goods_submitter($goods_id) != $student_id){
+        if(fetch_goods_owner($goods_id) != $student_id){
             die(generate_error_report("This order is not yours"));
-        }elseif($result['status'] == "waiting"){
+        }elseif($result['order_status'] == "waiting"){
             die(generate_error_report("You haven't accepted this order"));
-        }elseif($result['status'] == "completed" || $result['status'] == "finished"){
+        }elseif($result['order_status'] == "completed" || $result['order_status'] == "finished"){
             die(generate_error_report("This order had been completed already"));
+        }elseif($result['order_status'] != "accepted"){
+            die(generate_error_report("Bad status"));
         }
-        $status = change_order_staus($order_id, "completed");
+        $status = change_order_status($order_id, "completed");
         if(!$status)
             die(generate_error_report("Unknown error with database"));
         post_complete_order();
@@ -201,7 +204,7 @@ function finish_order_from_user($student_id, $order_id){
     global $db_order_table;
     
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT order_submitter,status from $db_order_table where order_id = '$order_id'";
+    $sql = "SELECT order_submitter,order_status from $db_order_table where order_id = '$order_id'";
     $result = $link->query($sql);
     $link->close();
     if($result){
@@ -209,12 +212,12 @@ function finish_order_from_user($student_id, $order_id){
         $user_id  = $result['order_submitter'];
         if($user_id != $student_id){
             die(generate_error_report("This order is not yours"));
-        }elseif($result['status'] == "waiting" || $result['status'] == "accepted"){
+        }elseif($result['order_status'] == "waiting" || $result['order_status'] == "accepted"){
             die(generate_error_report("Seller haven't completed this order yet!"));
-        }elseif($result['status'] == "finished") {
+        }elseif($result['order_status'] == "finished") {
             die(generate_error_report("This order had been finished already"));
         }
-        $status = change_order_staus($order_id, "finished");
+        $status = change_order_status($order_id, "finished");
         if(!$status)
             die(generate_error_report("Unknown error with database"));
         post_complete_order();
@@ -223,6 +226,8 @@ function finish_order_from_user($student_id, $order_id){
             "order_id" => "$order_id",
             "order_status" => "finished"
         ));
+    }else{
+        die(generate_error_report("Database error at finish_order_from_user"));
     }
 }
 
@@ -234,7 +239,7 @@ function change_order_status($order_id, $status){
     global $db_order_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "UPDATE  $db_order_table SET status='$status' WHERE order_id='$order_id'";
+    $sql = "UPDATE  $db_order_table SET order_status='$status' WHERE order_id='$order_id'";
     $result = $link->query($sql);
     $link->close();
     if($result)

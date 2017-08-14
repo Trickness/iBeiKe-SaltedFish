@@ -128,6 +128,16 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         if(isset($_GET['page']))
             $page = intval($_GET['page']);
         die(list_orders_from_user($student_id, $filter, $page, $limit));
+    }elseif($action == "fetch_self_info"){
+        $return_var = fetch_info_from_user($student_id);
+        if($return_var){
+            die(json_encode(array(
+                "status" => "success",
+                "self_info" => json_decode($return_var)
+            )));
+        }else{
+            die(generate_error_report("Unknown error in fetch_info_from_user"));
+        }
     }
 }else{                                              // 未登录
     if($action == "login"){                             // 登陆操作

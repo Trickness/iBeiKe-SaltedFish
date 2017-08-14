@@ -27,7 +27,7 @@ if (isset($_GET['action'])) {
 		$sel_query = mysqli_query($link,$sel_sql);
 		while ($res = mysqli_fetch_array($sel_query)) {
 			$goods_info = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
-			$good = sprintf($newTpl,"#","../main/goods.jpg",$goods_info['goods_title'],$goods_info['summary']);
+			$good = sprintf($newTpl,"#","../main/goods.jpg",$goods_info['goods_title'],$goods_info['search_summary']);
 			$goods_list = $goods_list.$good;
 		}
 		echo $goods_list;
@@ -88,7 +88,7 @@ if (isset($_GET['action'])) {
 	// 	$sel_query = mysqli_query($link,$sel_sql);
 	// 	while ($res = mysqli_fetch_array($sel_query)) {
 	// 		$goods_info = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
-	// 		$good = sprintf($newTpl,"#","../main/cover.png",$goods_info['goods_title'],$goods_info['summary']);
+	// 		$good = sprintf($newTpl,"#","../main/cover.png",$goods_info['goods_title'],$goods_info['search_summary']);
 	// 		$goods_list = $goods_list.$good;
 	// 	}
 	// 	echo $goods_list;
