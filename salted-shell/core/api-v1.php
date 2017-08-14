@@ -138,6 +138,18 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }else{
             die(generate_error_report("Unknown error in fetch_info_from_user"));
         }
+    }elseif($action == "fetch_user_info"){
+        if(!isset($_GET['user_id']))
+            die(generate_error_report("Please specify user id as user_id=xxx in url"));
+        $return_var = fetch_info_from_user($student_id);
+        if($return_var){
+            die(json_encode(array(
+                "status" => "success",
+                "user_info" => json_decode($return_var)
+            )));
+        }else{
+            die(generate_error_report("Unknown error in fetch user info"));
+        }
     }
 }else{                                              // 未登录
     if($action == "login"){                             // 登陆操作

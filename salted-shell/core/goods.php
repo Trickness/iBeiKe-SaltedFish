@@ -56,7 +56,7 @@ function submit_goods_from_id($goods_info,$goods_owner){
 
 	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
 	$content = __JSON($goods_info,"content");
-	$goods_search_summary  = urlencode(mb_substr($content,0,100,"utf-8").";".$goods_type.";".$goods_title.";".$lv1.";".$lv2.";".$lv3.";".$goods_tags);
+	$goods_search_summary  = urlencode(mb_substr($content,0,100,"utf-8").";".$goods_type.";".$goods_title.";".$lv1.";".$lv2.";".$lv3.";".$goods_tags_str);
 	if(($goods_type != "rent") 	    and($goods_type != "sale"))			die(generate_error_report("syntax error5")) ;
 	if(($goods_status!="available") and($goods_status != "withdrawal"))	die(generate_error_report("syntax error6")) ;
 	$ttm 	= date("Y/m/d");
@@ -70,12 +70,16 @@ function submit_goods_from_id($goods_info,$goods_owner){
 			(goods_title,	goods_status,			goods_type,		  single_cost,		 goods_owner,	 ttm,	 last_modified,		search_summary,	remain, tags, cl_lv_1, cl_lv_2, cl_lv_3, delivery_fee,goods_info) 
 			VALUES 
 			('$goods_title','$goods_status','$goods_type','$single_cost','$goods_owner','$ttm','$ttm','$goods_search_summary','$goods_remain','$goods_tags_str','$lv1','$lv2','$lv3', '$delivery_fee','$content')";
-	var_dump($sql);
-	$link->query($sql);
+	$status = $link->query($sql);
+	if(!$status){
+		die(generate_error_report("Database error in submit_goods_from_user [".$link->error));
+	}
+	$insert_id = $link->insert_id;
 	$link->commit();
 	$link->close();
 	return json_encode(array(
-		"status" => "success"
+		"status" => "success",
+		"goods_id" => $insert_id
 	));
 }
 

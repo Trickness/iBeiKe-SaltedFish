@@ -152,19 +152,16 @@
         $.post("../core/api-v1.php?action=submit_goods",{
             goods_info:t
         },function(data){
+            data = JSON.parse(data);
             var status = data.status;
-            console.log(data);
-            switch(status){
-                case "success":
-                    console.log(status);
-                    break;
-                case "failed":
-                    console.log(status);
-                    console.log(data.error);
-                    break;
-                default:
-                    console.log(status);
-                    break;
+            if(status === "success"){
+                alert("成功发布");
+                window.location="show.php?goods_id="+data.goods_id;
+            }else if(status === "failed"){
+                console.log(status);
+                console.log(data.error);
+            }else{
+                console.log(data);
             }
                 
         });

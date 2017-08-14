@@ -82,6 +82,8 @@ if (isset($_GET['catagory'],$_GET['tgt'])) {
 			$pageTpl = '<a href="%s" class="button button-glow button-highlight button-small button-box page-btn">%s</a>';
 			
 			// $total_pages = total_pages($_GET['catagory']);
+			if(!isset($page_now))
+				$page_now = 1;
 			if ($page_now != 1) {
 				$page_prev = sprintf($turnTpl,$url."&page=1","首页").sprintf($turnTpl,$url."&page=".((int)$page_now-1),"上一页");
 				echo $page_prev;
