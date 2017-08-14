@@ -60,15 +60,15 @@ require_once "./goods.php";
 			$session_key = session_id();
 			$student_id = get_student_id_from_session_key($session_key);
 			if ($student_id) {
-				$sql = "SELECT * FROM $db_order_table WHERE user_id = '$student_id' ORDER BY submit_time DESC LIMIT 0,4";
+				$sql = "SELECT * FROM $db_order_table WHERE order_submitter = '$student_id' ORDER BY ordering_date DESC LIMIT 0,4";
 				$query = mysqli_query($link,$sql);
 				$orders = "";
 				while ($res = mysqli_fetch_array($query)) {
 					$good = json_decode(fetch_goods_info($res['goods_id'],$session_key),true);
 					// $cost = $res['single_coste']*$res['goods_count']+$res['deliver_fee'];
 
-					$cart_item = sprintf($cartTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./adv.png",$good['goods_title'],$res['single_cost'],$res['goods_count']);
-					$store = sprintf($storeTpl,$good['submitter'],"#","#",$cart_item);
+					$cart_item = sprintf($cartTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./adv.png",$good['goods_title'],$res['single_cost'],$res['purchase_amount']);
+					$store = sprintf($storeTpl,$good['goods_owner'],"#","#",$cart_item);
 					echo $store;
 				}
 			}else{

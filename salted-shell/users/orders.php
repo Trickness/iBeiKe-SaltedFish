@@ -16,9 +16,13 @@
             });
             $.getJSON("../core/api-v1.php?action=list_orders",function(data){
                 if(data.status === "success"){
+
                     $.each(data.orders,function(index, item, array){
                         var action = "";
-                        if(item.order_submitter === self_id){
+
+                        // if(item.order_submitter == self_id){
+                        if(item.order_submitter === "11111111"){
+
                             if(item.order_status === "waiting"){
                                 action = "等待受理 | <a href='../core/api-v1.php?action=cancel_order&order_id=" + item.order_id +"'>取消订单</a>";
                             }else if(item.order_status === "accepted"){
@@ -41,7 +45,10 @@
                                                             <td>" + action + "</td></tr>"
                             )
                         }
-                        if(item.goods_owner === self_id){
+
+                        // if(item.goods_owner === self_id){
+                            if(item.goods_owner === "11111111"){
+
                             if(item.order_status === "waiting"){
                                 action = "<a href='../core/api-v1.php?action=accept_order&order_id=" + item.order_id +"'>接受订单</a>";
                                 action = action + " | <a href='../core/api-v1.php?action=cancel_order&order_id=" + item.order_id +"'>取消订单</a>";

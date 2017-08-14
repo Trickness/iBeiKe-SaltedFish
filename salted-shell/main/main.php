@@ -79,6 +79,7 @@
 		}
 		#main-show,#goods-show{
 			position: absolute;
+			left:calc(50% - 614px);
 		}
 		#go-back{
 			width: 100px;
@@ -132,10 +133,10 @@
 	
 	<script>
 	$(document).ready(function(){
-		var wth = parseInt($("body").css('width').split("px")[0]);
-		console.log((wth-1228)/2);
-		$("#main-show").css("left",(wth-1228)/2);
-		$("#goods-show").css("left",(wth-1228)/2);
+		// var wth = parseInt($("body").css('width').split("px")[0]);
+		// console.log((wth-1228)/2);
+		// $("#main-show").css("left",(wth-1228)/2);
+		// $("#goods-show").css("left",(wth-1228)/2);
 		$("#market-tl").addClass("active");
 	});
 	</script>
@@ -219,11 +220,11 @@
 				<div id="attr-list" style="width: inherit;height: 400px;/*border:1px solid black;*/margin-top:60px;">
 					<div class="list-item" name="reality">
 						<img src="../pic/bag.png">
-						<a href="?catagory=reality&cl=lv_1">实体商品</a>
+						<a href="?catagory=实体商品&tgt=cl_lv_1">实体商品</a>
 					</div>
 					<div class="list-item" name="virtual">
 						<img src="../pic/cyber.png">
-						<a href="?catagory=virtual&cl=lv_1" id="virtual">非实体商品</a>
+						<a href="?catagory=非实体商品&tgt=cl_lv_1" id="virtual">非实体商品</a>
 					</div>
 					<div class="list-item" name="beikeinfo">
 						<img src="../pic/wave.png">
@@ -297,27 +298,27 @@
 				<div class="sec-cat">
 					<div class="cat-tl" name="party">
 						<img src="../pic/party.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=轰趴聚会&cl=lv_2" style="font-size: 17px;">轰趴聚会</a>
+						<a href="?catagory=轰趴聚会&tgt=cl_lv_2" style="font-size: 17px;">轰趴聚会</a>
 					</div>
 					<div class="second-cat" name="party" style="margin-bottom: 70px;">
-						<a href="?catagory=party"><img src="../pic/image1/party.png" ></a>
+						<a href="?catagory=轰趴聚会&tgt=cl_lv_2"><img src="../pic/image1/party.png" ></a>
 					</div>
 
 					<div class="cat-tl" name="video">
 						<img src="../pic/video.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=video&cl=lv_2" style="font-size: 17px;">视频</a>
+						<a href="?catagory=视频&tgt=cl_lv_2" style="font-size: 17px;">视频</a>
 					</div>
 					<div class="second-cat" name="video" style="margin-bottom: 70px;">
-						<a href="?catagory=video&cl=lv_2" style="font-size: 17px;"><img src="../pic/image1/camera.png" ></a>
+						<a href="?catagory=视频&cl=cl_lv_2" style="font-size: 17px;"><img src="../pic/image1/camera.png" ></a>
 					</div>
 				</div>
 				<div class="sec-cat">
 					<div class="cat-tl" name="travel">
 						<img src="../pic/travel.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=travel&cl=lv_2" style="font-size: 17px;">北京周边游</a>
+						<a href="?catagory=北京周边游&tgt=cl_lv_2" style="font-size: 17px;">北京周边游</a>
 					</div>
 					<div class="second-cat" name="travel" style="margin-bottom: 70px;">
-						<a  href="?catagory=travel&cl=lv_2" style="font-size: 17px;"><img src="../pic/image1/beijing.png" ></a>
+						<a  href="?catagory=北京周边游&tgt=cl_lv_2" style="font-size: 17px;"><img src="../pic/image1/beijing.png" ></a>
 					</div>
 
 					<div class="cat-tl" name="PPT">
@@ -367,41 +368,41 @@
 				<div style="width: 220px;height: inherit;margin-left: 40px;float: left;">
 					<div class="cat-tl" name="begin">
 						<img src="../pic/pen.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=begin" style="font-size: 17px;">开学季</a>
+						<a href="?catagory=开学季&tgt=cl_lv_2" style="font-size: 17px;">开学季</a>
 					</div>
 					<div class="second-cat">
-						<a href="?catagory=begin">全部</a>
-						<a href="?catagory=sec-books">二手教材书</a>
-						<a href="?catagory=military">军训用品</a>
-						<a href="?catagory=quilt">被子</a>
-						<a href="?catagory=pho-card">电话卡</a>
-						<a href="?catagory=begin-others">其他</a>
+						<a href="?catagory=开学季&tgt=cl_lv_2">全部</a>
+						<a href="?catagory=二手教材书&tgt=cl_lv_3">二手教材书</a>
+						<a href="?catagory=军训用品&tgt=cl_lv_3">军训用品</a>
+						<a href="?catagory=被子&tgt=cl_lv_3">被子</a>
+						<a href="?catagory=电话卡&tgt=cl_lv_3">电话卡</a>
+						<a href="?catagory=其他&tgt=cl_lv_3">其他</a>
 					</div>
 
 					<div class="cat-tl" >
 						<img src="../pic/electronic.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=elec" style="font-size: 17px;">电子产品</a>
+						<a href="?catagory=电子产品&tgt=cl_lv_2" style="font-size: 17px;">电子产品</a>
 					</div>
 					<div class="second-cat">
-						<a href="?catagory=elec">全部</a>
-						<a href="?catagory=phone">手机配件</a>
-						<a href="?catagory=pc">电脑配件</a>
-						<a href="?catagory=elec-others">其他</a>
+						<a href="?catagory=电子产品&tgt=cl_lv_2">全部</a>
+						<a href="?catagory=手机配件&tgt=cl_lv_3">手机配件</a>
+						<a href="?catagory=电脑配件&tgt=cl_lv_3">电脑配件</a>
+						<a href="?catagory=其他&tgt=cl_lv_3">其他</a>
 					</div>
 					<div class="cat-tl" >
 						<img src="../pic/book.png" style="width: 25px;height: 25px;margin-left:15px;" />
-						<a href="?catagory=books" style="font-size: 17px;">书类</a>
+						<a href="?catagory=书类&tgt=cl_lv_2" style="font-size: 17px;">书类</a>
 					</div>
 					<div class="second-cat">
-						<a href="?catagory=books">全部</a>
-						<a href="?catagory=text-books">教材</a>
-						<a href="?catagory=ref-books">课外书</a>
-						<a href="?catagory=magazine">杂志订阅</a>
-						<a href="?catagory=gre">GRE</a>
-						<a href="?catagory=ielts-toefl">雅思托福</a>
-						<a href="?catagory=note-books">学霸笔记</a>
-						<a href="?catagory=review">复习材料</a>
-						<a href="?catagory=books-others">其他</a>
+						<a href="?catagory=书类&tgt=cl_lv_2">全部</a>
+						<a href="?catagory=教材&tgt=cl_lv_3">教材</a>
+						<a href="?catagory=课外书&tgt=cl_lv_3">课外书</a>
+						<a href="?catagory=杂志订阅&tgt=cl_lv_3">杂志订阅</a>
+						<a href="?catagory=GRE&tgt=cl_lv_3">GRE</a>
+						<a href="?catagory=雅思托福&tgt=cl_lv_3">雅思托福</a>
+						<a href="?catagory=学霸笔记&tgt=cl_lv_3">学霸笔记</a>
+						<a href="?catagory=复习资料&tgt=cl_lv_3">复习材料</a>
+						<a href="?catagory=其他&tgt=cl_lv_3">其他</a>
 					</div>
 				</div>
 				<div style="width: 220px;height: inherit;margin-left: 40px;float: left;">

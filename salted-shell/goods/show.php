@@ -34,10 +34,10 @@
                     $("#goods_title").html(data.goods_title);
                     $("#goods_owner").html(data.goods_owner);
                     $("#goods_status").html(data.goods_status);
-                    // $("#count").html(data.count);
+                    $("#remain").html(data.remain);
                     $("#goods_type").html(data.goods_type);
                     $("#single_cost").html(data.single_cost);
-                    $("#summary_content").html(data.summary);
+                    $("#summary_content").html(data.search_summary);
 
                     console.log(data);
                     $("#buyer_id").html(data.buyer_info.student_id);
@@ -98,7 +98,7 @@
             <div><label for="goods_title">商品名称：</label><label id="goods_title"></label></div>
             <div><label for="goods_owner">卖家：</label><label id="goods_owner"></label></div>
             <div><label for="goods_status">状态：</label><label id="goods_status"></label></div>
-            <!-- <div><label for="count">数量：</label><label id="count">0</label></div> -->
+            <div><label for="remain">数量：</label><label id="remain"></label></div>
             <div><label for="goods_type">交易方式：</label><label id="goods_type"></label></div>
             <div><label for="single_cost">价格：</label><label id="single_cost"></label></div>
         </div>   

@@ -6,7 +6,7 @@ require_once "../config.php";
 require_once "../core/goods.php";
 $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
 
-function get_goods($list,$page = 1,$target = "goods_title",$goods_num = 12){
+function get_goods($list,$page = 1,$target = "goods_title",$goods_num = 2){
 	global $db_host;
     global $db_pass;
     global $db_name;
@@ -18,27 +18,20 @@ function get_goods($list,$page = 1,$target = "goods_title",$goods_num = 12){
     	"total_pages" => ""
     );
     $start_num = ($page-1)*($goods_num);
-    // $goodsTpl = '<a href="%s"><div class="goods">
-    // 	<div style="width: inherit;height: 20px;">ID：%s</div>
-	// 	<div style="width: inherit;height: 20px;">价格：%s</div>
-	// 	<div style="width: inherit;height: 20px;">名称：%s</div>
-	// 	<div style="width: inherit;height: 20px;">卖家：%s</div>
-	// 	<div style="width: inherit;height: 20px;">状态：%s</div>
-	// </div>';
-
 	$goodsTpl = '<a href="%s"><div class="goods">
 						<img src="%s">
 						<h2><span style="font-size:15px;">￥</span>%s</h2>
 						<p style="font-size:16px;">%s</p>
 						<p style="color:gray">%s</p>
 					</div></a>';
-
-	$list = urlencode($list);
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $id_sel = "SELECT goods_id FROM $db_goods_table WHERE $target LIKE '%$list%' LIMIT $start_num,$goods_num";
-    $id_query = mysqli_query($link,$id_sel);
+	if ($target == "goods_title") {
+		$list = urlencode($list);
+		$id_sel = "SELECT goods_id FROM $db_goods_table WHERE $target LIKE '%$list%' LIMIT $start_num,$goods_num";
+	}else{$id_sel = "SELECT goods_id FROM $db_goods_table WHERE $target = '$list' LIMIT $start_num,$goods_num";}
+	
+	$id_query = mysqli_query($link,$id_sel);
     while ($res = mysqli_fetch_array($id_query)) {
-    	// var_dump($res['goods_id']);
     	$good_info = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
 		$good = sprintf($goodsTpl,"../goods/show.php?goods_id=".$res['goods_id'],"./goods.jpg",$good_info['single_cost'],$good_info['goods_title'],$good_info['goods_owner']);
 		$goods_list['list'] = $goods_list['list'].$good;
@@ -51,14 +44,14 @@ function get_goods($list,$page = 1,$target = "goods_title",$goods_num = 12){
     return $goods_list;
 }
 
-if (isset($_GET['catagory'])) {
+if (isset($_GET['catagory'],$_GET['tgt'])) {
+	$page_now = 1;
 	if (isset($_GET['page'])) {
 		$page_now = $_GET['page'];
 		$url = explode("&page=", $url)[0];
-		$goods_info = get_goods($_GET['catagory'],$_GET['page']);
+		$goods_info = get_goods($_GET['catagory'],$_GET['page'],$_GET['tgt']);
 	}else{
-		$page_now = 1;
-		$goods_info = get_goods($_GET['catagory']);
+		$goods_info = get_goods($_GET['catagory'],$page_now,$_GET['tgt']);
 	}
 	$goods_list = $goods_info['list'];
 	$total_pages = $goods_info['total_pages'];
@@ -89,7 +82,6 @@ if (isset($_GET['catagory'])) {
 			$pageTpl = '<a href="%s" class="button button-glow button-highlight button-small button-box page-btn">%s</a>';
 			
 			// $total_pages = total_pages($_GET['catagory']);
-
 			if ($page_now != 1) {
 				$page_prev = sprintf($turnTpl,$url."&page=1","首页").sprintf($turnTpl,$url."&page=".((int)$page_now-1),"上一页");
 				echo $page_prev;
