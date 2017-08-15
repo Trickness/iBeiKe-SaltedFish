@@ -236,7 +236,7 @@ function fetch_user_info_from_id($student_id)
  *         -> true/false
  *
  **/
-function update_user_info($updated_user_info,$session_key)
+function update_user_info($updated_user_info,$student_id)
 {
     global $db_host;
     global $db_pass;
@@ -245,11 +245,13 @@ function update_user_info($updated_user_info,$session_key)
     global $db_users_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $student_id = get_student_id_from_session_key($session_key);
     $info_hash = md5($updated_user_info);
     $updated_user_info = urlencode($updated_user_info); 
     $update = "UPDATE $db_users_table SET student_info='$updated_user_info',info_hash='$info_hash' WHERE student_id = '$student_id';";
-    $link->query($update);
+    $result = $link->query($update);
+    if(!$result){
+        die(generate_error_report("Database error at update user info [".$link->error));
+    }
     $link->commit();
     $link->close();
     return $info_hash;

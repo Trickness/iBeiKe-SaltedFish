@@ -36,12 +36,23 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
                     if(isset($data['phone_number']['access']))          $info['phone_number']['access'] = $data['phone_number']['access'];
                     if(isset($data['phone_number']['value']))           $info['phone_number']['value']  = $data['phone_number']['value'];
                 }
-                $info_hash = update_user_info(json_encode($info),$student_id);
-                echo json_encode(array(
-                    "status" => "success",
-                    "info_hash" => $info_hash
-                ));
             }
+            if(isset($data['class_info']) and isset($data['class_info']['department'])){
+                if(isset($data['class_info']['department']['access'])) $info['class_info']['department']['access'] = $data['class_info']['department']['access'];
+                if(isset($data['class_info']['department']['value']))  $info['class_info']['department']['value'] = $data['class_info']['department']['value'];
+                if(isset($data['class_info']['enrollment']) and isset($data['class_info']['enrollment']['access'])) $info['class_info']['enrollment']['access'] = $data['class_info']['enrollment']['access'];
+                if(isset($data['class_info']['class_no']) and isset($data['class_info']['class_no']['access'])) $info['class_info']['class_no']['access'] = $data['class_info']['class_no']['access'];
+                
+            }
+            if(isset($data['student_id']) and isset($data['student_id']['access'])) $info['student_id']['access'] = $data['student_id']['access'];
+            if(isset($data['name']) and isset($data['name']['access']))  $info['name']['access'] = $data['name']['access'];
+            if(isset($data['gender']) and isset($data['gender']['access'])) $info['gender']['access'] = $data['gender']['access'];
+            if(isset($data['birthday']) and isset($data['birthday']['access'])) $info['birthday']['access'] = $data['birthday']['access'];
+            $info_hash = update_user_info(json_encode($info),$student_id);
+            echo json_encode(array(
+                "status" => "success",
+                "info_hash" => $info_hash
+            ));
         }else{
             die(generate_error_report("Please check doc for usage"));
         }
