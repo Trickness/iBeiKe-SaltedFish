@@ -276,4 +276,14 @@ function change_password($student_id, $new_password){
     return true;
 } 
 
+function recursion_remove_sensitive_info($dic,$flag){
+    foreach($dic as $key => $value){
+        if(is_array($value))    $dic[$key] = recursion_remove_sensitive_info($value,$flag);
+        if($key == "access" and isset($dic['value'])){
+            if($flag == "public"    and $dic['access'] != 'public')     $dic['value'] = "********";
+            if($flag == "protected" and $dic['access'] == "private")    $dic['value'] = "********";
+        }
+    }
+    return $dic;
+}
 ?>

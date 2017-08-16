@@ -6,9 +6,12 @@ require_once "goods.php";
 require_once "authorization.php";
 require_once "orders.php";
 
+// TODO: intval($goods_id)
+
 session_start();
 if(!isset($_GET['action'])) die(generate_error_report("No action! Please check document for usage"));
 $action = $_GET["action"];
+$student_id = "";
 if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     if($action == "logout"){
         user_logout(session_id());
@@ -138,7 +141,13 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             $limit = intval($_GET['limit']);
         if(isset($_GET['page']))
             $page = intval($_GET['page']);
-        die(list_orders_from_user($student_id, $filter, $page, $limit));
+        $results = list_orders_from_user($student_id, $filter, $page, $limit);
+        $count = count($results);
+        die(json_encode(array(
+            "status" => "success",
+            "orders" => $results,
+            "count" => $count
+        )));
     }elseif($action == "fetch_self_info"){
         $return_var = fetch_info_from_user($student_id);
         if($return_var){
@@ -152,11 +161,12 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     }elseif($action == "fetch_user_info"){
         if(!isset($_GET['user_id']))
             die(generate_error_report("Please specify user id as user_id=xxx in url"));
-        $return_var = fetch_info_from_user($student_id);
+        $return_var = json_decode(fetch_info_from_user($student_id),true);
+        $return_var = recursion_remove_sensitive_info($return_var,"protected");
         if($return_var){
             die(json_encode(array(
                 "status" => "success",
-                "user_info" => json_decode($return_var)
+                "user_info" => $return_var
             )));
         }else{
             die(generate_error_report("Unknown error in fetch user info"));
@@ -204,8 +214,33 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }else{
             die(generate_error_report("Please specify id and password"));
         }
-    }else{
-        die(generate_error_report("Cannot handle your action(Try to login for more actions?)"));
     }
+}
+// 这个名字是不是有点太随意了？
+if($action == "fetch_user_total_info"){
+    if(!isset($_GET['user_id']))    die(generate_error_report("No user id specified!"));
+    $current_id = get_student_id_from_session_key(session_id());
+    $user_id = intval($_GET['user_id']);
+    $goods = fetch_goods_for_sale_from_user($user_id);
+    $orders = list_orders_from_user($user_id);
+    $info = json_decode(fetch_user_info_from_id($user_id),true);
+    $flag = "public";
+    if($current_id){
+        if($current_id == $user_id)
+            $flag = "private";
+        else
+            $flag = "protected";
+    }else{
+        $flag = "public";
+    }
+    $info = recursion_remove_sensitive_info($info,"public");
+    
+    die(json_encode(array(
+        "target_id" => $user_id,
+        "status" => "success",
+        "goods" => $goods,
+        "orders" => $orders,
+        "info" => $info
+    )));
 }
 ?>

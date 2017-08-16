@@ -356,4 +356,32 @@ function increase_goods_remain($goods_id, $num){
 	$link->close();
 	return true;
 }
+
+function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 10){
+	global $db_host;
+	global $db_user;
+	global $db_pass;
+	global $db_name;
+	global $db_goods_table;
+
+	$start = ($page-1)*$limit;
+	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+	$sql = "SELECT * FROM $db_goods_table WHERE goods_owner='$user_id' AND goods_status='available' LIMIT $start,$limit";
+	var_dump($sql);
+	$results = $link->query($sql);
+	$return_var = array();
+	if(!$results) die(generate_error_report("Database Error at fetch_goods_for_sale_from_user [").$link->error);
+	while($res = mysqli_fetch_assoc($results)){
+		$res['goods_id'] 		= $res['goods_id'];
+		$res['goods_title'] 	= urldecode($res['goods_title']);
+		$res['single_cost'] 	= urldecode($res['single_cost']);
+		$res['search_summary'] 	= urldecode($res['search_summary']);
+		$res['comments'] 		= json_decode($res['comments'],true);
+		$res['tags'] 			= explode(" ",$res['tags']);
+		$res['goods_owner'] 	= $res['goods_owner'];
+		$return_var[] = $res;
+	}
+	$link->close();
+	return $return_var;
+}
 ?>
