@@ -52,11 +52,11 @@
         </div>
         <div id="user-goods" style="border:1px solid black;">
             <div><h3>他的商品</h3></div>
-            <div id="goods-list"></div>
+            <div id="goods-list" style="overflow:hidden;"></div>
         </div>
         <div id="user-orders" style="border:1px solid black;">
             <div><h3>他的订单</h3></div>
-            <div id="orders-list"></div>
+            <div id="orders-list" style="overflow:hidden;"></div>
         </div>
         <script>
             $(document).ready(function(){
@@ -111,7 +111,6 @@
                     }
                     $("#goods-list").html(goods_list);
                 }
-
                 $.getJSON("../core/api-v1.php",{action:"fetch_user_total_info",user_id:user_id},function(data){
                     if (data.status=="success") {
                         $("#id").html(data.target_id);

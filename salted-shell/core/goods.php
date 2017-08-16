@@ -367,7 +367,6 @@ function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 10){
 	$start = ($page-1)*$limit;
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$sql = "SELECT * FROM $db_goods_table WHERE goods_owner='$user_id' AND goods_status='available' LIMIT $start,$limit";
-	var_dump($sql);
 	$results = $link->query($sql);
 	$return_var = array();
 	if(!$results) die(generate_error_report("Database Error at fetch_goods_for_sale_from_user [").$link->error);
