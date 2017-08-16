@@ -233,7 +233,7 @@ if($action == "fetch_user_total_info"){
     }else{
         $flag = "public";
     }
-    $info = recursion_remove_sensitive_info($info,"public");
+    $info = recursion_remove_sensitive_info($info,$flag);
     
     die(json_encode(array(
         "target_id" => $user_id,
