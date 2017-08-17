@@ -27,7 +27,7 @@
         require_once "../core/utils.php";
         require_once "../core/authorization.php";
         require_once "../config.php";
-        
+
         $session = session_id();
 	?>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -80,22 +80,12 @@
 					<div><label>宿舍:</label><span id="dormitory" class="info-item"></span><br></div>
 				</div>
 			</div>
-			<div id="info-bottom" style="padding-left: 30px;">
-				<!-- <button id="change-info" class="button button-action button-rounded button-highlight button-small" >
-					修改信息</button>
-				<button id="upload-goods" class="button button-action button-rounded button-highlight button-small">发布商品</button>
-				<button id="upload-info" class="button button-action button-rounded button-highlight button-small">发布信息</button> -->
-
-				<!-- <button id="update-info" style="display: none;margin-bottom: 5px;" class="button button-action button-rounded 
-					button-highlight button-tiny button-longshadow-left">提交</button>
-				<button id="update-cancel" style="display: none;" class="button button-action button-rounded button-highlight button-tiny 
-					button-longshadow-left">取消</button> -->
-			</div>
+			<div id="info-bottom" style="padding-left: 30px;"></div>
 			<span class="button-dropdown button-dropdown-primary" data-buttons="dropdown" style="margin-left:15px;">
     					<button class="button button-primary button-large" style="font-size:15px;">
       						<i class="fa fa-bars"></i>骚操作
     					</button>
- 
+
     				<ul class="button-dropdown-list is-below">
       					<li><a href="edit-profile.html"><i class="fa fa-heart-o"></i>个人信息修改</a></li>
       					<li class="button-dropdown-divider"><a href="../goods/upload.php">上传商品</a></li>
@@ -123,78 +113,26 @@
 						self_info.dormitory.value = self_info.dormitory.dormitory_id.value+"#"+self_info.dormitory.room_no.value;
 						change_info(self_info);
 					});
-					
-					// $("#change-info").click(function(){
-					// 	$(".info-item").each(function(){
-					// 		$(this).css("float","right");
-					// 		$(this).html("<input type='text' class='item' name='"+$(this).attr("id")+"' style='width:85px;margin:0;' value='"+self_info[$(this).attr("id")]['value']+"' />");
-					// 	});
-					// 	$(this).css('display','none');
-					// 	$("#update-info").css("display","block");
-					// 	$("#update-cancel").css("display","block");
-					// 	$("#info-bottom").css("padding-left","70px");
-					// });
-					// $("#update-cancel").click(function(){
-					// 	change_info(self_info);
-					// 	$(".info-item").css("float","left");
-					// 	$(this).css('display','none');
-					// 	$("#update-info").css("display","none");
-					// 	$("#change-info").css("display","block");
-					// 	$("#info-bottom").css("padding-left","30px");
-					// });
-					// $("#update-info").click(function(){
-					// 	var new_info = self_info;
-					// 	$(".item").each(function(){
-					// 		if ($(this).attr('name')=="dormitory") {
-					// 			var dom_info =  $(this).val().split("#");
-					// 			dom_info = {dormitory_id:dom_info[0],room_no:dom_info[1]};
-					// 			new_info[$(this).attr('name')] = dom_info;
-					// 		}else{
-					// 			new_info[$(this).attr('name')] = $(this).val();
-					// 		}
-					// 	});
-					// 	$.get("../core/api-users-info.php?action=update",{user_info:JSON.stringify(new_info)},function(data){
-					// 		if (data!=false) {
-					// 			new_info.dormitory = new_info.dormitory.dormitory_id+"#"+new_info.dormitory.room_no;
-					// 			change_info(new_info);
-					// 			$(".info-item").css("float","left");
-					// 			$("#update-cancel").css('display','none');
-					// 			$("#update-info").css("display","none");
-					// 			$("#change-info").css("display","block");
-					// 			$("#info-bottom").css("padding-left","30px");
-					// 		}
-					// 	});
-					// 	$.getJSON("../core/api-users-info.php?action=self",{session:"<?php echo $session;?>"},function(data){
-					// 		console.log(data);
-					// 		$("#head-info").html("ID:"+data.student_id.value+"<br>"+"昵称:"+data.nickname);
-					// 		$("#basic-info").html("姓名:"+data.name.value+"<br>"+
-					// 						  "学生类别:"+data.type.value+"<br>"+
-					// 						  "性别:"+data.gender.value+"<br>"+
-					// 						  "生日:"+data.birthday.value+"<br>"+
-					// 						  "宿舍:"+data.dormitory.dormitory_id+"#"+data.dormitory.room_no+"<br>"
-					// 		);
-					// 	});
-					// });
 				});
 			</script>
 		</div>
 		<div id="cen-row">
 			<div id="cen-swiper" class="swiper-container" style="height: 330px;margin-left: 30px;float: left;width: 750px;">
 	    				<div class="swiper-wrapper">
-	    	   				<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInRight" swiper-animate-duration="0.5s" 
+	    	   				<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInRight" swiper-animate-duration="0.5s"
 	    	   					swiper-animate-delay="0.3s" src="../main/slider1.jpg" style="height: 300px;width: 740px;"></div>
-	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInUp" swiper-animate-duration="0.5s" 
+	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInUp" swiper-animate-duration="0.5s"
 	    	   					swiper-animate-delay="0.3s" src="../main/slider2.jpg" style="height: 300px;width: 740px;"></div>
-	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s" 
+	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s"
 	    	   					swiper-animate-delay="0.3s" src="../main/slider3.jpg" style="height: 300px;width: 740px;"></div>
 	    				</div>
 	    				<!-- 如果需要分页器 -->
 	    				<div class="swiper-pagination"></div>
-	    
+
 	    				<!-- 如果需要导航按钮 -->
 	    				<div class="swiper-button-prev swiper-button-white"></div>
 	    				<div class="swiper-button-next swiper-button-white"></div>
-	    	
+
 	    				<!-- 如果需要滚动条 -->
 	    				<div class="swiper-scrollbar"></div>
 			</div>
@@ -248,77 +186,6 @@
 		.recent-tl div{float:left;margin-top:7px;margin-left:10px;}
 	</style>
 	<div id="recent">
-		<!--此处为带滚动条效果的div的样式表  -->
-		<!-- <style>
-		    #scroll-div {
-        		width:750px;
-    		    height:400px;
-    		    overflow:auto;
-				margin-left:15px;
-				border-radius:10px;
-    		}  
-			#scroll-div::-webkit-scrollbar {
-    		    width:12px;
-    		    height:10px;
-    		}
-    		#scroll-div::-webkit-scrollbar-button    {
-    		    background-color: #FF7677;
-    			border-radius: 10px;
-    		}
-    		#scroll-div::-webkit-scrollbar-track     {}
-    		#scroll-div::-webkit-scrollbar-track-piece {}
-    		#scroll-div::-webkit-scrollbar-thumb{
-    		    background:#FFA711;
-    		    border-radius:4px;
-    		}
-    		#scroll-div::-webkit-scrollbar-corner {
-    		    background:#82AFFF;
-    		}
-    		#scroll-div::-webkit-scrollbar-resizer  {
-    		    background:#FF0BEE;
-    		}
-		</style> -->
-		<!--此处为，带滚动条效果的div  -->
-		<!-- <div id='scroll-div'>
-        	
-			<div class="recent-order">
-				<div class="recent-tl">
-					<div>下单时间：<span name="ordering_date">2017-06-06</span></div>			
-				</div>
-				<div>
-					<table>
-						<tr>
-							<td style="width:240px;text-align:left;padding-left:10px;">
-								<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">
-								<p style="float:left;margin-left:5px;">正版魔法指南</p>
-							</td>
-							<td style="width:80px;"><span style="font-size:12px;">￥</span>65.00</td>
-							<td style="width:40px;"><span style="font-size:12px;">X</span>2</td>
-							<td>=</td>
-							<td style="width:85px;"><span style="font-size:12px;">￥</span>130.00</td>
-							<td style="width:120px;">买家已下单<br>等待卖家接单</td>
-							<td style="width:120px;">编辑<br>删除<br>追加评论</td>
-						</tr>
-					</table>		
-				</div>
-			</div>
-
-    	</div> -->
-
-		<!--此处仅为示例用的js，实际应用时需删除  -->
-		<!-- <script>
-			$(document).ready(function(){
-				var scroll = $("#scroll-div").html();
-				for (var i = 0; i < 3; i++) {
-					scroll+=scroll;
-					
-				}
-				$("#scroll-div").html(scroll);
-
-				
-			});
-		</script> -->
-		<!--示例js  -->
 		<div id="order-sort" style="width:720px;height:35px;margin-left:25px;">
 
 			<!-- <label for="status-sort">订单状态</label>
@@ -361,16 +228,18 @@
 
 						<div>
 							下单时间：<span name="ordering_date" style="margin-right:50px;"></span>
-							卖家：<span name="goods_owner"></span>
-						</div>			
+							卖家：<a name="goods_owner" href="#"></a>
+						</div>
 
 					</div>
 					<div>
 						<table>
 							<tr>
 								<td style="width:190px;text-align:left;padding-left:10px;">
-									<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">
-									<p style="float:left;margin-left:5px;"><span name="goods_title">正版魔法指南</span></p>
+									<a name="goods_href">
+										<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">
+										<p style="float:left;margin-left:5px;"><span name="goods_title">正版魔法指南</span></p>
+									</a>
 									<!-- <span name="goods_title"></span> -->
 								</td>
 								<td style="width:80px;">
@@ -395,47 +264,34 @@
 									<a href="#">追加评论</a>
 								</td>
 							</tr>
-						</table>		
+						</table>
 					</div>
 			</div>
-	
+
 	</div>
 
 	<script>
 
 		$(document).ready(function(){
 			var order_sam = $("#order-sam").html();
-			
+
 			function show_orders(data){
 				var recent = "";
-				// for (var i = 0; i < data.length; i++) {
-				// 	console.log(data[i]);
-				// 	recent += '<a href="../goods/show.php?goods_id='+data[i].goods_id+'"><div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div></a>';
-				// }
-				// $("#recent-content").html(recent);
-				// for (var i = 0; i < data.length; i++) {
-				// 	$("#"+data[i].order_id+' [name="submit_time"]').html(data[i].submit_time.split(".")[0]);
-				// 	$("#"+data[i].order_id+' [name="submit_user"]').html(data[i].submit_user);
-				// 	$("#"+data[i].order_id+' [name="price_per_goods"]').html(data[i].price_per_goods);
-				// 	$("#"+data[i].order_id+' [name="goods_count"]').html(data[i].goods_count);
-				// 	$("#"+data[i].order_id+' [name="deliver_fee"]').html(data[i].deliver_fee);
-				// 	var total_cost = parseFloat(data[i].price_per_goods) * parseFloat(data[i].goods_count) + parseFloat(data[i].deliver_fee);
-				// 	$("#"+data[i].order_id+' [name="total_cost"]').html(total_cost);
-				// 	var status = "";
-				// 	switch (data[i].status) {
 				console.log(data);
 				for (var i = 0; i < data.length; i++) {
 					console.log(data[i]);
-					recent += '<a href="../goods/show.php?goods_id='+data[i].goods_id+'"><div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div></a>';
+					recent += '<div class="recent-order" id="'+data[i].order_id+'">'+order_sam+'</div>';
 				}
 				$("#recent-content").html(recent);
 				for (var i = 0; i < data.length; i++) {
+					// "../goods/show.php?goods_id='+data[i].goods_id+'"
+					$("#"+data[i].order_id+' [name="goods_href"]').attr("href","../goods/show.php?goods_id="+data[i].goods_id);
 					$("#"+data[i].order_id+' [name="ordering_date"]').html(data[i].ordering_date.split(".")[0]);
 					$("#"+data[i].order_id+' [name="single_cost"]').html(data[i].single_cost);
 					$("#"+data[i].order_id+' [name="purchase_amount"]').html(data[i].purchase_amount);
 					$("#"+data[i].order_id+' [name="delivery_fee"]').html(data[i].delivery_fee);
 					$("#"+data[i].order_id+' [name="goods_title"]').html(decodeURIComponent(data[i].goods_title));
-					$("#"+data[i].order_id+' [name="goods_owner"]').html(data[i].goods_owner);
+					$("#"+data[i].order_id+' [name="goods_owner"]').html(data[i].goods_owner).attr("href","./others.php?user_id="+data[i].goods_owner);
 					$("#"+data[i].order_id+' [name="offer"]').html(data[i].offer);
 					var order_status = "";
 					switch (data[i].order_status) {
@@ -458,7 +314,7 @@
 				}
 			}
 
-			$.getJSON("../core/api-v1.php",{action: "list_orders",order_status:"waiting"},function(data){show_orders(data.orders);});
+			$.getJSON("../core/api-v1.php",{action: "list_orders",page:"1"},function(data){show_orders(data.orders);});
 			$("#sort-submit").click(function(){
 				var order_status = $("#order_status-sort").val();
 				var page = $("#page-sort").val();
@@ -471,25 +327,25 @@
 
 		var mySwiper = new Swiper ('.swiper-container', {
     			onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
-    				swiperAnimateCache(swiper); //隐藏动画元素 
+    				swiperAnimateCache(swiper); //隐藏动画元素
     				swiperAnimate(swiper); //初始化完成开始动画
-  				}, 
-  				onSlideChangeEnd: function(swiper){ 
+  				},
+  				onSlideChangeEnd: function(swiper){
     				swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
   				},
     			loop: true,
-    
+
     			// 如果需要分页器
     			pagination: '.swiper-pagination',
-    
+
     			// 如果需要前进后退按钮
     			nextButton: '.swiper-button-next',
     			prevButton: '.swiper-button-prev',
-    
+
     			// 如果需要滚动条
-    			scrollbar: '.swiper-scrollbar', 
+    			scrollbar: '.swiper-scrollbar',
     			autoplay: 3000,
-  			});     
+  			});
 	</script>
 </body>
 </html>
