@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<?php 
+	<?php
 		session_start();
 	?>
 	<title>贝壳商城-让你的闲置动起来(O(∩_∩)O)</title>
@@ -101,9 +101,9 @@
 			text-align: center;
 		}
 		.goods:hover{
-			 background-color: #e8e8e8; 
+			 background-color: #e8e8e8;
 			color: #FD9850;
-			border: 1px solid #CCCCCC; 
+			border: 1px solid #CCCCCC;
 			box-shadow:2px 2px 2px #CCCCCC;
 		}
 		.goods img{
@@ -130,8 +130,30 @@
 	<div id="go-back"><a href="#main-show">回到顶端</a></div>
 
 	<?php  include "../frame/head_user.php"; ?>
-	
+
 	<script>
+	String.prototype.format = function(args) {
+		var result = this;
+		if (arguments.length > 0) {
+			if (arguments.length == 1 && typeof (args) == "object") {
+				for (var key in args) {
+					if(args[key]!=undefined){
+						var reg = new RegExp("({" + key + "})", "g");
+						result = result.replace(reg, args[key]);
+					}
+				}
+			}
+			else {
+				for (var i = 0; i < arguments.length; i++) {
+					if (arguments[i] != undefined) {
+						var reg= new RegExp("({)" + i + "(})", "g");
+						result = result.replace(reg, arguments[i]);
+					}
+				}
+			}
+		}
+		return result;
+	}
 	$(document).ready(function(){
 		// var wth = parseInt($("body").css('width').split("px")[0]);
 		// console.log((wth-1228)/2);
@@ -161,7 +183,7 @@
  					var availableTags = [];
  					$("input[name='sch']").keyup(function(){
  						var value = $(this).val();
- 						
+
  						$.get("./sch-goods.php",{val:value},function(data){
  							// availableTags = data;
  							console.log(data);
@@ -204,7 +226,7 @@
 				float: left;
 				color: white;
 				font-size:20px;
-				margin:15px; 
+				margin:15px;
 			}
 			.list-item img{
 				float: left;margin-left: 25px;margin-top: 10px;width: 32px;height: 32px;
@@ -232,7 +254,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<script>
 			$(document).ready(function(){
 				$("[name='reality']").click(function(){
@@ -481,8 +503,8 @@
 					<div class="second-cat" style="height: 10px;"><div>
 				</div>
 			</div>
-			
-			
+
+
 			<script>
 				$(document).mousemove(function(){
 					$(".list-item").each(function(){
