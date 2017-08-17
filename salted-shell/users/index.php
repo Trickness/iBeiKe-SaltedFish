@@ -304,7 +304,6 @@
 					}
 					order_list += ordersTpl.format(data[i]);
 				}
-				console.log(order_list);
 				$("#recent-content").html(order_list);
 			}
 
