@@ -125,13 +125,59 @@
                     },function(data,status,jqXHR){
                         console.log(data);
                     });
+
+                    // 通过ajax上传图片
+                    var formdata=new FormData( );
+					formdata.append("image" , $("#header")[0].files[0]);
+					$.ajax({
+	           			type : 'post',
+	           			url : "../core/api-v1.php?action=update_header",
+	           			data : formdata,
+	           			cache : false,
+	           			processData : false,
+	           			contentType : false,
+	           			success : function(data){
+                            console.log(data);
+	           			},
+	           			error:function(){
+	           				console.log("def");
+	           			}
+	       			});
+
                 });
             }
         </script>
     </head>
-    
+
     <body>
         <div id='warpper' style="margin-left:30px;">
+            <p>头像</p>
+            <style>
+                .input-file {
+                    width: 120px;
+                    height: 30px;
+                    overflow:hidden;
+                    position:relative;
+                }
+                .input-file input{
+                    opacity:0;
+                    filter:alpha(opacity=0);
+                    font-size:100px;
+                    position:absolute;
+                    top:0;
+                    right:0;
+                }
+            </style>
+            <div style="text-align:center;width:200px;">
+                <img id="preview" src="../main/cover.png" style="height:120px;width:120px;border-radius:25px;" alt="请上传您的头像"><br><br>
+                <button class="input-file">
+                    请选择图片上传
+                    <form enctype="multipart/form-data" method="post" name="fileinfo" style="margin:0;">
+                        <input type="file" name="file" id="header" onchange="showPreview(this)" />
+                    </form>
+                </button>
+            </div>
+
             <p>昵称</p>
             <input type="text" id="nickname-input">
 
@@ -157,7 +203,7 @@
                 <option value="protected">登录可见</option>
                 <option value="private">保密</option>
             </select>
-            
+
             <p>生日</p>
             <input type="text" id="birthday-input">
             <select name="birthday-privacy" id="birthday-privacy">
@@ -217,5 +263,19 @@
             <input class="button yes-button" type="submit" value="Save" id="save-button"></input>
             <input class="button cancel-button" type="submit" value="Cancel" id="cancel-button"></input>
         </div>
+
+        <script>
+            function showPreview(source) {
+                var file = source.files[0];
+                if (window.FileReader) {            // 如果浏览器支持 FileReader
+                    var fr = new FileReader();      // 新建 FileReader 对象
+                    fr.onloadend = function (e) {   // 当img设置
+                        document.getElementById("preview").src = e.target.result;
+                    };
+                    fr.readAsDataURL(file);         // 读取 img 到 fr 中
+                    console.log(fr);                // 控制台打印 fr 结构
+                }
+            }
+        </script>
     </body>
 </html>

@@ -110,13 +110,15 @@
 				$(document).ready(function(){
 					var ordersTpl = '<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">\
 						<div style="width: inherit;height: 27px;border-bottom:1px solid #CCCCCC;border-radius:10px;">\
-							<p class="st-name">{goods_owner}</p>\
+							<p class="st-name"><a href="../users/others.php?user_id={goods_owner}">{goods_owner}</a></p>\
 						</div>\
 						<table>\
 							<tr>\
 								<td>\
-									<img src="./goods.jpg">\
-									<span style="float: left;font-size: 13px;margin-top: 25px;">{goods_title}</span>\
+									<a href="../goods/show.php?goods_id={goods_id}">\
+										<img src="./goods.jpg">\
+										<span style="float: left;font-size: 13px;margin-top: 25px;">{goods_title}</span>\
+									</a>\
 								</td>\
 								<td style="color:#FD9860;">\
 									<span style="font-size:12px;margin-left:35px;">￥</span>{offer}\

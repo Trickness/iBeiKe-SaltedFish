@@ -98,7 +98,7 @@
 		<script>
 			$(document).ready(function(){
 				$.get("../core/api-users-info.php?action=one_col",{col:"nickname"},function(data){
-					if (data=='{"status":"failed","error":"Access denied"}') {
+					if (/*data=='{"status":"failed","error":"Access denied"}'*/!data) {
 						$("#sign-info").html('<a href="../login/login.php">登陆</a>'+'<a style="margin-left:20px;" href="../signin/signin.php">免费注册</a>');
 					}else{
 						$("#sign-info").html('<a href="../users/index.php">'+data+'</a><a id="logout-tl" href="../core/api-v1.php?action=logout"><div class="top-tl" style="left: 590px;align:right;">注销</div></a>');
@@ -107,5 +107,5 @@
 				})
 			});
 		</script>
-		
+
 	</div>

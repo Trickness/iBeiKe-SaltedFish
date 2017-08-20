@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once "../config.php";
 require_once "utils.php";
 require_once "users.php";
@@ -45,7 +45,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
                 if(isset($data['class_info']['department']['value']))  $info['class_info']['department']['value'] = $data['class_info']['department']['value'];
                 if(isset($data['class_info']['enrollment']) and isset($data['class_info']['enrollment']['access'])) $info['class_info']['enrollment']['access'] = $data['class_info']['enrollment']['access'];
                 if(isset($data['class_info']['class_no']) and isset($data['class_info']['class_no']['access'])) $info['class_info']['class_no']['access'] = $data['class_info']['class_no']['access'];
-                
+
             }
             if(isset($data['student_id']) and isset($data['student_id']['access'])) $info['student_id']['access'] = $data['student_id']['access'];
             if(isset($data['name']) and isset($data['name']['access']))  $info['name']['access'] = $data['name']['access'];
@@ -149,7 +149,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             "count" => $count
         )));
     }elseif($action == "fetch_self_info"){
-        $return_var = fetch_info_from_user($student_id);
+        $return_var = json_encode(fetch_info_from_user($student_id));
         if($return_var){
             die(json_encode(array(
                 "status" => "success",
@@ -170,6 +170,30 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             )));
         }else{
             die(generate_error_report("Unknown error in fetch user info"));
+        }
+    }elseif ($action == "update_header") {
+        if (isset($_FILES['image'])) {
+            $extend = explode(".",$_FILES['image']['name'])[1];
+            if (preg_match('/PNG|jpg|jpeg/',$extend)==1) {
+                if (!file_exists("../image/".$student_id)) {mkdir("../image/".$student_id);}
+                if (copy($_FILES['image']['tmp_name'],"../image/".$student_id."/".$_FILES['image']['name'])) {
+                    echo json_encode(array(
+                        'status'=>'success',
+                        'name'=> $_FILES['image']['name']
+                    ));
+                }else {
+                    echo json_encode(array(
+                        'status'=>'failed to upload'
+                    ));
+                }
+            }else {
+                echo json_encode(array(
+                    'status'=>'failed',
+                    'error'=>'not image'
+                ));
+            }
+        }else{
+            echo "failed";
         }
     }
 }else{                                              // 未登录
@@ -234,7 +258,7 @@ if($action == "fetch_user_total_info"){
         $flag = "public";
     }
     $info = recursion_remove_sensitive_info($info,$flag);
-    
+
     die(json_encode(array(
         "target_id" => $user_id,
         "status" => "success",

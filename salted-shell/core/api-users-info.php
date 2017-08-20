@@ -14,7 +14,7 @@ session_start();
 if (isset($_GET['action'])) {
 	if ($_GET['action']=="self") {
 		$session = session_id();
-		echo fetch_self_info($session);
+		echo json_encode(fetch_self_info($session));
 	}elseif ($_GET['action']=="new") {
 		$goods_list = array();
 		$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
