@@ -222,4 +222,12 @@ function check_images_list($list){
 }
 
 
+
+
+// 检查上传数据是否为图像数据，是返回true，否则返回false
+function is_img($data){
+    return true;
+}
+
+
 ?>

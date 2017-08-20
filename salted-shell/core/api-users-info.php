@@ -43,7 +43,7 @@ if (isset($_GET['action'])) {
 		if (isset($_GET['col'])) {
 			$col = $_GET['col'];
 			if ($student_info) {
-				$student_info = json_decode($student_info,true);
+				$student_info = $student_info;
 				echo $student_info[$col];
 			}else{
 				echo false;

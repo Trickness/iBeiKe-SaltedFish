@@ -9,13 +9,16 @@ require_once "../config.php";
 if (isset($_GET['goods_id'],$_GET['action'])) {
     if ($_GET['action']=="show") {
         $goods_info = json_decode(fetch_goods_info($_GET['goods_id'],session_id()),true);
-        $buyer = json_decode(fetch_self_info(session_id()),true);
-        $goods_owner = json_decode(fetch_info_from_user($goods_info['goods_owner']),true);
-        $buyer_info = array(
-            'student_id' => $buyer['student_id']['value'],
-            'name' => $buyer['name']['value'],
-            'phone_number' => $buyer['phone_number']['value']
-        );
+        $buyer = fetch_self_info(session_id());
+        $goods_owner = fetch_user_info(session_id(),$goods_info['goods_owner']);
+        $buyer_info = array();
+        if($buyer){
+            $buyer_info = array(
+                'student_id' => $buyer['student_id']['value'],
+                'name' => $buyer['name']['value'],
+                'phone_number' => $buyer['phone_number']['value']
+            );
+        }
         $goods_owner_info = array(
             'student_id' => $goods_owner['student_id']['value'],
             'name' => $goods_owner['name']['value'],

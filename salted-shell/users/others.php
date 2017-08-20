@@ -47,7 +47,6 @@
             <label for="name" />姓名：</label><span id="name"></span><br>
             <label for="type" />学生类别：</label><span id="type"></span><br>
             <label for="gender" />性别：</label><span id="gender"></span><br>
-            <label for="birthday" />生日：</label><span id="birthday"></span><br>
             <label for="dormitory" />宿舍：</label><span id="dormitory"></span>
         </div>
         <div id="user-goods" style="border:1px solid black;">
@@ -88,7 +87,6 @@
                     $("#name").html(data.name.value);
                     $("#type").html(data.type.value);
                     $("#gender").html(data.gender.value);
-                    $("#birthday").html(data.birthday.value);
                     $("#dormitory").html(data.dormitory.dormitory_id.value+"#"+data.dormitory.room_no.value);
                 }
 

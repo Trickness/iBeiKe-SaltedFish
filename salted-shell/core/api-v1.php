@@ -156,7 +156,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
                 "self_info" => json_decode($return_var)
             )));
         }else{
-            die(generate_error_report("Unknown error in fetch_info_from_user"));
+            die(generate_error_report("Access denied or no such user"));
         }
     }elseif($action == "fetch_user_info"){
         if(!isset($_GET['user_id']))

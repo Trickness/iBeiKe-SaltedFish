@@ -163,7 +163,7 @@ function user_logout($session_key)
     $select = "SELECT student_info from $db_users_table WHERE student_id = '$id'";
     $result = $link->query($select);
     $res = mysqli_fetch_assoc($result) or die("Cannot fetch info for userid=".$id);
-    $student_info = urldecode($res['student_info']);
+    $student_info = json_decode(urldecode($res['student_info']),true);
     $link->close();
     return $student_info;
  }
@@ -171,7 +171,7 @@ function fetch_self_info($session_key){
     if($student_id = get_student_id_from_session_key($session_key)){
         return fetch_info_from_user($student_id);
     }else{
-        die(generate_error_report("Access denied"));
+        return null;
     }
 }
 /**
@@ -186,23 +186,29 @@ function fetch_self_info($session_key){
  *      - (@JSONStr) user_info / false  若session_key不存在则返回false
  * 
  **/
-function fetch_user_info($session_key)
+function fetch_user_info($session_key,$target_id)
 {
     global $db_host;
     global $db_pass;
     global $db_name;
     global $db_user;
     global $db_users_table;
+    $flag = "public";
     if ($student_id = get_student_id_from_session_key($session_key)){
-            $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-            $select_1 = "SELECT * from $db_users_table WHERE student_id = '$student_id'";
-            $result_1 = $link->query($select_1);
-            $res_1 = mysqli_fetch_assoc($result_1) or die(generate_error_report("No such user"));
-            $student_info = urldecode($res_1['student_info']);
-            $link->close();
-            return $student_info;
-        }   
-    else return false;
+        if($student_id == $target_id )
+            $falg = "private";
+        else
+            $flag = "protected";
+    }
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $select_1 = "SELECT * from $db_users_table WHERE student_id = '$target_id'";
+    $result_1 = $link->query($select_1);
+    if(!$result_1)  die(generate_error_report("Unknown error at fetch_user_info [").$link->error);
+    $res_1 = mysqli_fetch_assoc($result_1) or die(generate_error_report("No such user"));
+    $student_info = json_decode(urldecode($res_1['student_info']),true);
+    $student_info = recursion_remove_sensitive_info($student_info,$flag);
+    $link->close();
+    return $student_info;
 }
 
 // private test function
@@ -286,4 +292,6 @@ function recursion_remove_sensitive_info($dic,$flag){
     }
     return $dic;
 }
+
+
 ?>

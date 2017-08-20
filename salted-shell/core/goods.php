@@ -178,9 +178,10 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['single_cost'] 	= urldecode($res['single_cost']);
 	$goods_info['remain'] 		= $res['remain'];
 	$goods_info['ttm'] 			= $res['ttm'];
-	$goods_info['last_modified'] 	= $res['last_modified'];
-	$goods_info['goods_status'] 		= $res['goods_status'];
-	$goods_info['goods_type'] 		= $res['goods_type'];
+	$goods_info['last_modified'] = $res['last_modified'];
+	$goods_info['goods_status'] = $res['goods_status'];
+	$goods_info['goods_type'] 	= $res['goods_type'];
+	$goods_info['goods_info']	= $res['goods_info'];
 	$goods_info['search_summary'] 		= urldecode($res['search_summary']);
 	$goods_info['comments'] 	= json_decode($res['comments'],true);
 	$goods_info['delivery_fee'] = $res['delivery_fee'];
@@ -200,7 +201,6 @@ function comment_goods($goods_id, $comment, $session_key)
 		 $goods_info['comments'][$i]['comment'] = urldecode($goods_info['comments'][$i]['comment']);
 	}
 	if (!get_student_id_from_session_key($session_key)){	//来宾用户，未登录
-		$goods_info['goods_owner'] = substr(trim($goods_info['goods_owner']),0,4)."****";
 		$goods_info = json_encode($goods_info);
 		mysqli_close($link);
 		return $goods_info;

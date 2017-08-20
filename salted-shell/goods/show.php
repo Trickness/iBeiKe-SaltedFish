@@ -30,23 +30,30 @@
             $(document).ready(function(){  
                 $.getJSON("../core/api-show-goods.php",{action:"show",goods_id:goods_id},function(data){
                     goods_info = data;
-                    console.log(goods_info);
+                    console.log(data);
                     $("#goods_title").html(data.goods_title);
                     $("#goods_owner").html(data.goods_owner);
                     $("#goods_status").html(data.goods_status);
                     $("#remain").html(data.remain);
                     $("#goods_type").html(data.goods_type);
                     $("#single_cost").html(data.single_cost);
-                    $("#summary_content").html(data.search_summary);
+                    $("#summary_content").html(data.goods_info);
 
-                    console.log(data);
-                    $("#buyer_id").html(data.buyer_info.student_id);
-                    $("#buyer_name").html(data.buyer_info.name);
-                    $("#buyer_phone").html(data.buyer_info.phone_number);
+                    if(data.buyer_info.length != 0){
+                        console.log(data);
+                        $("#buyer_id").html(data.buyer_info.student_id);
+                        $("#buyer_name").html(data.buyer_info.name);
+                        $("#buyer_phone").html(data.buyer_info.phone_number);
 
-                    $("#goods_owner_id").html(data.goods_owner_info.student_id);
-                    $("#goods_owner_name").html(data.goods_owner_info.name);
-                    $("#goods_owner_phone").html(data.goods_owner_info.phone_number);
+                        $("#goods_owner_id").html(data.goods_owner_info.student_id);
+                        $("#goods_owner_name").html(data.goods_owner_info.name);
+                        $("#goods_owner_phone").html(data.goods_owner_info.phone_number);
+                    }else{
+                        $("#make_order").click(function(){
+                            console.log("!");
+                            window.location.href="../login/login.php";
+                        });
+                    }
 
                     var total_comment = "";
                     if(data.comments != null){
