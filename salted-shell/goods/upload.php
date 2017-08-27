@@ -13,10 +13,12 @@
         }
     </style>
 </head>
-<body style="min-width:1024px;text-align:center;">
+<body style="min-width:1024px;margin:0;">
+    <?php include "../frame/head_user.php"; ?>
+<div style="margin-top:100px;text-align:center;">
 标题
 <input id="title" type="text" name="title">
-<br/> 
+<br/>
 
 
 价格
@@ -163,9 +165,10 @@
             }else{
                 console.log(data);
             }
-                
+
         });
     });
 </script>
+</div>
 </body>
 </html>

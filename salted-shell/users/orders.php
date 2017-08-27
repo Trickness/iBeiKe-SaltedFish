@@ -76,16 +76,17 @@
         }
     </script>
 </head>
-<body>
+<body style="margin:0;">
 	<?php
 		require_once "../core/users.php";
         require_once "../core/utils.php";
         require_once "../core/authorization.php";
         require_once "../config.php";
-        
+
+		include "../frame/head_user.php";
         $session = session_id();
 	?>
-    <div>
+    <div style="margin-top:100px;">
         <p>我发起的</p>
             <table border="1" id="list_1">
                 <tr>

@@ -6,6 +6,7 @@
     </head>
     <body>
         <style media="screen">
+            body{margin: 0;}
             .goods{
                 color: black;
                 width: 220px;
@@ -33,6 +34,7 @@
             .goods p{margin: 0;font-size: 12px;text-align: left;color: #404040;width: 170px;height: 25px;margin-left: 15px;}
         </style>
         <?php
+            include "../frame/head_user.php";
             if (isset($_GET['user_id'])) {
                 echo "<script>var user_id = '".$_GET['user_id']."';</script>";
             }else {
@@ -40,7 +42,7 @@
             }
         ?>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <div id="user-info">
+        <div id="user-info" style="margin-top:100px;">
             <label for="id">ID：</label><span id="id"></span><br>
             <label for="nickname">昵称：</label><span id="nickname"></span><br>
             <label for="name" />姓名：</label><span id="name"></span><br>

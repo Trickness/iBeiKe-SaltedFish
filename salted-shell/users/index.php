@@ -261,7 +261,7 @@
 		$(document).ready(function(){
 			var ordersTpl = '<div class="recent-order">\
 			<div class="recent-tl">\
-				<div><span style="margin-right:50px;">下单时间：{ordering_date}</span>卖家：<a name="goods_owner" href="{goods_owner}">{goods_owner}</a></div>\
+				<div><span style="margin-right:50px;">下单时间：{ordering_date}</span>卖家：<a name="goods_owner" href="./others.php?user_id={goods_owner}">{goods_owner}</a></div>\
 			</div>\
 			<div>\
 				<table>\

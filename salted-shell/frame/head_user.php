@@ -31,6 +31,7 @@
 			padding:2px;
 			position: fixed;
 			top: 22px;
+			width: auto;
 		}
 		.top-tl:after{
 			content: '';position: absolute;
@@ -52,7 +53,7 @@
 			border-radius: 2px;
 			z-index: -1;
 		}
-		#sign-tl{float: right;height: 50px;margin-top: 12px;margin-right: 30px;min-width: 110px;}
+		#sign-tl{float: right;height: 50px;margin-top: 12px;margin-right: 30px;min-width: 110px;width: auto;}
 		#sign-info{float: left;color: white;margin: 10px;}
 		#sign-tl img{height: 50px;width: 50px;border-radius: 25px;float: left;transition-duration: 0.4s;}
 		#sign-info a{float: left;color: white;font-size: 20px;transition-duration: 0.4s;}
