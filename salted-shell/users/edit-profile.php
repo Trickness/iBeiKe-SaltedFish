@@ -121,6 +121,7 @@
                     new_data.name.access = $("#name-privacy").val();
                     new_data.student_id = new Object();
                     new_data.student_id.access = $("#id-privacy").val();
+                    new_data.header = $("#preview")[0].src;
                     console.log(new_data);
                     $.post("../core/api-v1.php?action=update_self_info",
                     {
@@ -155,26 +156,26 @@
             </style>
             <div style="text-align:center;width:200px;">
                 <img id="preview" src="../main/cover.png" style="height:120px;width:120px;border-radius:25px;" alt="请上传您的头像"><br><br>
-                <button class="input-file">
-                    请选择图片上传
-                    <form enctype="multipart/form-data" method="post" name="fileinfo" style="margin:0;">
-                        <input type="file" name="file" id="header" onchange="showPreview(this)" />
-                    </form>
-                </button>
+                <form id="header-submit-form" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data">
+                    <label for="file">Filename:</label>
+                    <input type="file" name="upfile" id="upfile"  onchange="showPreview(this)" /> 
+                </form>
+                <button id="submit-button" style="width:100px;height:30px;" onclick="upload_img();">Upload</button>
+
             </div>
 
             <p>昵称</p>
             <input type="text" id="nickname-input">
 
             <p>学号</p>
-            <input type="text" id="id-input">
+            <input type="text" id="id-input" disabled="disabled">
             <select name="id-privacy" id="id-privacy">
                 <option value="public">公开</option>
                 <option value="protected">登录可见</option>
             </select>
 
             <p>姓名</p>
-            <input type="text" id="name-input">
+            <input type="text" id="name-input" disabled="disabled">
             <select name="name-privacy" id="name-privacy">
                 <option value="public">公开</option>
                 <option value="protected">登录可见</option>
@@ -182,7 +183,7 @@
             </select>
 
             <p>性别</p>
-            <input type="text" id="gender-input">
+            <input type="text" id="gender-input" disabled="disabled">
             <select name="gender-privacy" id="gender-privacy">
                 <option value="public">公开</option>
                 <option value="protected">登录可见</option>
@@ -206,7 +207,7 @@
             </select>
 
             <p>入学年份</p>
-            <input type="text" id="enroll-input">
+            <input type="text" id="enroll-input" disabled="disabled">
             <select name="enroll-privacy" id="enroll-privacy">
                 <option value="public">公开</option>
                 <option value="protected">登录可见</option>
@@ -214,7 +215,7 @@
             </select>
 
             <p>班级</p>
-            <input type="text" id="class-input">
+            <input type="text" id="class-input" disabled="disabled">
             <select name="class-privacy" id="class-privacy">
                 <option value="public">公开</option>
                 <option value="protected">登录可见</option>
@@ -260,23 +261,32 @@
                     fr.readAsDataURL(file);         // 读取 img 到 fr 中
                     console.log(fr);                // 控制台打印 fr 结构
                 }
-
-                var formdata=new FormData();
-                formdata.append("image" , $("#header")[0].files[0]);
+            }
+            function upload_img(){
+                if($("#upfile").val() === ""){
+                    alert("请选择图片后再上传");
+                    return;
+                }
+                var formdata=new FormData($("#header-submit-form")[0]);
                 $.ajax({
                     type : 'post',
-                    url : "../core/api-v1.php?action=update_header",
+                    url : "../addons/ueditor/php/controller.php?action=uploadimage",
                     data : formdata,
                     cache : false,
                     processData : false,
                     contentType : false,
                     success : function(data){
+                        data = JSON.parse(data);
+                        if(data.state === "SUCCESS"){
+                            $("#preview").attr("src",data.url);
+                        }
                         console.log(data);
                     },
                     error:function(){
                         console.log("def");
                     }
                 });
+                console.log(formdata);
             }
         </script>
     </body>

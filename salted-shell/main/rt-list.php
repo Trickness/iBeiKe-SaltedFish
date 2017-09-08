@@ -25,10 +25,8 @@ function get_goods($list,$page = 1,$target = "search_summary",$goods_num = 12){
 						<p style="color:gray">%s</p>
 					</div></a>';
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	if ($target == "goods_title") {
-		$list = urlencode($list);
-		$id_sel = "SELECT goods_id FROM $db_goods_table WHERE $target LIKE '%$list%' LIMIT $start_num,$goods_num";
-	}else{$id_sel = "SELECT goods_id FROM $db_goods_table WHERE $target = '$list' LIMIT $start_num,$goods_num";}
+	$list = urlencode($list);
+	$id_sel = "SELECT goods_id FROM $db_goods_table WHERE $target LIKE '%$list%' LIMIT $start_num,$goods_num";
 	
 	$id_query = mysqli_query($link,$id_sel);
     while ($res = mysqli_fetch_array($id_query)) {
@@ -40,18 +38,22 @@ function get_goods($list,$page = 1,$target = "search_summary",$goods_num = 12){
 	$count_query = mysqli_query($link,$count_sql);
 	$total_goods = mysqli_fetch_assoc($count_query)['total_pages'];
 	$goods_list['total_pages'] = (int)($total_goods/$goods_num)+1;
-    mysqli_close($link);
+	mysqli_close($link);
     return $goods_list;
 }
-
-if (isset($_GET['catagory'],$_GET['tgt'])) {
+$total_pages = 1;
+if (isset($_GET['catagory'])) {
 	$page_now = 1;
+	$target = "search_summary";
+	if(	isset($_GET['tgt'])){
+		$target = $_GET['tgt'];	// input check
+	}
 	if (isset($_GET['page'])) {
 		$page_now = $_GET['page'];
 		$url = explode("&page=", $url)[0];
-		$goods_info = get_goods($_GET['catagory'],$_GET['page'],$_GET['tgt']);
+		$goods_info = get_goods($_GET['catagory'],$_GET['page'],$target);
 	}else{
-		$goods_info = get_goods($_GET['catagory'],$page_now,$_GET['tgt']);
+		$goods_info = get_goods($_GET['catagory'],$page_now,$target);
 	}
 	$goods_list = $goods_info['list'];
 	$total_pages = $goods_info['total_pages'];

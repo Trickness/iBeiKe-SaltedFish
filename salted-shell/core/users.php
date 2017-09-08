@@ -164,6 +164,7 @@ function user_logout($session_key)
     $result = $link->query($select);
     $res = mysqli_fetch_assoc($result) or die("Cannot fetch info for userid=".$id);
     $student_info = json_decode(urldecode($res['student_info']),true);
+    if(isset($student_info['header']))  $student_info['header'] = urldecode($student_info['header']);
     $link->close();
     return $student_info;
  }

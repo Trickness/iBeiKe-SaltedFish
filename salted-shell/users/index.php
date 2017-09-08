@@ -80,7 +80,7 @@
 	<?php include '../frame/head_user.php'; ?>
 	<div id="head-row">
 		<div id="user-info">
-			<img src="../main/adv.png" style="width: 120px;height: 120px;border-radius: 60px;margin:35px;margin-bottom:10px;margin-top:0;">
+			<img id="header-img" src="../main/adv.png" style="width: 120px;height: 120px;border-radius: 60px;margin:35px;margin-bottom:10px;margin-top:0;">
 
 			<style>
 				#head-info,#basic-info{line-height: 25px;}
@@ -109,7 +109,7 @@
     					</button>
 
     				<ul class="button-dropdown-list is-below">
-      					<li><a href="edit-profile.html"><i class="fa fa-heart-o"></i>个人信息修改</a></li>
+      					<li><a href="edit-profile.php"><i class="fa fa-heart-o"></i>个人信息修改</a></li>
       					<li class="button-dropdown-divider"><a href="../goods/upload.php">上传商品</a></li>
 						<li class="button-dropdown-divider"><a href="../users/orders.php">我的订单</a></li>
       					<li><a href="#">发布信息</a></li>
@@ -127,6 +127,10 @@
 						$("#gender").html(data.gender.value);
 						$("#birthday").html(data.birthday.value);
 						$("#dormitory").html(data.dormitory.value);
+						if(data.header){
+							$("#header-img").attr("src",data.header);
+							$("#top-header").attr("src",data.header);
+						}
 					}
 
 					$.getJSON("../core/api-users-info.php?action=self",function(data){

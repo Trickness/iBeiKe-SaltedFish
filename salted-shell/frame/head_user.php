@@ -92,7 +92,7 @@
 
 		<a href="../info/info.php"><div id="info-tl" class="top-tl" style="left: 465px;">信息中心</div></a>
 		<div id="sign-tl">
-			<img src="../main/cover.png">
+			<img id="top-header" src="../main/cover.png">
 			<div id="sign-info"></div>
 		</div>
 

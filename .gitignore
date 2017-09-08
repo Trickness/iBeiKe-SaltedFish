@@ -1,4 +1,5 @@
 ./config.php
 ./salted-shell/config.php
 ~*
+salted-shell/addons/ueditor/php/upload/*
 salted-shell/test.php

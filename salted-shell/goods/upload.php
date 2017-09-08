@@ -17,7 +17,7 @@
     <?php include "../frame/head_user.php"; ?>
 <div style="margin-top:100px;text-align:center;">
 标题
-<input id="title" type="text" name="title">
+<input id="goods-title" type="text" name="goods-title">
 <br/>
 
 
@@ -137,7 +137,7 @@
     lv_1_change("实体商品");
     $("#submit").click(function(){
         var jsonData = {};
-        jsonData.goods_title=$("#title").val();
+        jsonData.goods_title=$("#goods-title").val();
         jsonData.single_cost=$("#single_cost").val();
         jsonData.goods_status=$("#goods_status").val();
         jsonData.remain=$("#remain").val();

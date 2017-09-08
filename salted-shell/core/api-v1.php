@@ -20,7 +20,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         ));
     }elseif($action == "update_self_info"){
         if(isset($_POST['info'])){
-            $info = json_decode(fetch_info_from_user($student_id),true);
+            $info = fetch_info_from_user($student_id);
             $data = json_decode(urldecode($_POST['info']),true);
             if(isset($data['nickname'])){
                 $info['nickname'] = $data['nickname'];
@@ -51,6 +51,8 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             if(isset($data['name']) and isset($data['name']['access']))  $info['name']['access'] = $data['name']['access'];
             if(isset($data['gender']) and isset($data['gender']['access'])) $info['gender']['access'] = $data['gender']['access'];
             if(isset($data['birthday']) and isset($data['birthday']['access'])) $info['birthday']['access'] = $data['birthday']['access'];
+            if(isset($data['header']))  $info['header'] = urlencode($data['header']);
+            // 合法性检测
             $info_hash = update_user_info(json_encode($info),$student_id);
             echo json_encode(array(
                 "status" => "success",
@@ -149,11 +151,11 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             "count" => $count
         )));
     }elseif($action == "fetch_self_info"){
-        $return_var = json_encode(fetch_info_from_user($student_id));
+        $return_var = fetch_info_from_user($student_id);
         if($return_var){
             die(json_encode(array(
                 "status" => "success",
-                "self_info" => json_decode($return_var)
+                "self_info" => $return_var
             )));
         }else{
             die(generate_error_report("Access denied or no such user"));
@@ -161,7 +163,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     }elseif($action == "fetch_user_info"){
         if(!isset($_GET['user_id']))
             die(generate_error_report("Please specify user id as user_id=xxx in url"));
-        $return_var = json_decode(fetch_info_from_user($student_id),true);
+        $return_var = fetch_info_from_user($student_id);
         $return_var = recursion_remove_sensitive_info($return_var,"protected");
         if($return_var){
             die(json_encode(array(
