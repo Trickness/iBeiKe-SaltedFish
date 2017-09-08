@@ -10,11 +10,14 @@ function create_order_from_user($order_submitter,$order_type,$goods_id,$delivery
     global $db_goods_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT remain FROM $db_goods_table WHERE goods_id='$goods_id'";
+    $sql = "SELECT goods_status,remain FROM $db_goods_table WHERE goods_id='$goods_id'";
     $result = $link->query($sql);
     if($result){
-        if(mysqli_fetch_assoc($result)['remain'] < $purchase_amount){
+        $info = mysqli_fetch_assoc($result);
+        if($info['remain'] < $purchase_amount){
             die(generate_error_report("No enough goods"));
+        }else if($info['goods_status'] != "available"){
+            die(generate_error_report("This goods is not available"));
         }
     }else{
         die(generate_error_report("No such goods"));
