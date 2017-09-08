@@ -25,9 +25,10 @@ function get_goods($list,$page = 1,$target = "search_summary",$goods_num = 12){
 						<p style="color:gray">%s</p>
 					</div></a>';
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$list = urlencode($list);
+	// $list = urlencode($list);
+	$list = ($target == "goods_title")? urlencode($list) : $list;
 	$id_sel = "SELECT goods_id FROM $db_goods_table WHERE $target LIKE '%$list%' LIMIT $start_num,$goods_num";
-	
+
 	$id_query = mysqli_query($link,$id_sel);
     while ($res = mysqli_fetch_array($id_query)) {
     	$good_info = json_decode(fetch_goods_info($res['goods_id'],session_id()),true);
@@ -77,12 +78,12 @@ if (isset($_GET['catagory'])) {
 .page-btn{
 	margin-right: 10px;
 }
-</style>		
+</style>
 <div style="width: inherit;height: 60px;float: left;text-align: center;padding-top: 25px;">
 		<?php
 			$turnTpl = '<a href="%s" class="button button-glow button-highlight button-small button-rounded page-btn">%s</a>';
 			$pageTpl = '<a href="%s" class="button button-glow button-highlight button-small button-box page-btn">%s</a>';
-			
+
 			// $total_pages = total_pages($_GET['catagory']);
 			if(!isset($page_now))
 				$page_now = 1;

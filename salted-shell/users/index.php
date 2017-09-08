@@ -198,22 +198,19 @@
 
 	<script>
 	$(document).ready(function(){
-		var newGoodsTpl = '<a href="{href}"><div class="new-item">\
-						<img src="{img_url}">\
+		var newGoodsTpl = '<a href="../goods/show.php?goods_id={href}"><div class="new-item">\
+						<img src="../main/goods.jpg">\
 						<div class="new-tl">{goods_title}</div>\
-						<div class="new-dec">{search_summary}</div>\
+						<div class="new-dec">{goods_info}</div>\
 					</div></a>';
 		var goods_list = "";
 		$.getJSON("../core/api-users-info.php?action=new",function(data){
 			// $("#new-content").html(data);
 			for (var i = 0; i < data.length; i++) {
 				data[i] = JSON.parse(data[i]);
-				goods_list += newGoodsTpl.format({
-					href:"../goods/show.php?goods_id="+data[i].goods_id,
-					img_url:"../main/goods.jpg",
-					goods_title:data[i].goods_title,
-					search_summary:(data[i].search_summary.split(";"))[0].substring(0,30)
-				});
+				data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
+				data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
+				goods_list += newGoodsTpl.format(data[i]);
 			}
 			console.log(data);
 			$("#new-content").html(goods_list);

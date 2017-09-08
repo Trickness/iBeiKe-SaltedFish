@@ -33,6 +33,7 @@
             .goods h2{margin: 0;margin-left: 15px;color: #FD9850;text-align: left;width: 200px;}
             .goods p{margin: 0;font-size: 12px;text-align: left;color: #404040;width: 170px;height: 25px;margin-left: 15px;}
         </style>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
         <?php
             include "../frame/head_user.php";
             if (isset($_GET['user_id'])) {
@@ -41,7 +42,6 @@
                 echo "<script>var user_id = '********';</script>";
             }
         ?>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
         <div id="user-info" style="margin-top:100px;">
             <label for="id">ID：</label><span id="id"></span><br>
             <label for="nickname">昵称：</label><span id="nickname"></span><br>
