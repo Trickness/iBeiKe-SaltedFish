@@ -34,9 +34,14 @@ if (isset($_GET['action'])) {
 		$student_info = fetch_self_info(session_id());
 		if (isset($_GET['col'])) {
 			$col = $_GET['col'];
+			$col = explode(",",$col);
 			if ($student_info) {
-				$student_info = $student_info;
-				echo $student_info[$col];
+				$info = [];
+				foreach ($col as $value) {
+					$info[$value] = $student_info[$value];
+				}
+				$info = json_encode($info);
+				echo $info;
 			}else{
 				echo false;
 			}

@@ -56,6 +56,9 @@
                 var student_id = "";
                 if(!$.getJSON("../core/api-v1.php?action=fetch_self_info",function(data){
                     student_id = data.self_info.student_id;
+                    console.log(data.self_info);
+
+                    $("#preview").attr("src",data.self_info.header);
 
                     $("#nickname-input").val(data.self_info.nickname);
 
@@ -158,12 +161,12 @@
                 <img id="preview" src="../main/cover.png" style="height:120px;width:120px;border-radius:25px;" alt="请上传您的头像"><br><br>
                 <form id="header-submit-form" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data">
                     <label for="file">Filename:</label>
-                    <input type="file" name="upfile" id="upfile"  onchange="showPreview(this)" /> 
+                    <input type="file" name="upfile" id="upfile"  onchange="showPreview(this)" />
                 </form>
                 <button id="submit-button" style="width:100px;height:30px;" onclick="upload_img();">Upload</button>
 
             </div>
-
+            
             <p>昵称</p>
             <input type="text" id="nickname-input">
 

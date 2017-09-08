@@ -63,12 +63,13 @@
   				</div>
 
 				<script>
+					var g_info = {};
 					$(document).ready(function(){
 						var goodsTpl = '<a href="../goods/show.php?goods_id={goods_id}"><div class="goods">\
 										<img src="./goods.jpg">\
 										<h2><span style="font-size:15px;">￥</span>{single_cost}</h2>\
 										<p style="font-size:15px;"><b>{goods_title}</b></p>\
-										{search_summary}\
+										{goods_info}\
 										<p style="color:gray">{goods_owner}</p>\
 									</div></a>';
 						var goodsList = "";
@@ -77,14 +78,17 @@
 							rank:"new",
 							amount:12
 						},function(data){
+							g_info = data;
 							for (var i = 0; i < data.length; i++) {
 								data[i] = JSON.parse(data[i]);
-								data[i].search_summary = (data[i].search_summary.split(";"))[0].substring(0,30);
+								data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
+								data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
 								goodsList += goodsTpl.format(data[i]);
 							}
 							console.log(data);
 							$("#tabs1-show").html(goodsList);
-						})
+						});
+						console.log(g_info);
 					});
 				</script>
 
