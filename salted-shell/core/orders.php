@@ -250,7 +250,7 @@ function change_order_status($order_id, $status){
         return false;
 }
 
-function list_orders_from_user($user_id, $filters=[],$page=1, $limit=10){
+function list_orders_from_user($user_id, $filters=array(),$page=1, $limit=10){
     global $db_host;
     global $db_pass;
     global $db_name;
