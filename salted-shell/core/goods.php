@@ -216,13 +216,13 @@ function comment_goods($goods_id, $comment, $session_key)
  * 
  * @param
  *      - $goods_id      (@INT) good_info的第一个字段
- *      - $session_key  (@STRING)会话密钥 
+ *      - $student_id  (@STRING)id 
  * 
  * @return
  *      - $status       (@JSONStr)
  *
  **/
-function revoke_goods($goods_id, $session_key){
+function revoke_goods($goods_id, $student_id){
 	global $db_host;
     global $db_pass;
     global $db_name;
@@ -230,13 +230,11 @@ function revoke_goods($goods_id, $session_key){
     global $db_users_table;
 	global $db_goods_table;
 	
-	$student_id = get_student_id_from_session_key($session_key);
-	if ($student_id==0) die(generate_error_report("access denied"));
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
 	$query = mysqli_query($link,$iden);
 	$res = mysqli_fetch_assoc($query) or die("No such goods");
-	if ($res['goods_owner']!=$student_id){
+	if (intval($res['goods_owner'])!=$student_id){
 		mysqli_close($link);
 		die(generate_error_report("access denied"));
 	}else{

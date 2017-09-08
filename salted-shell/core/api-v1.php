@@ -173,7 +173,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }else{
             die(generate_error_report("Unknown error in fetch user info"));
         }
-    }elseif ($action == "update_header") {
+    }elseif($action == "update_header") {
         if (isset($_FILES['image'])) {
             $extend = explode(".",$_FILES['image']['name'])[1];
             if (preg_match('/PNG|jpg|jpeg/',$extend)==1) {
@@ -196,6 +196,15 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             }
         }else{
             echo "failed";
+        }
+    }elseif($action == "revoke_goods"){
+        if(!isset($_GET['goods_id'])){
+            die(generate_error_report("Please specify goods_id"));
+        }
+        if(revoke_goods(intval($_GET['goods_id']),$student_id)){
+            die(json_encode(array(
+                "status" => "success"
+            )));
         }
     }
 }else{                                              // 未登录
