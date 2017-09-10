@@ -281,8 +281,8 @@
                     success : function(data){
                         data = JSON.parse(data);
                         if(data.state === "SUCCESS"){
-                            $("#preview").attr(src_URL,data.url);
-                            $("#preview").attr(src,data.url);
+                            $("#preview").attr("src_URL",data.url);
+                            $("#preview").attr("src",data.url);
                         }
                         console.log(data);
                     },
