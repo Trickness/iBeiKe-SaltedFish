@@ -1,6 +1,6 @@
 <html>
     <head>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="../js/jquery-latest.js"></script>
         <meta charset="utf-8">
         <style>
             body{
@@ -124,10 +124,9 @@
                     new_data.name.access = $("#name-privacy").val();
                     new_data.student_id = new Object();
                     new_data.student_id.access = $("#id-privacy").val();
-                    new_data.header = $("#preview")[0].src;
+                    new_data.header = $("#preview")[0].src_URL;
                     console.log(new_data);
-                    $.post("../core/api-v1.php?action=update_self_info",
-                    {
+                    $.post("../core/api-v1.php?action=update_self_info",{
                         info : JSON.stringify(new_data)
                     },function(data,status,jqXHR){
                         console.log(data);
@@ -254,6 +253,7 @@
         </div>
 
         <script>
+            $("#preview").src_url = "../main/cover.png";
             function showPreview(source) {
                 var file = source.files[0];
                 if (window.FileReader) {            // 如果浏览器支持 FileReader
@@ -281,7 +281,7 @@
                     success : function(data){
                         data = JSON.parse(data);
                         if(data.state === "SUCCESS"){
-                            $("#preview").attr("src",data.url);
+                            $("preview").src_URL = data.url;
                         }
                         console.log(data);
                     },

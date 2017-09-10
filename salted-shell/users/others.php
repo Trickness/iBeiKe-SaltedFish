@@ -33,7 +33,7 @@
             .goods h2{margin: 0;margin-left: 15px;color: #FD9850;text-align: left;width: 200px;}
             .goods p{margin: 0;font-size: 12px;text-align: left;color: #404040;width: 170px;height: 25px;margin-left: 15px;}
         </style>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="../js/jquery-latest.js"></script>
         <?php
             include "../frame/head_user.php";
             if (isset($_GET['user_id'])) {

@@ -4,7 +4,7 @@
 	<?php session_start(); ?>
 	<meta charset="utf-8">
 	<title>订单列表</title>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../js/jquery-latest.js"></script>
     <script>
         window.onload = function(){
             var self_id = "";

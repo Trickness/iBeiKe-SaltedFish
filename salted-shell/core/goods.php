@@ -39,11 +39,12 @@ function submit_goods_from_id($goods_info,$goods_owner){
 	$goods_title 	= __JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error, no title specified"));
 	$single_cost 	= __JSON($goods_info,"single_cost") 	or 	die(generate_error_report("syntax error, no single cost specified"));
 	//$goods_search_summary 	= urlencode(__JSON($goods_info,"search_summary") 	or 	die(generate_error_report("syntax error")));
-	//$goods_images = urlencode(__JSON($goods_info,"images") 		or 	die(generate_error_report("syntax error")));
+	//$goods_images = urlencode(__JSON($goods_info,"images") 						or 	die(generate_error_report("syntax error")));
 	$goods_status 	= __JSON($goods_info,"goods_status") 	or 	die(generate_error_report("syntax error, no goods status specified")) ;
 	$goods_type 	= __JSON($goods_info,"goods_type") 		or 	die(generate_error_report("syntax error, no goods type specified")) ;
 	$goods_remain 	= __JSON($goods_info,"remain")			or 	die(generate_error_report("syntax error, no remain specified")) ;
 	$goods_tags 	= __JSON($goods_info,"tags",'[]');
+	$goods_img 		= __JSON($goods_info,"goods_img","");
 	$delivery_fee 	= __JSON($goods_info,"delivery_fee",'0');
 	$lv1 			= __JSON($goods_info,"cl_lv_1","");
 	$lv2 			= __JSON($goods_info,"cl_lv_2","");
@@ -53,6 +54,7 @@ function submit_goods_from_id($goods_info,$goods_owner){
 		$tag = urlencode($tag);
 		$goods_tags_str = $goods_tags_str." ".$tag;
 	}
+	$goods_img = urlencode($goods_img);
 
 	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
 	$content = __JSON($goods_info,"content");
@@ -67,9 +69,9 @@ function submit_goods_from_id($goods_info,$goods_owner){
 
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$sql = "INSERT INTO $db_goods_table
-			(goods_title,	goods_status,			goods_type,		  single_cost,		 goods_owner,	 ttm,	 last_modified,		search_summary,	remain, tags, cl_lv_1, cl_lv_2, cl_lv_3, delivery_fee,goods_info) 
+			(goods_title,	goods_status,			goods_type,		  single_cost,		 goods_owner,	 ttm,	 last_modified,		search_summary,	remain, tags, cl_lv_1, cl_lv_2, cl_lv_3, delivery_fee,goods_info, goods_img) 
 			VALUES 
-			('$goods_title','$goods_status','$goods_type','$single_cost','$goods_owner','$ttm','$ttm','$goods_search_summary','$goods_remain','$goods_tags_str','$lv1','$lv2','$lv3', '$delivery_fee','$content')";
+			('$goods_title','$goods_status','$goods_type','$single_cost','$goods_owner','$ttm','$ttm','$goods_search_summary','$goods_remain','$goods_tags_str','$lv1','$lv2','$lv3', '$delivery_fee','$content', '$goods_img')";
 	$status = $link->query($sql);
 	if(!$status){
 		die(generate_error_report("Database error in submit_goods_from_user [".$link->error));
@@ -187,6 +189,7 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['delivery_fee'] = $res['delivery_fee'];
 	// $goods_info['tags'] 		= $res['tags'].split(" ");
 	$goods_info['tags'] 		= explode(" ",$res['tags']);
+	$goods_info['goods_img']	= urldecode($res['goods_img']);
 
 	//$goods_info['comments'] 	= $res['comments'];
 	$goods_info['goods_owner'] 	= $res['goods_owner'];

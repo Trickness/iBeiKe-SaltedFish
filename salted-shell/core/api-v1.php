@@ -182,6 +182,8 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
                 "status" => "success"
             )));
         }
+    }elseif($action == "edit_goods"){
+        
     }
 }else{                                              // 未登录
     if($action == "login"){                             // 登陆操作
@@ -229,9 +231,17 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
 }
 // 这个名字是不是有点太随意了？
 if($action == "fetch_user_total_info"){
-    if(!isset($_GET['user_id']))    die(generate_error_report("No user id specified!"));
-    $current_id = get_student_id_from_session_key(session_id());
-    $user_id = intval($_GET['user_id']);
+    $current_id = get_student_id_from_session_key(session_id());    
+    $user_id = 0;
+    if(!isset($_GET['user_id'])){
+        if(!$current_id)
+            die(generate_error_report("No user id specified!"));
+        else
+            $user_id = $current_id;
+    }else{
+        $user_id = intval($_GET['user_id']);        
+    }
+    
     $goods = fetch_goods_for_sale_from_user($user_id);
     $orders = list_orders_from_user($user_id);
     $info = json_decode(fetch_user_info_from_id($user_id),true);

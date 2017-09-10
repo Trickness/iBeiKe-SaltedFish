@@ -21,6 +21,16 @@
 <br/>
 
 
+<div style="text-align:center;width:100%;margin-top:15px;margin-botton:15px;">
+    <img id="preview" src="../main/cover.png" style="height:120px;width:120px;border-radius:25px;" alt="请上传商品图像"><br><br>
+    <form id="header-submit-form" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data">
+        <label for="file">Filename:</label>
+        <input type="file" name="upfile" id="upfile"  onchange="showPreview(this);" />
+    </form>
+    <button id="submit-button" style="width:100px;height:30px;" onclick="upload_img();">Upload</button>
+</div>
+
+
 价格
 <input id="single_cost" type="text" name="single_cost">
 <br/>
@@ -147,7 +157,9 @@
         jsonData.cl_lv_1=$("#cl_lv_1").val();
         jsonData.cl_lv_2=$("#cl_lv_2").val();
         jsonData.cl_lv_3=$("#cl_lv_3").val();
+        jsonData.goods_img=$("#preview").src_URL;
         jsonData.content=UE.getEditor('editor').getContent();
+        jsonData.goods_img=$("#preview").attr("src_URL");
         var t = JSON.stringify(jsonData);
         console.log(t);
         
@@ -158,7 +170,7 @@
             var status = data.status;
             if(status === "success"){
                 alert("成功发布");
-                window.location="show.php?goods_id="+data.goods_id;
+                //window.location="show.php?goods_id="+data.goods_id;
             }else if(status === "failed"){
                 console.log(status);
                 console.log(data.error);
@@ -168,6 +180,46 @@
 
         });
     });
+    $("#preview").src_URL = "../main/cover.png";
+    function showPreview(source) {
+        console.log("PREVIEW");
+        var file = source.files[0];
+        if (window.FileReader) {            // 如果浏览器支持 FileReader
+            var fr = new FileReader();      // 新建 FileReader 对象
+            fr.onloadend = function (e) {   // 当img设置
+                document.getElementById("preview").src = e.target.result;
+            };
+            fr.readAsDataURL(file);         // 读取 img 到 fr 中
+            console.log(fr);                // 控制台打印 fr 结构
+        }
+    }
+    function upload_img(){
+        if($("#upfile").val() === ""){
+            alert("请选择图片后再上传");         // TODO：改成jQuery UI的
+            return;
+        }
+        var formdata=new FormData($("#header-submit-form")[0]);
+        $.ajax({
+            type : 'post',
+            url : "../addons/ueditor/php/controller.php?action=uploadimage",
+            data : formdata,
+            cache : false,
+            processData : false,
+            contentType : false,
+            success : function(data){
+                data = JSON.parse(data);
+                if(data.state === "SUCCESS"){
+                    $("#preview").attr("src_URL",data.url);
+                    $("#preview").attr("src",data.url);
+                }
+                console.log(data);
+            },
+            error:function(){
+                console.log("def");
+            }
+        });
+        console.log(formdata);
+    }
 </script>
 </div>
 </body>

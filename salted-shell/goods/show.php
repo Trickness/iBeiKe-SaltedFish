@@ -1,4 +1,4 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" >
@@ -7,7 +7,7 @@
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="../js/jquery-latest.js"></script>
         <style>
             body{
                 margin:0;
@@ -38,6 +38,10 @@
                     $("#goods_type").html(data.goods_type);
                     $("#single_cost").html(data.single_cost);
                     $("#summary_content").html(data.goods_info);
+
+                    if(goods_info.goods_img !== "" && ){
+                        $("#goods_img").attr("src",goods_info.goods_img);
+                    }
 
                     if(data.buyer_info.length != 0){
                         console.log(data);
@@ -102,6 +106,7 @@
             });
         </script>  
         <div style="margin-top:90px;">
+            <div style="width:150px;height:150px;float:right;"><img id="goods_img" width="150px" height="150px" src="../main/cover.png"/></div>
             <div><label for="goods_title">商品名称：</label><label id="goods_title"></label></div>
             <div><label for="goods_owner">卖家：</label><label id="goods_owner"></label></div>
             <div><label for="goods_status">状态：</label><label id="goods_status"></label></div>
@@ -120,7 +125,7 @@
             <div id="comment_content"></div>
             <form>
                 <div style="display:block;margin-left:150px;">
-                    <script id="editor" type="text/plain" style="width:600px;height:200px;"></script>
+                    <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
                 </div>
             </form>
             <button id="comment_submit">提交留言</button>

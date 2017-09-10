@@ -36,7 +36,7 @@ if (isset($_GET['action'])) {
 			$col = $_GET['col'];
 			$col = explode(",",$col);
 			if ($student_info) {
-				$info = [];
+				$info = array();
 				foreach ($col as $value) {
 					$info[$value] = $student_info[$value];
 				}

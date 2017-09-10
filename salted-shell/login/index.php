@@ -14,7 +14,7 @@
 </head>
 <body>
 	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="../js/jquery-latest.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link href="https://cdn.bootcss.com/Buttons/2.0.0/css/buttons.min.css" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/Buttons/2.0.0/js/buttons.min.js"></script>
