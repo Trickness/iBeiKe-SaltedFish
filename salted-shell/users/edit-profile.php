@@ -124,7 +124,7 @@
                     new_data.name.access = $("#name-privacy").val();
                     new_data.student_id = new Object();
                     new_data.student_id.access = $("#id-privacy").val();
-                    new_data.header = $("#preview")[0].src_URL;
+                    new_data.header = $("#preview").attr("src_URL");
                     console.log(new_data);
                     $.post("../core/api-v1.php?action=update_self_info",{
                         info : JSON.stringify(new_data)
@@ -281,7 +281,8 @@
                     success : function(data){
                         data = JSON.parse(data);
                         if(data.state === "SUCCESS"){
-                            $("preview").src_URL = data.url;
+                            $("#preview").attr(src_URL,data.url);
+                            $("#preview").attr(src,data.url);
                         }
                         console.log(data);
                     },
