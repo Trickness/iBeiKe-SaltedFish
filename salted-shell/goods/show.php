@@ -39,7 +39,7 @@
                     $("#single_cost").html(data.single_cost);
                     $("#summary_content").html(data.goods_info);
 
-                    if(goods_info.goods_img !== "" && ){
+                    if(goods_info.goods_img !== ""){
                         $("#goods_img").attr("src",goods_info.goods_img);
                     }
 
