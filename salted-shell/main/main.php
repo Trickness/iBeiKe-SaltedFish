@@ -133,7 +133,7 @@
 	<script src="../js/swiper.animate1.0.2.min.js"></script>
 	<link href="https://cdn.bootcss.com/Buttons/2.0.0/css/buttons.min.css" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/Buttons/2.0.0/js/buttons.min.js"></script>
-	<script src="https://unpkg.com/vue"></script>
+	<script src="../js/vue.js"></script>
 
 	<div id="go-back"><a href="#main-show">回到顶端</a></div>
 

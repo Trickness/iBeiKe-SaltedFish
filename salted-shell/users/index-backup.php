@@ -18,7 +18,7 @@
 		#rt-new{width: 250px;height: inherit;position: absolute;top: 120px;height: 1000px;}
 		#new-tl{border-bottom: 2px solid #FD9850;font-size: 22px;padding-bottom: 10px;width: inherit;color: #FD9850;}
 
-		#recent{position: absolute;top: 530px;width: 780px;min-height: 600px;}
+		#recent{position: absolute;top: 530px;width: 780px;height: 600px;}
 	</style>
 </head>
 <body>
@@ -30,7 +30,6 @@
 
         $session = session_id();
 	?>
-	<script src="../js/vue.js"></script>
 	<script src="../js/jquery-latest.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -116,6 +115,32 @@
       					<li><a href="#">发布信息</a></li>
     				</ul>
   			</span>
+
+			<script>
+				var self_info = "";
+				$(document).ready(function(){
+					function change_info(data){
+						$("#student_id").html(data.student_id.value);
+						$("#nickname").html(data.nickname);
+						$("#name").html(data.name.value);
+						$("#type").html(data.type.value);
+						$("#gender").html(data.gender.value);
+						$("#birthday").html(data.birthday.value);
+						$("#dormitory").html(data.dormitory.value);
+						if(data.header){
+							$("#header-img").attr("src",data.header);
+							$("#top-header").attr("src",data.header);
+						}
+					}
+
+					$.getJSON("../core/api-users-info.php?action=self",function(data){
+						self_info = data;
+						// self_info.nickname.value = data.nickname;
+						self_info.dormitory.value = self_info.dormitory.dormitory_id.value+"#"+self_info.dormitory.room_no.value;
+						change_info(self_info);
+					});
+				});
+			</script>
 		</div>
 		<div id="cen-row">
 			<div id="cen-swiper" class="swiper-container" style="height: 330px;margin-left: 30px;float: left;width: 750px;">
@@ -199,164 +224,75 @@
 		.recent-order td{text-align:center;height:70px;font-size:14px;border-left:1px solid #CCCCCC}
 		.recent-tl{background-color:#e8e8e8;width:inherit;height:40px;border-radius: 10px;}
 		.recent-tl div{float:left;margin-top:7px;margin-left:10px;}
-
-		.ibk_table{width: 100%;background-color: white;}
-		.ibk_table th{height: 35px;border: 1px solid #e8e8e8;border-bottom: 2px solid gray;}
-		.ibk_table td{border-bottom: 2px solid #e8e8e8;height: 40px;}
-		.ibk_table tr{transition-duration: 0.4s;}
-		.ibk_table tr:hover{background-color: #e8e8e8;}
 	</style>
 	<div id="recent">
-		<ul>
-			<li><a href="#my_orders">我的订单</a></li>
-			<li><a href="#my_goods">我的商品</a></li>
-		</ul>
-		<div id="my_orders" style="padding:20px 0 0 0;">
-			<div id="order-sort" style="width:720px;height:35px;margin-left:25px;">
-				<label for="order_status-sort">订单状态</label>
-				<select id="order_status-sort" style="margin:5px;">
-					<option value="all" selected>全部</option>
-					<option value="waiting">等待卖家接单</option>
-					<option value="accepted">卖家已接单</option>
-					<option value="completed">已确认收货</option>
-					<option value="finished">订单已完成</option>
-				</select>
-				<label for="page-sort">页码</label><input type="text" id="page-sort" value="1" />
-				<button id="sort-submit">筛选</button>
-			</div>
+		<div id="order-sort" style="width:720px;height:35px;margin-left:25px;">
 
-			<div id="order-head" style="width:720px;height:35px;margin-left:25px;">
-				<style>#order-head div{float:left;text-align:center;border-bottom:2px solid #FD9860;font-size:14px;}</style>
-				<div style="width:210px;">宝贝</div>
-				<div style="width:85px;">单价</div>
-				<div style="width:50px;">数量</div>
-				<div style="width:78px;">运费</div>
-				<div style="width:90px;">总计</div>
-				<div style="width:100px;">状态</div>
-				<div style="width:100px;">操作</div>
-			</div>
-			<div id="recent-content"></div>
+			<!-- <label for="status-sort">订单状态</label>
+			<select id="status-sort" style="margin:5px;">
+				<option value="waiting" selected>等待卖家接单</option> -->
+
+			<label for="order_status-sort">订单状态</label>
+			<select id="order_status-sort" style="margin:5px;">
+				<option value="all" selected>全部</option>
+				<option value="waiting">等待卖家接单</option>
+				<option value="accepted">卖家已接单</option>
+				<option value="completed">已确认收货</option>
+				<option value="finished">订单已完成</option>
+			</select>
+			<label for="page-sort">页码</label><input type="text" id="page-sort" value="1" />
+			<button id="sort-submit">筛选</button>
 		</div>
-		<div id="my_goods">
-			<div>
-				<table class='ibk_table'>
-					<thead><th>商品名</th><th>状态</th><th>数量</th><th>交易方式</th><th>价格</th><th></th></thead>
-					<tbody id="user_goods"></tbody>
-				</table>
-			</div>
+
+		<div id="order-head" style="width:720px;height:35px;margin-left:25px;">
+			<style>#order-head div{float:left;text-align:center;border-bottom:2px solid #FD9860;font-size:14px;}</style>
+			<div style="width:210px;">宝贝</div>
+			<div style="width:85px;">单价</div>
+			<div style="width:50px;">数量</div>
+			<div style="width:78px;">运费</div>
+			<div style="width:90px;">总计</div>
+			<div style="width:100px;">状态</div>
+			<div style="width:100px;">操作</div>
 		</div>
+		<div id="recent-content"></div>
 	</div>
 
-	<!-- 引入商品编辑弹窗 -->
-	<?php include './edit-goods.php'; ?>
-	<!-- 商品编辑弹窗 -->
-
 	<script>
-		// $(document).ready(function(){
-		var user_info = null;	//个人总体信息
-		var edit_goods = null;
-		(function(){
-		// 信息渲染模板
-			var goodsTpl = "<tr>\
-						<td>{goods_title}</td>\
-						<td>{goods_status}</td>\
-						<td>{remain}</td>\
-						<td>{goods_type}</td>\
-						<td>{single_cost}</td>\
-						<td style='text-align:center;'><button class='button button-small button-border button-rounded button-highlight' onclick='edit_goods({goods_id})'>修改</button></td>\
-					</tr>";
-			var newGoodsTpl = '<a href="../goods/show.php?goods_id={href}"><div class="new-item">\
-							<img src="../main/goods.jpg">\
-							<div class="new-tl">{goods_title}</div>\
-							<div class="new-dec">{goods_info}</div>\
-						</div></a>';
 
+		$(document).ready(function(){
 			var ordersTpl = '<div class="recent-order">\
-				<div class="recent-tl">\
-					<div><span style="margin-right:50px;">下单时间：{ordering_date}</span>卖家：<a name="goods_owner" href="./others.php?user_id={goods_owner}">{goods_owner}</a></div>\
-				</div>\
-				<div>\
-					<table>\
-						<tr>\
-							<td style="width:190px;text-align:left;padding-left:10px;">\
-								<a href="../goods/show.php?goods_id={goods_id}">\
-									<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">\
-									<p style="float:left;margin-left:5px;">{goods_title}</p>\
-								</a>\
-							</td>\
-							<td style="width:80px;">\
-								<span style="font-size:12px;">￥</span>{single_cost}\
-							</td>\
-							<td style="width:50px;">{purchase_amount}</td>\
-							<td style="width:70px;">\
-								<span style="font-size:12px;">￥</span>{delivery_fee}\
-							</td>\
-							<td style="width:85px;">\
-								<span style="font-size:12px;">￥</span>{offer}\
-							</td>\
-							<td style="width:100px;">{order_status}</td>\
-							<td style="width:100px;">\
-								<a href="#">编辑</a><br>\
-								<a href="#">删除</a><br>\
-								<a href="#">追加评论</a>\
-							</td>\
-						</tr>\
-					</table>\
-				</div>\
-				</div>';
-		// end
-
-		// 设置订单、商品展示板块 “分页” 栏样式
-			$("#recent").tabs();
-		// end
-
-		// 获取、渲染个人全部信息
-			$.getJSON('../core/api-v1.php',{action:"fetch_user_total_info"},function(data){
-				user_info = data;	//获取个人全部信息
-				show_info(user_info.info);	// 渲染个人身份信息
-				show_goods(user_info.goods);
-			})
-		// end
-
-		// 个人订单信息渲染
-			$.getJSON("../core/api-v1.php",{action: "list_orders",page:"1"},function(data){show_orders(data.orders);});
-			$("#sort-submit").click(function(){
-				var order_status = $("#order_status-sort").val();
-				var page = $("#page-sort").val();
-				var sort = {action:"list_orders",order_status:order_status,page:page};
-				if (order_status=="all") sort = {action:"list_orders",page:page};
-				console.log(sort);
-				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data.orders);});
-			});
-		// end
-
-		// 渲染个人身份信息函数
-			function show_info(data){
-				$("#student_id").html(data.student_id.value);
-				$("#nickname").html(data.nickname);
-				$("#name").html(data.name.value);
-				$("#type").html(data.type.value);
-				$("#gender").html(data.gender.value);
-				$("#birthday").html(data.birthday.value);
-				$("#dormitory").html(data.dormitory.value);
-				if(data.header){
-					$("#header-img").attr("src",data.header);
-					$("#top-header").attr("src",data.header);
-				}
-			}
-		// end
-
-		// 渲染个人商品信息函数
-			function show_goods(data){
-				var goods_list = '';
-				for (var i = 0; i < data.length; i++) {
-					goods_list += goodsTpl.format(data[i]);
-				}
-				$("#user_goods").html(goods_list);
-			}
-		// end
-
-		// 渲染个人订单信息函数
+			<div class="recent-tl">\
+				<div><span style="margin-right:50px;">下单时间：{ordering_date}</span>卖家：<a name="goods_owner" href="./others.php?user_id={goods_owner}">{goods_owner}</a></div>\
+			</div>\
+			<div>\
+				<table>\
+					<tr>\
+						<td style="width:190px;text-align:left;padding-left:10px;">\
+							<a href="../goods/show.php?goods_id={goods_id}">\
+								<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">\
+								<p style="float:left;margin-left:5px;">{goods_title}</p>\
+							</a>\
+						</td>\
+						<td style="width:80px;">\
+							<span style="font-size:12px;">￥</span>{single_cost}\
+						</td>\
+						<td style="width:50px;">{purchase_amount}</td>\
+						<td style="width:70px;">\
+							<span style="font-size:12px;">￥</span>{delivery_fee}\
+						</td>\
+						<td style="width:85px;">\
+							<span style="font-size:12px;">￥</span>{offer}\
+						</td>\
+						<td style="width:100px;">{order_status}</td>\
+						<td style="width:100px;">\
+							<a href="#">编辑</a><br>\
+							<a href="#">删除</a><br>\
+							<a href="#">追加评论</a>\
+						</td>\
+					</tr>\
+				</table>\
+			</div>\
+			</div>';
 			function show_orders(data){
 				var order_list = "";
 				for (var i = 0; i < data.length; i++) {
@@ -371,25 +307,17 @@
 				}
 				$("#recent-content").html(order_list);
 			}
-		// end
 
-		// 修改商品信息函数(将函数传递到全局)
-			edit_goods = function(id){
-				edited_info = user_info.goods.find(function(abc){return abc.goods_id == id});
-				$(".bg-model").fadeTo(300,1)
-				$("body").css({ "overflow": "hidden" });	//隐藏窗体的滚动条
-				edit_app.update_goods_info(edited_info);
-			};
-		// end
-	}());
-
-		// 弹窗消失操作
-			$("#cancel-change").click(function () {
-				$(".bg-model").hide();
-				//显示窗体的滚动条
-				$("body").css({ "overflow": "visible" });
+			$.getJSON("../core/api-v1.php",{action: "list_orders",page:"1"},function(data){show_orders(data.orders);});
+			$("#sort-submit").click(function(){
+				var order_status = $("#order_status-sort").val();
+				var page = $("#page-sort").val();
+				var sort = {action:"list_orders",order_status:order_status,page:page};
+				if (order_status=="all") sort = {action:"list_orders",page:page};
+				console.log(sort);
+				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data.orders);});
 			});
-		// end
+		});
 
 		var mySwiper = new Swiper ('.swiper-container', {
     			onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
