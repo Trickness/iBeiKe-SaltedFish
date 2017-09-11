@@ -295,6 +295,8 @@ class Uploader
         $format = str_replace("{ii}", $d[5], $format);
         $format = str_replace("{ss}", $d[6], $format);
         $format = str_replace("{time}", $t, $format);
+        $format = str_replace("{user_id}",$this->config["user_id"],$format);
+        $format = str_replace("{md5}",md5_file($this->file['tmp_name']),$format);
 
         //过滤文件名的非法自负,并替换文件名
         $oriName = substr($this->oriName, 0, strrpos($this->oriName, '.'));

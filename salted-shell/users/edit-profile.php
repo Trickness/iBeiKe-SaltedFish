@@ -273,7 +273,7 @@
                 var formdata=new FormData($("#header-submit-form")[0]);
                 $.ajax({
                     type : 'post',
-                    url : "../addons/ueditor/php/controller.php?action=uploadimage",
+                    url : "../addons/ueditor/php/controller.php?action=uploadheaderimage",
                     data : formdata,
                     cache : false,
                     processData : false,

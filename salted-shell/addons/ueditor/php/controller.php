@@ -12,9 +12,10 @@ include "../../../core/authorization.php";
 include "../../../core/utils.php";
 
 session_start();
-if(!get_student_id_from_session_key(session_id())){
+$student_id = get_student_id_from_session_key(session_id());
+if(!$student_id){
     $result = json_encode(array(
-        'state' => "Access Denied"
+        'state' => "User Access Denied"
     ));
     if (isset($_GET["callback"])) {
         if (preg_match("/^[\w_]+$/", $_GET["callback"])) {
@@ -35,6 +36,7 @@ switch ($action) {
         $result =  json_encode($CONFIG);
         break;
 
+    case 'uploadheaderimage':
     /* 上传图片 */
     case 'uploadimage':
     /* 上传涂鸦 */
