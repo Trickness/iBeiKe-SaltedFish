@@ -145,10 +145,10 @@
 
 	<div id="rt-new">
 		<style>
-			.new-item{width: 220px;height: 280px;margin: 10px;transition-duration: 0.4s;border-radius:10px;border: 1px solid #CCCCCC;background-color: #e8e8e8;}
+			.new-item{width: 220px;height: 280px;margin: 10px;transition-duration: 0.4s;border-radius:10px;background-color: #e8e8e8;}
 			.new-tl{padding-left: 10px;}
 			.new-dec{padding-left: 10px;font-size: 12px;}
-			.new-item:hover{box-shadow:5px 5px 5px #CCCCCC;}
+			.new-item:hover{box-shadow:0 0 10px #CCCCCC;}
 			.new-item img{width: 220px;height: 220px;border-radius:10px;}
 		</style>
 		<div id="new-tl">最新内容</div>

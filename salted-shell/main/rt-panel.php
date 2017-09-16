@@ -16,8 +16,8 @@
 						.cart input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 20px;width: 20px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
 						.cart input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -3px -1px;}*/
 
-						.store{margin-bottom:8px;border: 1px solid #CCCCCC;border-radius:10px;transition:0.4s;}
-						.store:hover{box-shadow: 5px 5px 5px #CCCCCC;}
+						.store{margin-bottom:8px;border: 1px solid #e8e8e8;border-radius:10px;transition:0.4s;}
+						.store:hover{box-shadow: 0 0 15px #CCCCCC;}
 						.store input[type='checkbox']{float: left;margin-left: 10px;}
 						.store input[type='checkbox']:before{content: '';position: relative;top:-5px;left: -5px;right: 0;bottom: 0;border-radius: 10px;height: 18px;width: 18px;background-color:white;float: left;z-index: 1;border:1px solid #cccccc;}
 						.store input[type='checkbox']:checked:before{background-image: url("../pic/hook.png");background-size: 25px 25px;background-position: -4px -3px;}

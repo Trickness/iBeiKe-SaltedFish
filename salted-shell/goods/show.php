@@ -8,6 +8,8 @@
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
         <script src="../js/jquery-latest.js"></script>
+        <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <style>
             body{
                 margin:0;
@@ -22,12 +24,12 @@
                 $goods_id = $_GET['goods_id'];
                 echo "<script>var goods_id = {$goods_id};</script>";
             }
-        ?> 
+        ?>
 
         <script>
             var goods_info = null;
             var order_info = {};
-            $(document).ready(function(){  
+            $(document).ready(function(){
                 $.getJSON("../core/api-show-goods.php",{action:"show",goods_id:goods_id},function(data){
                     goods_info = data;
                     console.log(data);
@@ -67,7 +69,7 @@
                     $("#comment_content").html(total_comment);
                 });
 
-                
+
 
                 $('input[name="count"]').change(function(){
                     if (goods_info!= null) {
@@ -81,7 +83,7 @@
                         order_info.goods_id = goods_id;
                         order_info.deliver_fee = $('#order_deliver_fee').html();
                         order_info.goods_count =  $('input[name="count"]').val();
-                        order_info.single_cost_per_goods = goods_info.single_cost; 
+                        order_info.single_cost_per_goods = goods_info.single_cost;
                         order_info = JSON.stringify(order_info);
                         $.get("../core/api-v1.php",{
                                     goods_id:goods_id,
@@ -104,7 +106,8 @@
                     })
                 });
             });
-        </script>  
+        </script>
+
         <div style="margin-top:90px;">
             <div style="width:150px;height:150px;float:right;"><img id="goods_img" width="150px" height="150px" src="../main/cover.png"/></div>
             <div><label for="goods_title">商品名称：</label><label id="goods_title"></label></div>
@@ -113,9 +116,9 @@
             <div><label for="remain">数量：</label><label id="remain"></label></div>
             <div><label for="goods_type">交易方式：</label><label id="goods_type"></label></div>
             <div><label for="single_cost">价格：</label><label id="single_cost"></label></div>
-        </div>   
+        </div>
         <button id="make_order">立即下单</button>
-        
+
         <div id="summary" style="border:1px solid black;">
             <div>商品简介</div>
             <div id="summary_content"></div>
@@ -139,12 +142,12 @@
                     autoFloatEnabled: false,
                     zIndex:1
                 });
-            </script>   
+            </script>
         </div>
 
         <div class = "bg-model" style="position:absolute;top:0%;left:0%;display:none;background:rgba(0,0,0,0.3);width:100%;height:100%;position:fixed;z-index:9999">
 		    <div class = 'content' style="position: absolute;left: 35%;top: 25%;border-radius: 8px;width: 460px;height: 303px;background-color: #fff;padding:20px;" >
-		    	
+
                 <div id="check_info" style="border: 1px solid black;margin-bottom: 40px;">
                     <div id="buyer_tl">双方信息确认</div>
                     <div id="buyer_info">
@@ -223,6 +226,6 @@
 	    			$("body").css({ "overflow": "visible" });
 	    		});
 	    	});
-	    </script>	
+	    </script>
     </body>
 </html>

@@ -101,17 +101,15 @@
 			width: 220px;
 			margin:6px;
 			height:335px;
-			border: 1px solid white;
 			float: left;
 			border-radius: 5px;
 			transition-duration: 0.4s;
 			text-align: center;
 		}
 		.goods:hover{
-			 background-color: #e8e8e8;
+			background-color: #e8e8e8;
 			color: #FD9850;
-			border: 1px solid #CCCCCC;
-			box-shadow:2px 2px 2px #CCCCCC;
+			box-shadow:0 0 10px #CCCCCC;
 		}
 		.goods img{
 			width: 220px;

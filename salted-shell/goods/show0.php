@@ -27,6 +27,8 @@
             #add_to_cart:hover{background-color: #FFCC66;}
             #contect{border:none;border-radius:5px;transition-duration: 0.4s;background-color: #FFE1C9;color: #FD9860;height:40px;width:100px;}
             #contect:hover{background-color: #CC3333;color: white;}
+            .name-card{transition: 0.4s;}
+            .name-card:hover{box-shadow:0 0 10px gray;}
         </style>
     </head>
     <body>
@@ -53,16 +55,16 @@
                             <h2>{{goods_info.goods_title}}</h2>
                         </div>
                     </div>
-                    <div class="row"><div class="col-xs-12">
-                        <div class="col-xs-12" v-html="convert_info.goods_info" style="height:70px;border-radius:5px;"></div>
+                    <div class="row" style="border-top:1px dashed #cccccc;"><div class="col-xs-12">
+                        <div v-html="convert_info.goods_info" style="height:70px;border-radius:5px;margin-top:10px;"></div>
                     </div></div>
-                    <div class="row"><div class="col-xs-12">
-                        <div style="background-color:#FFE1C9;padding:10px 0 10px 15px;border-radius:5px;">
+                    <div class="row" style="border-top:1px dashed #cccccc;"><div class="col-xs-12">
+                        <div style="background-color:#FFE1C9;padding:10px 0 10px 15px;border-radius:5px;margin-top:30px;">
                             <span>价格&nbsp;&nbsp;</span>
                             <span style="color:#FD9860;font-size:25px;">￥<span v-html="goods_info.single_cost"></span></span>
                         </div>
                     </div></div>
-                    <div class="row">
+                    <div class="row" style="border-top:1px dashed #cccccc;padding-top:10px;">
                         <div class="col-xs-6">商品状态：{{convert_info.goods_status}}</div>
                         <div class="col-xs-6">交易方式：{{convert_info.goods_type}}</div>
                     </div>
@@ -86,8 +88,8 @@
                 </div>
                 <div class="col-sm-2">
                     <div class="row">
-                        <div style="margin-top:50px;">
-                            <ul style="list-style-type:none;line-height:30px;box-shadow:0 0 10px gray;padding:35px;border-radius:5px;" data-spy="affix" data-offset-top="100">
+                        <div style="margin-top:20px;">
+                            <ul class="name-card" style="list-style-type:none;line-height:30px;padding:35px;border-radius:5px;" data-spy="affix" data-offset-top="100">
                                 <li style="text-align:center;"><img class="owner_header" src="../main/adv.png" style="width:120px;height:120px;border-radius:60px;" :alt="goods_owner.header" /></li>
                                 <li style="text-align:center;font-size:20px;">{{goods_owner.nickname}}</li>
                                 <li>学号：{{goods_info.goods_owner_info.student_id}}</li>
