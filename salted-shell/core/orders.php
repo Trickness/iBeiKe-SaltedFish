@@ -282,6 +282,7 @@ function list_orders_from_user($user_id, $filters=array(),$page=1, $limit=10){
     if($results){
         while($result = mysqli_fetch_assoc($results)){
             $result['goods_title'] = urldecode($result['goods_title']);
+            $result['goods_img'] = urldecode($result['goods_img']);
             $return_var[] = $result;        // append a new array at the end of this array
         }
         return $return_var;

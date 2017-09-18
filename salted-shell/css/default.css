@@ -1,0 +1,35 @@
+@font-face {
+    font-family: msyh;
+    src: url('../fonts/msyh.ttf');
+}
+body{margin: 0;font-family: msyh;}
+/*.row div{border: 1px solid black;}*/
+a{text-decoration: none;transition-duration: 0.4s;color: black;}
+a:hover{color: #FD9860;}
+#goods_info .row{margin-bottom: 20px;}
+.new_order{height:45px;border:none;border-radius:5px;transition-duration: 0.4s;background-color: #FFE1C9;color: #FD9860;}
+.new_order:hover{background-color: #CC3333;color: white;}
+.banned_order{height:45px;border:none;border-radius:5px;background-color: #cccccc;color: gray;}
+#add_to_cart{height:45px;background-color:#FD9860;color:white;border:none;border-radius:5px;transition-duration: 0.4s;}
+#add_to_cart:hover{background-color: #FFCC66;}
+#contect{border:none;border-radius:5px;transition-duration: 0.4s;background-color: #FFE1C9;color: #FD9860;height:40px;width:100px;}
+#contect:hover{background-color: #CC3333;color: white;}
+.name-card{transition: 0.4s;}
+.name-card:hover{box-shadow:0 0 10px gray;}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }

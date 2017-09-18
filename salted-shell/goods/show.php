@@ -13,44 +13,7 @@
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
-        <style>
-            @font-face {
-    			font-family: msyh;
-    			src: url('../fonts/msyh.ttf');
-    		}
-            body{margin: 0;font-family: msyh;}
-            /*.row div{border: 1px solid black;}*/
-            a{text-decoration: none;transition-duration: 0.4s;color: black;}
-            a:hover{color: #FD9860;}
-            #goods_info .row{margin-bottom: 20px;}
-            .new_order{height:45px;border:none;border-radius:5px;transition-duration: 0.4s;background-color: #FFE1C9;color: #FD9860;}
-            .new_order:hover{background-color: #CC3333;color: white;}
-            .banned_order{height:45px;border:none;border-radius:5px;background-color: #cccccc;color: gray;}
-            #add_to_cart{height:45px;background-color:#FD9860;color:white;border:none;border-radius:5px;transition-duration: 0.4s;}
-            #add_to_cart:hover{background-color: #FFCC66;}
-            #contect{border:none;border-radius:5px;transition-duration: 0.4s;background-color: #FFE1C9;color: #FD9860;height:40px;width:100px;}
-            #contect:hover{background-color: #CC3333;color: white;}
-            .name-card{transition: 0.4s;}
-            .name-card:hover{box-shadow:0 0 10px gray;}
-
-            .bounce-enter-active {
-              animation: bounce-in .5s;
-            }
-            .bounce-leave-active {
-              animation: bounce-in .5s reverse;
-            }
-            @keyframes bounce-in {
-              0% {
-                transform: scale(0);
-              }
-              50% {
-                transform: scale(1.5);
-              }
-              100% {
-                transform: scale(1);
-              }
-            }
-        </style>
+        <style src="../css/default.css"></style>
     </head>
     <body>
         <?php
@@ -64,7 +27,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="row"><img alt="商品大图" src="../main/goods.jpg" class="goods_header" style="width:100%;" /></div>
+                        <div class="row"><a v-bind:href="goods_info.goods_img"><img id="shown_img" alt="商品大图" src="../main/goods.jpg" v-bind:src="goods_info.goods_img" class="goods_header" style="width:100%;" /></a></div>
                         <div class="row" style="margin-top:10px;height:fit-content;">
                             <div v-for="i in 4" class="col-xs-3"><div class="preview" style="border:1px solid black;"></div></div>
                         </div>
@@ -111,9 +74,9 @@
                     <div class="row">
                         <div style="margin-top:20px;">
                             <ul class="name-card" style="background-color:white;list-style-type:none;line-height:30px;padding:35px;border-radius:5px;" data-spy="affix">
-                                <li style="text-align:center;"><img class="owner_header" src="../main/adv.png" style="width:120px;height:120px;border-radius:60px;" :alt="goods_owner.header" /></li>
+                                <li style="text-align:center;"><img class="owner_header" src="../main/adv.png" v-bind:src="goods_owner.header" style="width:120px;height:120px;border-radius:60px;" :alt="goods_owner.header" /></li>
                                 <li style="text-align:center;font-size:20px;">{{goods_owner.nickname}}</li>
-                                <li>学号：{{goods_info.goods_owner_info.student_id}}</li>
+                                <li>学号：{{goods_info.goods_owner_info.student_id}}{{goods_info.goods_owner_info.header}}</li>
                                 <li>姓名：{{goods_info.goods_owner_info.name}}</li>
                                 <li>电话：{{goods_info.goods_owner_info.phone_number}}</li>
                                 <li style="text-align:center;"><a :href="convert_info.goods_owner_info"><button id="contect">联系卖家</button></a></li>
@@ -126,8 +89,8 @@
                 <div class="row">
                     <div class="col-sm-10">
                         <ul id="comment_tab" class="nav nav-tabs" role="tablist" style="border-bottom:2px solid #FD9860;">
-                            <li class="active"><a href="#comments" data-toggle="tab">留言板</a></li>
                             <li><a href="#info" data-toggle="tab">商品详情</a></li>
+                            <li class="active"><a href="#comments" data-toggle="tab">留言板</a></li>
                             <li><a href="#editor" data-toggle="tab">我要留言</a></li>
                         </ul>
                         <div class="tab-content">

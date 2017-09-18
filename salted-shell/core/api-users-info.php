@@ -17,11 +17,15 @@ if (isset($_GET['action'])) {
 		echo json_encode(fetch_self_info($session));
 	}elseif ($_GET['action']=="new") {
 		$goods_list = array();
+		
 		$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 		$sel_sql = "SELECT goods_id FROM $db_goods_table ORDER BY goods_id DESC LIMIT 0,4";
 		$sel_query = mysqli_query($link,$sel_sql);
 		mysqli_close($link);
-		while ($res = mysqli_fetch_assoc($sel_query)) {$goods_list[] = fetch_goods_info($res['goods_id'],session_id());}
+		while ($res = mysqli_fetch_assoc($sel_query)){
+			$goods_list['goods'][] = json_decode(fetch_goods_info($res['goods_id'],session_id()));
+		}
+		$goods_list['status'] = "success";
 		$goods_list = json_encode($goods_list);
 		echo $goods_list;
 	}elseif ($_GET['action']=="update") {

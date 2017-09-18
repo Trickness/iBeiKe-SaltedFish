@@ -207,6 +207,7 @@ function fetch_user_info($session_key,$target_id)
     if(!$result_1)  die(generate_error_report("Unknown error at fetch_user_info [").$link->error);
     $res_1 = mysqli_fetch_assoc($result_1) or die(generate_error_report("No such user"));
     $student_info = json_decode(urldecode($res_1['student_info']),true);
+    $student_info['header'] = urldecode($student_info['header']);
     $student_info = recursion_remove_sensitive_info($student_info,$flag);
     $link->close();
     return $student_info;
@@ -226,7 +227,8 @@ function fetch_user_info_from_id($student_id)
         $select_1 = "SELECT * from $db_users_table WHERE student_id = '$student_id'";
         $result_1 = $link->query($select_1);
         $res_1 = mysqli_fetch_assoc($result_1) or die(generate_error_report("No such user"));
-        $student_info = urldecode($res_1['student_info']);
+        $student_info = json_decode(urldecode($res_1['student_info']),true);
+        $student_info['header'] = urldecode($student_info['header']);        
         $link->close();
         return $student_info;
     }   

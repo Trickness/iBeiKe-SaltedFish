@@ -174,20 +174,21 @@
 	<script>
 	$(document).ready(function(){
 		var newGoodsTpl = '<a href="../goods/show.php?goods_id={href}"><div class="new-item">\
-						<img src="../main/goods.jpg">\
+						<img src="{goods_img}" v-bind:src="{goods_img}">\
 						<div class="new-tl">{goods_title}</div>\
 						<div class="new-dec">{goods_info}</div>\
 					</div></a>';
 		var goods_list = "";
+		// 渲染
 		$.getJSON("../core/api-users-info.php?action=new",function(data){
-			// $("#new-content").html(data);
-			for (var i = 0; i < data.length; i++) {
-				data[i] = JSON.parse(data[i]);
-				data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
-				data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
-				goods_list += newGoodsTpl.format(data[i]);
-			}
 			console.log(data);
+			for (var i = 0; i < data['goods'].length; i++) {dhwaihduawydhwauid
+				//data[i] = JSON.parse(data[i]);
+				//data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
+				//data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
+				goods_list += newGoodsTpl.format(data['goods'][i]);
+			}
+			console.log(goods_list);
 			$("#new-content").html(goods_list);
 		});
 	});
@@ -252,13 +253,12 @@
 	<!-- 商品编辑弹窗 -->
 
 	<script>
-		// $(document).ready(function(){
 		var user_info = null;	//个人总体信息
 		var edit_goods = null;
 		(function(){
 		// 信息渲染模板
 			var goodsTpl = "<tr>\
-						<td>{goods_title}</td>\
+						<td><a href='../goods/show.php?goods_id={goods_id}'>{goods_title}</td>\
 						<td>{goods_status}</td>\
 						<td>{remain}</td>\
 						<td>{goods_type}</td>\
@@ -266,7 +266,7 @@
 						<td style='text-align:center;'><button class='button button-small button-border button-rounded button-highlight' onclick='edit_goods({goods_id})'>修改</button></td>\
 					</tr>";
 			var newGoodsTpl = '<a href="../goods/show.php?goods_id={href}"><div class="new-item">\
-							<img src="../main/goods.jpg">\
+							<img src="../main/goods.jpg" v-bind:src="{goods_img}">\
 							<div class="new-tl">{goods_title}</div>\
 							<div class="new-dec">{goods_info}</div>\
 						</div></a>';
@@ -280,7 +280,7 @@
 						<tr>\
 							<td style="width:190px;text-align:left;padding-left:10px;">\
 								<a href="../goods/show.php?goods_id={goods_id}">\
-									<img src="../main/goods.jpg" alt="商品" style="width:55px;height:55px;float:left">\
+									<img src="{goods_img}" alt="商品" style="width:55px;height:55px;float:left">\
 									<p style="float:left;margin-left:5px;">{goods_title}</p>\
 								</a>\
 							</td>\

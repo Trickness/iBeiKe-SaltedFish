@@ -244,7 +244,7 @@ if($action == "fetch_user_total_info"){
     
     $goods = fetch_goods_for_sale_from_user($user_id);
     $orders = list_orders_from_user($user_id);
-    $info = json_decode(fetch_user_info_from_id($user_id),true);
+    $info = fetch_user_info_from_id($user_id);
     $flag = "public";
     if($current_id){
         if($current_id == $user_id)
