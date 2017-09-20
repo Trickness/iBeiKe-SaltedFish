@@ -204,7 +204,7 @@
                                 <div class="row">\
                                     <div class="col-xs-12" style="min-height:30px;">\
                                         <div class="col-xs-1" style="text-align:center">\
-                                            <div class="row"><img src="../main/adv.png" style="width:40px;height:40px;border-radius:20px;" /></div>\
+                                            <div class="row"><a v-bind:href="message.commenter_info.user_url"><img src="../main/adv.png" v-bind:src="message.commenter_info.header" style="width:40px;height:40px;border-radius:20px;" /></a></div>\
                                             <div class="row" style="margin-top:5px;">{{message.commenter}}</div>\
                                         </div>\
                                         <div class="col-xs-10" style="word-wrap:break-word;" v-html="message.comment"></div>\
@@ -239,7 +239,6 @@
                                 goods_status:'',
                                 goods_type:'',
                             };
-                            console.log(this.goods_info);
                             if (this.goods_info.goods_status == "available") info.goods_status = '在售';
                                 else info.goods_status = '下架';
                             if (this.goods_info.goods_type == "sale") info.goods_type = '出售';
@@ -253,21 +252,23 @@
                     },
                     methods:{
                         new_order:function(){
-                            console.log(this.order_info);
                             $.getJSON('../core/api-v1.php?action=new_order',this.order_info,function(data){
-                                console.log(data);
                                 if (data.status=="success") show_goods.is_successful = true;
                             });
                         },
                         comment_submit:function(){
                             var comment = ue.getContent();
                             $.getJSON("../core/api-show-goods.php",{goods_id:goods_id,action:"comment",comment:comment},function(data){
-                                console.log(data);
-                            });
+                            })
                         },
                     },
                     created:function(){
                         $.getJSON('../core/api-show-goods.php',{action:'show',goods_id:goods_id},function(data){
+                            console.log(data);
+
+                            data.comments.forEach(function(val,index,arr){
+                                arr[index].commenter_info.user_url = "../core/api-v1.php?action=fetch_user_info&user_id=" + val.commenter;
+                            });
                             show_goods.goods_info = data;
                             show_goods.order_info.goods_id = show_goods.goods_info.goods_id;
                             show_goods.order_info.order_type = show_goods.goods_info.goods_type;

@@ -169,7 +169,8 @@ function comment_goods($goods_id, $comment, $session_key)
     global $db_pass;
     global $db_name;
     global $db_user;
-    global $db_goods_table;
+	global $db_goods_table;
+	global $db_users_table;
 	$goods_info = array();
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$select = "SELECT * FROM $db_goods_table where goods_id='$goods_id'";
@@ -187,7 +188,6 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['search_summary'] 		= urldecode($res['search_summary']);
 	$goods_info['comments'] 	= json_decode($res['comments'],true);
 	$goods_info['delivery_fee'] = $res['delivery_fee'];
-	// $goods_info['tags'] 		= $res['tags'].split(" ");
 	$goods_info['tags'] 		= explode(" ",$res['tags']);
 	$goods_info['goods_img']	= urldecode($res['goods_img']);
 
@@ -199,9 +199,12 @@ function comment_goods($goods_id, $comment, $session_key)
     //     $goods_info['comments'][$index]['comment'] = urldecode($goods_info['comments'][$index]['comment']);
 	// 	// $goods_info['comments'][$index]['comment'] = urldecode($value['comment']);
 	// 	$index++;
-	// }
+	// }		
 	for ($i=0; $i <sizeof($goods_info['comments']) ; $i++) { 
 		 $goods_info['comments'][$i]['comment'] = urldecode($goods_info['comments'][$i]['comment']);
+		 $res = $link->query("SELECT student_info FROM $db_users_table WHERE student_id='".$goods_info['comments'][$i]['commenter']."'");
+		 $goods_info['comments'][$i]['commenter_info'] = json_decode(urldecode(mysqli_fetch_assoc($res)['student_info']),true);
+		 $goods_info['comments'][$i]['commenter_info']['header'] = urldecode($goods_info['comments'][$i]['commenter_info']['header']);
 	}
 	if (!get_student_id_from_session_key($session_key)){	//来宾用户，未登录
 		$goods_info = json_encode($goods_info);
@@ -271,14 +274,12 @@ function update_goods($goods_info, $session_key){
 
 	$goods_info 	= json_decode($goods_info,true);
 
-	$goods_id  		= __JSON($goods_info,"goods_id")				or 	die(generate_error_report("syntax error")) ;
-	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 	or 	die(generate_error_report("syntax error")));
+	$goods_id  		= __JSON($goods_info,"goods_id")						or 	die(generate_error_report("syntax error")) ;
+	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 			or 	die(generate_error_report("syntax error")));
 	$goods_single_cost 	= urlencode(__JSON($goods_info,"single_cost") 		or 	die(generate_error_report("syntax error")));
-	$goods_search_summary 	= urlencode(__JSON($goods_info,"search_summary") 		or 	die(generate_error_report("syntax error")));
-	//$goods_images = urlencode(__JSON($goods_info,"images") 		or 	die(generate_error_report("syntax error")));
+	$goods_search_summary 	= urlencode(__JSON($goods_info,"search_summary")or 	die(generate_error_report("syntax error")));
 	$goods_status 	= __JSON($goods_info,"goods_status") 					or 	die(generate_error_report("syntax error")) ;
-	$goods_type 	= __JSON($goods_info,"goods_type") 					or 	die(generate_error_report("syntax error")) ;
-	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
+	$goods_type 	= __JSON($goods_info,"goods_type") 						or 	die(generate_error_report("syntax error")) ;
 	if(($goods_type != "rent") 		or ($goods_status != "sale"))		die(generate_error_report("syntax error")) ;
 	if(($goods_status!="available") or ($goods_status != "withdrawal"))	die(generate_error_report("syntax error")) ;
 	$last_modified 		= date("Y/m/d");
