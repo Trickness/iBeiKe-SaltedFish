@@ -66,7 +66,7 @@
 					var g_info = {};
 					$(document).ready(function(){
 						var goodsTpl = '<a href="../goods/show.php?goods_id={goods_id}"><div class="goods">\
-										<img src="./goods.jpg">\
+										<img  src="{goods_img}">\
 										<h2><span style="font-size:15px;">￥</span>{single_cost}</h2>\
 										<p style="font-size:15px;"><b>{goods_title}</b></p>\
 										{goods_info}\
@@ -83,6 +83,8 @@
 								data[i] = JSON.parse(data[i]);
 								data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
 								data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
+								if(data[i].goods_img == null)
+									data[i].goods_img = "./goods.jpg";
 								goodsList += goodsTpl.format(data[i]);
 							}
 							console.log(data);

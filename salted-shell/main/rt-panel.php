@@ -116,7 +116,7 @@
 							<tr>\
 								<td>\
 									<a href="../goods/show.php?goods_id={goods_id}">\
-										<img src="./goods.jpg">\
+										<img src="{goods_img}">\
 										<span style="float: left;font-size: 13px;margin-top: 25px;">{goods_title}</span>\
 									</a>\
 								</td>\
@@ -128,8 +128,10 @@
 					</div>';
 					var ordersList = "";
 					$.getJSON("../core/api-v1.php",{action:"list_orders",page:"1",limit:"4"},function(data){
-						console.log(data);
 						for (var i = 0; i < data.orders.length; i++) {
+							if(data.orders[i].goods_img == null || data.orders[i].goods_img == "")
+								data.orders[i].goods_img = "./goods.jpg";
+							console.log(data.orders[i]);
 							ordersList += ordersTpl.format(data.orders[i]);
 						}
 						$("#cart").html(ordersList);

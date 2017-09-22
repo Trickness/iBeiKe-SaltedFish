@@ -9,6 +9,7 @@
         <script src="../js/bootstrap/bootstrap.min.js"></script>
         <script src="../js/vue.js" />
         <script src="https://cdn.bootcss.com/unslider/2.0.3/js/unslider-min.js"></script>
+        <script src="../js/goods-utils.js"></script>
         
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
@@ -239,12 +240,8 @@
 
                         // 图片试验
                         imgs:[
-                            '../pic/image1/beijing.png',
-                            '../pic/image1/ppt.png',
-                            '../pic/image1/ustb.png',
-                            '../pic/image1/union.png',
                         ],
-                        goods_thumb:'../pic/image1/beijing.png',
+                        goods_thumb:'',
                         // 
                     },
                     computed:{
@@ -297,10 +294,23 @@
                     created:function(){
                         $.getJSON('../core/api-show-goods.php',{action:'show',goods_id:goods_id},function(data){
                             console.log(data);
-
-                            data.comments.forEach(function(val,index,arr){
-                                arr[index].commenter_info.user_url = "../core/api-v1.php?action=fetch_user_info&user_id=" + val.commenter;
-                            });
+                            if(data.comments != null){
+                                data.comments.forEach(function(val,index,arr){
+                                    arr[index].commenter_info.user_url = "../core/api-v1.php?action=fetch_user_info&user_id=" + val.commenter;
+                                });
+                            }
+                            imgs = searchImgsUrl(data.goods_info);
+                            if(imgs != null){
+                                imgs.forEach(function(val, index, arr){
+                                    imgs[index] = imgs[index].substr(5);
+                                });
+                                if(data.goods_img != null)
+                                    imgs.unshift(data.goods_img);
+                            }
+                            show_goods.imgs = imgs;
+                            if(show_goods.imgs != null){
+                                show_goods.goods_thumb = imgs[0];
+                            }
                             show_goods.goods_info = data;
                             show_goods.order_info.goods_id = show_goods.goods_info.goods_id;
                             show_goods.order_info.order_type = show_goods.goods_info.goods_type;

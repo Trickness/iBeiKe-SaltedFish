@@ -145,7 +145,7 @@
 
 	<div id="rt-new">
 		<style>
-			.new-item{width: 220px;height: 280px;margin: 10px;transition-duration: 0.4s;border-radius:10px;background-color: #e8e8e8;}
+			.new-item{width: 220px;height: 280px;margin: 10px;transition-duration: 0.4s;border-radius:10px;background-color: #e8e8e8;overflow:hidden;}
 			.new-tl{padding-left: 10px;}
 			.new-dec{padding-left: 10px;font-size: 12px;}
 			.new-item:hover{box-shadow:0 0 10px #CCCCCC;}
@@ -174,7 +174,7 @@
 	<script>
 	$(document).ready(function(){
 		var newGoodsTpl = '<a href="../goods/show.php?goods_id={href}"><div class="new-item">\
-						<img src="{goods_img}" v-bind:src="{goods_img}">\
+						<img src="{goods_img}">\
 						<div class="new-tl">{goods_title}</div>\
 						<div class="new-dec">{goods_info}</div>\
 					</div></a>';
@@ -182,10 +182,12 @@
 		// 渲染
 		$.getJSON("../core/api-users-info.php?action=new",function(data){
 			console.log(data);
-			for (var i = 0; i < data['goods'].length; i++) {dhwaihduawydhwauid
+			for (var i = 0; i < data['goods'].length; i++) {
 				//data[i] = JSON.parse(data[i]);
 				//data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
 				//data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
+				if(data['goods'][i].goods_img == null || data['goods'][i].goods_img == "")
+					data['goods'][i].goods_img = "../main/goods.img";
 				goods_list += newGoodsTpl.format(data['goods'][i]);
 			}
 			console.log(goods_list);
@@ -367,6 +369,8 @@
 						case "completed":data[i].order_status="等待确认收货"; break;
 						case "finished":data[i].order_status="订单完成"; break;
 					}
+					if(data[i].goods_img == null || data[i].goods_img == "")
+						data[i].goods_img = "../main/goods.jpg";
 					order_list += ordersTpl.format(data[i]);
 				}
 				$("#recent-content").html(order_list);
