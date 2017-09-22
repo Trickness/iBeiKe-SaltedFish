@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <title>商品展示</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <script src="../js/jquery-latest.js"></script>
-        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap/bootstrap.min.js"></script>
         <script src="../js/vue.js" />
-        <link href="https://cdn.bootcss.com/unslider/2.0.3/css/unslider.css" rel="stylesheet">
         <script src="https://cdn.bootcss.com/unslider/2.0.3/js/unslider-min.js"></script>
+        
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
-        <style src="../css/default.css"></style>
+        <link href="../css/default.css" rel="stylesheet" />
     </head>
     <body>
         <?php
@@ -27,9 +27,15 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="row"><a v-bind:href="goods_info.goods_img"><img id="shown_img" alt="商品大图" src="../main/goods.jpg" v-bind:src="goods_info.goods_img" class="goods_header" style="width:100%;" /></a></div>
+                        <!-- <div class="row"><a :href="goods_info.goods_img"><img id="shown_img" alt="商品大图" src="../main/goods.jpg" :src="goods_info.goods_img" class="goods_header" style="width:100%;" /></a></div> -->
+                        <div class="row">
+                            <div class="goods_header" :style="img_style(goods_thumb)"></div>
+                        </div>
+                        
                         <div class="row" style="margin-top:10px;height:fit-content;">
-                            <div v-for="i in 4" class="col-xs-3"><div class="preview" style="border:1px solid black;"></div></div>
+                            <div v-for="img in imgs" class="col-xs-3">
+                                <div class="preview" :style="img_style(img)" @mouseover="change_thumb(img)"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,7 +80,7 @@
                     <div class="row">
                         <div style="margin-top:20px;">
                             <ul class="name-card" style="background-color:white;list-style-type:none;line-height:30px;padding:35px;border-radius:5px;" data-spy="affix">
-                                <li style="text-align:center;"><img class="owner_header" src="../main/adv.png" v-bind:src="goods_owner.header" style="width:120px;height:120px;border-radius:60px;" :alt="goods_owner.header" /></li>
+                                <li style="text-align:center;"><img class="owner_header" src="../main/adv.png" :src="goods_owner.header" style="width:120px;height:120px;border-radius:60px;" :alt="goods_owner.header" /></li>
                                 <li style="text-align:center;font-size:20px;">{{goods_owner.nickname}}</li>
                                 <li>学号：{{goods_info.goods_owner_info.student_id}}{{goods_info.goods_owner_info.header}}</li>
                                 <li>姓名：{{goods_info.goods_owner_info.name}}</li>
@@ -204,7 +210,7 @@
                                 <div class="row">\
                                     <div class="col-xs-12" style="min-height:30px;">\
                                         <div class="col-xs-1" style="text-align:center">\
-                                            <div class="row"><a v-bind:href="message.commenter_info.user_url"><img src="../main/adv.png" v-bind:src="message.commenter_info.header" style="width:40px;height:40px;border-radius:20px;" /></a></div>\
+                                            <div class="row"><a :href="message.commenter_info.user_url"><img src="../main/adv.png" :src="message.commenter_info.header" style="width:40px;height:40px;border-radius:20px;" /></a></div>\
                                             <div class="row" style="margin-top:5px;">{{message.commenter}}</div>\
                                         </div>\
                                         <div class="col-xs-10" style="word-wrap:break-word;" v-html="message.comment"></div>\
@@ -230,6 +236,16 @@
                         },
                         goods_owner:{},
                         is_successful:false,
+
+                        // 图片试验
+                        imgs:[
+                            '../pic/image1/beijing.png',
+                            '../pic/image1/ppt.png',
+                            '../pic/image1/ustb.png',
+                            '../pic/image1/union.png',
+                        ],
+                        goods_thumb:'../pic/image1/beijing.png',
+                        // 
                     },
                     computed:{
                         convert_info:function(){
@@ -248,7 +264,7 @@
                         offer_cal:function(){
                             this.order_info.offer = this.order_info.single_cost * this.order_info.purchase_amount + this.order_info.delivery_fee;
                             return this.order_info.offer;
-                        }
+                        },
                     },
                     methods:{
                         new_order:function(){
@@ -261,6 +277,22 @@
                             $.getJSON("../core/api-show-goods.php",{goods_id:goods_id,action:"comment",comment:comment},function(data){
                             })
                         },
+
+                        // 图片测试
+                        img_style:function(img){
+                            var style = {
+                                width:'100%',
+                                backgroundImage:"url("+img+")",
+                                backgroundSize:'cover',
+                                backgroundPosition:'center',
+                                backgroundRepeat:'no-repeat',
+                                boxShadow:'0 0 5px #cccccc',
+                            };
+                            return style;
+                        },
+                        change_thumb(img){
+                            this.goods_thumb = img;
+                        }
                     },
                     created:function(){
                         $.getJSON('../core/api-show-goods.php',{action:'show',goods_id:goods_id},function(data){
