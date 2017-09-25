@@ -66,11 +66,11 @@
 					var g_info = {};
 					$(document).ready(function(){
 						var goodsTpl = '<a href="../goods/show.php?goods_id={goods_id}"><div class="goods">\
-										<img  src="{goods_img}">\
+										<div class="img" style="background-image:url(\'{goods_img}\')"></div>\
 										<h2><span style="font-size:15px;">￥</span>{single_cost}</h2>\
 										<p style="font-size:15px;"><b>{goods_title}</b></p>\
 										{goods_info}\
-										<p style="color:gray">{goods_owner}</p>\
+										<p style="color:gray;margin-top:10px;">{goods_owner}</p>\
 									</div></a>';
 						var goodsList = "";
 						$.getJSON("../core/api-main-goods.php",{
@@ -82,7 +82,7 @@
 							for (var i = 0; i < data.length; i++) {
 								data[i] = JSON.parse(data[i]);
 								data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
-								data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
+								data[i].goods_info = data[i].goods_info.substring(0,27)+"...";
 								if(data[i].goods_img == null)
 									data[i].goods_img = "./goods.jpg";
 								goodsList += goodsTpl.format(data[i]);

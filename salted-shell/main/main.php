@@ -111,10 +111,13 @@
 			color: #FD9850;
 			box-shadow:0 0 10px #CCCCCC;
 		}
-		.goods img{
+		.goods .img{
 			width: 220px;
 			height: 220px;
 			border-radius: 5px;
+			background-repeat:no-repeat;
+			background-position:center;
+			background-size:cover;
 			 /* margin: 2px;  */
 		}
 		.goods h2{margin: 0;margin-left: 15px;color: #FD9850;text-align: left;width: 200px;}

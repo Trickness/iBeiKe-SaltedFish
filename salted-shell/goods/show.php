@@ -8,7 +8,6 @@
         <script src="../js/jquery-latest.js"></script>
         <script src="../js/bootstrap/bootstrap.min.js"></script>
         <script src="../js/vue.js" />
-        <script src="https://cdn.bootcss.com/unslider/2.0.3/js/unslider-min.js"></script>
         <script src="../js/goods-utils.js"></script>
         
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
@@ -46,8 +45,8 @@
                             <h2>{{goods_info.goods_title}}</h2>
                         </div>
                     </div>
-                    <div class="row" style="border-top:1px dashed #cccccc;"><div class="col-xs-12">
-                        <div v-html="convert_info.goods_info" style="height:70px;border-radius:5px;margin-top:10px;"></div>
+                    <div class="row" style="border-top:1px dashed #cccccc;margin-bottom:10px;"><div class="col-xs-12">
+                        <div v-html="convert_info.goods_info" style="overflow-y:auto;height:80px;border-radius:5px;margin-top:10px;"></div>
                     </div></div>
                     <div class="row" style="border-top:1px dashed #cccccc;"><div class="col-xs-12">
                         <div style="background-color:#FFE1C9;padding:10px 0 10px 15px;border-radius:5px;margin-top:30px;">
@@ -239,15 +238,14 @@
                         is_successful:false,
 
                         // 图片试验
-                        imgs:[
-                        ],
+                        // imgs:[],
                         goods_thumb:'',
                         // 
                     },
                     computed:{
                         convert_info:function(){
                             var info = {
-                                goods_info:(this.goods_info.goods_info+'').replace(/<img[^>]+>/ig,"").substring(0,30),
+                                goods_info:(this.goods_info.goods_info+'').replace(/<img[^>]+>/ig,""),
                                 goods_owner_info:'../users/others.php?user_id='+this.goods_info.goods_owner,
                                 goods_status:'',
                                 goods_type:'',
@@ -261,6 +259,16 @@
                         offer_cal:function(){
                             this.order_info.offer = this.order_info.single_cost * this.order_info.purchase_amount + this.order_info.delivery_fee;
                             return this.order_info.offer;
+                        },
+                        imgs:function(){
+                            var reg = /src=[\'\"]?([^\'\"]*).(jpg|png|jpeg|img)[\'\"]?/gi;
+                            var imgs = [];
+                            if (this.goods_info.goods_info != undefined) {
+                                imgs = (this.goods_info.goods_info+"").match(reg);
+                                imgs.forEach(function(val,index,arr) {imgs[index] = imgs[index].replace(/src="|"/gi,"");});
+                                if(this.goods_thumb == "") this.goods_thumb = imgs[0];
+                            }
+                            return imgs.slice(0,3);
                         },
                     },
                     methods:{
@@ -298,18 +306,6 @@
                                 data.comments.forEach(function(val,index,arr){
                                     arr[index].commenter_info.user_url = "../core/api-v1.php?action=fetch_user_info&user_id=" + val.commenter;
                                 });
-                            }
-                            imgs = searchImgsUrl(data.goods_info);
-                            if(imgs != null){
-                                imgs.forEach(function(val, index, arr){
-                                    imgs[index] = imgs[index].substr(5);
-                                });
-                                if(data.goods_img != null)
-                                    imgs.unshift(data.goods_img);
-                            }
-                            show_goods.imgs = imgs;
-                            if(show_goods.imgs != null){
-                                show_goods.goods_thumb = imgs[0];
                             }
                             show_goods.goods_info = data;
                             show_goods.order_info.goods_id = show_goods.goods_info.goods_id;
