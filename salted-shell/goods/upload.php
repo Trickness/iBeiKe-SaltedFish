@@ -45,9 +45,12 @@
                 border:none;
                 background-image:url('../pic/plus2.png');
             }
+            .form-group label{
+                margin-bottom:15px;
+            }
         </style>
     </head>
-    <body>
+    <body style="background-color:#F0F0F0;">
         <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
         <script src="../js/jquery-latest.js"></script>
         <script src="../js/bootstrap/bootstrap.min.js"></script>
@@ -57,147 +60,103 @@
         <script src="../js/vue.js"></script>
         
         <?php include "../frame/head_user.php"; ?>
-        <div class="container" id="upload_goods" style="margin-top:100px;height:596.8px;">
+        <div class="container" id="upload_goods" style="margin-top:100px;margin-bottom:70px;width:900px;padding:0 40px 20px 40px;background-color:white;box-shadow:0 0 5px grey;border-radius:10px;">
             <div class="row">
-                <div class="col-md-2">
-                    <div class="row">
-                        <div style="text-align:center;width:100%;margin-top:15px;margin-botton:15px;">
-                            <img id="preview" src="../pic/image1/乐器培训.png" style="height:130px;width:130px;border-radius:15px;" alt="请上传商品图像"><br>
-                            <div class="row"><label for="file">Filename:</label></div>
-                            <div class="row">
-                                <button class="up_file">
-                                    <label style="z-index:-1;">点击上传文件</label>
-                                    <form id="header-submit-form" method="post" enctype="multipart/form-data" style="margin-top:-31px;opacity:0;">
-                                        <input type="file" name="upfile" id="upfile"  onchange="showPreview(this);" />
-                                    </form>
-                                </button>
-                            </div>
-                                
-                        </div>
-                    </div>
-                    <div class="row">
-                        <form class="form-inline">
-                            <div class="row" style="margin-top:15px;"><div class="form-group col-xs-12">
-                                    <label>价格</label>
-                                    <input type="number" class="form-control" style="width:160px;" v-model="goods_info.single_cost" />
-                            </div></div>
-                            <div class="row" style="margin-top:18px;"><div class="form-group col-xs-12">
-                                    <label>数量</label>
-                                    <input type="number" class="form-control" style="width:160px;" v-model="goods_info.remain" />
-                            </div></div>
-                            <div class="row" style="margin-top:18px;"><div class="form-group col-xs-12">
-                                    <label>运费</label>
-                                    <input type="number" class="form-control" style="width:160px;" v-model="goods_info.delivery_fee" />
-                            </div></div>
-                            <div class="row" style="margin-top:18px;"><div class="form-group col-xs-12">
-                                    <label>状态</label>
-                                    <select class="form-control" style="width:160px;" v-model="goods_info.goods_status">
-                                        <option value="available">在售</option>
-                                        <option value="unavailable">下架</option>
-                                    </select>
-                            </div></div>
-                            <div class="row" style="margin-top:10px;"><div class="form-group col-xs-12">
-                                    <label>交易方式</label>
-                                    <select class="form-control" style="width:160px;margin-left:31px;" v-model="goods_info.goods_type">
-                                        <option value="sale">出售</option>
-                                        <option value="rent">租赁</option>
-                                    </select>
-                            </div></div>
-                            <div class="row" style="margin-top:10px;"><div class="form-group col-xs-12">
-                                    <label>标签(用空格分隔)</label>
-                                    <input type="text" class="form-control" style="width:160px;margin-left:31px;" v-model="goods_info.tags" />
-                            </div></div>
-                        </form>
-                    </div>
+                <div style="border-bottom:2px solid #FD9860;color:#FD9860;">
+                    <h3>请上传你的商品</h3>                
                 </div>
-
-                <div class="col-md-7" style="height:596.8px;">
-                    <div class="row"><div class="col-xs-12 form-group">
-                        <h2 style="margin-top:25px;">商品名称</h2>
-                        <input type="text" class="form-control" v-model="goods_info.goods_title" />
-                    </div></div>
-                    <div class="row" style="margin-top:10px;">
-                        <div class="form-inline form-group col-xs-4">
-                            <label>一级分类</label>
-                            <select id="cl1" v-model="goods_info.cl_lv_1" class="form-control">
-                                <option v-for="lv1 in goods_cl" :value="lv1[0]">{{lv1[0]}}</option>
-                            </select>
-                        </div>
-                        <div class="form-inline form-group col-xs-4">
-                            <label>二级分类</label>
-                            <select v-model="goods_info.cl_lv_2" class="form-control sel">
-                                <option v-for="lv2 in lv_2" :value="lv2[0]">{{lv2[0]}}</option>
-                            </select>
-                        </div>
-                        <div class="form-inline form-group col-xs-4">
-                            <label>三级分类</label>
-                            <select v-model="goods_info.cl_lv_3" class="form-control sel">
-                                <option v-for="lv3 in lv_3" :value="lv3">{{lv3}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12"><div style="font-size:24px;height:45px;">商品详情</div></div>
-                        <div class="col-xs-12">
-                            <script id="editor" type="text/plain" style="height:270px;"></script>
-                        </div>
-                    </div>
-                    <div class="row" style="text-align:center;margin-top:15px;">
-                        <button class="goods_commit" @click="submit_goods">发布商品</button>
-                    </div>
-                </div>
-
-                <div class="col-md-3" style="height: 596.8px;">
-                    <div class="row" style="height:480px;margin-top:66.4px;overflow-y:auto;">
-                            <div v-for="img in imgs" class="col-xs-6">
-                                <div class="col-xs-12 preview" :style="img_style(img)"></div>
-                            </div>
-                            <div class="col-xs-6">
-                                <button class="col-xs-12 preview plus">
-                                    <form id="add_pic" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data">
-                                        <input type="file" name="upfile" id="upfile"  onchange="add_pic()" style="margin-left: -16px;width: 115px;height: 114px;opacity: 0;" />
-                                    </form>
-                                </button>
-                            </div>
-                        <div></div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-xs-12">
+                    <div class="row"><h4>商品名称</h4></div>
+                    <div class="row form-group">
+                        <input type="text" v-model="goods_info.goods_title" class="form-control input-lg" />
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="row"><div class="col-xs-12"><h4>商品美图</h4></div></div>
+                <div class="row">
+                    <div class="col-xs-2" v-for="img in imgs"><div class="col-xs-12 preview" :style="img_style(img)"></div></div>
+                    <div class="col-xs-2">
+                        <button class="col-xs-12 preview plus">
+                            <form id="add_pic" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data">
+                                <input type="file" name="upfile" id="upfile"  onchange="add_pic()" style="margin-left: -16px;width: 115px;height: 114px;opacity: 0;" />
+                            </form>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 form-group">
+                        <label>价格</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">￥</div>
+                            <input type="number" class="form-control" v-model="goods_info.single_cost" />
+                        </div>
+                    </div>
+                    <div class="col-xs-3 form-group">
+                        <label>运费</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">￥</div>
+                            <input type="number" class="form-control" v-model="goods_info.delivery_fee" />                        
+                        </div>
+                    </div>
+                    <div class="col-xs-6 form-group">
+                        <label>数量</label>
+                        <input type="number" class="form-control" v-model="goods_info.remain" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 form-group">
+                        <label>商品状态</label>
+                        <select class="form-control" v-model="goods_info.goods_status">
+                            <option value="available" selected>在售</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6 form-group">
+                        <label>交易方式</label>
+                        <select class="form-control" v-model="goods_info.goods_type">
+                            <option value="sale">出售</option>
+                            <option value="rent">租赁</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 form-group">
+                        <label>一级分类</label>
+                        <select id="cl1" v-model="goods_info.cl_lv_1" class="form-control">
+                            <option v-for="lv1 in goods_cl" :value="lv1[0]">{{lv1[0]}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-2 form-group">
+                        <label>二级分类</label>
+                        <select v-model="goods_info.cl_lv_2" class="form-control sel">
+                            <option v-for="lv2 in lv_2" :value="lv2[0]">{{lv2[0]}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-2 form-group">
+                        <label>三级分类</label>
+                        <select v-model="goods_info.cl_lv_3" class="form-control sel">
+                            <option v-for="lv3 in lv_3" :value="lv3">{{lv3}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6 form-group">
+                        <label>标签（用空格分隔）</label>
+                        <input type="text" class="form-control" v-model="goods_info.tags" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 form-group">
+                        <label>图文详情</label>
+                        <script id="editor" type="text/plain" style="height:500px;"></script>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="text-align:center;margin-top:15px;">
+                <button class="goods_commit" @click="submit_goods">发布商品</button>
+            </div>
         </div>
         <script>
-            function showPreview(source) {
-                console.log("PREVIEW");
-                var file = source.files[0];
-                if (window.FileReader) {            // 如果浏览器支持 FileReader
-                    var fr = new FileReader();      // 新建 FileReader 对象
-                    fr.onloadend = function (e) {   // 当img设置
-                        document.getElementById("preview").src = e.target.result;
-                    };
-                    fr.readAsDataURL(file);         // 读取 img 到 fr 中
-                    console.log(fr);                // 控制台打印 fr 结构
-                    var formdata=new FormData($("#header-submit-form")[0]);
-                    $.ajax({
-                        type : 'post',
-                        url : "../addons/ueditor/php/controller.php?action=uploadimage",
-                        data : formdata,
-                        cache : false,
-                        processData : false,
-                        contentType : false,
-                        success : function(data){
-                            data = JSON.parse(data);
-                            if(data.state === "SUCCESS"){
-                                $("#preview").attr("src_URL",data.url);
-                                $("#preview").attr("src",data.url);
-                            }
-                            upload_goods.goods_info.goods_img = data.url;
-                            console.log(upload_goods.goods_info);
-                        },
-                        error:function(){
-                            console.log("def");
-                        }
-                    });
-                }
-            }
             function add_pic(){
                 var formdata=new FormData($("#add_pic")[0]);
                 $.ajax({
@@ -239,6 +198,7 @@
                     imgs = (info).match(reg);
                     if (imgs != null) for (var index = 0; index < imgs.length; index++) {imgs[index] = imgs[index].replace(/src="|"/gi,"");}
                     upload_goods.imgs = imgs;
+                    upload_goods.goods_info.goods_img = imgs[0];
                     console.log(imgs);
                 });
                 var goods_cl = [
