@@ -230,7 +230,7 @@
                         goods_info:{
                             goods_title:'',
                             single_cost:'',
-                            goods_status:'',
+                            goods_status:'available',
                             remain:'',
                             tags:'',
                             goods_type:'',

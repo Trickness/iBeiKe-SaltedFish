@@ -149,7 +149,7 @@
 			.new-tl{padding-left: 10px;}
 			.new-dec{padding-left: 10px;font-size: 12px;}
 			.new-item:hover{box-shadow:0 0 10px #CCCCCC;}
-			.new-item img{width: 220px;height: 220px;border-radius:10px;}
+			.new-item .img{width: 220px;height: 220px;border-radius:10px;background-size:cover;background-position:center;background-repeat:no-repeat;}
 		</style>
 		<div id="new-tl">最新内容</div>
 		<div id="new-content">
@@ -174,7 +174,7 @@
 	<script>
 	$(document).ready(function(){
 		var newGoodsTpl = '<a href="../goods/show.php?goods_id={href}"><div class="new-item">\
-						<img src="{goods_img}">\
+						<div class="img" style="background-image:url(\'{goods_img}\');" />\
 						<div class="new-tl">{goods_title}</div>\
 						<div class="new-dec">{goods_info}</div>\
 					</div></a>';
@@ -186,6 +186,7 @@
 				//data[i] = JSON.parse(data[i]);
 				//data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
 				//data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
+				data['goods'][i].goods_info = data['goods'][i].goods_info.substring(0,27)+"...";
 				if(data['goods'][i].goods_img == null || data['goods'][i].goods_img == "")
 					data['goods'][i].goods_img = "../main/goods.img";
 				goods_list += newGoodsTpl.format(data['goods'][i]);

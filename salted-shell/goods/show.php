@@ -15,15 +15,15 @@
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
         <link href="../css/default.css" rel="stylesheet" />
     </head>
-    <body>
+    <body style="background-color:#F0F0F0;">
         <?php
             include "../frame/head_user.php";
             if (isset($_GET['goods_id'])) {
                 $goods_id = $_GET['goods_id'];
                 echo "<script>var goods_id = {$goods_id};</script>";
             }
-        ?>
-        <div id="show_goods" class="container" style="margin-top:100px;">
+        ?> 
+        <div id="show_goods" class="container" style="margin-top:100px;background-color:white;border-radius:10px;padding-top:40px;margin-bottom:70px;box-shadow:0 0 5px gray;">
             <div class="row">
                 <div class="col-sm-4">
                     <div class="col-sm-offset-1 col-sm-10">
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="row" style="height:800px;">
-                <div class="row">
+                <div class="col-xs-12">
                     <div class="col-sm-10">
                         <ul id="comment_tab" class="nav nav-tabs" role="tablist" style="border-bottom:2px solid #FD9860;">
                             <li><a href="#info" data-toggle="tab">商品详情</a></li>
