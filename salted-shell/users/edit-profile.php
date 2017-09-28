@@ -1,7 +1,13 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <script src="../js/jquery-latest.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
+        <title>个人信息编辑</title>
+        <script src="../js/vue.js"></script>
+        <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
+        <script src="../js/jquery-latest.js"></script>
+        <script src="../js/bootstrap/bootstrap.min.js"></script>
         <style>
             body{
                 margin:0;
@@ -50,230 +56,186 @@
             input.button:focus{
                 border : 0px;
             }
+
+            
         </style>
-        <script>
-            window.onload=function(){
-                var student_id = "";
-                if(!$.getJSON("../core/api-v1.php?action=fetch_self_info",function(data){
-                    student_id = data.self_info.student_id;
-                    console.log(data.self_info);
-
-                    $("#preview").attr("src",data.self_info.header);
-
-                    $("#nickname-input").val(data.self_info.nickname);
-
-                    $("#id-input").val(data.self_info.student_id.value);
-                    $("#id-privacy").val(data.self_info.student_id.access);
-
-                    $("#name-input").val(data.self_info.name.value);
-                    $("#name-privacy").val(data.self_info.name.access);
-
-                    $("#gender-input").val(data.self_info.gender.value);
-                    $("#gender-privacy").val(data.self_info.gender.access);
-
-                    $("#birthday-input").val(data.self_info.birthday.value);
-                    $("#birthday-privacy").val(data.self_info.birthday.access);
-
-                    $("#department-input").val(data.self_info.class_info.department.value);
-                    $("#department-privacy").val(data.self_info.class_info.department.access);
-
-                    $("#enroll-input").val(data.self_info.class_info.enrollment.value);
-                    $("#enroll-privacy").val(data.self_info.class_info.enrollment.access);
-
-                    $("#class-input").val(data.self_info.class_info.class_no.value);
-                    $("#class-privacy").val(data.self_info.class_info.class_no.access);
-
-                    $("#dormitory-input").val(data.self_info.dormitory.dormitory_id.value);
-                    $("#dormitory-privacy").val(data.self_info.dormitory.dormitory_id.access);
-
-                    $("#room-input").val(data.self_info.dormitory.room_no.value);
-                    $("#room-privacy").val(data.self_info.dormitory.room_no.access);
-
-                    $("#phone-input").val(data.self_info.phone_number.value);
-                    $("#phone-privacy").val(data.self_info.phone_number.access);
-                })){
-                    alert("Failed to fetch self info");
-                }
-
-                $("#save-button").click(function(){
-                    var new_data = Object();
-                    new_data.nickname = $("#nickname-input").val();
-                    new_data.dormitory = new Object();
-                    new_data.dormitory.dormitory_id = new Object();
-                    new_data.dormitory.dormitory_id.value = $("#dormitory-input").val();
-                    new_data.dormitory.dormitory_id.access = $("#dormitory-privacy").val();
-                    new_data.dormitory.room_no = new Object();
-                    new_data.dormitory.room_no.value = $("#room-input").val();
-                    new_data.dormitory.room_no.access = $("#room-privacy").val();
-                    new_data.phone_number = new Object();
-                    new_data.phone_number.value = $("#phone-input").val();
-                    new_data.phone_number.access = $("#phone-privacy").val();
-                    new_data.class_info = new Object();
-                    new_data.class_info.department = new Object();
-                    new_data.class_info.department.access = $("#department-privacy").val();
-                    new_data.class_info.department.value = $("#department-input").val();
-                    new_data.class_info.class_no = new Object();
-                    new_data.class_info.class_no.access = $("#class-privacy").val();
-                    new_data.class_info.enrollment = new Object();
-                    new_data.class_info.enrollment.access = $("#enroll-privacy").val();
-                    new_data.gender = new Object();
-                    new_data.gender.access = $("#gender-privacy").val();
-                    new_data.birthday = new Object();
-                    new_data.birthday.access = $("#birthday-privacy").val();
-                    new_data.name = new Object();
-                    new_data.name.access = $("#name-privacy").val();
-                    new_data.student_id = new Object();
-                    new_data.student_id.access = $("#id-privacy").val();
-                    new_data.header = $("#preview").attr("src_URL");
-                    console.log(new_data);
-                    $.post("../core/api-v1.php?action=update_self_info",{
-                        info : JSON.stringify(new_data)
-                    },function(data,status,jqXHR){
-                        console.log(data);
-                    });
-                });
-            }
-        </script>
     </head>
 
-    <body>
+    <body style="background-color:#F0F0F0;">
         <?php include "../frame/head_user.php"; ?>
-        <div id='warpper' style="margin-left:30px;margin-top:100px;">
-            <p>头像</p>
-            <style>
-                .input-file {
-                    width: 120px;
-                    height: 30px;
-                    overflow:hidden;
-                    position:relative;
-                }
-                .input-file input{
-                    opacity:0;
-                    filter:alpha(opacity=0);
-                    font-size:100px;
-                    position:absolute;
-                    top:0;
-                    right:0;
-                }
-            </style>
-            <div style="text-align:center;width:200px;">
-                <img id="preview" src="../main/cover.png" style="height:120px;width:120px;border-radius:25px;" alt="请上传您的头像"><br><br>
-                <form id="header-submit-form" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data">
-                    <label for="file">Filename:</label>
-                    <input type="file" name="upfile" id="upfile"  onchange="showPreview(this)" />
-                </form>
-                <button id="submit-button" style="width:100px;height:30px;" onclick="upload_img();">Upload</button>
-
+        <style>
+            .item label{margin-bottom:15px;margin-top:15px;}
+            .plus{
+                margin-bottom:20px;
+                transition-duration:0.4s;
+                border:none;
+                border-radius:5px;
+                width:100%;
+                background-size:cover;
+                background-position:center;
+            }
+            .goods_commit{
+                background-color:antiquewhite;width:160px;height:40px;color:#FD9860;border:none;border-radius:5px;transition-duration:0.4s;
+            }
+            .goods_commit:hover{
+                background-color:#FF3333;
+                color:white;
+            }
+        </style>
+        <div id="edit_profile" class="container" style="height:800px;margin-top: 100px;margin-bottom: 70px;width: 800px;padding: 0px 40px 0 25px;background-color: white;box-shadow: grey 0px 0px 5px;border-radius: 10px;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div style="border-bottom:2px solid #FD9860;color:#FD9860;">
+                        <h3>编辑你的信息</h3>                
+                    </div>
+                </div>
             </div>
-            
-            <p>昵称</p>
-            <input type="text" id="nickname-input">
+            <div class="row item" style="margin-top:15px;">
+                <div class="col-xs-3">
+                    <div class="col-xs-12">
+                        <div style="width:100%;" :style="img_style(profile.header)" class="preview"></div>
+                    </div>
+                    <div class="col-xs-12">
+                        <button class="goods_commit" style="width:100%;height:35px;">
+                            <label style="margin:7px;">上传你的头像</label>
+                            <form id="add_pic" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data" style="margin-top:-34px;">
+                                <input type="file" name="upfile" id="upfile"  onchange="add_pic()" style="width: 100%;opacity:0;" />
+                            </form>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-xs-offset-3 col-xs-6">
+                    <div class="col-xs-10" style="text-align:center;">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-default" @click="state = true" :class="{active:state}">编辑信息</button>
+                            <button class="btn btn-default" @click="state = false" :class="{active:!state}">隐私设置</button>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 form-inline" style="margin-top:15px;">
+                        <label>姓名</label>
+                        <input v-if="state" type="text" class="form-control" v-model="profile.name.value" disabled />
+                        <select v-if="!state" class="form-control" v-model="profile.name.access">
+                            <option value="public">公开</option>
+                            <option value="protected">登陆可见</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 form-inline">
+                        <label>学号</label>
+                        <input v-if="state" type="text" class="form-control" v-model="profile.student_id.value" disabled />
+                        <select v-if="!state" class="form-control" v-model="profile.student_id.access">
+                            <option value="public">公开</option>
+                            <option value="protected">登陆可见</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 form-inline">
+                        <label>性别</label>
+                        <input v-if="state" type="text" class="form-control" v-model="profile.gender.value" disabled />
+                        <select v-if="!state" class="form-control" v-model="profile.gender.access">
+                            <option value="public">公开</option>
+                            <option value="protected">登陆可见</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-            <p>学号</p>
-            <input type="text" id="id-input" disabled="disabled">
-            <select name="id-privacy" id="id-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-            </select>
+            <div class="row item">
+                <div class="col-xs-12">
+                            <label>昵称</label>
+                            <input type="text" class="form-control input-lg" v-model="profile.nickname" />
+                            <!-- <info-edit index="nickname" :state="state" @trans="get" /> -->
+                </div>
+                <div class="col-xs-6"></div>                
+            </div>
 
-            <p>姓名</p>
-            <input type="text" id="name-input" disabled="disabled">
-            <select name="name-privacy" id="name-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-
-            <p>性别</p>
-            <input type="text" id="gender-input" disabled="disabled">
-            <select name="gender-privacy" id="gender-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-
-            <p>生日</p>
-            <input type="text" id="birthday-input">
-            <select name="birthday-privacy" id="birthday-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-
-            <p>学院</p>
-            <input type="text" id="department-input">
-            <select name="department-privacy" id="department-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-
-            <p>入学年份</p>
-            <input type="text" id="enroll-input" disabled="disabled">
-            <select name="enroll-privacy" id="enroll-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-
-            <p>班级</p>
-            <input type="text" id="class-input" disabled="disabled">
-            <select name="class-privacy" id="class-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-
-            <p>宿舍（斋）</p>
-            <input type="text" id="dormitory-input">
-            <select name="dormitory-privacy" id="dormitory-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-
-            <p>寝室</p>
-            <input type="text" id="room-input">
-            <select name="room-privacy" id="room-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-
-            <p>手机号码</p>
-            <input type="text" id="phone-input">
-            <select name="phone-privacy" id="phone-privacy">
-                <option value="public">公开</option>
-                <option value="protected">登录可见</option>
-                <option value="private">保密</option>
-            </select>
-            <p style="height:30px;"></p>
-            <input class="button yes-button" type="submit" value="Save" id="save-button"></input>
-            <input class="button cancel-button" type="submit" value="Cancel" id="cancel-button"></input>
+            <div class="row item">
+                <div class="col-xs-6">
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-xs-12">
+                            <label>学院</label>
+                            <input v-if="state" type="text" class="form-control" v-model="profile.department.value" />
+                            <select v-if="!state" class="form-control" v-model="profile.department.access">
+                                <option value="public">公开</option>
+                                <option value="protected">登陆可见</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-xs-12">
+                            <label>学院</label>
+                            <input v-if="state" type="text" class="form-control" v-model="profile.class_info.class_no.value" />
+                            <select v-if="!state" class="form-control" v-model="profile.class_info.class_no.access">
+                                <option value="public">公开</option>
+                                <option value="protected">登陆可见</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row item">
+                <div class="col-xs-6">
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-xs-12">
+                            <label>宿舍（斋）</label>
+                            <input v-if="state" type="text" class="form-control" v-model="profile.dormitory.dormitory_id.value" />
+                            <select v-if="!state" class="form-control" v-model="profile.dormitory.dormitory_id.access">
+                                <option value="public">公开</option>
+                                <option value="protected">登陆可见</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-xs-12">
+                            <label>寝室</label>
+                            <input v-if="state" type="text" class="form-control" v-model="profile.dormitory.room_no.value" />
+                            <select v-if="!state" class="form-control" v-model="profile.dormitory.room_no.access">
+                                <option value="public">公开</option>
+                                <option value="protected">登陆可见</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row item">
+                <div class="col-xs-6">
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-xs-12">
+                            <label>生日</label>
+                            <input v-if="state" type="text" class="form-control" v-model="profile.birthday.value" />
+                            <select v-if="!state" class="form-control" v-model="profile.birthday.access">
+                                <option value="public">公开</option>
+                                <option value="protected">登陆可见</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-xs-12">
+                            <label>手机号码</label>
+                            <input v-if="state" type="text" class="form-control" v-model="profile.phone_number.value" />
+                            <select v-if="!state" class="form-control" v-model="profile.phone_number.access">
+                                <option value="public">公开</option>
+                                <option value="protected">登陆可见</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row item" style="text-align:center;margin-top:25px;">
+                <button class="goods_commit" @click="submit_edit">提交修改</button>
+            </div>            
         </div>
 
         <script>
-            $("#preview").src_url = "../main/cover.png";
-            function showPreview(source) {
-                var file = source.files[0];
-                if (window.FileReader) {            // 如果浏览器支持 FileReader
-                    var fr = new FileReader();      // 新建 FileReader 对象
-                    fr.onloadend = function (e) {   // 当img设置
-                        document.getElementById("preview").src = e.target.result;
-                    };
-                    fr.readAsDataURL(file);         // 读取 img 到 fr 中
-                    console.log(fr);                // 控制台打印 fr 结构
-                }
-            }
-            function upload_img(){
-                if($("#upfile").val() === ""){
-                    alert("请选择图片后再上传");
-                    return;
-                }
-                var formdata=new FormData($("#header-submit-form")[0]);
+            function add_pic(){
+                var formdata=new FormData($("#add_pic")[0]);
                 $.ajax({
                     type : 'post',
-                    url : "../addons/ueditor/php/controller.php?action=uploadheaderimage",
+                    url : "../addons/ueditor/php/controller.php?action=uploadimage",
                     data : formdata,
                     cache : false,
                     processData : false,
@@ -281,17 +243,62 @@
                     success : function(data){
                         data = JSON.parse(data);
                         if(data.state === "SUCCESS"){
-                            $("#preview").attr("src_URL",data.url);
-                            $("#preview").attr("src",data.url);
+                            edit_profile.profile.header = data.url;
+                            console.log(edit_profile.profile.header);
                         }
-                        console.log(data);
                     },
                     error:function(){
                         console.log("def");
                     }
                 });
-                console.log(formdata);
             }
+            var edit_profile = null;
+            $(document).ready(function(){
+                $(".preview").css("height",$(".preview").css("width"));
+                edit_profile = new Vue({
+                    el:'#edit_profile',
+                    data:{
+                        profile:{},
+                        state:true,
+                    },
+                    computed:{
+                        thumb:function(){
+                            var style = {
+                                backgroundImage:"url('"+this.profile.header+"')",
+                            };
+                            return style;
+                        },
+                    },
+                    methods:{
+                        submit_edit:function(){
+                            $.post('../core/api-v1.php?action=update_self_info',{info:JSON.stringify(edit_profile.profile)},function(data){
+                                console.log(data);
+                            });
+                            console.log(this.profile);
+                        },
+                        img_style:function (img) {
+                            var style = {
+                                backgroundImage:'url('+img+')',
+                                backgroundSize:'cover',
+                                backgroundPosition:'center',
+                                backgroundRepeat:'no-repeat',
+                                marginBottom:'20px',
+                                borderRadius:'10px',
+                                border:'none',
+                            };
+                            return style;
+                        },
+                    },
+                    created:function(){
+                        $.getJSON('../core/api-v1.php?action=fetch_self_info',function(data){
+                            if (data.status == "success") {
+                                edit_profile.profile = data.self_info;
+                                console.log(edit_profile.profile);
+                            }
+                        });
+                    },
+                });
+            });
         </script>
     </body>
 </html>
