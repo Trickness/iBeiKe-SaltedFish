@@ -51,16 +51,12 @@
         </style>
     </head>
     <body style="background-color:#F0F0F0;">
-        <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
-        <script src="../js/jquery-latest.js"></script>
-        <script src="../js/bootstrap/bootstrap.min.js"></script>
+        <?php include "../frame/head_user.1.php"; ?>        
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
-        <script src="../js/vue.js"></script>
-        
-        <?php include "../frame/head_user.php"; ?>
-        <div class="container" id="upload_goods" style="margin-top:100px;margin-bottom:70px;width:900px;padding:0 40px 20px 40px;background-color:white;box-shadow:0 0 5px grey;border-radius:5px;">
+
+        <div class="container" id="upload_goods" style="margin-top:70px;margin-bottom:70px;width:900px;padding:0 40px 20px 40px;background-color:white;box-shadow:0 0 5px grey;border-radius:5px;">
             <div class="row">
                 <div style="border-bottom:2px solid #FD9860;color:#FD9860;">
                     <h3>请上传你的商品</h3>                

@@ -4,26 +4,22 @@
         <meta charset="utf-8">
         <title>商品展示</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
-        <script src="../js/jquery-latest.js"></script>
-        <script src="../js/bootstrap/bootstrap.min.js"></script>
-        <script src="../js/vue.js" />
-        <script src="../js/goods-utils.js"></script>
-        
-        <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
-        <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
-        <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
-        <link href="../css/default.css" rel="stylesheet" />
     </head>
     <body style="background-color:#F0F0F0;">
         <?php
-            include "../frame/head_user.php";
+            include "../frame/head_user.1.php";
             if (isset($_GET['goods_id'])) {
                 $goods_id = $_GET['goods_id'];
                 echo "<script>var goods_id = {$goods_id};</script>";
             }
-        ?> 
-        <div id="show_goods" class="container" style="margin-top:100px;background-color:white;border-radius:10px;padding-top:40px;margin-bottom:70px;box-shadow:0 0 5px gray;padding-bottom:70px;">
+        ?>
+        <script src="../js/goods-utils.js"></script>
+        <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
+        <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
+        <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
+        <link href="../css/default.css" rel="stylesheet" />
+        
+        <div id="show_goods" class="container" style="margin-top:70px;background-color:white;border-radius:10px;padding-top:40px;margin-bottom:70px;box-shadow:0 0 5px gray;padding-bottom:70px;">
             <div class="row">
                 <div class="col-sm-4">
                     <div class="col-sm-offset-1 col-sm-10">
@@ -255,7 +251,7 @@
                                 imgs.forEach(function(val,index,arr) {imgs[index] = imgs[index].replace(/src="|"/gi,"");});
                                 if(this.goods_thumb == "") this.goods_thumb = imgs[0];
                             }
-                            return imgs.slice(0,3);
+                            return imgs.slice(0,4);
                         },
                     },
                     methods:{

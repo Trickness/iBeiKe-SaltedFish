@@ -4,10 +4,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
         <title>个人信息编辑</title>
-        <script src="../js/vue.js"></script>
-        <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
-        <script src="../js/jquery-latest.js"></script>
-        <script src="../js/bootstrap/bootstrap.min.js"></script>
+    </head>
+
+    <body style="background-color:#F0F0F0;">
+        <?php include "../frame/head_user.1.php"; ?>
         <style>
             body{
                 margin:0;
@@ -56,13 +56,7 @@
             input.button:focus{
                 border : 0px;
             }
-
-            
         </style>
-    </head>
-
-    <body style="background-color:#F0F0F0;">
-        <?php include "../frame/head_user.php"; ?>
         <style>
             .item label{margin-bottom:15px;margin-top:15px;}
             .plus{
@@ -82,7 +76,7 @@
                 color:white;
             }
         </style>
-        <div id="edit_profile" class="container" style="height:800px;margin-top: 100px;margin-bottom: 70px;width: 800px;padding: 0px 40px 0 25px;background-color: white;box-shadow: grey 0px 0px 5px;border-radius: 10px;">
+        <div id="edit_profile" class="container" style="height:800px;margin-top: 70px;margin-bottom: 70px;width: 800px;padding: 0px 40px 0 25px;background-color: white;box-shadow: grey 0px 0px 5px;border-radius: 10px;">
             <div class="row">
                 <div class="col-xs-12">
                     <div style="border-bottom:2px solid #FD9860;color:#FD9860;">

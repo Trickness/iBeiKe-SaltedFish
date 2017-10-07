@@ -4,10 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>我的订单</title>
-        <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
-        <script src="../js/jquery-latest.js"></script>
-        <script src="../js/bootstrap/bootstrap.min.js"></script>
-        <script src="../js/vue.js"></script>
+    </head>
+    <body style="background-color:#F0F0F0;">
+        <?php include "../frame/head_user.1.php"; ?>
         <style>
             a{color:#95989A;text-decoration:none;transition-duration:0.4s;}
             a:hover{color:#FD9860;}
@@ -26,7 +25,7 @@
                 padding-top:10px;padding-bottom:10px;word-wrap:break-word;
             }
             .pin.affix{
-                top:85px;
+                top:65px;
             }
             .rt{padding-top:30px;}
             .offer{padding-top:10px;}  
@@ -47,11 +46,8 @@
                 .bt{line-height:50px;}
             }
         </style>
-    </head>
-    <body style="background-color:#F0F0F0;">
-        <?php include "../frame/head_user.php"; ?>
-        <div id="show_orders">
-            <div class="container" style="margin-top:100px;margin-bottom:15px;">
+        <div id="show_orders" style="margin-top:70px;">
+            <div class="container" style="margin-bottom:15px;">
                 <div class="col-xs-12" style="background-color: white;border-radius: 4px;box-shadow: 0 0 4px grey;padding-top: 10px;">
                     <div class="col-xs-12">
                         <p style="color:#FD9860;font-size:25px;padding-left:5px;">我的订单</p>
@@ -77,7 +73,7 @@
                         </div>
                     </div>
                     <div class="col-sm-3 name-tag hidden-xs">
-                        <div class="pin" data-spy="affix" data-offset-top="100">
+                        <div class="pin" data-spy="affix" data-offset-top="90">
                             <div class="tag-content">
                                 <name-tag :info="self_info" />
                             </div>
@@ -169,12 +165,7 @@
                             };
                         },
                         bg:function(){
-                            return {
-                                backgroundImage:'url("'+this.order.goods_img+'")',
-                                backgroundSize:'cover',
-                                backgroundPosition:'center',
-                                backgroundRepeat:'no-repeat',
-                            };
+                            return bg_ch(this.order.goods_img);
                         },
                         hg_sync:function(){
                             return {
@@ -234,13 +225,7 @@
                     },
                     computed:{
                         bg:function(){
-                            console.log(this.info);
-                            return {
-                                backgroundImage:'url("'+this.info.header+'")',
-                                backgroundSize:'cover',
-                                backgroundPosition:'center',
-                                backgroundRepeat:'no-repeat',
-                            };
+                            return bg_ch(this.info.header);
                         },
                     },
                 };
