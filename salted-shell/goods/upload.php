@@ -60,7 +60,7 @@
         <script src="../js/vue.js"></script>
         
         <?php include "../frame/head_user.php"; ?>
-        <div class="container" id="upload_goods" style="margin-top:100px;margin-bottom:70px;width:900px;padding:0 40px 20px 40px;background-color:white;box-shadow:0 0 5px grey;border-radius:10px;">
+        <div class="container" id="upload_goods" style="margin-top:100px;margin-bottom:70px;width:900px;padding:0 40px 20px 40px;background-color:white;box-shadow:0 0 5px grey;border-radius:5px;">
             <div class="row">
                 <div style="border-bottom:2px solid #FD9860;color:#FD9860;">
                     <h3>请上传你的商品</h3>                
@@ -278,7 +278,7 @@
                             editor.execCommand('insertimage', {
                                 src:url,
                                 width:'100',
-                                height:'100'
+                                height:'100',
                             });
                         },
                         submit_goods:function(){

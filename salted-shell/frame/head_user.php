@@ -89,8 +89,6 @@
 		<a href="../main/main.php"><div id="title">贝壳商城</div></a>
 		<a href="../main/main.php"><div id="market-tl" class="top-tl" style="left: 250px;">商城</div></a>
 		<a href="../users/index.php"><div id="users-tl" class="top-tl" style="left: 340px;">个人中心</div></a>
-
-		<a href="../info/info.php"><div id="info-tl" class="top-tl" style="left: 465px;">信息中心</div></a>
 		<div id="sign-tl">
 			<img id="top-header" src="../main/cover.png">
 			<div id="sign-info"></div>
@@ -106,7 +104,7 @@
 						basic_info.nickname = data.nickname;
 						basic_info.header = data.header
 						$("#top-header").attr("src",data.header);
-						$("#sign-info").html('<a href="../users/index.php">'+data.nickname+'</a><a id="logout-tl" href="../core/api-v1.php?action=logout"><div class="top-tl" style="left: 590px;align:right;">注销</div></a>');
+						$("#sign-info").html('<a href="../users/index.php">'+data.nickname+'</a><a id="logout-tl" href="../core/api-v1.php?action=logout"><div class="top-tl" style="left: 470px;align:right;">注销</div></a>');
 					}
 					console.log(data);
 				})

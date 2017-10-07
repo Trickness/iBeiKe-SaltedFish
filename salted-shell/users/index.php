@@ -113,7 +113,6 @@
       					<li><a href="edit-profile.php"><i class="fa fa-heart-o"></i>个人信息修改</a></li>
       					<li class="button-dropdown-divider"><a href="../goods/upload.php">上传商品</a></li>
 						<li class="button-dropdown-divider"><a href="../users/orders.php">我的订单</a></li>
-      					<li><a href="#">发布信息</a></li>
     				</ul>
   			</span>
 		</div>
@@ -173,7 +172,7 @@
 
 	<script>
 	$(document).ready(function(){
-		var newGoodsTpl = '<a href="../goods/show.php?goods_id={href}"><div class="new-item">\
+		var newGoodsTpl = '<a href="../goods/show.php?goods_id={goods_id}"><div class="new-item">\
 						<div class="img" style="background-image:url(\'{goods_img}\');" />\
 						<div class="new-tl">{goods_title}</div>\
 						<div class="new-dec">{goods_info}</div>\

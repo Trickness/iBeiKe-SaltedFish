@@ -23,7 +23,7 @@
                 echo "<script>var goods_id = {$goods_id};</script>";
             }
         ?> 
-        <div id="show_goods" class="container" style="margin-top:100px;background-color:white;border-radius:10px;padding-top:40px;margin-bottom:70px;box-shadow:0 0 5px gray;">
+        <div id="show_goods" class="container" style="margin-top:100px;background-color:white;border-radius:10px;padding-top:40px;margin-bottom:70px;box-shadow:0 0 5px gray;padding-bottom:70px;">
             <div class="row">
                 <div class="col-sm-4">
                     <div class="col-sm-offset-1 col-sm-10">
@@ -173,19 +173,6 @@
             </div><!-- /.modal -->
 
         </div>
-
-        <!-- <div>\
-                <div class="col-xs-12" style="border-bottom:1px dashed #cccccc;padding-top:15px;" v-for="message in comments">\
-                    <div class="col-xs-1" style="text-align:center;">\
-                        <div class="row"><img src="../main/adv.png" style="width:40px;height:40px;border-radius:20px;" /></div>\
-                        <div class="row" style="margin-top:5px;">{{message.commenter}}</div>\
-                    </div>\
-                    <div class="col-xs-11">\
-                        <div class="col-xs-12" style="min-height:30px;" v-html="message.comment"></div>\
-                        <div class="col-xs-12" style="margin-top:15px;color:#cccccc;">{{message.comment_date}}</div>\
-                    </div>\
-                </div>\
-            </div> -->
 
         <script>
             $(document).ready(function(){
