@@ -3,15 +3,11 @@
 <script src="../js/bootstrap/bootstrap.min.js"></script>
 <script src="../js/vue.js"></script>
 <style>
-	#logo{
-		height: 50px;
-		margin-top: -15px;
-		width: 40px;
-	}
+	#logo{height: 50px;margin-top: -15px;width: 40px;}
 	.lb{float:left;color:white;}
 	.act{background-color:#FF6633;}
 	#navi-item a:hover{opacity:0.5;color:white;}
-	#navi-item a{color:white;}
+	#navi-item a{color:white;transition-duration:0.3s;}
 </style>
 <nav id="topbanner" class="navbar" role="navigation" style="width:100%;background-color:#FD9860;border-radius:0;border:none;color:white;position:fixed;top:0;left:0;z-index:10;">
 	<div class="container-fluid">

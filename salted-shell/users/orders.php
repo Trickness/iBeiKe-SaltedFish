@@ -87,6 +87,7 @@
         </div>
         <script>
             $(document).ready(function(){
+                $(".preview").css("height",$(".preview").css("width"));
                 var name_tag = $(".pin").css('width');
                 $(".tag-content").css('width',name_tag);
                 var orders_init = function(self_id){
@@ -138,7 +139,7 @@
                         convert_info:function(){
                             // console.log(this.sam);
                             var ordering_date = (this.order.ordering_date+"").substring(0,19);
-                            var goods_owner = "../users/others.php?user_id="+this.order.goods_owner;
+                            var goods_owner = "../users/users.php?user_id="+this.order.goods_owner;
                             var goods_title = "../goods/show.php?goods_id="+this.order.goods_id;
                             var order_status = '';
                             switch (this.order.order_status) {

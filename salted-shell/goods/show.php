@@ -229,7 +229,7 @@
                         convert_info:function(){
                             var info = {
                                 goods_info:(this.goods_info.goods_info+'').replace(/<img[^>]+>/ig,""),
-                                goods_owner_info:'../users/others.php?user_id='+this.goods_info.goods_owner,
+                                goods_owner_info:'../users/users.php?user_id='+this.goods_info.goods_owner,
                                 goods_status:'',
                                 goods_type:'',
                             };
@@ -287,7 +287,7 @@
                             console.log(data);
                             if(data.comments != null){
                                 data.comments.forEach(function(val,index,arr){
-                                    arr[index].commenter_info.user_url = "../core/api-v1.php?action=fetch_user_info&user_id=" + val.commenter;
+                                    arr[index].commenter_info.user_url = "../users/users.php?user_id=" + val.commenter;
                                 });
                             }
                             show_goods.goods_info = data;

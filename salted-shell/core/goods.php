@@ -359,7 +359,7 @@ function increase_goods_remain($goods_id, $num){
 	return true;
 }
 
-function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 10){
+function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 12){
 	global $db_host;
 	global $db_user;
 	global $db_pass;
@@ -380,6 +380,7 @@ function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 10){
 		$res['comments'] 		= json_decode($res['comments'],true);
 		$res['tags'] 			= explode(" ",$res['tags']);
 		$res['goods_owner'] 	= $res['goods_owner'];
+		$res['goods_img']		= urldecode($res['goods_img']);
 		$return_var[] = $res;
 	}
 	$link->close();

@@ -110,7 +110,7 @@
 				$(document).ready(function(){
 					var ordersTpl = '<div class="store" style="width: inherit;border-top:1px solid #CCCCCC;">\
 						<div style="width: inherit;height: 27px;border-bottom:1px solid #CCCCCC;border-radius:10px;">\
-							<p class="st-name"><a href="../users/others.php?user_id={goods_owner}">{goods_owner}</a></p>\
+							<p class="st-name"><a href="../users/users.php?user_id={goods_owner}">{goods_owner}</a></p>\
 						</div>\
 						<table>\
 							<tr>\

@@ -30,7 +30,6 @@
 
         $session = session_id();
 	?>
-	<script src="../js/vue.js"></script>
 	<script src="../js/jquery-latest.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -275,7 +274,7 @@
 
 			var ordersTpl = '<div class="recent-order">\
 				<div class="recent-tl">\
-					<div><span style="margin-right:50px;">下单时间：{ordering_date}</span>卖家：<a name="goods_owner" href="./others.php?user_id={goods_owner}">{goods_owner}</a></div>\
+					<div><span style="margin-right:50px;">下单时间：{ordering_date}</span>卖家：<a name="goods_owner" href="./users.php?user_id={goods_owner}">{goods_owner}</a></div>\
 				</div>\
 				<div>\
 					<table>\
