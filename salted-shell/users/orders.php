@@ -10,7 +10,7 @@
         <style>
             a{color:#95989A;text-decoration:none;transition-duration:0.4s;}
             a:hover{color:#FD9860;}
-            .content{background-color: white;border-radius: 4px;min-height: 500px;box-shadow: 0 0 4px grey;margin-bottom:20px;}            
+            .content{background-color: white;border-radius: 4px;min-height: 573px;box-shadow: 0 0 4px grey;margin-bottom:20px;}            
             .my-order{
                 border:1px solid #E6E5E5;
                 margin-bottom:20px;
@@ -233,7 +233,7 @@
 
                 var New = {
                     props:['goods'],
-                    template:'<div :style="my_style" style="min-height:300px;">\
+                    template:'<div :style="my_style" style="min-height:400px;">\
                             <div class="col-xs-12" style="margin-top:10px;">\
                                 <div style="padding-bottom:5px;border-bottom:2px solid #FD9860;font-size:18px;">新品推荐</div>\
                             </div>\
