@@ -15,6 +15,7 @@
  *        登陆失败sessionkey错误       "{error:"Not logged in"}"
  *        成功过                      "{error:"success"}"
  **/
+// TODO: tags部分BUG需要修改
 function submit_goods($goods_info, $session_key)
 {
     global $db_host;
@@ -191,6 +192,10 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['tags'] 		= explode(" ",$res['tags']);
 	$goods_info['goods_img']	= urldecode($res['goods_img']);
 
+	/*for ($i = 0; $i < $goods_info['tags'].length; $i++){
+		$goods_info['tags'][$i] = urldecode($goods_info['tags'][$i]);
+	}*/
+
 	//$goods_info['comments'] 	= $res['comments'];
 	$goods_info['goods_owner'] 	= $res['goods_owner'];
 
@@ -203,7 +208,8 @@ function comment_goods($goods_id, $comment, $session_key)
 	for ($i=0; $i <sizeof($goods_info['comments']) ; $i++) { 
 		 $goods_info['comments'][$i]['comment'] = urldecode($goods_info['comments'][$i]['comment']);
 		 $res = $link->query("SELECT student_info FROM $db_users_table WHERE student_id='".$goods_info['comments'][$i]['commenter']."'");
-		 $goods_info['comments'][$i]['commenter_info'] = json_decode(urldecode(mysqli_fetch_assoc($res)['student_info']),true);
+		 $ret = mysqli_fetch_assoc($res);
+		 $goods_info['comments'][$i]['commenter_info'] = json_decode(urldecode($ret['student_info']),true);
 		 $goods_info['comments'][$i]['commenter_info']['header'] = urldecode($goods_info['comments'][$i]['commenter_info']['header']);
 	}
 	if (!get_student_id_from_session_key($session_key)){	//来宾用户，未登录

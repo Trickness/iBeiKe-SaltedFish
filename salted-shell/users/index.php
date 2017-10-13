@@ -18,7 +18,7 @@
 		#rt-new{width: 250px;height: inherit;position: absolute;top: 120px;height: 1000px;}
 		#new-tl{border-bottom: 2px solid #FD9850;font-size: 22px;padding-bottom: 10px;width: inherit;color: #FD9850;}
 
-		#recent{position: absolute;top: 530px;width: 780px;min-height: 600px;}
+		#recent{position: absolute;top: 530px;width: 780px;min-height: 400px;}
 	</style>
 </head>
 <body>
@@ -316,6 +316,9 @@
 			$.getJSON('../core/api-v1.php',{action:"fetch_user_total_info"},function(data){
 				user_info = data;	//获取个人全部信息
 				show_info(user_info.info);	// 渲染个人身份信息
+				for (var i = 0; i < user_info.goods.length; i++){
+					user_info.goods[i].tags = decodeURI(user_info.goods[i].tags)
+				}
 				show_goods(user_info.goods);
 			})
 		// end
