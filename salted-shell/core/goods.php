@@ -74,7 +74,7 @@ function submit_goods_from_id($goods_info,$goods_owner){
 			('$goods_title','$goods_status','$goods_type','$single_cost','$goods_owner','$ttm','$ttm','$goods_search_summary','$goods_remain','$goods_tags_str','$lv1','$lv2','$lv3', '$delivery_fee','$content', '$goods_img')";
 	$status = $link->query($sql);
 	if(!$status){
-		die(generate_error_report("Database error in submit_goods_from_user [".$link->error));
+		die(generate_error_report("Database error in submit_goods_from_user [".$link->error.']'.$sql));
 	}
 	$insert_id = $link->insert_id;
 	$link->commit();
