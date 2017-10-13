@@ -394,7 +394,7 @@ function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 12){
 }
 
 /**
- * 搜索商品信息
+ * 根据商品名称，搜索商品信息
  * 		用户提交JSON，获取商品名称，从数据库获取商品信息
  * 
  * @param
@@ -404,7 +404,7 @@ function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 12){
  * 		- $status		(@STRING)操作状态
  * 		- $goods		(@JSONStr)商品列表
  */
-function search_goods($goods_title,$page,$amount){
+function search_goods_by_title($goods_title,$page,$amount){
 	global $db_host;
     global $db_pass;
     global $db_name;
@@ -423,6 +423,51 @@ function search_goods($goods_title,$page,$amount){
 	}
 
 	$count = "SELECT COUNT(*) AS num FROM $db_goods_table WHERE goods_title LIKE '%$goods_title%' ";
+	$count_query = mysqli_query($link,$count);
+	$count_res = mysqli_fetch_assoc($count_query)['num'];
+
+	$cal = ($count_res/$amount);
+	$total = ((int)$cal < $cal) ? (int)$cal+1 : $cal;
+
+	mysqli_close($link);
+	$result = json_encode([
+		'status'	=>	'success',
+		'goods'		=>	$list,
+		'total'		=>	$total,
+	]);
+	return $result;
+}
+/**
+ * 根据商品类别，搜索商品信息
+ * 		用户提交JSON，获取商品名称，从数据库获取商品信息
+ * 
+ * @param
+ * 		- $category	(@STRING)商品类目名称
+ * 		- $level	(@STRING)商品类目等级
+ * 		- $page			(@INT)返回商品列表页数
+ * @return
+ * 		- $status		(@STRING)操作状态
+ * 		- $goods		(@JSONStr)商品列表
+ */
+function search_goods_by_category($category,$level,$page,$amount){
+	global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+	global $db_goods_table;
+	$list = [];		$total = 1;
+	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+	$start = ($page-1)*$amount;
+	$level = 'cl_lv_'.$level;
+	$select = "SELECT goods_id,goods_title,goods_img,single_cost,goods_owner FROM $db_goods_table where $level = '$category' ORDER BY goods_id DESC LIMIT $start,$amount";
+	$query = mysqli_query($link,$select);
+	while($res = mysqli_fetch_assoc($query)){
+		$res['goods_img'] = urldecode($res['goods_img']);
+		$res['goods_title'] = urldecode($res['goods_title']);
+		$list[] = $res;
+	}
+
+	$count = "SELECT COUNT(*) AS num FROM $db_goods_table WHERE $level = '$category' ";
 	$count_query = mysqli_query($link,$count);
 	$count_res = mysqli_fetch_assoc($count_query)['num'];
 

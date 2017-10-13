@@ -22,7 +22,9 @@ if (isset($_GET['goods_id'],$_GET['action'])) {
         $goods_owner_info = array(
             'student_id' => $goods_owner['student_id']['value'],
             'name' => $goods_owner['name']['value'],
-            'phone_number' => $goods_owner['phone_number']['value']
+            'phone_number' => $goods_owner['phone_number']['value'],
+            'header' => $goods_owner['header'],
+            'nickname'=> $goods_owner['nickname'],
         );
         $goods_info['buyer_info'] = $buyer_info;    $goods_info['goods_owner_info'] = $goods_owner_info;
         echo json_encode($goods_info);

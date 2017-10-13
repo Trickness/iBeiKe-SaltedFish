@@ -27,7 +27,7 @@
 	<div class="collapse navbar-collapse" id="navi-item">
 		<ul class="nav navbar-nav">
 			<li><a href="../index.php">商城</a></li>
-			<li><a href="../users/index.php">个人中心</a></li>
+			<li v-if="is_login"><a href="../users/index.php">个人中心</a></li>
 			<li v-if="is_login"><a href="../core/api-v1.php?action=logout">注销</a></li>
 		</ul>
 		<ul v-if="!is_login" class="nav navbar-nav navbar-right">

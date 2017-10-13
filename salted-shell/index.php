@@ -37,7 +37,7 @@
             .search-tips input[type="text"]{padding:0 10px 0 10px;width:75%;border:3px solid #FD9860;height:35px;}      .search-tips input[type="text"]:focus{text-decoration:none;}
             .search-tips input[type="submit"]{transition-duration:0.3s;background-color: #FD9860;border: none;height: 35px;width: 20%;margin-left: -4px;color: white;}  .search-tips input[type="submit"]:hover{opacity:0.6;}
             .lt-pn{height:450px;background-color:#FD9860;border-radius:2px;}
-            .cl1:hover{background-color:#FFCC33;}
+            .cl1:hover{background-color:#FFCC33;}   .cl1 a{color:white;}
             .reco-lt,.reco-rt{padding:0;overflow:hidden;}
             .order{height:90px;border:1px solid #e6e5e5;margin-bottom:18px;transition-duration:0.3s;}    .order:hover{box-shadow:0 0 6px grey;}
             .order-info{height:25px;background-color:#E6E5E5;line-height:25px;font-size:11px;}
@@ -88,8 +88,8 @@
                 <div class="row" style="margin-bottom:15px;">
                     <div class="col-md-3">
                         <div class="row">
-                            <div class="col-xs-4 ct" style="color:#FD9860;">快速登录</div>
-                            <div class="col-xs-4 ct">免费注册</div>
+                            <div class="col-xs-4 ct"><a href="./login/login.php" style="color:#FD9860;">快速登录</a></div>
+                            <div class="col-xs-4 ct"><a href="./signin/signin.php">免费注册</a></div>
                             <div class="col-xs-4 ct" style="padding-right:0;">手机逛商城</div>
                         </div>
                     </div>
@@ -104,13 +104,13 @@
                     <div class="col-sm-7"><search-goods /></div>
                     <div class="col-sm-5" style="line-height:36px;margin-bottom:20px;">
                         <div class="col-sm-5"><div class="row">
-                            <div class="col-xs-6 neckrow ct"><a href="" style="color:#FD9860;">实体商品</a></div>
-                            <div class="col-xs-6 neckrow ct bd-rt"><a href="" style="color:#FD9860;">非实体商品</a></div>
+                            <div class="col-xs-6 neckrow ct"><a href="./index.php?category=实体商品&level=1" style="color:#FD9860;">实体商品</a></div>
+                            <div class="col-xs-6 neckrow ct bd-rt"><a href="./index.php?category=非实体商品&level=1" style="color:#FD9860;">非实体商品</a></div>
                         </div></div>
                         <div class="col-sm-7">
-                            <div class="col-xs-4 neckrow ct"><a href="">电子产品</a></div>
-                            <div class="col-xs-4 neckrow ct"><a href="">生活用品</a></div>
-                            <div class="col-xs-4 neckrow ct"><a href="">书类</a></div>
+                            <div class="col-xs-4 neckrow ct"><a href="./index.php?category=电子产品&level=2">电子产品</a></div>
+                            <div class="col-xs-4 neckrow ct"><a href="./index.php?category=生活用品&level=2">生活用品</a></div>
+                            <div class="col-xs-4 neckrow ct"><a href="index.php?category=书类&level=2">书类</a></div>
                         </div>
                     </div>
                 </div>
@@ -129,12 +129,17 @@
                                 </div>                   
                             </div>
                             <div class="col-sm-2 order-rt hidden-xs" style="padding-right:0;">
-                                <list-orders :list="orders_list" />
+                                <list-orders :list="orders_list" :islogin="is_login" />
                             </div>
                         </div>
                         <div v-else>
                             <div class="col-sm-10">
-                                <search-show :list="sch_res" :total="total_pages" :target="target" />
+                                <div class="row">
+                                    <search-show :list="sch_res" />
+                                </div>
+                                <div class="row">
+                                    <pagi :total="total_pages" :target="target" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,12 +162,12 @@
             </script>
 
             <script type="text/x-template" id="left-pane">
-                <div>
+                <div class="left-pane">
                     <div>
                         <div class="row lt-tl">商品类目</div>
                         <a v-for="cl1 in goods">
                             <div class="row cl1" @mouseover="show(cl1)" @mouseout="hide">
-                                <img style="width:30px;height:30px;margin-right:2px;" :src="nav_head(cl1[0],true,1)" />{{cl1[0]}}
+                                <a :href="nav_head(cl1[0],false,1)"><img style="width:30px;height:30px;margin-right:2px;" :src="nav_head(cl1[0],true,1)" />{{cl1[0]}}</a>
                             </div>
                         </a>
                     </div>
@@ -170,13 +175,13 @@
                         <div class="row"><div class="col-xs-12">
                             <div v-for="cl2 in cl[1]" class="col-xs-4" style="min-height:85px;margin-bottom:5px;">
                                 <div class="row" style="margin: 0 -8px 0 -8px;border-bottom: 1px solid #FD9860;line-height:25px;">
-                                    <img :src="nav_head(cl2[0],true,2)" style="height:25px;width:25px;margin-right:2px;">{{cl2[0]}}
+                                    <a :href="nav_head(cl2[0],false,2)"><img :src="nav_head(cl2[0],true,2)" style="height:25px;width:25px;margin-right:2px;">{{cl2[0]}}</a>
                                 </div>
                                 <div v-if="cl2[1] != null" class="row">
-                                    <div v-for="cl3 in cl2[1]" class="col-xs-4" style="padding:0;text-align:center;font-size:12px;">{{cl3}}</div>
+                                    <div v-for="cl3 in cl2[1]" class="col-xs-4" style="padding:0;text-align:center;font-size:12px;"><a :href="nav_head(cl3,false,3)">{{cl3}}</a></div>
                                 </div>
                                 <div v-else class="row"><div class="col-xs-12">
-                                    <img :src="nav_head(cl2[0],true,2,true)" class="hov" style="width:100%;height:80px;margin-top:5px;margin-bottom:5px;"/>
+                                    <a :href="nav_head(cl2[0],false,2)"><img :src="nav_head(cl2[0],true,2,true)" class="hov" style="width:100%;height:80px;margin-top:5px;margin-bottom:5px;"/></a>
                                 </div></div>
                             </div>
                         </div></div>
@@ -222,16 +227,18 @@
                     <div class="row" style="border-bottom:2px solid #FD9860;margin-bottom:5px;">
                         <span style="font-size:18px;color:#FD9860;">我的购物车</span>
                     </div>
-                    <div v-for="or in list" class="row order">
-                        <div class="order-info" style="color:grey">
-                            <div class="col-xs-5">ID:{{or.order_id}}</div>
-                            <div class="col-xs-7">卖家：<a :href="jump(or.goods_owner,'user')">{{or.goods_owner}}</a></div>
-                        </div>
-                        <div>
-                            <div style="float:left;"><div style="width:50px;height:50px;margin:6px;" :style="bg(or.goods_img)"></div></div>
-                            <div style="float:left;margin:5px;height:50px;" class="or-con">
-                                <div style="height:30px;width:100%;font-size:12px;line-height:15px;overflow:hidden;"><a href="jump(or.goods_id,'goods')">{{or.goods_title}}</a></div>
-                                <div style="height:20px;width:100%;font-size:12px;color:#FD9860;text-align:right;">￥{{or.offer}}</div>
+                    <div>
+                        <div v-for="or in list" class="row order">
+                            <div class="order-info" style="color:grey">
+                                <div class="col-xs-5">ID:{{or.order_id}}</div>
+                                <div class="col-xs-7">卖家：<a :href="jump(or.goods_owner,'user')">{{or.goods_owner}}</a></div>
+                            </div>
+                            <div>
+                                <div style="float:left;"><div style="width:50px;height:50px;margin:6px;" :style="bg(or.goods_img)"></div></div>
+                                <div style="float:left;margin:5px;height:50px;" class="or-con">
+                                    <div style="height:30px;width:100%;font-size:12px;line-height:15px;overflow:hidden;"><a href="jump(or.goods_id,'goods')">{{or.goods_title}}</a></div>
+                                    <div style="height:20px;width:100%;font-size:12px;color:#FD9860;text-align:right;">￥{{or.offer}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -262,11 +269,39 @@
                     <div class="col-xs-12">
                         <goods v-for="go in list" :key="go.goods_id" :go="go" />
                     </div>
+                </div>
+            </script>
+
+            <script type="text/x-template" id="pagi">
+                <div v-if="total > 0">
                     <div class="col-xs-12" style="text-align:center">
-                        <ul class="pagination">
-                            <li :class="{disabled:(target.page==1)}"><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                        <ul v-if="total < 10" class="pagination pagination-sm">
+                            <li v-if="(target.page!=1)"><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <li v-for="pg in total" :class="{active:(pg==target.page)}"><a :href="jump(pg)">{{pg}}</a></li>
-                            <li :class="{disabled:(target.page==total)}"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                            <li v-if="(target.page!=total)"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else-if="total >= 10 && target.page < 5" class="pagination pagination-sm">
+                            <li v-if="(target.page!=1)"><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li v-for="pg in 5" :class="{active:(pg==target.page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li class="disabled"><a>...</a></li>                            
+                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li v-if="(target.page!=5)"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else-if="total > 6 && target.page > total-5" class="pagination pagination-sm">
+                            <li><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li><a :href="jump(1)">1</a></li>
+                            <li class="disabled"><a>...</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+total-5)==target.page)}"><a :href="jump(pg+total-5)">{{pg+total-5}}</a></li>
+                            <li v-if="(target.page!=total)"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else class="pagination pagination-sm">
+                            <li><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li><a :href="jump(1)">1</a></li>
+                            <li class="disabled"><a>...</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+parseInt(target.page)-3)==target.page)}"><a :href="jump(pg+parseInt(target.page)-3)">{{pg+parseInt(target.page)-3}}</a></li>
+                            <li class="disabled"><a>...</a></li>                            
+                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -278,14 +313,14 @@
                 console.log(target);
                 var goods_cl = [
                     ['实体商品',[
-                        ['开学季',['全部','军训物资','二手教材书','学霸笔记','被子','电话卡','其他']],
-                        ['电子产品',['全部','手机配件','电脑配件','其他']],
-                        ['吃喝',['全部','零食','特产','饮品','其他']],
-                        ['乐器',['全部','吉他','小提琴','尤克里里','口琴','其他']],
-                        ['生活用品',['全部','床上用品','学习用品','洗漱用品','日常用品','其他']],
-                        ['体育用品',['全部','球类','竞技类','有氧类','健身类','其他']],
-                        ['书类',['全部','教材','课外书','杂志订阅','GRE','雅思托福','学霸笔记','复习材料','其他']],
-                        ['服饰',['全部','男装','女装','鞋','帽','围巾','手套','其他']],
+                        ['开学季',['军训物资','二手教材书','学霸笔记','被子','电话卡','其他']],
+                        ['电子产品',['手机配件','电脑配件','其他']],
+                        ['吃喝',['零食','特产','饮品','其他']],
+                        ['乐器',['吉他','小提琴','尤克里里','口琴','其他']],
+                        ['生活用品',['床上用品','学习用品','洗漱用品','日常用品','其他']],
+                        ['体育用品',['球类','竞技类','有氧类','健身类','其他']],
+                        ['书类',['教材','课外书','杂志订阅','GRE','雅思托福','学霸笔记','复习材料','其他']],
+                        ['服饰',['男装','女装','鞋','帽','围巾','手套','其他']],
                         ['服装定制',[]],
                     ]],
                     ['非实体商品',[
@@ -313,10 +348,6 @@
 
                 var fetch_orders = function(){
                     $.getJSON("./core/api-v1.php",{action:"list_orders",page:"1",limit:"4"},function(data){
-						// for (var i = 0; i < data.orders.length; i++) {
-						// 	if(data.orders[i].goods_img == null || data.orders[i].goods_img == "")
-						// 		data.orders[i].goods_img = "./goods.jpg";
-						// }
                         if(data.status == 'success'){
                             main_page.orders_list = data.orders;
                         }
@@ -324,12 +355,21 @@
                 };
 
                 var search_goods = function(target){
-                    $.getJSON('./core/api-v1.php',{action:'search_goods',goods_title:target.search,page:target.page},function(data){
-                        if(data.status == 'success'){
-                            main_page.sch_res = data.goods;
-                            main_page.total_pages = data.total;
-                        }
-                    });
+                    if(target.type=="search"){
+                        $.getJSON('./core/api-v1.php',{action:'search_goods_by_title',goods_title:target.search,page:target.page},function(data){
+                            if(data.status == 'success'){
+                                main_page.sch_res = data.goods;
+                                main_page.total_pages = data.total;
+                            }
+                        });
+                    }else if(target.type=="category"){
+                        $.getJSON('./core/api-v1.php',{action:'search_goods_by_category',category:target.category,level:target.level,page:target.page},function(data){
+                            if(data.status == 'success'){
+                                main_page.sch_res = data.goods;
+                                main_page.total_pages = data.total;
+                            }
+                        });
+                    }
                 };
 
                 var Goods = {
@@ -362,16 +402,25 @@
                 };
 
                 var SearchShow = {
-                    props:['list','total','target'],
+                    props:['list'],
                     template:'#search-show',
                     components:{
                         'goods':Goods,
                     },
+                };
+
+                var Pagi = {
+                    props:['total','target'],
+                    template:'#pagi',
                     methods:{
                         jump:function(page){
-                            return "./index.php?search="+this.target.search+"&page="+page;
+                            if (this.target.type=="search") {
+                                return "./index.php?search="+this.target.search+"&page="+page;
+                            }else{
+                                return "./index.php?category="+this.target.category+"&level="+this.target.level+"&page="+page;
+                            }
                         }
-                    }
+                    },
                 };
 
                 var LeftPane = {
@@ -381,7 +430,7 @@
                         nav_head(name,isIcon,lv,isImg = false){
                             if (isIcon==true && isImg == false) return './pic/'+ name +'.png';
                                 else if(isIcon==true && isImg == true) return './pic/image1/'+ name +'.png';
-                                else return '?catagory='+ name +'&tgt=cl_lv_'+lv;
+                                else return '?category='+ name + '&level=' + lv;
                         },
                         show(cl1){
                             if(cl1.length == 2){this.cl = cl1;}
@@ -447,7 +496,7 @@
                 };
 
                 var ListOrders = {
-                    props:['list'],
+                    props:['list','islogin'],
                     template:'#list-orders',
                     methods:{
                         bg:function(url){
@@ -493,6 +542,7 @@
                         ],
                         sch_res:null,
                         total_pages:0,
+                        is_login:is_login,
                     },
                     components:{
                         'search-goods':SearchGoods,
@@ -501,6 +551,7 @@
                         'list-orders':ListOrders,
                         'goods-show':GoodsShow,
                         'search-show':SearchShow,
+                        'pagi':Pagi,
                     },
                     created:function(){
                         if (target!=null) {

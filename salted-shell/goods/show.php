@@ -75,10 +75,10 @@
                 <div class="col-sm-2">
                     <div class="row">
                         <div style="margin-top:20px;">
-                            <ul class="name-card" style="background-color:white;list-style-type:none;line-height:30px;padding:35px;border-radius:5px;" data-spy="affix">
-                                <li style="text-align:center;"><img class="owner_header" src="../main/adv.png" :src="goods_owner.header" style="width:120px;height:120px;border-radius:60px;" :alt="goods_owner.header" /></li>
-                                <li style="text-align:center;font-size:20px;">{{goods_owner.nickname}}</li>
-                                <li>学号：{{goods_info.goods_owner_info.student_id}}{{goods_info.goods_owner_info.header}}</li>
+                            <ul class="name-card hidden-xs" style="background-color:white;list-style-type:none;line-height:30px;padding:35px;border-radius:5px;" data-spy="affix">
+                                <li style="text-align:center;"><img class="owner_header" src="../main/adv.png" :src="goods_info.goods_owner_info.header" style="width:120px;height:120px;border-radius:60px;" /></li>
+                                <li style="text-align:center;font-size:20px;">{{goods_info.goods_owner_info.nickname}}</li>
+                                <li>学号：{{goods_info.goods_owner_info.student_id}}</li>
                                 <li>姓名：{{goods_info.goods_owner_info.name}}</li>
                                 <li>电话：{{goods_info.goods_owner_info.phone_number}}</li>
                                 <li style="text-align:center;"><a :href="convert_info.goods_owner_info"><button id="contect">联系卖家</button></a></li>
@@ -217,7 +217,6 @@
                             single_cost:0,
                             offer:0,
                         },
-                        goods_owner:{},
                         is_successful:false,
 
                         // 图片试验
@@ -295,9 +294,6 @@
                             show_goods.order_info.order_type = show_goods.goods_info.goods_type;
                             show_goods.order_info.delivery_fee = parseFloat(data.delivery_fee);
                             show_goods.order_info.single_cost = parseFloat(data.single_cost);
-                            $.getJSON('../core/api-v1.php',{action:'fetch_user_info',user_id:data.goods_owner},function(result){
-                                if (result.status == "success") show_goods.goods_owner = result.user_info;
-                            });
                         });
                     }
                 });

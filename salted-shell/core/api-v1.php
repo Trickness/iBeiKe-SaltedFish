@@ -263,11 +263,17 @@ if($action == "fetch_user_total_info"){
         "orders" => $orders,
         "info" => $info
     )));
-}elseif ($action == 'search_goods') {
+}elseif ($action == 'search_goods_by_title') {
     if (isset($_GET['goods_title'])) {
         $page = 1;  $amount = 1;
         if (isset($_GET['page'])) $page = $_GET['page'];
-        die(search_goods($_GET['goods_title'],$page,$amount));
+        die(search_goods_by_title($_GET['goods_title'],$page,$amount));
+    }
+}elseif ($action == 'search_goods_by_category') {
+    if (isset($_GET['category'],$_GET['level'])) {
+        $page = 1;  $amount = 1;
+        if (isset($_GET['page'])) $page = $_GET['page'];
+        die(search_goods_by_category($_GET['category'],$_GET['level'],$page,$amount));
     }
 }
 ?>
