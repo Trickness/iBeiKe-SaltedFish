@@ -6,10 +6,33 @@
         <title>贝壳商城-让你的闲置动起来(O(∩_∩)O)</title>
     </head>
     <body style="padding-bottom:50px;">
-        <?php include "./frame/head_main.php";?>
+        <?php 
+            include "./frame/head_main.php";
+            if(isset($_GET['search'])){
+                $target = [
+                    'type'      =>  'search',
+                    'search'    =>  $_GET['search'],
+                    'page'      =>  1,
+                ];
+                if (isset($_GET['page']))  $target['page'] = $_GET['page'];
+                echo "<script>var target = ".json_encode($target).";</script>";
+            }elseif (isset($_GET['category'],$_GET['level'])) {
+                $target = [
+                    'type'      =>  'category',
+                    'category'  =>  $_GET['category'],
+                    'level'     =>  $_GET['level'],
+                    'page'      =>  1,
+                ];
+                if (isset($_GET['page']))  $target['page'] = $_GET['page'];
+                echo "<script>
+                        var target = ".json_encode($target).";
+                    </script>";
+            }else{
+                echo "<script>var target = null;</script>";
+            }
+        ?>
         <style>
-            a{color:black;text-decoration:none;}
-            a:hover{text-decoration:none;color:#FD9860;}
+            a{color:black;text-decoration:none;}    a:hover{text-decoration:none;color:#FD9860;}
             .test{border:1px solid black;height:500px;}
             .search-tips input[type="text"]{padding:0 10px 0 10px;width:75%;border:3px solid #FD9860;height:35px;}      .search-tips input[type="text"]:focus{text-decoration:none;}
             .search-tips input[type="submit"]{transition-duration:0.3s;background-color: #FD9860;border: none;height: 35px;width: 20%;margin-left: -4px;color: white;}  .search-tips input[type="submit"]:hover{opacity:0.6;}
@@ -33,6 +56,7 @@
                 .ct-goods{height:97px;}
             }
             @media(max-width:768px){
+                .ct-rt{padding:0;}
                 .ct-goods{height:45px;}
                 .or-con{width:220px;}
                 .order{margin-bottom:5px;}
@@ -91,29 +115,44 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-10 ct-rt">
-                        <div class="col-sm-3 lt-pn hidden-xs"><left-pane :goods="goods_cl" /></div>
-                        <div class="col-sm-9 ct-pn"><ct-gallery :list="goods_list" :pic="pic" /></div>                   
+
+            <div>
+                <div class="container">
+                    <div class="row"><div class="col-xs-12 ct-rt">
+                        <div class="col-sm-2 hidden-xs" style="padding:0;">
+                            <div class="col-xs-12 lt-pn"><left-pane :goods="goods_cl" /></div>
+                        </div>
+                        <div v-if="target == null">
+                            <div class="col-sm-8" style="padding:0;">
+                                <div class="col-xs-12 ct-pn">
+                                    <ct-gallery :list="goods_list" :pic="pic" />
+                                </div>                   
+                            </div>
+                            <div class="col-sm-2 order-rt hidden-xs" style="padding-right:0;">
+                                <list-orders :list="orders_list" />
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="col-sm-10">
+                                <search-show :list="sch_res" :total="total_pages" :target="target" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-2 order-rt hidden-xs" style="padding-right:0;">
-                        <list-orders :list="orders_list" />
-                    </div>
-                </div>
-            </div>
-            <div class="container" style="margin-top:15px;">
-                <div class="row"><div class="col-sm-10" style="word-wrap:break-word;">
-                    <goods-show :list="goods_list" />
                 </div></div>
+
+                <div v-if="target == null" class="container" style="margin-top:15px;">
+                    <div class="row"><div class="col-sm-10" style="word-wrap:break-word;">
+                        <goods-show :list="goods_list" />
+                    </div></div>
+                </div>
             </div>
         </div>
 
         <div>
             <script type="text/x-template" id="search-goods">
-                <form class="search-tips">
-                    <input type="text">
-                    <input type="submit">
+                <form action="./index.php" method="get" class="search-tips">
+                    <input type="text" name="search" />
+                    <input type="submit" />
                 </form>
             </script>
 
@@ -216,10 +255,27 @@
                     </div>
                 </div>
             </script>
+
+            <script type="text/x-template" id="search-show">
+                <div>
+                    <div class="col-xs-12"><div class="col-sm-3"><div class="preview" style="height:0;"></div></div></div>
+                    <div class="col-xs-12">
+                        <goods v-for="go in list" :key="go.goods_id" :go="go" />
+                    </div>
+                    <div class="col-xs-12" style="text-align:center">
+                        <ul class="pagination">
+                            <li :class="{disabled:(target.page==1)}"><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li v-for="pg in total" :class="{active:(pg==target.page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li :class="{disabled:(target.page==total)}"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </script>
         </div>
 
         <script>
             $(document).ready(function(){
+                console.log(target);
                 var goods_cl = [
                     ['实体商品',[
                         ['开学季',['全部','军训物资','二手教材书','学霸笔记','被子','电话卡','其他']],
@@ -267,6 +323,15 @@
 					})
                 };
 
+                var search_goods = function(target){
+                    $.getJSON('./core/api-v1.php',{action:'search_goods',goods_title:target.search,page:target.page},function(data){
+                        if(data.status == 'success'){
+                            main_page.sch_res = data.goods;
+                            main_page.total_pages = data.total;
+                        }
+                    });
+                };
+
                 var Goods = {
                     props:['go'],
                     template:'<a :href="jump"><div class="col-sm-3" style="margin-bottom:10px;">\
@@ -296,6 +361,19 @@
                     },
                 };
 
+                var SearchShow = {
+                    props:['list','total','target'],
+                    template:'#search-show',
+                    components:{
+                        'goods':Goods,
+                    },
+                    methods:{
+                        jump:function(page){
+                            return "./index.php?search="+this.target.search+"&page="+page;
+                        }
+                    }
+                };
+
                 var LeftPane = {
                     props:['goods'],
                     template:'#left-pane',
@@ -316,7 +394,7 @@
                     data(){
                         return{
                             cat:{
-                                width:'340%',
+                                width:'410%',
                                 minHeight:'310px',
                                 backgroundColor:'white',
                                 border:'3px solid #FD9860',
@@ -341,6 +419,7 @@
                             return bg_ch(url);
                         },
                         jump:function(id){
+                            console.log("./goods/show.php?goods_id="+id);
                             return "./goods/show.php?goods_id="+id;
                         },
                     },
@@ -402,6 +481,7 @@
                 var main_page = new Vue({
                     el:'#main_page',
                     data:{
+                        target:target,
                         ct_img:[],
                         goods_cl:goods_cl,
                         goods_list:[],
@@ -411,6 +491,8 @@
                             './pic/image1/北京周边游.png',
                             './pic/image1/摄影.png',
                         ],
+                        sch_res:null,
+                        total_pages:0,
                     },
                     components:{
                         'search-goods':SearchGoods,
@@ -418,10 +500,15 @@
                         'ct-gallery':Gallery,
                         'list-orders':ListOrders,
                         'goods-show':GoodsShow,
+                        'search-show':SearchShow,
                     },
                     created:function(){
-                        fetch_goods();
-                        fetch_orders();
+                        if (target!=null) {
+                            search_goods(target);
+                        }else{
+                            fetch_goods();
+                            fetch_orders();
+                        }
                     },
                 });
             });

@@ -20,9 +20,7 @@
             .header{width:160px;height:160px;margin-top:-50px;border:4px solid white;border-radius:10px;}
             .rank{height:40px;border-radius:7px;background-color:antiquewhite;margin-bottom:15px;}     .rank-item{float:left;padding:0 10px 0 10px;}
             .rank-act{border-bottom: 2px solid rgb(253, 152, 96);padding-bottom: 2px;color:#FD9860;}
-            .goods-title{margin-top:5px;height:30px;}
-            .single-cost{font-size:12px;}
-            .goods{transition-duration:0.3s;}       .goods:hover{background-color:#F3F3F3;box-shadow:0 0 4px #cccccc;}
+            .goods{transition-duration:0.3s;}       .goods:hover{background-color:#F3F3F3;box-shadow:0 0 4px #cccccc;}      .goods-title{margin-top:5px;height:30px;}   .single-cost{font-size:12px;}
             a{color:black;}
             .user-info{margin-top:125px;min-height:130px;margin-bottom:12px;}
             @media(max-width:768px){

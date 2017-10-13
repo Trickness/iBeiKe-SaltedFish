@@ -263,5 +263,11 @@ if($action == "fetch_user_total_info"){
         "orders" => $orders,
         "info" => $info
     )));
+}elseif ($action == 'search_goods') {
+    if (isset($_GET['goods_title'])) {
+        $page = 1;  $amount = 1;
+        if (isset($_GET['page'])) $page = $_GET['page'];
+        die(search_goods($_GET['goods_title'],$page,$amount));
+    }
 }
 ?>

@@ -74,7 +74,7 @@ function submit_goods_from_id($goods_info,$goods_owner){
 			('$goods_title','$goods_status','$goods_type','$single_cost','$goods_owner','$ttm','$ttm','$goods_search_summary','$goods_remain','$goods_tags_str','$lv1','$lv2','$lv3', '$delivery_fee','$content', '$goods_img')";
 	$status = $link->query($sql);
 	if(!$status){
-		die(generate_error_report("Database error in submit_goods_from_user [".$link->error));
+		die(generate_error_report("Database error in submit_goods_from_user [".$link->error.']'.$sql));
 	}
 	$insert_id = $link->insert_id;
 	$link->commit();
@@ -385,5 +385,50 @@ function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 12){
 	}
 	$link->close();
 	return $return_var;
+}
+
+/**
+ * 搜索商品信息
+ * 		用户提交JSON，获取商品名称，从数据库获取商品信息
+ * 
+ * @param
+ * 		- $goods_title	(@STRING)商品名称
+ * 		- $page			(@INT)返回商品列表页数
+ * @return
+ * 		- $status		(@STRING)操作状态
+ * 		- $goods		(@JSONStr)商品列表
+ */
+function search_goods($goods_title,$page,$amount){
+	global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+	global $db_goods_table;
+	$list = [];		$total = 1;
+	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+	$start = ($page-1)*$amount;
+	$goods_title = urlencode($goods_title);
+	$select = "SELECT goods_id,goods_title,goods_img,single_cost,goods_owner FROM $db_goods_table where goods_title LIKE '%$goods_title%' ORDER BY goods_id DESC LIMIT $start,$amount";
+	$query = mysqli_query($link,$select);
+	while($res = mysqli_fetch_assoc($query)){
+		$res['goods_img'] = urldecode($res['goods_img']);
+		$res['goods_title'] = urldecode($res['goods_title']);
+		$list[] = $res;
+	}
+
+	$count = "SELECT COUNT(*) AS num FROM $db_goods_table WHERE goods_title LIKE '%$goods_title%' ";
+	$count_query = mysqli_query($link,$count);
+	$count_res = mysqli_fetch_assoc($count_query)['num'];
+
+	$cal = ($count_res/$amount);
+	$total = ((int)$cal < $cal) ? (int)$cal+1 : $cal;
+
+	mysqli_close($link);
+	$result = json_encode([
+		'status'	=>	'success',
+		'goods'		=>	$list,
+		'total'		=>	$total,
+	]);
+	return $result;
 }
 ?>
