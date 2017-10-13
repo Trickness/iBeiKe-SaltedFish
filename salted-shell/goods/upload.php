@@ -194,7 +194,8 @@
                     imgs = (info).match(reg);
                     if (imgs != null) for (var index = 0; index < imgs.length; index++) {imgs[index] = imgs[index].replace(/src="|"/gi,"");}
                     upload_goods.imgs = imgs;
-                    upload_goods.goods_info.goods_img = imgs[0];
+                    if (imgs)
+                        upload_goods.goods_info.goods_img = imgs[0];
                     console.log(imgs);
                 });
                 var goods_cl = [
@@ -287,8 +288,8 @@
                                 data = JSON.parse(data);
                                 var status = data.status;
                                 if(status === "success"){
-                                    alert("成功发布");
-                                    //window.location="show.php?goods_id="+data.goods_id;
+                                    alert("成功发布,3秒后转到商品页面");
+                                    setTimeout(window.location="show.php?goods_id="+data.goods_id,3000)
                                 }else if(status === "failed"){
                                     console.log(status);
                                     console.log(data.error);

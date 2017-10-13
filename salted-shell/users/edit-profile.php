@@ -157,8 +157,8 @@
                 <div class="col-xs-6">
                     <div class="row" style="margin-top:15px;">
                         <div class="col-xs-12">
-                            <label>学院</label>
-                            <input v-if="state" type="text" class="form-control" v-model="profile.class_info.class_no.value" />
+                            <label>班级</label>
+                            <input v-if="state" type="text" class="form-control" v-model="profile.class_info.class_no.value" disabled/>
                             <select v-if="!state" class="form-control" v-model="profile.class_info.class_no.access">
                                 <option value="public">公开</option>
                                 <option value="protected">登陆可见</option>
@@ -198,7 +198,7 @@
                     <div class="row" style="margin-top:15px;">
                         <div class="col-xs-12">
                             <label>生日</label>
-                            <input v-if="state" type="text" class="form-control" v-model="profile.birthday.value" />
+                            <input v-if="state" type="text" class="form-control" v-model="profile.birthday.value" disabled/>
                             <select v-if="!state" class="form-control" v-model="profile.birthday.access">
                                 <option value="public">公开</option>
                                 <option value="protected">登陆可见</option>
@@ -288,6 +288,9 @@
                             if (data.status == "success") {
                                 edit_profile.profile = data.self_info;
                                 console.log(edit_profile.profile);
+                            }else{
+                                alert("你尚未登陆，请登录后尝试")
+                                window.location = "../login/login.php"
                             }
                         });
                     },

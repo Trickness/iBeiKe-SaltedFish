@@ -15,9 +15,9 @@ $student_id = "";
 if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     if($action == "logout"){
         user_logout(session_id());
-        echo json_encode(array(
+        die(json_encode(array(
             "status" => "success"
-        ));
+        )));
     }elseif($action == "update_self_info"){
         if(isset($_POST['info'])){
             $info = fetch_info_from_user($student_id);
@@ -54,10 +54,10 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             if(isset($data['header']))  $info['header'] = urlencode($data['header']);
             // 合法性检测
             $info_hash = update_user_info(json_encode($info),$student_id);
-            echo json_encode(array(
+            die(json_encode(array(
                 "status" => "success",
                 "info_hash" => $info_hash
-            ));
+            )));
         }else{
             die(generate_error_report("Please check doc for usage"));
         }
@@ -66,19 +66,19 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             die(generate_error_report("Please check doc for usage"));
         die(cancel_order_from_user($student_id, $_GET['order_id']));
     }elseif($action == "login") {
-        echo json_encode(array(
+        die(json_encode(array(
             "status" => "success",
             "session" => session_id()
-        ));
+        )));
     }elseif($action == "change_password"){
         if(isset($_GET['original_pass']) && isset($_GET['new_pass'])){
             $original_pass = filter_password($_GET['original_pass']);
             $new_pass = filter_password($_GET['new_pass']);
             if(check_pass($student_id,$original_pass)){
                 if(change_password($student_id,$new_pass)){
-                    echo json_encode(array(
+                    die(json_encode(array(
                         "status" => "success"
-                    ));
+                    )));
                     // todos: remove all session connected to this account
                 }else{
                     die("Error occured?");
@@ -109,14 +109,14 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         $offer = $_GET['offer'];
         $order_id = create_order_from_user($student_id, $order_type, $goods_id, $delivery_fee, $purchase_amount, $single_cost, $offer);
         if($order_id){
-            echo json_encode(array(
+            die(json_encode(array(
                 "status" => "success",
                 "order_id" => $order_id
-            ));
+            )));
         }else{
-            echo json_encode(array(
+            die(json_encode(array(
                 "status" => "failed"
-            ));
+            )));
         }
     }elseif($action == "accept_order"){
         if(!isset($_GET['order_id'])){
@@ -197,16 +197,16 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             session_destroy();
             session_id($session_key);
             session_start();
-            echo json_encode(array(
+            die(json_encode(array(
                 "status" => "success",
                 "session" => $session_key
-            ));
+            )));
         }else{
-            echo generate_error_report("Wrong username or password");
+            die(generate_error_report("Wrong username or password"));
         }
     }elseif($action == "check"){                     // 检查用户是否为学生 TODO:检验
         if(isset($_GET["student_id"]) and isset($_GET["password"]))
-            echo json_encode(confirm_student($_GET["student_id"],$_GET["password"]));
+            die(json_encode(confirm_student($_GET["student_id"],$_GET["password"])));
         else
             die(generate_error_report("Please specify student id and password"));
     }elseif($action == "signup"){
@@ -217,12 +217,12 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
                 session_destroy();
                 session_id($session_key);
                 session_start();
-                echo json_encode(array(
+                die(json_encode(array(
                     "status" => "success",
                     "session" => $session_key
-                ));
+                )));
             }else{
-                echo generate_error_report("Wrong username or password");
+                die(generate_error_report("Wrong username or password"));
             }
         }else{
             die(generate_error_report("Please specify id and password"));
