@@ -85,7 +85,7 @@ function confirm_student($student_id, $student_pw){
     $n_row = 3;
     $data = array();
     for($i = $base_count; $i < $base_count+$item_pre_row*$n_row*2; $i++){
-        $data[$result[$i]->textContent] = $result[$i+$item_pre_row]->textContent;
+        $data[$result->item($i)->textContent] = $result->item($i+$item_pre_row)->textContent;
         if(($i+1-$base_count)%$item_pre_row == 0)
             $i += $item_pre_row;
     }
