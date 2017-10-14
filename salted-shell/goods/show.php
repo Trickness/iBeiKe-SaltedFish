@@ -7,7 +7,7 @@
     </head>
     <body style="background-color:#F0F0F0;">
         <?php
-            include "../frame/head_user.1.php";
+            include "../frame/head_user.php";
             if (isset($_GET['goods_id'])) {
                 $goods_id = $_GET['goods_id'];
                 echo "<script>var goods_id = {$goods_id};</script>";

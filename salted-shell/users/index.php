@@ -78,7 +78,7 @@
 		$("#users-tl").addClass("active");
 	});
 	</script>
-	<?php include '../frame/head_user.php'; ?>
+	<?php include '../frame/head_user.1.php'; ?>
 	<div id="head-row">
 		<div id="user-info">
 			<img id="header-img" src="../main/adv.png" style="width: 120px;height: 120px;border-radius: 60px;margin:35px;margin-bottom:10px;margin-top:0;">

@@ -6,7 +6,7 @@
         <title>我的订单</title>
     </head>
     <body style="background-color:#F0F0F0;">
-        <?php include "../frame/head_user.1.php"; ?>
+        <?php include "../frame/head_user.php"; ?>
         <style>
             a{color:#95989A;text-decoration:none;transition-duration:0.4s;}
             a:hover{color:#FD9860;}
