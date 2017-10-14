@@ -4,6 +4,7 @@
 	<?php session_start(); ?>
 	<meta charset="utf-8">
 	<title>个人中心</title>
+	<link rel="stylesheet" href="../css/default.css">
 	<style>
 		body{margin:0;min-width: 1203px;}
 		a{text-decoration: none;color: black;}
@@ -143,13 +144,6 @@
 	</div>
 
 	<div id="rt-new">
-		<style>
-			.new-item{width: 220px;height: 280px;margin: 10px;transition-duration: 0.4s;border-radius:10px;background-color: #e8e8e8;overflow:hidden;}
-			.new-tl{padding-left: 10px;}
-			.new-dec{padding-left: 10px;font-size: 12px;}
-			.new-item:hover{box-shadow:0 0 10px #CCCCCC;}
-			.new-item .img{width: 220px;height: 220px;border-radius:10px;background-size:cover;background-position:center;background-repeat:no-repeat;}
-		</style>
 		<div id="new-tl">最新内容</div>
 		<div id="new-content">
 			<a href="#"><div class="new-item">
@@ -169,7 +163,14 @@
 			</div></a>
 		</div>
 	</div>
-
+	
+	<style>
+			.new-item{width: 220px;height: 280px;margin: 10px;transition-duration: 0.4s;border-radius:10px;background-color: #e8e8e8;overflow:hidden;}
+			.new-tl{padding-left: 10px;}
+			.new-dec{padding-left: 10px;font-size: 12px;}
+			.new-item:hover{box-shadow:0 0 10px #CCCCCC;}
+			.new-item .img{width: 220px;height: 220px;border-radius:10px;background-size:cover;background-position:center;background-repeat:no-repeat;}
+		</style>
 	<script>
 	$(document).ready(function(){
 		var newGoodsTpl = '<a href="../goods/show.php?goods_id={goods_id}"><div class="new-item">\
@@ -229,7 +230,6 @@
 			</div>
 
 			<div id="order-head" style="width:720px;height:35px;margin-left:25px;">
-				<style>#order-head div{float:left;text-align:center;border-bottom:2px solid #FD9860;font-size:14px;}</style>
 				<div style="width:210px;">宝贝</div>
 				<div style="width:85px;">单价</div>
 				<div style="width:50px;">数量</div>
@@ -330,7 +330,6 @@
 				var page = $("#page-sort").val();
 				var sort = {action:"list_orders",order_status:order_status,page:page};
 				if (order_status=="all") sort = {action:"list_orders",page:page};
-				console.log(sort);
 				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data.orders);});
 			});
 		// end

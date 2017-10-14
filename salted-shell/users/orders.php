@@ -93,6 +93,9 @@
                 var orders_init = function(self_id){
                     $.getJSON("../core/api-v1.php?action=list_orders",function(data){
                         if(data.status == "success"){
+                            if (!data.orders.length){
+                                // TODO: 
+                            }
                             data.orders.forEach(function(element) {
                                 if (element.order_submitter == self_id) {show_orders.orders_buy.push(element);}
                                 if (element.goods_owner == self_id) {show_orders.orders_sale.push(element);}

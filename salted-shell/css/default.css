@@ -2,7 +2,7 @@
     font-family: msyh;
     src: url('../fonts/msyh.ttf');
 }
-body{margin: 0;font-family: msyh;}
+body{margin: 0;font-family: msyh;min-width: 1203px;}
 /*.row div{border: 1px solid black;}*/
 a{text-decoration: none;transition-duration: 0.4s;color: black;}
 a:hover{color: #FD9860;}
@@ -34,3 +34,21 @@ a:hover{color: #FD9860;}
     transform: scale(1);
   }
 }
+
+#head-row{position: absolute;top: 130px;height: 400px;width: 965px;}
+#user-info{float: left;width: 165px;height: inherit;}
+#info{width: 160px;height: 240px;padding-left: 20px;}
+
+#cen-row{float: left;height: inherit;width: 780px;}
+#cen-bottom{float: left;border-bottom: 2px solid #FD9850;width: 750px;margin-top: 10px;margin-left: 20px;}
+#bottom-tl{font-size: 22px;float: left;margin-bottom: 5px;color: #FD9850;}
+#rt-new{width: 250px;height: inherit;position: absolute;top: 120px;height: 1000px;}
+#new-tl{border-bottom: 2px solid #FD9850;font-size: 22px;padding-bottom: 10px;width: inherit;color: #FD9850;}
+
+#recent{position: absolute;top: 530px;width: 780px;min-height: 400px;}
+#order-head div{float:left;text-align:center;border-bottom:2px solid #FD9860;font-size:14px;}
+.ibk_table{width: 100%;background-color: white;}
+.ibk_table th{height: 35px;border: 1px solid #e8e8e8;border-bottom: 2px solid gray;}
+.ibk_table td{border-bottom: 2px solid #e8e8e8;height: 40px;}
+.ibk_table tr{transition-duration: 0.4s;}
+.ibk_table tr:hover{background-color: #e8e8e8;}
