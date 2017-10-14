@@ -410,7 +410,7 @@ function search_goods_by_title($goods_title,$page,$amount){
     global $db_name;
     global $db_user;
 	global $db_goods_table;
-	$list = [];		$total = 1;
+	$list = array();		$total = 1;
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$start = ($page-1)*$amount;
 	$goods_title = urlencode($goods_title);
@@ -424,17 +424,18 @@ function search_goods_by_title($goods_title,$page,$amount){
 
 	$count = "SELECT COUNT(*) AS num FROM $db_goods_table WHERE goods_title LIKE '%$goods_title%' ";
 	$count_query = mysqli_query($link,$count);
-	$count_res = mysqli_fetch_assoc($count_query)['num'];
+	$count_res = mysqli_fetch_assoc($count_query);
+	$count_res = $count_res['num'];
 
 	$cal = ($count_res/$amount);
 	$total = ((int)$cal < $cal) ? (int)$cal+1 : $cal;
 
 	mysqli_close($link);
-	$result = json_encode([
+	$result = json_encode(array(
 		'status'	=>	'success',
 		'goods'		=>	$list,
 		'total'		=>	$total,
-	]);
+	));
 	return $result;
 }
 /**
@@ -455,7 +456,7 @@ function search_goods_by_category($category,$level,$page,$amount){
     global $db_name;
     global $db_user;
 	global $db_goods_table;
-	$list = [];		$total = 1;
+	$list = array();		$total = 1;
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$start = ($page-1)*$amount;
 	$level = 'cl_lv_'.$level;
@@ -469,17 +470,18 @@ function search_goods_by_category($category,$level,$page,$amount){
 
 	$count = "SELECT COUNT(*) AS num FROM $db_goods_table WHERE $level = '$category' ";
 	$count_query = mysqli_query($link,$count);
-	$count_res = mysqli_fetch_assoc($count_query)['num'];
+	$count_res = mysqli_fetch_assoc($count_query);
+	$count_res = $count_res['num'];
 
 	$cal = ($count_res/$amount);
 	$total = ((int)$cal < $cal) ? (int)$cal+1 : $cal;
 
 	mysqli_close($link);
-	$result = json_encode([
+	$result = json_encode(array(
 		'status'	=>	'success',
 		'goods'		=>	$list,
 		'total'		=>	$total,
-	]);
+	));
 	return $result;
 }
 ?>
