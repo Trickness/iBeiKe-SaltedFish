@@ -152,7 +152,9 @@
                 </div>
             </div>
         </div>
-        <div class="footer" style="width: 100%;height: 50px;background-color: red;"></div>
+        <div class="footer" style="width: 100%;height: 50px;background-color: #eee;text-align: center;">
+            <p style="padding-top: 15px;">Power By iBeiKe 2016</p>
+            </div>
         <div>
             <script type="text/x-template" id="search-goods">
                 <form action="./index.php" method="get" class="search-tips">
