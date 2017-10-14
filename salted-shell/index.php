@@ -5,24 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>贝壳商城-让你的闲置动起来(O(∩_∩)O)</title>
     </head>
-    <body style="padding-bottom:50px;">
+    <body>
         <?php 
             include "./frame/head_main.php";
             if(isset($_GET['search'])){
-                $target = [
+                $target = array(
                     'type'      =>  'search',
                     'search'    =>  $_GET['search'],
                     'page'      =>  1,
-                ];
+                );
                 if (isset($_GET['page']))  $target['page'] = $_GET['page'];
                 echo "<script>var target = ".json_encode($target).";</script>";
             }elseif (isset($_GET['category'],$_GET['level'])) {
-                $target = [
+                $target = array(
                     'type'      =>  'category',
                     'category'  =>  $_GET['category'],
                     'level'     =>  $_GET['level'],
                     'page'      =>  1,
-                ];
+                );
                 if (isset($_GET['page']))  $target['page'] = $_GET['page'];
                 echo "<script>
                         var target = ".json_encode($target).";
@@ -83,7 +83,7 @@
             }
         </style>
 
-        <div id="main_page">
+        <div id="main_page" style="padding-bottom:50px;">
             <div class="container" style="margin-top:70px;">
                 <div class="row" style="margin-bottom:15px;">
                     <div class="col-md-3">
@@ -152,7 +152,9 @@
                 </div>
             </div>
         </div>
-
+        <div class="footer" style="width: 100%;height: 50px;background-color: #eee;text-align: center;">
+            <p style="padding-top: 15px;">Power By iBeiKe 2016</p>
+            </div>
         <div>
             <script type="text/x-template" id="search-goods">
                 <form action="./index.php" method="get" class="search-tips">
