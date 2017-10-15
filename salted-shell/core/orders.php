@@ -268,13 +268,8 @@ function list_orders_from_user($user_id, $filters=array(),$page=1, $limit=10){
             $filter_str." AND ";
         $filter_str = $filter_str." ".$key."='".$value."'";
     }
-    if($filter_str == "")
-        $filter_str = " WHERE";
-    else
-        $filter_str = $filter_str." AND";
     $base = ($page-1)*$limit;
     $sql = $sql.$filter_str;
-    $sql = $sql." order_submitter='$user_id'";
     $sql = $sql." LIMIT $base, $limit";   
     $results = $link->query($sql);
     $return_var = array();
@@ -287,6 +282,7 @@ function list_orders_from_user($user_id, $filters=array(),$page=1, $limit=10){
         }
         return $return_var;
     }else{
+        var_dump($sql);
         die(generate_error_report("Database Error as list_order_from_user()"));
     }
 }

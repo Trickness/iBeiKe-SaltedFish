@@ -143,6 +143,17 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             $limit = intval($_GET['limit']);
         if(isset($_GET['page']))
             $page = intval($_GET['page']);
+        if(isset($_GET['order_submitter'])){
+            if ($_GET['order_submitter'] == 'self'){
+                $filter['order_submitter'] = $student_id;
+            }else if($_GET['order_submitter'] == 'other'){
+                $filter['goods_owner'] = $student_id;
+            }else{
+                die(generate_error_report("Please specify order submitter [self or other]"));
+            }
+        }else{
+            die(generate_error_report("Please specify order submitter [self or other]"));
+        }
         $results = list_orders_from_user($student_id, $filter, $page, $limit);
         $count = count($results);
         die(json_encode(array(
@@ -243,6 +254,9 @@ if($action == "fetch_user_total_info"){
     }
     
     $goods = fetch_goods_for_sale_from_user($user_id);
+    $filter = array(
+        'order_submitter' => $user_id
+    );
     $orders = list_orders_from_user($user_id);
     $info = fetch_user_info_from_id($user_id);
     $flag = "public";
