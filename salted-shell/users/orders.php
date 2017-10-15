@@ -6,11 +6,15 @@
         <title>我的订单</title>
     </head>
     <body style="background-color:#F0F0F0;">
-        <?php include "../frame/head_user.php"; ?>
+        <?php
+            include "../frame/head_user.php";
+            if(isset($_GET['page'])) echo "<script>var now_page=".$_GET['page'].";</script>";
+                else echo "<script>var now_page=1;</script>";
+        ?>
         <style>
             a{color:#95989A;text-decoration:none;transition-duration:0.4s;}
             a:hover{color:#FD9860;}
-            .content{background-color: white;border-radius: 4px;min-height: 573px;box-shadow: 0 0 4px grey;margin-bottom:20px;}            
+            .content{background-color: white;border-radius: 2px;min-height: 573px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:20px;}            
             .my-order{
                 border:1px solid #E6E5E5;
                 margin-bottom:20px;
@@ -25,7 +29,7 @@
                 padding-top:10px;padding-bottom:10px;word-wrap:break-word;
             }
             .pin.affix{
-                top:65px;
+                top:55px;
             }
             .rt{padding-top:30px;}
             .offer{padding-top:10px;}  
@@ -37,6 +41,7 @@
                 .item{border-left:1px solid #E6E5E5;border-right:1px solid #E6E5E5;line-height:70px;}
                 .bt{line-height:70px;}
                 .hd{height:70px;}
+                .od-list{padding-right:10px;}
             }
             @media(max-width:768px){
                 .hd,.md{border-bottom:1px solid #E6E5E5;}
@@ -46,17 +51,17 @@
                 .bt{line-height:50px;}
             }
         </style>
-        <div id="show_orders" style="margin-top:70px;">
-            <div class="container" style="margin-bottom:15px;">
-                <div class="col-xs-12" style="background-color: white;border-radius: 4px;box-shadow: 0 0 4px grey;padding-top: 10px;">
+        <div id="show_orders" style="margin-top:60px;">
+            <div class="container" style="margin-bottom:10px;">
+                <div class="col-xs-12" style="background-color: white;border-radius: 2px;box-shadow:0 1px 3px rgba(0,0,0,.1);padding-top: 10px;">
                     <div class="col-xs-12">
                         <p style="color:#FD9860;font-size:25px;padding-left:5px;">我的订单</p>
                     </div>
                 </div>
             </div>
-            <div class="container" style="margin-top: 15px;margin-bottom:20px;">
+            <div class="container" style="margin-bottom:20px;">
                 <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-sm-9 od-list">
                         <div class="content" style="padding: 25px 35px 15px 35px;">
                             <ul class="nav nav-tabs" role="tablist" style="border-bottom:2px solid #FD9860;margin-bottom:10px;">
                                 <li class="active"><a href="#user-buy" data-toggle="tab">我买的</a></li>
@@ -73,11 +78,11 @@
                         </div>
                     </div>
                     <div class="col-sm-3 name-tag hidden-xs">
-                        <div class="pin" data-spy="affix" data-offset-top="90">
+                        <div class="pin" data-spy="affix" data-offset-top="80">
                             <div class="tag-content">
                                 <name-tag :info="self_info" />
                             </div>
-                            <div class="tag-content" style="margin-top:15px;">
+                            <div class="tag-content" style="margin-top:9px;">
                                 <new-goods :goods="new_goods" />                                
                             </div>
                         </div>
@@ -85,13 +90,51 @@
                 </div>
             </div>
         </div>
+
+        <div>
+            <script type="text/x-template" id="pagi">
+                <div v-if="total > 0">
+                    <div class="col-xs-12" style="text-align:center">
+                        <ul v-if="total < 10" class="pagination pagination-sm">
+                            <li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li v-for="pg in total" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else-if="total >= 10 && now_page < 5" class="pagination pagination-sm">
+                            <li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li v-for="pg in 5" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li class="disabled"><a>...</a></li>                            
+                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li v-if="(now_page!=5)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else-if="total > 6 && now_page > total-5" class="pagination pagination-sm">
+                            <li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li><a :href="jump(1)">1</a></li>
+                            <li class="disabled"><a>...</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+total-5)==now_page)}"><a :href="jump(pg+total-5)">{{pg+total-5}}</a></li>
+                            <li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else class="pagination pagination-sm">
+                            <li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li><a :href="jump(1)">1</a></li>
+                            <li class="disabled"><a>...</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+parseInt(now_page)-3)==now_page)}"><a :href="jump(pg+parseInt(now_page)-3)">{{pg+parseInt(now_page)-3}}</a></li>
+                            <li class="disabled"><a>...</a></li>                            
+                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </script>
+        </div>
+
         <script>
             $(document).ready(function(){
                 $(".preview").css("height",$(".preview").css("width"));
                 var name_tag = $(".pin").css('width');
                 $(".tag-content").css('width',name_tag);
                 var orders_init = function(self_id){
-                    $.getJSON("../core/api-v1.php?action=list_orders",function(data){
+                    $.getJSON("../core/api-v1.php?action=list_orders",{page:now_page},function(data){
                         if(data.status == "success"){
                             if (!data.orders.length){
                                 // TODO: 
@@ -103,6 +146,19 @@
                         }
                     });
                 };
+
+                var Pagi = {
+                    props:['total'],
+                    template:'#pagi',
+                    methods:{
+                        jump:function(page){
+                            return "./orders.1.php?page="+page;
+                        }
+                    },
+                    computed:{
+                        now_page:function(){return now_page;}
+                    },
+                }
                 
                 var Order = {
                     props:['order','type'],
@@ -199,7 +255,7 @@
                     template:'<div :style="my_style">\
                             <div class="col-xs-12" style="margin-top:15px;">\
                                 <div style="overflow:hidden;padding-bottom:10px;border-bottom:2px solid #FD9860;">\
-                                    <div class="col-xs-2" style="padding:0;width:fit-content;"><div style="width:60px;height:60px;border-radius:5px;" :style="bg"></div></div>\
+                                    <div class="col-xs-2" style="padding:0;width:fit-content;"><div style="width:60px;height:60px;border-radius:2px;" :style="bg"></div></div>\
                                     <div class="col-xs-9" style="line-height:60px;font-size:20px;"><a href="./index.php">{{info.nickname}}</a></div>\
                                 </div>\
                             </div>\
@@ -222,8 +278,8 @@
                                 overflow:'hidden',
                                 paddingBottom:'10px',
                                 background:'white',
-                                borderRadius:'5px',
-                                boxShadow:'0 0 4px grey',
+                                borderRadius:'2px',
+                                boxShadow:'0 1px 3px rgba(0,0,0,.1)',
                             },
                         };
                     },
@@ -243,7 +299,7 @@
                             <div v-for="go in goods" class="col-xs-12" style="margin-top:8px;">\
                                 <div style="padding-bottom:8px;border-bottom:1px solid #E6E5E5;overflow:hidden;">\
                                     <div class="col-xs-3" style="padding:0;">\
-                                        <div style="width:70px;height:70px;border-radius:5px;" :style="img(go.goods_img)"></div>\
+                                        <div style="width:70px;height:70px;border-radius:2px;" :style="img(go.goods_img)"></div>\
                                     </div>\
                                     <div class="col-xs-6">\
                                         <div style="word-wrap:break-word;"><a :href="show_goods(go.goods_id)">{{go.goods_title}}</a></div>\
@@ -273,8 +329,8 @@
                                 overflow:'hidden',
                                 paddingBottom:'10px',
                                 background:'white',
-                                borderRadius:'5px',
-                                boxShadow:'0 0 4px grey',
+                                borderRadius:'2px',
+                                boxShadow:'0 1px 3px rgba(0,0,0,.1)',
                             },
                         };
                     },
@@ -309,6 +365,7 @@
                         'my-order':Order,
                         'name-tag':Name,
                         'new-goods':New,
+                        'pagi':Pagi,
                     }
                 });
             });
