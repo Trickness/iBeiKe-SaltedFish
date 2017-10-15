@@ -195,6 +195,14 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }
     }elseif($action == "edit_goods"){
         
+    }elseif($action == "fetch_self_goods") {
+        $page = 1;  $amount=2;
+        if (isset($_GET['page'])) $page = $_GET['page'];
+        die(json_encode(array(
+            'status'    =>  'success',
+            'goods'     =>  fetch_goods_for_sale_from_user($student_id,$page,$amount),
+            'total'     =>  fetch_total_pages($student_id,$amount),
+        )));
     }
 }else{                                              // 未登录
     if($action == "login"){                             // 登陆操作

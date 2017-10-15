@@ -37,7 +37,7 @@
             .search-tips input[type="text"]{padding:0 10px 0 10px;width:75%;border:3px solid #FD9860;height:35px;}      .search-tips input[type="text"]:focus{text-decoration:none;}
             .search-tips input[type="submit"]{transition-duration:0.3s;background-color: #FD9860;border: none;height: 35px;width: 20%;margin-left: -4px;color: white;}  .search-tips input[type="submit"]:hover{opacity:0.6;}
             .lt-pn{height:450px;background-color:#FD9860;border-radius:2px;}
-            .cl1:hover{background-color:#FFCC33;}   .cl1 a{color:white;}
+            .cl1:hover{background-color:#FFCC33;}   .cl1 a{color:white;}    .cl1 a:hover{text-decoration:underline;}
             .reco-lt,.reco-rt{padding:0;overflow:hidden;}
             .order{height:90px;border:1px solid #e6e5e5;margin-bottom:18px;transition-duration:0.3s;}    .order:hover{box-shadow:0 0 6px grey;}
             .order-info{height:25px;background-color:#E6E5E5;line-height:25px;font-size:11px;}
@@ -129,7 +129,7 @@
                                 </div>                   
                             </div>
                             <div class="col-sm-2 order-rt hidden-xs" style="padding-right:0;">
-                                <list-orders :list="orders_list" :islogin="is_login" />
+                                <list-orders :list="orders_list" />
                             </div>
                         </div>
                         <div v-else>
@@ -229,7 +229,7 @@
                     <div class="row" style="border-bottom:2px solid #FD9860;margin-bottom:5px;">
                         <span style="font-size:18px;color:#FD9860;">我的购物车</span>
                     </div>
-                    <div>
+                    <div v-if="islogin">
                         <div v-for="or in list" class="row order">
                             <div class="order-info" style="color:grey">
                                 <div class="col-xs-5">ID:{{or.order_id}}</div>
@@ -238,8 +238,24 @@
                             <div>
                                 <div style="float:left;"><div style="width:50px;height:50px;margin:6px;" :style="bg(or.goods_img)"></div></div>
                                 <div style="float:left;margin:5px;height:50px;" class="or-con">
-                                    <div style="height:30px;width:100%;font-size:12px;line-height:15px;overflow:hidden;"><a href="jump(or.goods_id,'goods')">{{or.goods_title}}</a></div>
+                                    <div style="height:30px;width:100%;font-size:12px;line-height:15px;overflow:hidden;"><a :href="jump(or.goods_id,'goods')">{{or.goods_title}}</a></div>
                                     <div style="height:20px;width:100%;font-size:12px;color:#FD9860;text-align:right;">￥{{or.offer}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="islogin == false">
+                        <div class="row" style="width:186px;">
+                            <div style="height:300px;border:1px solid #cccccc;border-radius:4px;">
+                                <div class="col-xs-12" style="text-align:center;">
+                                    <img src="./pic/image1/摄影.png" style="width:80px;height:80px;border-radius:40px;margin-top:30px;margin-bottom:10px;" />
+                                </div>
+                                <div class="col-xs-12" style="color:#FD9860;text-align:center;">
+                                    <b>登陆之后<br>世界更精彩哦！</b>
+                                </div>
+                                <div class="col-xs-12" style="text-align:center;padding:15px;">
+                                    <a href="./login/login.php" role="button" class="btn btn-primary" style="margin-bottom:10px;">快速登陆</a><br>
+                                    <a href="./signin/signin.php" role="button" class="btn btn-default">免费注册</a>
                                 </div>
                             </div>
                         </div>
@@ -412,7 +428,7 @@
                 };
 
                 var Pagi = {
-                    props:['total','target'],
+                    props:['total'],
                     template:'#pagi',
                     methods:{
                         jump:function(page){
@@ -498,7 +514,7 @@
                 };
 
                 var ListOrders = {
-                    props:['list','islogin'],
+                    props:['list'],
                     template:'#list-orders',
                     methods:{
                         bg:function(url){
@@ -517,8 +533,13 @@
                                     break;
                             }
                             return url;
-                        }
-                    }
+                        },
+                    },
+                    computed:{
+                        islogin:function(){
+                            return self_info.is_login;
+                        },
+                    },
                 };
 
                 var GoodsShow = {

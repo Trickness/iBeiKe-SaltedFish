@@ -51,7 +51,7 @@
         </style>
     </head>
     <body style="background-color:#F0F0F0;">
-        <?php include "../frame/head_user.1.php"; ?>        
+        <?php include "../frame/head_user.php"; ?>        
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>

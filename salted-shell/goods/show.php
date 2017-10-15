@@ -7,7 +7,7 @@
     </head>
     <body style="background-color:#F0F0F0;">
         <?php
-            include "../frame/head_user.1.php";
+            include "../frame/head_user.php";
             if (isset($_GET['goods_id'])) {
                 $goods_id = $_GET['goods_id'];
                 echo "<script>var goods_id = {$goods_id};</script>";
@@ -67,7 +67,8 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <button v-if="goods_info.buyer_info!=undefined" class="col-xs-4 col-xs-offset-4 new_order" data-toggle="modal" data-target="#myModal">立即购买</button>
+                            <button v-if="goods_info.buyer_info!=undefined && islogin == true" class="col-xs-4 col-xs-offset-4 new_order" data-toggle="modal" data-target="#myModal">立即购买</button>
+                            <button v-else-if="goods_info.buyer_info!=undefined && islogin == false" disabled="true" class="col-xs-4 col-xs-offset-4 banned_order" data-toggle="modal" data-target="#myModal">您尚未登陆</button>
                             <button v-else disabled="true" class="col-xs-4 col-xs-offset-4 banned_order" data-toggle="modal" data-target="#myModal">立即购买</button>
                         </div>
                     </div>
@@ -225,6 +226,9 @@
                         // 
                     },
                     computed:{
+                        islogin:function(){
+                            return self_info.is_login;
+                        },
                         convert_info:function(){
                             var info = {
                                 goods_info:(this.goods_info.goods_info+'').replace(/<img[^>]+>/ig,""),

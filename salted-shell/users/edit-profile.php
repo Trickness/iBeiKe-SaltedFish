@@ -7,7 +7,7 @@
     </head>
 
     <body style="background-color:#F0F0F0;">
-        <?php include "../frame/head_user.1.php"; ?>
+        <?php include "../frame/head_user.php"; ?>
         <style>
             body{
                 margin:0;

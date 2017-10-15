@@ -1,423 +1,332 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php session_start(); ?>
 	<meta charset="utf-8">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 	<title>个人中心</title>
-	<link rel="stylesheet" href="../css/default.css">
-	<style>
-		body{margin:0;min-width: 1203px;}
-		a{text-decoration: none;color: black;}
-		a:hover{color: #FD9850;}
-		#head-row{position: absolute;top: 130px;height: 400px;width: 965px;}
-		#user-info{float: left;width: 165px;height: inherit;}
-		#info{width: 160px;height: 240px;padding-left: 20px;}
-
-		#cen-row{float: left;height: inherit;width: 780px;}
-		#cen-bottom{float: left;border-bottom: 2px solid #FD9850;width: 750px;margin-top: 10px;margin-left: 20px;}
-		#bottom-tl{font-size: 22px;float: left;margin-bottom: 5px;color: #FD9850;}
-		#rt-new{width: 250px;height: inherit;position: absolute;top: 120px;height: 1000px;}
-		#new-tl{border-bottom: 2px solid #FD9850;font-size: 22px;padding-bottom: 10px;width: inherit;color: #FD9850;}
-
-		#recent{position: absolute;top: 530px;width: 780px;min-height: 400px;}
-	</style>
 </head>
 <body>
-	<?php
-		require_once "../core/users.php";
-        require_once "../core/utils.php";
-        require_once "../core/authorization.php";
-        require_once "../config.php";
-
-        $session = session_id();
+	<?php 
+		include '../frame/head_user.php';
+		if(isset($_GET['page'])) echo "<script>var now_page=".$_GET['page'].";</script>";
+			else echo "<script>var now_page=1;</script>";
 	?>
-	<script src="../js/vue.js"></script>
-	<script src="../js/jquery-latest.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
-	<script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="../css/animate.min.css">
-	<script src="../js/swiper.animate1.0.2.min.js"></script>
-	<link href="https://cdn.bootcss.com/Buttons/2.0.0/css/buttons.min.css" rel="stylesheet">
-	<script src="https://cdn.bootcss.com/Buttons/2.0.0/js/buttons.min.js"></script>
-
-	<link href="https://cdn.bootcss.com/bootstrap-switch/4.0.0-alpha.1/css/bootstrap-switch.min.css" rel="stylesheet">
-	<script src="https://cdn.bootcss.com/bootstrap-switch/4.0.0-alpha.1/js/bootstrap-switch.min.js"></script>
-
-	<script>
-	String.prototype.format = function(args) {
-		var result = this;
-		if (arguments.length > 0) {
-			if (arguments.length == 1 && typeof (args) == "object") {
-				for (var key in args) {
-					if(args[key]!=undefined){
-						var reg = new RegExp("({" + key + "})", "g");
-						result = result.replace(reg, args[key]);
-					}
-				}
-			}
-			else {
-				for (var i = 0; i < arguments.length; i++) {
-					if (arguments[i] != undefined) {
-						var reg= new RegExp("({)" + i + "(})", "g");
-						result = result.replace(reg, arguments[i]);
-					}
-				}
-			}
+	<style>
+		a{color:black;text-decoration:none;}    a:hover{text-decoration:none;color:#FD9860;}
+		.header{width:120px;height:120px;border-radius:60px;}
+		.ul-wd{width:fit-content;}
+		.carousel{height:310px;background-color:#f3f3f3;border-radius:2px;}    .carousel .item{height:310px;line-height:310px;text-align:center;}   .carousel-control.right,.carousel-control.left{top:130px;}
+		.goods{transition-duration:0.3s;}       .goods:hover{background-color:#F3F3F3;box-shadow:0 0 4px #cccccc;}      .goods-title{margin-top:5px;height:30px;}   .single-cost{font-size:12px;}
+		@media(max-width:768px){
+			.header{width:120px;height:120px;border-radius:60px;}
+			.ul-wd{width:100%;}
+			.carousel{height:200px;background-color:#f3f3f3;border-radius:2px;}    .carousel .item{height:200px;line-height:200px;text-align:center;}   .carousel-control.right,.carousel-control.left{top:90px;}
 		}
-		return result;
-	}
-	$(document).ready(function(){
-		var wth = parseInt($("body").css('width').split("px")[0]);
-		var head_wth = parseInt($("#head-row").css('width').split("px")[0]);
-		var info_wth = parseInt($("#user-info").css('width').split("px")[0]);
-		console.log((wth-1203)/2);
-		$("#head-row").css("left",(wth-1203)/2);
-		$("#rt-new").css("left",(wth-1203)/2+head_wth);
-		$("#recent").css("left",(wth-1203)/2+170);
-		$("#users-tl").addClass("active");
-	});
-	</script>
-	<?php include '../frame/head_user.php'; ?>
-	<div id="head-row">
-		<div id="user-info">
-			<img id="header-img" src="../main/adv.png" style="width: 120px;height: 120px;border-radius: 60px;margin:35px;margin-bottom:10px;margin-top:0;">
-
-			<style>
-				#head-info,#basic-info{line-height: 25px;}
-				#basic-tl{color:#FD9850;font-size: 18px;margin-top: 10px;margin-bottom: 10px;}
-				#info label{float: left;}
-				.info-item{height: 22px;}
-			</style>
-			<div id="info">
-				<div id="head-info">
-					<div><label>ID:</label><span id="student_id" class="info-item"></span><br></div>
-					<div><label>昵称:</label><span id="nickname" class="info-item"></span><br></div>
-				</div>
-				<div id="basic-tl"><b>基本信息</b></div>
-				<div id="basic-info">
-					<div><label>姓名:</label><span id="name" class="info-item"></span><br></div>
-					<div><label>学生类别:</label><span id="type" class="info-item"></span><br></div>
-					<div><label>性别:</label><span id="gender" class="info-item"></span><br></div>
-					<div><label>生日:</label><span id="birthday" class="info-item"></span><br></div>
-					<div><label>宿舍:</label><span id="dormitory" class="info-item"></span><br></div>
-				</div>
-			</div>
-			<div id="info-bottom" style="padding-left: 30px;"></div>
-			<span class="button-dropdown button-dropdown-primary" data-buttons="dropdown" style="margin-left:15px;">
-    					<button class="button button-primary button-large" style="font-size:15px;">
-      						<i class="fa fa-bars"></i>骚操作
-    					</button>
-
-    				<ul class="button-dropdown-list is-below">
-      					<li><a href="edit-profile.php"><i class="fa fa-heart-o"></i>个人信息修改</a></li>
-      					<li class="button-dropdown-divider"><a href="../goods/upload.php">上传商品</a></li>
-						<li class="button-dropdown-divider"><a href="../users/orders.php">我的订单</a></li>
-    				</ul>
-  			</span>
-		</div>
-		<div id="cen-row">
-			<div id="cen-swiper" class="swiper-container" style="height: 330px;margin-left: 30px;float: left;width: 750px;">
-	    				<div class="swiper-wrapper">
-	    	   				<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInRight" swiper-animate-duration="0.5s"
-	    	   					swiper-animate-delay="0.3s" src="../main/slider1.jpg" style="height: 300px;width: 740px;"></div>
-	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInUp" swiper-animate-duration="0.5s"
-	    	   					swiper-animate-delay="0.3s" src="../main/slider2.jpg" style="height: 300px;width: 740px;"></div>
-	    	    			<div class="swiper-slide"><img class="ani" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s"
-	    	   					swiper-animate-delay="0.3s" src="../main/slider3.jpg" style="height: 300px;width: 740px;"></div>
-	    				</div>
-	    				<!-- 如果需要分页器 -->
-	    				<div class="swiper-pagination"></div>
-
-	    				<!-- 如果需要导航按钮 -->
-	    				<div class="swiper-button-prev swiper-button-white"></div>
-	    				<div class="swiper-button-next swiper-button-white"></div>
-
-	    				<!-- 如果需要滚动条 -->
-	    				<div class="swiper-scrollbar"></div>
-			</div>
-			<div id="cen-bottom">
-				<div id="bottom-tl">最近逛逛</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="rt-new">
-		<div id="new-tl">最新内容</div>
-		<div id="new-content">
-			<a href="#"><div class="new-item">
-				<img src="../main/goods.jpg">
-				<div class="new-tl">商品名称</div>
-				<div class="new-dec">文字描述XXXXXXX</div>
-			</div></a>
-			<a href="#"><div class="new-item">
-				<img src="../main/goods.jpg">
-				<div class="new-tl">商品名称</div>
-				<div class="new-dec">文字描述XXXXXXX</div>
-			</div></a>
-			<a href="#"><div class="new-item">
-				<img src="../main/goods.jpg">
-				<div class="new-tl">商品名称</div>
-				<div class="new-dec">文字描述XXXXXXXXXXXXXXXXXXXX</div>
-			</div></a>
-		</div>
-	</div>
-	
-	<style>
-			.new-item{width: 220px;height: 280px;margin: 10px;transition-duration: 0.4s;border-radius:10px;background-color: #e8e8e8;overflow:hidden;}
-			.new-tl{padding-left: 10px;}
-			.new-dec{padding-left: 10px;font-size: 12px;}
-			.new-item:hover{box-shadow:0 0 10px #CCCCCC;}
-			.new-item .img{width: 220px;height: 220px;border-radius:10px;background-size:cover;background-position:center;background-repeat:no-repeat;}
-		</style>
-	<script>
-	$(document).ready(function(){
-		var newGoodsTpl = '<a href="../goods/show.php?goods_id={goods_id}"><div class="new-item">\
-						<div class="img" style="background-image:url(\'{goods_img}\');" />\
-						<div class="new-tl">{goods_title}</div>\
-						<div class="new-dec">{goods_info}</div>\
-					</div></a>';
-		var goods_list = "";
-		// 渲染
-		$.getJSON("../core/api-users-info.php?action=new",function(data){
-			console.log(data);
-			for (var i = 0; i < data['goods'].length; i++) {
-				//data[i] = JSON.parse(data[i]);
-				//data[i].goods_info = (data[i].goods_info+"").replace(/<img[^>]+>/ig,"");
-				//data[i].goods_info = data[i].length>27? data[i].goods_info.substring(0,27)+"..." : data[i].goods_info;
-				data['goods'][i].goods_info = data['goods'][i].goods_info.substring(0,27)+"...";
-				if(data['goods'][i].goods_img == null || data['goods'][i].goods_img == "")
-					data['goods'][i].goods_img = "../main/goods.img";
-				goods_list += newGoodsTpl.format(data['goods'][i]);
-			}
-			console.log(goods_list);
-			$("#new-content").html(goods_list);
-		});
-	});
-	</script>
-
-	<style>
-		.recent-order{border: 0.7mm dashed #CCCCCC;height: 115px;width: 718px;margin-left: 25px;border-radius: 10px;margin-bottom:20px;}
-		.recent-order:hover{border: 0.7mm solid #e8e8e8;}
-		.recent-order td{text-align:center;height:70px;font-size:14px;border-left:1px solid #CCCCCC}
-		.recent-tl{background-color:#e8e8e8;width:inherit;height:40px;border-radius: 10px;}
-		.recent-tl div{float:left;margin-top:7px;margin-left:10px;}
-
-		.ibk_table{width: 100%;background-color: white;}
-		.ibk_table th{height: 35px;border: 1px solid #e8e8e8;border-bottom: 2px solid gray;}
-		.ibk_table td{border-bottom: 2px solid #e8e8e8;height: 40px;}
-		.ibk_table tr{transition-duration: 0.4s;}
-		.ibk_table tr:hover{background-color: #e8e8e8;}
+		.carousel-control.left {
+			background-image:none;
+			background-repeat: repeat-x;
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+		}
+		.carousel-control.right {
+			left: auto;
+			right: 0;
+			background-image:none;
+			background-repeat: repeat-x;
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
+		}
 	</style>
-	<div id="recent">
-		<ul>
-			<li><a href="#my_orders">我的订单</a></li>
-			<li><a href="#my_goods">我的商品</a></li>
-		</ul>
-		<div id="my_orders" style="padding:20px 0 0 0;">
-			<div id="order-sort" style="width:720px;height:35px;margin-left:25px;">
-				<label for="order_status-sort">订单状态</label>
-				<select id="order_status-sort" style="margin:5px;">
-					<option value="all" selected>全部</option>
-					<option value="waiting">等待卖家接单</option>
-					<option value="accepted">卖家已接单</option>
-					<option value="completed">已确认收货</option>
-					<option value="finished">订单已完成</option>
-				</select>
-				<label for="page-sort">页码</label><input type="text" id="page-sort" value="1" />
-				<button id="sort-submit">筛选</button>
-			</div>
 
-			<div id="order-head" style="width:720px;height:35px;margin-left:25px;">
-				<div style="width:210px;">宝贝</div>
-				<div style="width:85px;">单价</div>
-				<div style="width:50px;">数量</div>
-				<div style="width:78px;">运费</div>
-				<div style="width:90px;">总计</div>
-				<div style="width:100px;">状态</div>
-				<div style="width:100px;">操作</div>
+	<div id="show_info" style="padding-bottom:50px;">
+		<div class="container" style="margin-top:80px;width:1170px;">
+			<div class="col-xs-9">
+				<div class="row">
+					<div class="col-xs-3">
+						<name-tag :info="self_info" />
+					</div>
+					<div class="col-xs-9">
+						<ct-gallery :pic="pic" />
+					</div>
+				</div>
+				<div class="row" style="margin-top:20px;">
+					<div class="col-xs-12" style="padding-left:55px;"><div style="font-size:20px;color:#FD9860;padding-bottom:5px;border-bottom:2px solid #FD9860;">我的商品</div></div>
+					<div class="col-xs-12" style="padding-left:55px;padding-top:10px;">
+						<my-goods v-for="go in self_goods" :key="go.goods_id" :goods="go"  />
+					</div>
+					<div class="col-xs-12" style="padding-left:55px;padding-top:10px;">
+						<pagi :total="total_pages" />
+					</div>
+				</div>
 			</div>
-			<div id="recent-content"></div>
-		</div>
-		<div id="my_goods">
-			<div>
-				<table class='ibk_table'>
-					<thead><th>商品名</th><th>状态</th><th>数量</th><th>交易方式</th><th>价格</th><th></th></thead>
-					<tbody id="user_goods"></tbody>
-				</table>
+			<div class="col-xs-3">
+				<div class="col-xs-12"><div style="width:100%;border-bottom:2px solid #FD9860;color:#FD9860;font-size:20px;padding-bottom:2px;margin-bottom:10px;" class="preview">
+					新品推荐
+				</div></div>
+				<goods v-for="go in new_goods" :key="go.goods_id" :go="go" />
 			</div>
 		</div>
 	</div>
 
-	<!-- 引入商品编辑弹窗 -->
-	<?php include './edit-goods.php'; ?>
-	<!-- 商品编辑弹窗 -->
+	<div>
+		<script type="text/x-template" id="gallery">
+			<div class="row"><div class="col-xs-12">
+				<div class="row"><div class="col-xs-12">
+					<div id="myCarousel" class="carousel slide" style="z-index:0;">
+						<!-- <ol class="carousel-indicators">
+							<li data-target="#myCarousel" data-slide-to="0"></li>
+							<li v-for="i in pic.length-1" data-target="#myCarousel" :data-slide-to="i"></li>
+						</ol> -->
+						<div class="carousel-inner">
+							<div class="item active" :style="bg(pic[0])"></div>
+							<div v-for="url in pic.slice(1)" class="item" :style="bg(url)"></div>
+						</div>
+						<a class="carousel-control left" href="#myCarousel" 
+						data-slide="prev">&lsaquo;</a>
+						<a class="carousel-control right" href="#myCarousel" 
+						data-slide="next">&rsaquo;</a>
+					</div>
+				</div></div>
+			</div></div>
+		</script>
+
+		<script type="text/x-template" id="name-tag">
+			<div>
+				<div>
+					<ul style="list-style-type:none;line-height:25px;" class="ul-wd">
+						<li style="text-align:center;height:120px;">
+							<div class="header" :style="bg(info.header)"></div>
+						</li>
+						<li style="text-align:center;font-size:20px;">{{info.nickname}}</li>
+						<li>学号：{{info.student_id.value}}</li>
+						<li>姓名：{{info.name.value}}</li>
+						<li>生日：{{info.birthday.value}}</li>
+						<li>宿舍：{{dorm}}</li>
+						<li>身份：{{info.type.value}}</li>
+						<li>性别：{{info.gender.value}}</li>
+					</ul>
+				</div>
+				<div style="text-align:center;">
+					<div class="dropdown">
+						<button class="btn btn-success" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							骚操作<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dLabel">
+							<li><a href="./edit-profile.php">编辑名片</a></li>
+							<li><a href="../goods/upload.php">上传商品</a></li>
+							<li><a href="./orders.php">我的订单</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/x-template" id="my-goods">
+			<div class="col-xs-12" style="margin-bottom:15px;"><div class="row">
+				<div style="border:1px solid #cccccc;overflow:hidden;">
+					<div class="col-xs-12" style="padding:0;line-height:30px;background-color:#f3f3f3;color:grey;">
+						<div class="col-xs-3">商品ID：{{goods.goods_id}}</div>
+						<div class="col-xs-3">交易方式：{{convert_info.goods_type}}</div>
+						<div class="col-xs-3">商品状态：{{convert_info.goods_status}}</div>
+					</div>
+					<div class="col-xs-12" style="padding:0;">
+						<div class="col-xs-5" style="padding:10px;border-right:1px solid #cccccc;height:90px;">
+							<div style="margin-right:5px;height:70px;width:70px;float:left;" :style="bg(goods.goods_img)"></div>
+							<div style="margin-right:5px;float:left;width:170px;word-wrap:break-word;"><a :href="jump(goods.goods_id)">{{goods.goods_title}}</a></div>
+							<div style="float:left;">x{{goods.remain}}</div>
+						</div>
+						<div class="col-xs-2" style="padding:0;border-right:1px solid #cccccc;">
+							<div style="line-height:45px;text-align:center;border-bottom:1px solid #cccccc;">单价<span style="color:#FD9860;">￥{{goods.single_cost}}</span></div>
+							<div style="line-height:45px;text-align:center;">运费<span style="color:#FD9860;">￥{{goods.delivery_fee}}</span></div>
+						</div>
+						<div class="col-xs-3" style="padding:10px;border-right:1px solid #cccccc;height:90px;word-wrap:break-word;">
+							标签：{{convert_info.tags}}
+						</div>
+						<div class="col-xs-2">
+							<div class="col-xs-12" style="line-height:45px;"><a href="" role="button" class="btn btn-primary">编辑商品</a></div>
+							<div class="col-xs-12" style="line-height:45px;"><a href="" role="button" class="btn btn-default">撤回商品</a></div>
+						</div>
+					</div>
+				</div>
+			</div></div>
+		</script>
+
+		<script type="text/x-template" id="pagi">
+			<div v-if="total > 0">
+				<div class="col-xs-12" style="text-align:center">
+					<ul v-if="total < 10" class="pagination pagination-sm">
+						<li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+						<li v-for="pg in total" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+						<li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+					</ul>
+					<ul v-else-if="total >= 10 && now_page < 5" class="pagination pagination-sm">
+						<li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+						<li v-for="pg in 5" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+						<li class="disabled"><a>...</a></li>                            
+						<li><a :href="jump(total)">{{total}}</a></li>
+						<li v-if="(now_page!=5)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+					</ul>
+					<ul v-else-if="total > 6 && now_page > total-5" class="pagination pagination-sm">
+						<li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+						<li><a :href="jump(1)">1</a></li>
+						<li class="disabled"><a>...</a></li>
+						<li v-for="pg in 5" :class="{active:((pg+total-5)==now_page)}"><a :href="jump(pg+total-5)">{{pg+total-5}}</a></li>
+						<li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+					</ul>
+					<ul v-else class="pagination pagination-sm">
+						<li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+						<li><a :href="jump(1)">1</a></li>
+						<li class="disabled"><a>...</a></li>
+						<li v-for="pg in 5" :class="{active:((pg+parseInt(now_page)-3)==now_page)}"><a :href="jump(pg+parseInt(now_page)-3)">{{pg+parseInt(now_page)-3}}</a></li>
+						<li class="disabled"><a>...</a></li>                            
+						<li><a :href="jump(total)">{{total}}</a></li>
+						<li><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</script>
+	</div>
 
 	<script>
-		var user_info = null;	//个人总体信息
-		var edit_goods = null;
-		(function(){
-		// 信息渲染模板
-			var goodsTpl = "<tr>\
-						<td><a href='../goods/show.php?goods_id={goods_id}'>{goods_title}</td>\
-						<td>{goods_status}</td>\
-						<td>{remain}</td>\
-						<td>{goods_type}</td>\
-						<td>{single_cost}</td>\
-						<td style='text-align:center;'><button class='button button-small button-border button-rounded button-highlight' onclick='edit_goods({goods_id})'>修改</button></td>\
-					</tr>";
-			var newGoodsTpl = '<a href="../goods/show.php?goods_id={href}"><div class="new-item">\
-							<img src="../main/goods.jpg" v-bind:src="{goods_img}">\
-							<div class="new-tl">{goods_title}</div>\
-							<div class="new-dec">{goods_info}</div>\
-						</div></a>';
-
-			var ordersTpl = '<div class="recent-order">\
-				<div class="recent-tl">\
-					<div><span style="margin-right:50px;">下单时间：{ordering_date}</span>卖家：<a name="goods_owner" href="./users.php?user_id={goods_owner}">{goods_owner}</a></div>\
-				</div>\
-				<div>\
-					<table>\
-						<tr>\
-							<td style="width:190px;text-align:left;padding-left:10px;">\
-								<a href="../goods/show.php?goods_id={goods_id}">\
-									<img src="{goods_img}" alt="商品" style="width:55px;height:55px;float:left">\
-									<p style="float:left;margin-left:5px;">{goods_title}</p>\
-								</a>\
-							</td>\
-							<td style="width:80px;">\
-								<span style="font-size:12px;">￥</span>{single_cost}\
-							</td>\
-							<td style="width:50px;">{purchase_amount}</td>\
-							<td style="width:70px;">\
-								<span style="font-size:12px;">￥</span>{delivery_fee}\
-							</td>\
-							<td style="width:85px;">\
-								<span style="font-size:12px;">￥</span>{offer}\
-							</td>\
-							<td style="width:100px;">{order_status}</td>\
-							<td style="width:100px;">\
-								<a href="#">编辑</a><br>\
-								<a href="#">删除</a><br>\
-								<a href="#">追加评论</a>\
-							</td>\
-						</tr>\
-					</table>\
-				</div>\
-				</div>';
-		// end
-
-		// 设置订单、商品展示板块 “分页” 栏样式
-			$("#recent").tabs();
-		// end
-
-		// 获取、渲染个人全部信息
-			$.getJSON('../core/api-v1.php',{action:"fetch_user_total_info"},function(data){
-				user_info = data;	//获取个人全部信息
-				show_info(user_info.info);	// 渲染个人身份信息
-				for (var i = 0; i < user_info.goods.length; i++){
-					user_info.goods[i].tags = decodeURI(user_info.goods[i].tags)
-				}
-				show_goods(user_info.goods);
-			})
-		// end
-
-		// 个人订单信息渲染
-			$.getJSON("../core/api-v1.php",{action: "list_orders",page:"1"},function(data){show_orders(data.orders);});
-			$("#sort-submit").click(function(){
-				var order_status = $("#order_status-sort").val();
-				var page = $("#page-sort").val();
-				var sort = {action:"list_orders",order_status:order_status,page:page};
-				if (order_status=="all") sort = {action:"list_orders",page:page};
-				$.getJSON("../core/api-v1.php",sort,function(data){show_orders(data.orders);});
-			});
-		// end
-
-		// 渲染个人身份信息函数
-			function show_info(data){
-				$("#student_id").html(data.student_id.value);
-				$("#nickname").html(data.nickname);
-				$("#name").html(data.name.value);
-				$("#type").html(data.type.value);
-				$("#gender").html(data.gender.value);
-				$("#birthday").html(data.birthday.value);
-				$("#dormitory").html(data.dormitory.value);
-				if(data.header){
-					$("#header-img").attr("src",data.header);
-					$("#top-header").attr("src",data.header);
-				}
-			}
-		// end
-
-		// 渲染个人商品信息函数
-			function show_goods(data){
-				var goods_list = '';
-				for (var i = 0; i < data.length; i++) {
-					goods_list += goodsTpl.format(data[i]);
-				}
-				$("#user_goods").html(goods_list);
-			}
-		// end
-
-		// 渲染个人订单信息函数
-			function show_orders(data){
-				var order_list = "";
-				for (var i = 0; i < data.length; i++) {
-					data[i].ordering_date = data[i].ordering_date.split(".")[0];
-					switch (data[i].order_status) {
-						case "waiting":data[i].order_status="等待受理"; break;
-						case "accepted":data[i].order_status="已经受理"; break;
-						case "completed":data[i].order_status="等待确认收货"; break;
-						case "finished":data[i].order_status="订单完成"; break;
-					}
-					if(data[i].goods_img == null || data[i].goods_img == "")
-						data[i].goods_img = "../main/goods.jpg";
-					order_list += ordersTpl.format(data[i]);
-				}
-				$("#recent-content").html(order_list);
-			}
-		// end
-
-		// 修改商品信息函数(将函数传递到全局)
-			edit_goods = function(id){
-				edited_info = user_info.goods.find(function(abc){return abc.goods_id == id});
-				$(".bg-model").fadeTo(300,1)
-				$("body").css({ "overflow": "hidden" });	//隐藏窗体的滚动条
-				edit_app.update_goods_info(edited_info);
+		$(document).ready(function(){
+			var Goods = {
+				props:['go'],
+				template:'<a :href="jump"><div class="col-xs-12" style="margin-bottom:10px;">\
+						<div class="goods">\
+							<div class="preview" ><div style="width:100%;border-radius:4px;" :style="bg"></div></div>\
+							<div style="padding:5px;">\
+								<div class="row">\
+									<div class="col-xs-12 goods-title" style="word-wrap:break-word;overflow:hidden;line-height:15px;">{{go.goods_title}}</div>\
+								</div>\
+								<div class="row">\
+									<div class="col-sm-6" style="height:12px;line-height:12px;overflow:hidden;font-size:10px;">{{go.goods_owner}}</div>\
+									<div class="col-sm-6 single-cost" style="height:12px;line-height:12px;overflow:hidden;color:#FD9860;text-align:right;font-size:15px;"><b>￥{{go.single_cost}}</b></div>\
+								</div>\
+							</div>\
+						</div>\
+					</div></a>',
+				computed:{
+					bg:function(){
+						// console.log(this.go);
+						var st = bg_ch(this.go.goods_img);
+						st.height = $(".preview").css("width");
+						return st;
+					},
+					jump:function(){
+						return "../goods/show.php?goods_id="+this.go.goods_id;
+					},
+				},
 			};
-		// end
-	}());
 
-		// 弹窗消失操作
-			$("#cancel-change").click(function () {
-				$(".bg-model").hide();
-				//显示窗体的滚动条
-				$("body").css({ "overflow": "visible" });
+			var MyGoods = {
+				props:['goods'],
+				template:'#my-goods',
+				computed:{
+					convert_info:function(){
+						var info = {
+							tags:'',
+							goods_status:'',
+							goods_type:'',
+						};
+						if (this.goods.goods_status == "available") info.goods_status = '在售';
+							else info.goods_status = '下架';
+						if (this.goods.goods_type == "sale") info.goods_type = '出售';
+							else info.goods_type = '租赁';
+						info.tags = this.goods.tags.join(' ');
+						return info;
+					},
+				},
+				methods:{
+					bg:function(url){
+						return bg_ch(url);
+					},
+					jump:function(goods_id){
+						return "../goods/show.php?goods_id="+goods_id;
+					}
+				}
+			}
+
+			var NameTag = {
+				props:['info'],
+				template:'#name-tag',
+				methods:{
+					bg:function(url){
+						var bg_style = bg_ch(url);
+						return bg_style;
+					},
+				},
+				computed:{
+					dorm:function(){
+						return this.info.dormitory.dormitory_id.value + "斋" + this.info.dormitory.room_no.value;
+					},
+				},
+			}
+			var Gallery = {
+				props:['list','pic'],
+				template:'#gallery',
+				methods:{
+					bg(url){
+						return bg_ch(url);
+					},
+					jump:function(id){
+						console.log("./goods/show.php?goods_id="+id);
+						return "./goods/show.php?goods_id="+id;
+					},
+				},
+			};
+
+			var Pagi = {
+				props:['total'],
+				template:'#pagi',
+				methods:{
+					jump:function(page){
+						return "./index.1.php?page="+page;
+					}
+				},
+				computed:{
+					now_page:function(){return now_page;}
+				},
+			};
+
+			var show_info = new Vue({
+				el:'#show_info',
+				data:{
+					pic:[
+						'../pic/image1/ustb.png',
+						'../pic/image1/北京周边游.png',
+						'../pic/image1/摄影.png',
+					],
+					self_goods:[],
+					new_goods:[],
+					total_pages:0,
+				},
+				computed:{
+					self_info:function(){
+						return self_info.info;
+					},
+				},
+				created:function(){
+					$.getJSON('../core/api-users-info.php?action=new',function(data){
+						if (data.status=="success") {
+							show_info.new_goods = data.goods;
+						}
+						// console.log(show_info.new_goods);
+					});
+					$.getJSON('../core/api-v1.php?action=fetch_self_goods',{page:now_page},function(data){
+						if (data.status=="success") {
+							show_info.self_goods = data.goods;
+							show_info.total_pages = data.total;
+						}
+						console.log(data);
+					});
+				},
+				components:{
+					'name-tag':NameTag,
+					'ct-gallery':Gallery,
+					'goods':Goods,
+					'my-goods':MyGoods,
+					'pagi':Pagi,
+				},
 			});
-		// end
-
-		var mySwiper = new Swiper ('.swiper-container', {
-    			onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
-    				swiperAnimateCache(swiper); //隐藏动画元素
-    				swiperAnimate(swiper); //初始化完成开始动画
-  				},
-  				onSlideChangeEnd: function(swiper){
-    				swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
-  				},
-    			loop: true,
-
-    			// 如果需要分页器
-    			pagination: '.swiper-pagination',
-
-    			// 如果需要前进后退按钮
-    			nextButton: '.swiper-button-next',
-    			prevButton: '.swiper-button-prev',
-
-    			// 如果需要滚动条
-    			scrollbar: '.swiper-scrollbar',
-    			autoplay: 3000,
-  			});
+		});
 	</script>
 </body>
 </html>

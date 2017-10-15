@@ -374,7 +374,7 @@ function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 12){
 
 	$start = ($page-1)*$limit;
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-	$sql = "SELECT * FROM $db_goods_table WHERE goods_owner='$user_id' AND goods_status='available' LIMIT $start,$limit";
+	$sql = "SELECT * FROM $db_goods_table WHERE goods_owner='$user_id' AND goods_status='available' ORDER BY goods_id DESC LIMIT $start,$limit";
 	$results = $link->query($sql);
 	$return_var = array();
 	if(!$results) die(generate_error_report("Database Error at fetch_goods_for_sale_from_user [").$link->error);
@@ -384,7 +384,7 @@ function fetch_goods_for_sale_from_user($user_id,$page=1,$limit = 12){
 		$res['single_cost'] 	= urldecode($res['single_cost']);
 		$res['search_summary'] 	= urldecode($res['search_summary']);
 		$res['comments'] 		= json_decode($res['comments'],true);
-		$res['tags'] 			= explode(" ",$res['tags']);
+		$res['tags'] 			= explode(" ",urldecode($res['tags']));
 		$res['goods_owner'] 	= $res['goods_owner'];
 		$res['goods_img']		= urldecode($res['goods_img']);
 		$return_var[] = $res;
@@ -483,5 +483,23 @@ function search_goods_by_category($category,$level,$page,$amount){
 		'total'		=>	$total,
 	));
 	return $result;
+}
+
+function fetch_total_pages($student_id,$amount){
+	global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+	global $db_goods_table;
+	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+	$count = "SELECT COUNT(*) AS num FROM $db_goods_table WHERE goods_owner='$student_id' AND goods_status='available' ";
+	$count_query = mysqli_query($link,$count);
+	$count_res = mysqli_fetch_assoc($count_query);
+	$count_res = $count_res['num'];
+
+	$cal = ($count_res/$amount);
+	$total = ((int)$cal < $cal) ? (int)$cal+1 : $cal;
+	mysqli_close($link);
+	return $total;
 }
 ?>
