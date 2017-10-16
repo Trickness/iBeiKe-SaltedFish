@@ -19,7 +19,24 @@
             echo "<script>var now_page = '".$page."';</script>";            
         ?>
 
-        <link rel="stylesheet" href="../css/default.css">
+        <style>
+            .panel{max-width: 927px;background-color: white;border-radius: 4px;box-shadow: 0 0 4px #cccccc;}
+            .info-item{line-height:20px;height:20px;}   .info-item img{width:18px;height:20px;}     .info-item span{margin-left:15px;}
+            .header{width:160px;height:160px;margin-top:-50px;border:4px solid white;border-radius:10px;}
+            .rank{height:40px;border-radius:7px;background-color:antiquewhite;margin-bottom:15px;}     .rank-item{float:left;padding:0 10px 0 10px;}
+            .rank-act{border-bottom: 2px solid rgb(253, 152, 96);padding-bottom: 2px;color:#FD9860;}
+            .goods{transition-duration:0.3s;}       .goods:hover{background-color:#F3F3F3;box-shadow:0 0 4px #cccccc;}      .goods-title{margin-top:5px;height:30px;}   .single-cost{font-size:12px;}
+            a{color:black;}
+            .user-info{margin-top:125px;min-height:130px;margin-bottom:12px;}
+            @media(max-width:768px){
+                .user-info{margin-top:100px;}
+                .single-cost{font-size:10px;}                
+                .header{width:140px;height:140px;margin-top:-25px;border:4px solid white;border-radius:10px;}
+                .info-item{padding:0;}
+                .info-item span{margin: 0;margin-left: 6px;font-size: 11px;}          
+                .goods-title{font-size:10px;margin-top:2px;height:15px;}
+            }
+        </style>
 
         <div id="info_show">
             <div class="container panel user-info">
@@ -108,7 +125,7 @@
                     props:['info','user'],
                     template:'<div class="col-xs-12">\
                             <div style="float:left">\
-                                <p class="user-page-header" :style="bg(info.header)"></p>\
+                                <p class="header" :style="bg(info.header)"></p>\
                             </div>\
                             <div class="col-xs-7" style="padding-top:10px;">\
                                 <div class="row">\
