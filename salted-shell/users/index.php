@@ -11,31 +11,7 @@
 		if(isset($_GET['page'])) echo "<script>var now_page=".$_GET['page'].";</script>";
 			else echo "<script>var now_page=1;</script>";
 	?>
-	<style>
-		a{color:black;text-decoration:none;}    a:hover{text-decoration:none;color:#FD9860;}
-		.header{width:120px;height:120px;border-radius:60px;}
-		.ul-wd{width:fit-content;}
-		.carousel{height:310px;background-color:#f3f3f3;border-radius:2px;}    .carousel .item{height:310px;line-height:310px;text-align:center;}   .carousel-control.right,.carousel-control.left{top:130px;}
-		.goods{transition-duration:0.3s;}       .goods:hover{background-color:#F3F3F3;box-shadow:0 0 4px #cccccc;}      .goods-title{margin-top:5px;height:30px;}   .single-cost{font-size:12px;}
-		@media(max-width:768px){
-			.header{width:120px;height:120px;border-radius:60px;}
-			.ul-wd{width:100%;}
-			.carousel{height:200px;background-color:#f3f3f3;border-radius:2px;}    .carousel .item{height:200px;line-height:200px;text-align:center;}   .carousel-control.right,.carousel-control.left{top:90px;}
-		}
-		.carousel-control.left {
-			background-image:none;
-			background-repeat: repeat-x;
-			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
-		}
-		.carousel-control.right {
-			left: auto;
-			right: 0;
-			background-image:none;
-			background-repeat: repeat-x;
-			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
-		}
-	</style>
-
+	<link rel="stylesheet" href="../css/default.css"/>
 	<div id="show_info" style="padding-bottom:50px;">
 		<div class="container" style="margin-top:80px;width:1170px;">
 			<div class="col-xs-9">
@@ -71,10 +47,6 @@
 			<div class="row"><div class="col-xs-12">
 				<div class="row"><div class="col-xs-12">
 					<div id="myCarousel" class="carousel slide" style="z-index:0;">
-						<!-- <ol class="carousel-indicators">
-							<li data-target="#myCarousel" data-slide-to="0"></li>
-							<li v-for="i in pic.length-1" data-target="#myCarousel" :data-slide-to="i"></li>
-						</ol> -->
 						<div class="carousel-inner">
 							<div class="item active" :style="bg(pic[0])"></div>
 							<div v-for="url in pic.slice(1)" class="item" :style="bg(url)"></div>

@@ -8,55 +8,6 @@
     <body style="background-color:#F0F0F0;">
         <?php include "../frame/head_user.php"; ?>
         <style>
-            body{
-                margin:0;
-            }
-            p{
-                font-size:86%;
-                line-height: 142%;
-                margin-bottom: -2px;
-                margin-top: 12px;
-            }
-            input{
-                width:246px;
-                padding-top: 4px;
-                padding-bottom: 4px;
-                padding-left: 8px;
-                padding-right: 8px;
-            }
-            input.button{
-                width:100px;
-                height:30px;
-                margin:0px;
-                text-align: center;
-                line-height: 30px;
-                color:white;
-                border: 0px;
-            }
-            input.yes-button{
-                background-color:#FF9933;
-            }
-            input.yes-button:hover{
-                background-color: #FFAA55;
-            }
-            input.yes-button:active{
-                background-color: #000000;
-            }
-            input.cancel-button{
-                background-color: #B6B6B6;
-            }
-            input.cancel-button:hover{
-                background-color: #D8D8D8;
-            }
-            input.cancel-button:active{
-                background-color: #000000;
-                border: 0px;
-            }
-            input.button:focus{
-                border : 0px;
-            }
-        </style>
-        <style>
             .item label{margin-bottom:15px;margin-top:15px;}
             .plus{
                 margin-bottom:20px;
@@ -91,7 +42,7 @@
                     <div class="col-xs-12">
                         <button class="goods_commit" style="width:100%;height:35px;">
                             <label style="margin:7px;">上传你的头像</label>
-                            <form id="add_pic" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data" style="margin-top:-34px;">
+                            <form id="add_pic" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data" style="margin-top:-34px;height:33px;">
                                 <input type="file" name="upfile" id="upfile"  onchange="add_pic()" style="width: 100%;opacity:0;" />
                             </form>
                         </button>

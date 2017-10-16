@@ -11,46 +11,7 @@
             if(isset($_GET['page'])) echo "<script>var now_page=".$_GET['page'].";</script>";
                 else echo "<script>var now_page=1;</script>";
         ?>
-        <style>
-            a{color:#95989A;text-decoration:none;transition-duration:0.4s;}
-            a:hover{color:#FD9860;}
-            .content{background-color: white;border-radius: 2px;min-height: 573px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:20px;}            
-            .my-order{
-                border:1px solid #E6E5E5;
-                margin-bottom:20px;
-            }
-            .my-order .header{
-                padding-top:5px;
-                min-height:30px;
-                background-color:#E6E5E5;
-                color:#95989A;
-            }
-            .my-order .text{
-                padding-top:10px;padding-bottom:10px;word-wrap:break-word;
-            }
-            .pin.affix{
-                top:55px;
-            }
-            .rt{padding-top:30px;}
-            .offer{padding-top:10px;}  
-            .btn-theme{background-color:#FD9860;color:white;}          
-            .btn-theme:hover{color:white;}          
-            @media(min-width:1300px){
-                .name-tag{padding-left:0;}
-                .rt{border-right:1px solid #E6E5E5;}
-                .item{border-left:1px solid #E6E5E5;border-right:1px solid #E6E5E5;line-height:70px;}
-                .bt{line-height:70px;}
-                .hd{height:70px;}
-                .od-list{padding-right:10px;}
-            }
-            @media(max-width:768px){
-                .hd,.md{border-bottom:1px solid #E6E5E5;}
-                .item{border-right:1px solid #E6E5E5;line-height:30px;border-top:1px solid #E6E5E5;}
-                .md{padding:0;}
-                .rt{border-bottom:1px solid #E6E5E5;}
-                .bt{line-height:50px;}
-            }
-        </style>
+        <link rel="stylesheet" href="../css/default.css">
         <div id="show_orders" style="margin-top:60px;">
             <div class="container" style="margin-bottom:10px;">
                 <div class="col-xs-12" style="background-color: white;border-radius: 2px;box-shadow:0 1px 3px rgba(0,0,0,.1);padding-top: 10px;">
@@ -163,7 +124,7 @@
                 var Order = {
                     props:['order','type'],
                     template:'<div class="col-xs-12 my-order">\
-                            <div class="row header">\
+                            <div class="row order-header">\
                                 <div class="col-xs-5">{{convert_info.ordering_date}}</div>\
                                 <div class="col-xs-4">订单ID：{{order.order_id}}</div>\
                                 <div class="col-xs-3">卖家：<a :href="convert_info.goods_owner">{{order.goods_owner}}</a></div>\
