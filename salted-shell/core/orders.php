@@ -269,7 +269,7 @@ function list_orders_from_user($user_id, $filters=array(),$page=1, $limit=10){
         $filter_str = $filter_str." ".$key."='".$value."'";
     }
     $base = ($page-1)*$limit;
-    $sql = $sql.$filter_str;
+    $sql = $sql.$filter_str." ORDER BY order_id DESC";
     $sql = $sql." LIMIT $base, $limit";   
     $results = $link->query($sql);
     $return_var = array();
@@ -300,4 +300,31 @@ function post_accept_order(){
 
 }
 
+function fetch_orders_total_pages($user_id, $filters=array(),$limit){
+    global $db_host;
+    global $db_pass;
+    global $db_name;
+    global $db_user;
+    global $db_order_table;
+    global $db_goods_table;
+    $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
+    $sql = "SELECT count(*) AS num from $db_goods_table RIGHT OUTER JOIN $db_order_table on $db_order_table"."."."goods_id=$db_goods_table"."."."goods_id";
+    $filter_str = "";
+    foreach($filters as $key=>$value){
+        if($filter_str == "")
+            $filter_str = " WHERE";
+        else
+            $filter_str." AND ";
+        $filter_str = $filter_str." ".$key."='".$value."'";
+    }
+    $sql = $sql.$filter_str;
+    $results = $link->query($sql);
+    $count_res = mysqli_fetch_assoc($results);
+    $count_res = $count_res['num'];
+
+    $cal = ($count_res/$limit);
+	$total = ((int)$cal < $cal) ? (int)$cal+1 : $cal;
+    $link->close();
+    return $total;
+}
 ?>

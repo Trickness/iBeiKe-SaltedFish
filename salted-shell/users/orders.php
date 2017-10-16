@@ -8,13 +8,18 @@
     <body style="background-color:#F0F0F0;">
         <?php
             include "../frame/head_user.php";
-            if(isset($_GET['page'])) echo "<script>var now_page=".$_GET['page'].";</script>";
-                else echo "<script>var now_page=1;</script>";
+            $request = array(
+                'page'  =>  1,
+                'target'=>  'buy',
+            );
+            if(isset($_GET['page'])) $request['page'] = $_GET['page'];
+            if(isset($_GET['target'])) $request['target'] = $_GET['target'];
+            echo "<script>var request = ".json_encode($request).";</script>";
         ?>
         <style>
             a{color:#95989A;text-decoration:none;transition-duration:0.4s;}
             a:hover{color:#FD9860;}
-            .content{background-color: white;border-radius: 2px;min-height: 573px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:20px;}            
+            .content{background-color: white;border-radius: 2px;min-height: 567px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:20px;}            
             .my-order{
                 border:1px solid #E6E5E5;
                 margin-bottom:20px;
@@ -64,15 +69,16 @@
                     <div class="col-sm-9 od-list">
                         <div class="content" style="padding: 25px 35px 15px 35px;">
                             <ul class="nav nav-tabs" role="tablist" style="border-bottom:2px solid #FD9860;margin-bottom:10px;">
-                                <li class="active"><a href="#user-buy" data-toggle="tab">我买的</a></li>
-                                <li><a href="#user-sale" data-toggle="tab">我卖的</a></li>
+                                <li :class="{active:(request.target=='buy')}"><a :href="jump('buy')">我买的</a></li>
+                                <li :class="{active:(request.target=='sale')}"><a :href="jump('sale')">我卖的</a></li>
                             </ul>
-                            <div class="tab-content" style="overflow:hidden;">
-                                <div id="user-buy" class="tab-pane active">
-                                    <div class="row"><div class="col-xs-12"><my-order v-for="order in orders_buy" :key="order.order_id" :order="order" type="buy" /></div></div>
+                            <div style="overflow:hidden;">
+                                <div class="tab-pane active">
+                                    <div v-if="request.target == 'buy'" class="row"><div class="col-xs-12"><my-order v-for="order in orders" :key="order.order_id" :order="order" type="buy" /></div></div>
+                                    <div v-else-if="request.target == 'sale'" class="row"><div class="col-xs-12"><my-order v-for="order in orders" :key="order.order_id" :order="order" type="sale" /></div></div>
                                 </div>
-                                <div id="user-sale" class="tab-pane">
-                                    <div class="row"><div class="col-xs-12"><my-order v-for="order in orders_sale" :key="order.order_id" :order="order" type="sale" /></div></div>
+                                <div class="col-xs-12" style="text-align:center;">
+                                    <pagi :total="total_pages" />
                                 </div>
                             </div>
                         </div>
@@ -134,15 +140,15 @@
                 var name_tag = $(".pin").css('width');
                 $(".tag-content").css('width',name_tag);
                 var orders_init = function(self_id){
-                    $.getJSON("../core/api-v1.php?action=list_orders",{page:now_page},function(data){
+                    order_submitter = (request.target == "buy") ? 'self' : 'other';
+                    $.getJSON("../core/api-v1.php?action=list_orders",{page:request.page,order_submitter:order_submitter,limit:2},function(data){
                         if(data.status == "success"){
                             if (!data.orders.length){
                                 // TODO: 
                             }
-                            data.orders.forEach(function(element) {
-                                if (element.order_submitter == self_id) {show_orders.orders_buy.push(element);}
-                                if (element.goods_owner == self_id) {show_orders.orders_sale.push(element);}
-                            });
+                            console.log(data.orders);
+                            show_orders.orders = data.orders;
+                            show_orders.total_pages = data.total;
                         }
                     });
                 };
@@ -152,11 +158,11 @@
                     template:'#pagi',
                     methods:{
                         jump:function(page){
-                            return "./orders.1.php?page="+page;
+                            return "./orders.php?page="+page;
                         }
                     },
                     computed:{
-                        now_page:function(){return now_page;}
+                        now_page:function(){return request.page;}
                     },
                 }
                 
@@ -310,7 +316,6 @@
                         </div>',
                     methods:{
                         img:function(url){
-                            console.log(this.info);
                             return {
                                 backgroundImage:'url("'+url+'")',
                                 backgroundSize:'cover',
@@ -340,9 +345,10 @@
                     el:'#show_orders',
                     data:{
                         self_info:{},
-                        orders_buy:[],
-                        orders_sale:[],
+                        orders:[],
                         new_goods:[],
+                        request:request,
+                        total_pages:0,
                     },
                     computed:{
                         sam:function(){return this.orders_buy[0];}
@@ -358,8 +364,11 @@
                             if (data.status=="success") {
                                 show_orders.new_goods = data.goods;
                             }
-                            console.log(show_orders.new_goods);
+                            // console.log(show_orders.new_goods);
                         });
+                    },
+                    methods:{
+                        jump:function(target){return "./orders.php?target="+target;}
                     },
                     components:{
                         'my-order':Order,

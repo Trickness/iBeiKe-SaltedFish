@@ -365,7 +365,7 @@
                 };
 
                 var fetch_orders = function(){
-                    $.getJSON("./core/api-v1.php",{action:"list_orders",page:"1",limit:"4"},function(data){
+                    $.getJSON("./core/api-v1.php",{action:"list_orders",order_submitter:'self',page:"1",limit:"4"},function(data){
                         if(data.status == 'success'){
                             main_page.orders_list = data.orders;
                         }

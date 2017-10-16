@@ -159,7 +159,8 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         die(json_encode(array(
             "status" => "success",
             "orders" => $results,
-            "count" => $count
+            "count" => $count,
+            'total' => fetch_orders_total_pages($student_id, $filter,$limit),
         )));
     }elseif($action == "fetch_self_info"){
         $return_var = fetch_info_from_user($student_id);
@@ -195,12 +196,13 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }
     }elseif($action == "edit_goods"){
         
-    }elseif($action == "fetch_self_goods") {
-        $page = 1;  $amount=2;
+    }elseif($action == "fetch_user_goods") {
+        $user_id = $student_id;    $page = 1;  $amount=2;
         if (isset($_GET['page'])) $page = $_GET['page'];
+        if (isset($_GET['user_id'])) $user_id = $_GET['user_id'];
         die(json_encode(array(
             'status'    =>  'success',
-            'goods'     =>  fetch_goods_for_sale_from_user($student_id,$page,$amount),
+            'goods'     =>  fetch_goods_for_sale_from_user($user_id,$page,$amount),
             'total'     =>  fetch_total_pages($student_id,$amount),
         )));
     }
