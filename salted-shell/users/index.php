@@ -278,7 +278,7 @@
 				template:'#pagi',
 				methods:{
 					jump:function(page){
-						return "./index.1.php?page="+page;
+						return "./index.php?page="+page;
 					}
 				},
 				computed:{
@@ -310,7 +310,7 @@
 						}
 						// console.log(show_info.new_goods);
 					});
-					$.getJSON('../core/api-v1.php?action=fetch_self_goods',{page:now_page},function(data){
+					$.getJSON('../core/api-v1.php?action=fetch_user_goods',{page:now_page},function(data){
 						if (data.status=="success") {
 							show_info.self_goods = data.goods;
 							show_info.total_pages = data.total;

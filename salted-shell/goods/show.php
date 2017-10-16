@@ -19,7 +19,7 @@
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
         <link href="../css/default.css" rel="stylesheet" />
         
-        <div id="show_goods" class="container" style="margin-top:70px;background-color:white;border-radius:10px;padding-top:40px;margin-bottom:70px;box-shadow:0 0 5px gray;padding-bottom:70px;">
+        <div id="show_goods" class="container" style="overflow:hidden;margin-top:70px;background-color:white;border-radius:2px;padding-top:40px;margin-bottom:70px;box-shadow:0 1px 3px rgba(0,0,0,.1);padding-bottom:70px;">
             <div class="row">
                 <div class="col-sm-4">
                     <div class="col-sm-offset-1 col-sm-10">
@@ -77,7 +77,7 @@
                     <div class="row">
                         <div style="margin-top:20px;">
                             <ul class="name-card hidden-xs" style="background-color:white;list-style-type:none;line-height:30px;padding:35px;border-radius:5px;" data-spy="affix">
-                                <li style="text-align:center;"><img class="owner_header" src="../main/adv.png" :src="goods_info.goods_owner_info.header" style="width:120px;height:120px;border-radius:60px;" /></li>
+                                <li style="text-align:center;"><img class="owner_header" :src="goods_info.goods_owner_info.header" style="width:120px;height:120px;border-radius:60px;" /></li>
                                 <li style="text-align:center;font-size:20px;">{{goods_info.goods_owner_info.nickname}}</li>
                                 <li>学号：{{goods_info.goods_owner_info.student_id}}</li>
                                 <li>姓名：{{goods_info.goods_owner_info.name}}</li>
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                                 <div class="row" style="padding-top:20px;text-align:center;">
-                                    <button class="btn btn-primary" @click="comment_submit">提交评论</button>
+                                    <button class="btn btn-success" data-toggle="modal" data-target="#mywin">提交评论</button>
                                 </div>
                             </div>
                         </div>
@@ -121,9 +121,6 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
                             <h4 class="modal-title" id="myModalLabel">
                                 订单信息确认
                             </h4>
@@ -159,7 +156,7 @@
                                 <div v-if="is_successful==true">
                                     <div style="text-align:center">
                                         <div class="row"><h4>恭喜，下单成功！请耐心等待卖家接单。</h4></div>
-                                        <div class="row"><button class="btn btn-default" @click="is_successful=false" data-dismiss="modal">继续购物</button></div>
+                                        <div class="row"><button class="btn btn-default" @click="jump()" data-dismiss="modal">继续购物</button></div>
                                     </div>
                                 </div>
                             </transition>
@@ -168,7 +165,24 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
+        
+            <div class="modal fade" id="mywin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+                            <h4 class="modal-title" id="myModalLabel">通知</h4>
+                        </div>
+                        <div class="modal-body">
+                            是否要提交评论？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-success" @click="comment_submit">确定提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script>
@@ -204,6 +218,12 @@
                             </div>\
                         </div>',
                 });
+
+                var Win = {
+                    props:['winid'],
+                    template:'#win',
+                };
+
                 var show_goods = new Vue({
                     el:'#show_goods',
                     data:{
@@ -260,13 +280,22 @@
                     methods:{
                         new_order:function(){
                             $.getJSON('../core/api-v1.php?action=new_order',this.order_info,function(data){
-                                if (data.status=="success") show_goods.is_successful = true;
+                                if (data.status=="success") {
+                                    show_goods.is_successful = true;
+                                }
                             });
                         },
                         comment_submit:function(){
                             var comment = ue.getContent();
                             $.getJSON("../core/api-show-goods.php",{goods_id:goods_id,action:"comment",comment:comment},function(data){
+                                if (data.status=="success") {
+                                    window.location = "./show.php?goods_id="+goods_id;
+                                }
                             })
+                        },
+
+                        jump:function(){
+                            window.location = "../users/orders.php";
                         },
 
                         // 图片测试
@@ -299,7 +328,7 @@
                             show_goods.order_info.delivery_fee = parseFloat(data.delivery_fee);
                             show_goods.order_info.single_cost = parseFloat(data.single_cost);
                         });
-                    }
+                    },
                 });
 
             });

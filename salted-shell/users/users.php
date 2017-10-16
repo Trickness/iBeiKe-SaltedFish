@@ -12,6 +12,11 @@
                 $user_id = $_GET['user_id'];
                 echo "<script>var user_id = '".$user_id."';</script>";
             }
+            $page = 1;
+            if (isset($_GET['page'])) {
+                $page = $_GET['page'];
+            }
+            echo "<script>var now_page = '".$page."';</script>";            
         ?>
 
         <style>
@@ -39,8 +44,50 @@
             </div>
 
             <div class="container panel" style="min-height:400px;">
-                <goods-info :goods="goods" />
+                <div>
+                    <goods-info :goods="goods" />                
+                </div>
+                <div>
+                    <pagi :total="total_pages" />                
+                </div>
             </div>
+        </div>
+
+        <div>
+            <script type="text/x-template" id="pagi">
+                <div v-if="total > 0">
+                    <div class="col-xs-12" style="text-align:center">
+                        <ul v-if="total < 10" class="pagination pagination-sm">
+                            <li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li v-for="pg in total" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else-if="total >= 10 && now_page < 5" class="pagination pagination-sm">
+                            <li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li v-for="pg in 5" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li class="disabled"><a>...</a></li>                            
+                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li v-if="(now_page!=5)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else-if="total > 6 && now_page > total-5" class="pagination pagination-sm">
+                            <li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li><a :href="jump(1)">1</a></li>
+                            <li class="disabled"><a>...</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+total-5)==now_page)}"><a :href="jump(pg+total-5)">{{pg+total-5}}</a></li>
+                            <li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                        <ul v-else class="pagination pagination-sm">
+                            <li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li><a :href="jump(1)">1</a></li>
+                            <li class="disabled"><a>...</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+parseInt(now_page)-3)==now_page)}"><a :href="jump(pg+parseInt(now_page)-3)">{{pg+parseInt(now_page)-3}}</a></li>
+                            <li class="disabled"><a>...</a></li>                            
+                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </script>
         </div>
 
         <script>
@@ -126,12 +173,25 @@
                             <div class="row">\
                                 <div class="col-xs-12"><div class="col-xs-3"><div class="preview"></div></div></div>\
                                 <div class="col-xs-12">\
-                                    <goods v-for="go in goods" :go="go" />\
+                                    <goods v-for="go in goods" :key="go.goods_id" :go="go" />\
                                 </div>\
                             </div>\
                         </div>',
                     components:{
                         'goods':Goods
+                    },
+                };
+
+                var Pagi = {
+                    props:['total'],
+                    template:'#pagi',
+                    methods:{
+                        jump:function(page){
+                            return "./users.php?user_id="+user_id+"&page="+page;
+                        }
+                    },
+                    computed:{
+                        now_page:function(){return now_page;}
                     },
                 };
 
@@ -141,21 +201,27 @@
                         info:{},
                         goods:[],
                         user:'',
+                        total_pages:0,
                     },
                     created:function(){
                         console.log(user_id);
-                        $.getJSON("../core/api-v1.php",{action:"fetch_user_total_info",user_id:user_id},function(data){
+                        $.getJSON("../core/api-v1.php",{action:"fetch_user_info",user_id:user_id},function(data){
                             if (data.status=="success") {
-                                info_show.info = data.info;
-                                info_show.goods = data.goods;
-                                info_show.user = data.target_id;
+                                info_show.info = data.user_info;
+                                info_show.user = user_id;
                             }
-                            console.log(info_show.goods);
+                        });
+                        $.getJSON("../core/api-v1.php",{action:"fetch_user_goods",user_id:user_id,page:now_page},function(data){
+                            if (data.status=="success") {
+                                info_show.goods = data.goods;
+                                info_show.total_pages = data.total;
+                            }
                         });
                     },
                     components:{
                         'user-info':UserInfo,
                         'goods-info':GoodsInfo,
+                        'pagi':Pagi,
                     },
                 });
             });

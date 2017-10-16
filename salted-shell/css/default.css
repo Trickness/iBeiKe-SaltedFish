@@ -2,7 +2,7 @@
     font-family: msyh;
     src: url('../fonts/msyh.ttf');
 }
-body{margin: 0;font-family: msyh;min-width: 1203px;}
+body{font-family: msyh;}
 /*.row div{border: 1px solid black;}*/
 a{text-decoration: none;transition-duration: 0.4s;color: black;}
 a:hover{color: #FD9860;}
