@@ -134,7 +134,7 @@
                 var name_tag = $(".pin").css('width');
                 $(".tag-content").css('width',name_tag);
                 var orders_init = function(self_id){
-                    $.getJSON("../core/api-v1.php?action=list_orders",{page:now_page},function(data){
+                    $.getJSON("../core/api-v1.php?action=list_orders",{page:now_page,order_submitter:"both"},function(data){
                         if(data.status == "success"){
                             if (!data.orders.length){
                                 // TODO: 

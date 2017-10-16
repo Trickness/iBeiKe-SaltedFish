@@ -148,6 +148,8 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
                 $filter['order_submitter'] = $student_id;
             }else if($_GET['order_submitter'] == 'other'){
                 $filter['goods_owner'] = $student_id;
+            }else if($_GET['order_submitter'] == 'both'){
+                $filter['goods_owner'] = "$student_id' or goods_owner='$student_id";
             }else{
                 die(generate_error_report("Please specify order submitter [self or other]"));
             }
@@ -194,7 +196,6 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             )));
         }
     }elseif($action == "edit_goods"){
-        
     }elseif($action == "fetch_self_goods") {
         $page = 1;  $amount=2;
         if (isset($_GET['page'])) $page = $_GET['page'];
@@ -203,6 +204,10 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             'goods'     =>  fetch_goods_for_sale_from_user($student_id,$page,$amount),
             'total'     =>  fetch_total_pages($student_id,$amount),
         )));
+    }elseif($action == "update_goods_info"){
+        if(isset($_POST['goods_info'])){
+            die(update_goods_info($_POST['goods_info'],$student_id));
+        }
     }
 }else{                                              // 未登录
     if($action == "login"){                             // 登陆操作

@@ -60,13 +60,17 @@ function submit_goods_from_id($goods_info,$goods_owner){
 	//if(!check_images_list($goods_images)) 							die(generate_error_report("syntax error")) ;
 	$content = __JSON($goods_info,"content");
 	$goods_search_summary  = urlencode(mb_substr($content,0,100,"utf-8").";".$goods_type.";".$goods_title.";".$lv1.";".$lv2.";".$lv3.";".$goods_tags_str);
+	$goods_title= urlencode($goods_title);
+	$content 	= urlencode($content);
+	$single_cost = urlencode($single_cost);	
+	$lv1 		= urlencode($lv1);
+	$lv2 		= urlencode($lv2);
+	$lv3 		= urlencode($lv3);
 	if(($goods_type != "rent") 	    and($goods_type != "sale"))			die(generate_error_report("syntax error5")) ;
 	if(($goods_status!="available") and($goods_status != "withdrawal"))	die(generate_error_report("syntax error6")) ;
 	$ttm 	= date("Y/m/d");
 	//$goods_images = json_encode($goods_images);
 
-	$goods_title = urlencode($goods_title);
-	$single_cost = urlencode($single_cost);
 
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$sql = "INSERT INTO $db_goods_table
@@ -149,6 +153,7 @@ function comment_goods($goods_id, $comment, $session_key)
 		));
 	}
 }
+
 /**
  * 
  * 获得商品信息
@@ -185,8 +190,8 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['last_modified'] = $res['last_modified'];
 	$goods_info['goods_status'] = $res['goods_status'];
 	$goods_info['goods_type'] 	= $res['goods_type'];
-	$goods_info['goods_info']	= $res['goods_info'];
-	$goods_info['search_summary'] 		= urldecode($res['search_summary']);
+	$goods_info['goods_info']	= urldecode($res['goods_info']);
+	$goods_info['search_summary'] = urldecode($res['search_summary']);
 	$goods_info['comments'] 	= json_decode($res['comments'],true);
 	$goods_info['delivery_fee'] = $res['delivery_fee'];
 	$goods_info['tags'] 		= explode(" ",$res['tags']);
@@ -271,29 +276,17 @@ function revoke_goods($goods_id, $student_id){
  *      - $goods_status       (@JSONStr)
  *
  **/
-function update_goods($goods_info, $session_key){
+function update_goods($goods_info, $student_id){
 	global $db_host;
 	global $db_user;
 	global $db_pass;
 	global $db_name;
 	global $db_goods_table;
 
-	$goods_info 	= json_decode($goods_info,true);
+	// get id
+	$goods_id  			= __JSON($goods_info,"goods_id")						or 	die(generate_error_report("syntax error")) ;
 
-	$goods_id  		= __JSON($goods_info,"goods_id")						or 	die(generate_error_report("syntax error")) ;
-	$goods_title 	= urlencode(__JSON($goods_info,"goods_title") 			or 	die(generate_error_report("syntax error")));
-	$goods_single_cost 	= urlencode(__JSON($goods_info,"single_cost") 		or 	die(generate_error_report("syntax error")));
-	$goods_search_summary 	= urlencode(__JSON($goods_info,"search_summary")or 	die(generate_error_report("syntax error")));
-	$goods_status 	= __JSON($goods_info,"goods_status") 					or 	die(generate_error_report("syntax error")) ;
-	$goods_type 	= __JSON($goods_info,"goods_type") 						or 	die(generate_error_report("syntax error")) ;
-	if(($goods_type != "rent") 		or ($goods_status != "sale"))		die(generate_error_report("syntax error")) ;
-	if(($goods_status!="available") or ($goods_status != "withdrawal"))	die(generate_error_report("syntax error")) ;
-	$last_modified 		= date("Y/m/d");
-
-
-	// check authorities
-	$student_id = get_student_id_from_session_key($session_key) 	or die(generate_error_report("access denied")) ;
-
+	// fetch basic info
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$iden = "select * from $db_goods_table where goods_id='$goods_id'";
 	$query = mysqli_query($link,$iden);
@@ -301,18 +294,61 @@ function update_goods($goods_info, $session_key){
 	if ($res['goods_owner']!=$student_id){
 		mysqli_close($link);
 		die(generate_error_report("access denied"));
-	}else{
-		$update = "update $db_goods_table set goods_title 	= '$goods_title',
-											  goods_status 		= '$goods_status',
-											  goods_type 			= '$goods_type',
-											  single_cost 		= '$goods_single_cost',
-											  last_modified 	= '$last_modified',
-											  search_summary 		= '$goods_search_summary',
-											  goods_info 	= '$goods_info'";
-		$query_1 = mysqli_query($link,$update);
-		mysqli_close($link);
-		return generate_error_report('success');
 	}
+
+	$goods_info 		= json_decode($goods_info,true);
+
+	// update info
+	$goods_title 		= urldecode(__JSON($goods_info,"goods_title"	,$res['goods_title']));		$goods_title 	= urlencode($goods_title);
+	$goods_img 			= urldecode(__JSON($goods_img,"goods_img"		,$res['goods_img'])); 		$goods_img 		= urlencode($goods_img);
+	$goods_status 		= __JSON($goods_info,"goods_status"				,$res['goods_status']);
+	$goods_type 		= __JSON($goods_info,"goods_type"				,$res['goods_type']);
+	$goods_single_cost 	= float(__JSON($goods_info,"single_cost"		,$res['single_cost']));
+	$goods_remain		= int(__JSON($goods_info,"remain"				,$res['remain']));
+	$goods_last_modified= date("Y/m/d");
+	$goods_delivery_fee = float(__JSON($goods_info,'delivery_fee'		,$res['delivery_fee']));
+	$goods_tags 		= __JSON($goods_info,"tags"						,$res['tags']);
+	
+	$content			= urldecode(__JSON($goods_info,"goods_info"		,$res['goods_info']));		$goods_info 	= urlencode($goods_info);
+
+	$lv1 				= __JSON($goods_info,"cl_lv_1"					,$res['lv1']);
+	$lv2 				= __JSON($goods_info,"cl_lv_2"					,$res['lv2']);
+	$lv3 				= __JSON($goods_info,"cl_lv_3"					,$res['lv3']);
+
+	$goods_tags_str = "";
+	foreach($goods_tags as $tag){
+		$tag = urlencode($tag);
+		$goods_tags_str = $goods_tags_str." ".$tag;
+	}
+
+	$goods_search_summary  = urlencode(mb_substr($content,0,100,"utf-8").";".$goods_type.";".$goods_title.";".$lv1.";".$lv2.";".$lv3.";".$goods_tags_str);
+
+	if(($goods_type != "rent") 		or ($goods_status != "sale"))					die(generate_error_report("syntax error")) ;
+	if(($goods_status!="available") or ($goods_status != "withdrawal"))				die(generate_error_report("syntax error")) ;
+	if ($goods_remain == 0)
+		$goods_status = "soldout";
+
+	$update = "update $db_goods_table set 	goods_title 	= '$goods_title',
+											goods_img 		= '$goods_img',
+											goods_status 	= '$goods_status',
+											goods_type 		= '$goods_type',
+											single_cost 	= '$goods_single_cost',
+											remain			= '$goods_remain',
+											last_modified 	= '$last_modified',
+											delivery_fee	= '$delivery_fee',
+											search_summary 	= '$goods_search_summary',
+											goods_info 		= '$goods_info',
+											tags 			= '$goods_tags_str',
+											cl_lv_1			= '$lv1',
+											cl_lv_2			= '$lv2',
+											cl_lv_3			= '$lv3'";
+	$query_1 = mysqli_query($link,$update);
+	if(!$query){
+		die(generate_error_report("Database Error in update_goods_info[".$link->error));
+		mysqli_close($link);		
+	}
+	mysqli_close($link);	
+	return generate_error_report('success');
 }
 
 
@@ -460,6 +496,7 @@ function search_goods_by_category($category,$level,$page,$amount){
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	$start = ($page-1)*$amount;
 	$level = 'cl_lv_'.$level;
+	$category = urlencode($category);
 	$select = "SELECT goods_id,goods_title,goods_img,single_cost,goods_owner FROM $db_goods_table where $level = '$category' ORDER BY goods_id DESC LIMIT $start,$amount";
 	$query = mysqli_query($link,$select);
 	while($res = mysqli_fetch_assoc($query)){
