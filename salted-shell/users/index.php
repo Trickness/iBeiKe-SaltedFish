@@ -66,20 +66,20 @@
 		</div>
 
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document" style="width:800px;margin-top:150px;">
+			<div class="modal-dialog" role="document" style="margin-top:150px;">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="myModalLabel">信息确认</h4>
 					</div>
 					<div class="modal-body">
-						是否确定要撤回该商品？
+						是否确定要撤回商品？（ID：{{revoke.id}}）
 					</div>
-					<div v-if="status == 'editing'" class="modal-footer">
-						<button type="button" class="btn btn-success" @click="submit_edit">确定修改</button>
+					<div v-if="revoke.status == false" class="modal-footer">
+						<button type="button" class="btn btn-success" @click="revoke_goods">确定修改</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
-					<div v-if="status == 'success'" class="modal-footer" style="text-align:center;">
-						<h3>修改成功，3秒后跳转</h3>
+					<div v-if="revoke.status == true" class="modal-footer" style="text-align:center;">
+						<h3>成功撤回该商品，3秒后刷新</h3>
 					</div>
 				</div>
 			</div>
@@ -163,7 +163,7 @@
 						</div>
 						<div class="col-xs-2">
 							<div class="col-xs-12" style="line-height:45px;"><a :href="edit" role="button" class="btn btn-primary">编辑商品</a></div>
-							<div class="col-xs-12" style="line-height:45px;"><a href="" role="button" class="btn btn-default">撤回商品</a></div>
+							<div class="col-xs-12" style="line-height:45px;"><button class="btn btn-default" data-toggle="modal" data-target="#myModal" @click="pre_revoke">撤回商品</button></div>
 						</div>
 					</div>
 				</div>
@@ -264,6 +264,9 @@
 					},
 					jump:function(goods_id){
 						return "../goods/show.php?goods_id="+goods_id;
+					},
+					pre_revoke:function(){
+						show_info.revoke.id = this.goods.goods_id;
 					}
 				},
 			}
@@ -321,11 +324,31 @@
 					self_goods:[],
 					new_goods:[],
 					total_pages:0,
-					revoke_goods:'',
+					revoke:{
+						id:'',
+						status:false,
+					},
 				},
 				computed:{
 					self_info:function(){
 						return self_info.info;
+					},
+				},
+				methods:{
+					revoke_goods:function(id){
+						// this.revoke_goods = id;
+						console.log(this.revoke);
+						var revoke_id = this.revoke.id;
+						$.getJSON('../core/api-v1.php?action=revoke_goods',{goods_id:revoke_id},function(data){
+							console.log(data);
+							if(data.status == 'success'){
+								console.log(data.status);
+								show_info.revoke.status = true;
+								setTimeout(function() {
+									window.location = './index.php?page='+now_page;
+								}, 3000);
+							}
+						});
 					},
 				},
 				created:function(){

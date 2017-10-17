@@ -183,7 +183,7 @@
                         <div v-if="status == 'success'" class="modal-footer" style="text-align:center;"><h3>成功发布,3秒后转到商品页面</h3></div>
                         <div v-if="status == 'editing'" class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-success" @click="submit_goods">确定发布</button>
+                            <button type="button" class="btn btn-success" @click="edit_goods">确定发布</button>
                         </div>
                     </div>
                 </div>
@@ -328,11 +328,11 @@
                                 height:'100',
                             });
                         },
-                        submit_goods:function(){
+                        edit_goods:function(){
                             this.goods_info.content = editor.getContent();
                             this.goods_info.tags = (this.goods_info.tags+"").split(' ');
                             
-                            $.post("../core/api-v1.php?action=submit_goods",{
+                            $.post("../core/api-v1.php?action=edit_goods",{
                                 goods_info:JSON.stringify(edit_goods.goods_info),
                             },function(data){
                                 data = JSON.parse(data);
@@ -356,6 +356,9 @@
                             for (var i = 0; i < data.tags.length; i++) {
                                 data.tags[i] = decodeURI(data.tags[i]);
                             }
+                            editor.ready(function() {
+                                this.setContent(data.goods_info);
+                            });
                             data.tags = data.tags.join(' ');
                             edit_goods.goods_info = data;
                         });
