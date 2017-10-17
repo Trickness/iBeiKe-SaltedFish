@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf8">
-        <title>商品发布</title>
+        <title>编辑商品信息</title>
         <style>
             body{margin:0;}
             .up_file{
@@ -51,15 +51,20 @@
         </style>
     </head>
     <body style="background-color:#F0F0F0;">
-        <?php include "../frame/head_user.php"; ?>        
+        <?php
+            include "../frame/head_user.php";
+            if (isset($_GET['goods_id'])) {
+                echo "<script>var goods_id = ".$_GET['goods_id'].";</script>";
+            }
+        ?>        
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.all.js"> </script>
         <script type="text/javascript" charset="utf-8" src="../addons/ueditor/lang/zh-cn/zh-cn.js"></script>
 
-        <div class="container" id="upload_goods" style="margin-top:70px;margin-bottom:70px;width:900px;padding:0 40px 20px 40px;background-color:white;box-shadow:0 1px 3px rgba(0,0,0,.1);border-radius:2px;">
+        <div class="container" id="edit_goods" style="margin-top:70px;margin-bottom:70px;width:900px;padding:0 40px 20px 40px;background-color:white;box-shadow:0 1px 3px rgba(0,0,0,.1);border-radius:2px;">
             <div class="row">
                 <div style="border-bottom:2px solid #FD9860;color:#FD9860;">
-                    <h3>请上传你的商品</h3>                
+                    <h3>编辑商品信息</h3>                
                 </div>
             </div>
             <div class="row" style="margin-top:10px;">
@@ -201,14 +206,14 @@
                             $("#preview").attr("src_URL",data.url);
                             $("#preview").attr("src",data.url);
                         }
-                        upload_goods.insertImage(data.url);
+                        edit_goods.insertImage(data.url);
                     },
                     error:function(){
                         console.log("def");
                     }
                 });
             }
-            var upload_goods = null;
+            var edit_goods = null;
             $(document).ready(function () {
                 $(".sel").css('min-width',$("#cl1").css('width'));
                 $(".preview").css("height",$(".preview").css("width"));
@@ -226,9 +231,9 @@
                     var imgs = [];
                     imgs = (info).match(reg);
                     if (imgs != null) for (var index = 0; index < imgs.length; index++) {imgs[index] = imgs[index].replace(/src="|"/gi,"");}
-                    upload_goods.imgs = imgs;
+                    edit_goods.imgs = imgs;
                     if (imgs)
-                        upload_goods.goods_info.goods_img = imgs[0];
+                        edit_goods.goods_info.goods_img = imgs[0];
                     console.log(imgs);
                 });
                 var goods_cl = [
@@ -253,8 +258,8 @@
                         ['PPT'],
                     ]],
                 ];
-                upload_goods = new Vue({
-                    el:'#upload_goods',
+                edit_goods = new Vue({
+                    el:'#edit_goods',
                     data:{
                         goods_cl:goods_cl,
                         goods_info:{
@@ -328,13 +333,13 @@
                             this.goods_info.tags = (this.goods_info.tags+"").split(' ');
                             
                             $.post("../core/api-v1.php?action=submit_goods",{
-                                goods_info:JSON.stringify(upload_goods.goods_info),
+                                goods_info:JSON.stringify(edit_goods.goods_info),
                             },function(data){
                                 data = JSON.parse(data);
                                 var status = data.status;
                                 if(status === "success"){
-                                    upload_goods.status = 'success';
-                                    console.log(upload_goods.status);
+                                    edit_goods.status = 'success';
+                                    console.log(edit_goods.status);
                                     setTimeout(function(){window.location="show.php?goods_id="+data.goods_id;},3000);
                                 }else if(status === "failed"){
                                     console.log(status);
@@ -343,9 +348,18 @@
                                     console.log(data);
                                 }
                             });
-                            console.log(this.goods_info);
                         }
                     },
+                    created:function(){
+                        $.getJSON('../core/api-show-goods.php',{action:'show',goods_id:goods_id},function(data){
+                            console.log(data);
+                            for (var i = 0; i < data.tags.length; i++) {
+                                data.tags[i] = decodeURI(data.tags[i]);
+                            }
+                            data.tags = data.tags.join(' ');
+                            edit_goods.goods_info = data;
+                        });
+                    }
                 });
             });
         </script>

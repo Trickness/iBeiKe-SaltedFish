@@ -75,7 +75,7 @@
                 color:white;
             }
         </style>
-        <div id="edit_profile" class="container" style="height:800px;margin-top: 70px;margin-bottom: 70px;width: 800px;padding: 0px 40px 0 25px;background-color: white;box-shadow: grey 0px 0px 5px;border-radius: 10px;">
+        <div id="edit_profile" class="container" style="height:800px;margin-top: 70px;margin-bottom: 70px;width: 800px;padding: 0px 40px 0 25px;background-color: white;box-shadow:0 1px 3px rgba(0,0,0,.1);border-radius: 2px;">
             <div class="row">
                 <div class="col-xs-12">
                     <div style="border-bottom:2px solid #FD9860;color:#FD9860;">
@@ -219,8 +219,53 @@
                 </div>
             </div>
             <div class="row item" style="text-align:center;margin-top:25px;">
-                <button class="goods_commit" @click="submit_edit">提交修改</button>
-            </div>            
+                <button class="goods_commit" data-toggle="modal" data-target="#myModal">提交修改</button>
+            </div>  
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document" style="width:800px;margin-top:150px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">信息确认</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <th>学号</th>
+                                    <th>昵称</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>学院</th>
+                                    <th>班级</th>
+                                    <th>宿舍</th>
+                                    <th>生日</th>
+                                    <th>手机号码</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{profile.student_id.value}}</td>
+                                        <td>{{profile.nickname}}</td>
+                                        <td>{{profile.name.value}}</td>
+                                        <td>{{profile.gender.value}}</td>
+                                        <td>{{profile.class_info.department.value}}</td>
+                                        <td>{{profile.class_info.class_no.value}}</td>
+                                        <td>{{profile.dormitory.dormitory_id.value + '斋' + profile.dormitory.room_no.value}}</td>
+                                        <td>{{profile.birthday.value}}</td>
+                                        <td>{{profile.phone_number.value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div v-if="status == 'editing'" class="modal-footer">
+                            <button type="button" class="btn btn-success" @click="submit_edit">确定修改</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                        <div v-if="status == 'success'" class="modal-footer" style="text-align:center;">
+                            <h3>修改成功，3秒后跳转</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>       
         </div>
 
         <script>
@@ -253,6 +298,7 @@
                     data:{
                         profile:{},
                         state:true,
+                        status:'editing',
                     },
                     computed:{
                         thumb:function(){
@@ -266,6 +312,13 @@
                         submit_edit:function(){
                             $.post('../core/api-v1.php?action=update_self_info',{info:JSON.stringify(edit_profile.profile)},function(data){
                                 console.log(data);
+                                data = JSON.parse(data);
+                                if (data.status == 'success') {
+                                    edit_profile.status = 'success';
+                                    setTimeout(function() {
+                                        window.location = './index.php';
+                                    }, 3000);
+                                }
                             });
                             console.log(this.profile);
                         },

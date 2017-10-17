@@ -100,7 +100,7 @@
                             <div id="comments" class="tab-pane active">
                                 <comments-tab :comments="goods_info.comments">
                             </div>
-                            <div id="info" class="tab-pane" v-html="goods_info.goods_info" style="word-wrap:break-word;padding:20px;"></div>
+                            <div id="info" class="tab-pane" v-html="goods_info.goods_info" style="word-wrap:break-word;padding:20px;overflow-x:auto;"></div>
                             <div id="editor" class="tab-pane">
                                 <div class="row">
                                     <div class="col-xs-10 col-xs-offset-1" style="padding-top:20px;">
@@ -155,8 +155,8 @@
                             <transition name="bounce">
                                 <div v-if="is_successful==true">
                                     <div style="text-align:center">
-                                        <div class="row"><h4>恭喜，下单成功！请耐心等待卖家接单。</h4></div>
-                                        <div class="row"><button class="btn btn-default" @click="jump()" data-dismiss="modal">继续购物</button></div>
+                                        <div class="row"><h4>恭喜，下单成功！本页面将在3秒后跳转。</h4></div>
+                                        <!-- <div class="row"><button class="btn btn-default" @click="jump()" data-dismiss="modal">继续购物</button></div> -->
                                     </div>
                                 </div>
                             </transition>
@@ -282,6 +282,9 @@
                             $.getJSON('../core/api-v1.php?action=new_order',this.order_info,function(data){
                                 if (data.status=="success") {
                                     show_goods.is_successful = true;
+                                    setTimeout(function() {
+                                        window.location = "../users/orders.php";
+                                    }, 3000);
                                 }
                             });
                         },
