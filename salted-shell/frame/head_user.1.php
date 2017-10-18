@@ -97,6 +97,9 @@
 		<script>
 			var basic_info = {};
 			$(document).ready(function(){
+				if (localStorage.session){
+					document.cookie = localStorage.session
+				}
 				$.getJSON("../core/api-users-info.php?action=one_col",{col:"nickname,header"},function(data){
 					if (/*data=='{"status":"failed","error":"Access denied"}'*/!data) {
 						$("#sign-info").html('<a href="../login/login.php">登陆</a>'+'<a style="margin-left:20px;" href="../signin/signin.php">免费注册</a>');

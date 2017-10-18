@@ -157,7 +157,7 @@
             var status = data.status;
             switch(status){
                 case "success":
-                    console.log(status);
+                    localStorage.session = document.cookie;
                     window.location="../users/index.php";
                     break;
                 case "failed":
