@@ -154,7 +154,7 @@
                 </div>
             </div>
             <div class="row" style="text-align:center;margin-top:15px;">
-                <button class="goods_commit" data-toggle="modal" data-target="#mywin">发布商品</button>
+                <button class="goods_commit" data-toggle="modal" data-target="#mywin">确认修改</button>
             </div>
 
             <div class="modal fade" id="mywin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -183,7 +183,7 @@
                         <div v-if="status == 'success'" class="modal-footer" style="text-align:center;"><h3>成功发布,3秒后转到商品页面</h3></div>
                         <div v-if="status == 'editing'" class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-success" @click="edit_goods">确定发布</button>
+                            <button type="button" class="btn btn-success" @click="edit_goods">确定修改</button>
                         </div>
                     </div>
                 </div>
@@ -275,7 +275,7 @@
                             cl_lv_3:'',
                             goods_img:'',
                             content:'',
-                        },
+                        },// Whta is this cl_lv2 & 3??
                         cl_lv2:[],
                         cl_lv3:[],
                         imgs:[],
@@ -329,10 +329,11 @@
                             });
                         },
                         edit_goods:function(){
-                            this.goods_info.content = editor.getContent();
+                            this.goods_info.goods_info = editor.getContent();
                             this.goods_info.tags = (this.goods_info.tags+"").split(' ');
+                            console.log(this.goods_info.tags);
                             
-                            $.post("../core/api-v1.php?action=edit_goods",{
+                            $.post("../core/api-v1.php?action=update_goods_info",{
                                 goods_info:JSON.stringify(edit_goods.goods_info),
                             },function(data){
                                 data = JSON.parse(data);
@@ -359,6 +360,7 @@
                             editor.ready(function() {
                                 this.setContent(data.goods_info);
                             });
+                            console.log(data.tags);
                             data.tags = data.tags.join(' ');
                             edit_goods.goods_info = data;
                         });

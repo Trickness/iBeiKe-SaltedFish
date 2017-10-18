@@ -194,8 +194,13 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['search_summary'] = urldecode($res['search_summary']);
 	$goods_info['comments'] 	= json_decode($res['comments'],true);
 	$goods_info['delivery_fee'] = $res['delivery_fee'];
-	$goods_info['tags'] 		= explode(" ",$res['tags']);
+	$goods_info['tags'] 		= json_decode(urldecode($res['tags']));
 	$goods_info['goods_img']	= urldecode($res['goods_img']);
+	$goods_info['cl_lv_1']		= urldecode($res['cl_lv_1']);
+	$goods_info['cl_lv_2']		= urldecode($res['cl_lv_2']);
+	$goods_info['cl_lv_3']		= urldecode($res['cl_lv_3']);
+	
+
 
 	/*for ($i = 0; $i < $goods_info['tags'].length; $i++){
 		$goods_info['tags'][$i] = urldecode($goods_info['tags'][$i]);
@@ -276,7 +281,7 @@ function revoke_goods($goods_id, $student_id){
  *      - $goods_status       (@JSONStr)
  *
  **/
-function update_goods($goods_info, $student_id){
+function update_goods_info($goods_info, $student_id){
 	global $db_host;
 	global $db_user;
 	global $db_pass;
@@ -284,6 +289,7 @@ function update_goods($goods_info, $student_id){
 	global $db_goods_table;
 
 	// get id
+	$goods_info 		= json_decode($goods_info,true);
 	$goods_id  			= __JSON($goods_info,"goods_id")						or 	die(generate_error_report("syntax error")) ;
 
 	// fetch basic info
@@ -296,37 +302,36 @@ function update_goods($goods_info, $student_id){
 		die(generate_error_report("access denied"));
 	}
 
-	$goods_info 		= json_decode($goods_info,true);
+	//
 
 	// update info
 	$goods_title 		= urldecode(__JSON($goods_info,"goods_title"	,$res['goods_title']));		$goods_title 	= urlencode($goods_title);
-	$goods_img 			= urldecode(__JSON($goods_img,"goods_img"		,$res['goods_img'])); 		$goods_img 		= urlencode($goods_img);
+	$goods_img 			= urldecode(__JSON($goods_info,"goods_img"		,$res['goods_img'])); 		$goods_img 		= urlencode($goods_img);
 	$goods_status 		= __JSON($goods_info,"goods_status"				,$res['goods_status']);
 	$goods_type 		= __JSON($goods_info,"goods_type"				,$res['goods_type']);
-	$goods_single_cost 	= float(__JSON($goods_info,"single_cost"		,$res['single_cost']));
-	$goods_remain		= int(__JSON($goods_info,"remain"				,$res['remain']));
+	$goods_single_cost 	= floatval(__JSON($goods_info,"single_cost"		,$res['single_cost']));
+	$goods_remain		= intval(__JSON($goods_info,"remain"			,$res['remain']));
 	$goods_last_modified= date("Y/m/d");
-	$goods_delivery_fee = float(__JSON($goods_info,'delivery_fee'		,$res['delivery_fee']));
+	$goods_delivery_fee = floatval(__JSON($goods_info,'delivery_fee'	,$res['delivery_fee']));
 	$goods_tags 		= __JSON($goods_info,"tags"						,$res['tags']);
 	
-	$content			= urldecode(__JSON($goods_info,"goods_info"		,$res['goods_info']));		$goods_info 	= urlencode($goods_info);
+	$content			= urldecode(__JSON($goods_info,"goods_info"		,$res['goods_info']));
 
-	$lv1 				= __JSON($goods_info,"cl_lv_1"					,$res['lv1']);
-	$lv2 				= __JSON($goods_info,"cl_lv_2"					,$res['lv2']);
-	$lv3 				= __JSON($goods_info,"cl_lv_3"					,$res['lv3']);
+	$lv1 				= __JSON($goods_info,"cl_lv_1"					,$res['cl_lv_1']);
+	$lv2 				= __JSON($goods_info,"cl_lv_2"					,$res['cl_lv_2']);
+	$lv3 				= __JSON($goods_info,"cl_lv_3"					,$res['cl_lv_3']);
+	
 
-	$goods_tags_str = "";
-	foreach($goods_tags as $tag){
-		$tag = urlencode($tag);
-		$goods_tags_str = $goods_tags_str." ".$tag;
-	}
+	$goods_tags_str = strval(urlencode(json_encode($goods_tags)));
 
 	$goods_search_summary  = urlencode(mb_substr($content,0,100,"utf-8").";".$goods_type.";".$goods_title.";".$lv1.";".$lv2.";".$lv3.";".$goods_tags_str);
-
-	if(($goods_type != "rent") 		or ($goods_status != "sale"))					die(generate_error_report("syntax error")) ;
-	if(($goods_status!="available") or ($goods_status != "withdrawal"))				die(generate_error_report("syntax error")) ;
+	if(($goods_type != "rent") 		and ($goods_type != "sale"))						die(generate_error_report("syntax error2")) ;
+	if(($goods_status!="available") and ($goods_status != "withdrawal"))				die(generate_error_report("syntax error3")) ;
 	if ($goods_remain == 0)
 		$goods_status = "soldout";
+
+	// post
+	$content 		= urlencode($content);
 
 	$update = "update $db_goods_table set 	goods_title 	= '$goods_title',
 											goods_img 		= '$goods_img',
@@ -334,21 +339,26 @@ function update_goods($goods_info, $student_id){
 											goods_type 		= '$goods_type',
 											single_cost 	= '$goods_single_cost',
 											remain			= '$goods_remain',
-											last_modified 	= '$last_modified',
-											delivery_fee	= '$delivery_fee',
+											last_modified 	= '$goods_last_modified',
+											delivery_fee	= '$goods_delivery_fee',
 											search_summary 	= '$goods_search_summary',
-											goods_info 		= '$goods_info',
+											goods_info 		= '$content',
 											tags 			= '$goods_tags_str',
 											cl_lv_1			= '$lv1',
 											cl_lv_2			= '$lv2',
-											cl_lv_3			= '$lv3'";
+											cl_lv_3			= '$lv3'
+											WHERE goods_id	= '$goods_id'";
 	$query_1 = mysqli_query($link,$update);
 	if(!$query){
 		die(generate_error_report("Database Error in update_goods_info[".$link->error));
 		mysqli_close($link);		
 	}
 	mysqli_close($link);	
-	return generate_error_report('success');
+	die(json_encode(array(
+		"status" => "success",
+		"error" => "",
+		"goods_id" => $goods_id
+	)));
 }
 
 

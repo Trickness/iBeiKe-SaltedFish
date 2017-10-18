@@ -19,7 +19,7 @@
 | `search_summary`  |   urlencoded  |   urlencoded  |
 | `goods_info`      |   urlencoded  |   urlencoded  |
 | `comments`        |   json encoded|   list        |
-| `tags`            |   json encoded|   list        |
+| `tags`            |   json encoded|   urlencoded  |
 | `cl_lv_1`         |   string      |   urlencoded  |
 | `cl_lv_2`         |   string      |   urlencoded  |
 | `cl_lv_3`         |   string      |   urlencoded  |
