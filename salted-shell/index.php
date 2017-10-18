@@ -428,7 +428,7 @@
                 };
 
                 var Pagi = {
-                    props:['total'],
+                    props:['total','target'],
                     template:'#pagi',
                     methods:{
                         jump:function(page){

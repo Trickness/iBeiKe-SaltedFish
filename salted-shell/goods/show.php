@@ -148,8 +148,8 @@
                         <div class="modal-footer">
                             <transition name="bounce">
                                 <div v-if="is_successful==false">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                         <button type="button" @click="new_order" class="btn btn-primary">确认结算</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                 </div>
                             </transition>
                             <transition name="bounce">

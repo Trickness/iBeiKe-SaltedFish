@@ -47,12 +47,15 @@ if (isset($_GET['goods_id'],$_GET['action'])) {
                                         )) {
                 echo json_encode(array(
 		            "status" => "success",
-                    "order_id" => $result
+                    "order_id" => $result,
 	            ));
             }else echo json_encode(array(
 		        "status" => "failed to create order"
 	        ));
         }
+    }elseif ($_GET['action']=='fetch_goods_info') {
+        $goods_info = json_decode(fetch_goods_info($_GET['goods_id'],session_id()),true);        
+        echo json_encode($goods_info);
     }
 }
 ?>
