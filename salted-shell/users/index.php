@@ -75,7 +75,7 @@
 						是否确定要撤回商品？（ID：{{revoke.id}}）
 					</div>
 					<div v-if="revoke.status == false" class="modal-footer">
-						<button type="button" class="btn btn-success" @click="revoke_goods">确定修改</button>
+						<button type="button" class="btn btn-success" @click="revoke_goods">确定撤回</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 					<div v-if="revoke.status == true" class="modal-footer" style="text-align:center;">
@@ -251,7 +251,8 @@
 							else info.goods_status = '下架';
 						if (this.goods.goods_type == "sale") info.goods_type = '出售';
 							else info.goods_type = '租赁';
-						info.tags = this.goods.tags.join(' ');
+						// info.tags = JSON.parse(this.goods.tags[0]).join(' ');
+						// info.tags = this.goods.tags[0].join(' ');
 						return info;
 					},
 					edit:function(){

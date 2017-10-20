@@ -180,10 +180,10 @@
                                 </tr></tbody>
                             </table>
                         </div>
-                        <div v-if="status == 'success'" class="modal-footer" style="text-align:center;"><h3>成功发布,3秒后转到商品页面</h3></div>
+                        <div v-if="status == 'success'" class="modal-footer" style="text-align:center;"><h3>修改成功,3秒后转到商品页面</h3></div>
                         <div v-if="status == 'editing'" class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <button type="button" class="btn btn-success" @click="edit_goods">确定修改</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         </div>
                     </div>
                 </div>
@@ -352,16 +352,12 @@
                         }
                     },
                     created:function(){
-                        $.getJSON('../core/api-show-goods.php',{action:'show',goods_id:goods_id},function(data){
+                        $.getJSON('../core/api-show-goods.php',{action:'fetch_goods_info',goods_id:goods_id},function(data){
                             console.log(data);
-                            for (var i = 0; i < data.tags.length; i++) {
-                                data.tags[i] = decodeURI(data.tags[i]);
-                            }
                             editor.ready(function() {
                                 this.setContent(data.goods_info);
                             });
                             console.log(data.tags);
-                            data.tags = data.tags.join(' ');
                             edit_goods.goods_info = data;
                         });
                     }

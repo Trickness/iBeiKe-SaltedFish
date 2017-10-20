@@ -203,15 +203,15 @@
                                     <div class="col-xs-5 item">运费<span style="color:#FD9860;">￥{{order.delivery_fee}}</span></div>\
                                 </div>\
                                 <div v-if="type == \'buy\'" class="col-sm-3 bt" style="overflow:hidden;text-align:center;">\
-                                    <div v-if="order.order_status == \'waiting\' " class="btn-group"><button class="btn btn-theme" disabled>等待受理</button><button class="btn btn-default" @click="cancel_order">取消订单</button></div>\
+                                    <div v-if="order.order_status == \'waiting\' " class="btn-group"><button class="btn btn-theme" disabled>等待受理</button><button class="btn btn-default" @click="edit_order(\'cancel_order\')">取消订单</button></div>\
                                     <div v-else-if="order.order_status == \'accepted\' " class="btn-group"><button class="btn btn-success" disabled>已经受理</button><button class="btn btn-default" disabled>等待配送</button></div>\
-                                    <div v-else-if="order.order_status == \'completed\' " class="btn-group"><button class="btn btn-primary" @click="finish_order">确认收货</button><button class="btn btn-default" @click="cancel_order">取消订单</button></div>\
+                                    <div v-else-if="order.order_status == \'completed\' " class="btn-group"><button class="btn btn-primary" @click="edit_order(\'finish_order\')">确认收货</button><button class="btn btn-default" @click="edit_order(\'cancel_order\')">取消订单</button></div>\
                                     <div v-else-if="order.order_status == \'finished\' " class="btn-group"><button class="btn btn-theme" disabled>订单完成</button></div>\
                                 </div>\
                                 <div v-else-if="type == \'sale\'" class="col-sm-3 bt" style="overflow:hidden;text-align:center;">\
-                                    <div v-if="order.order_status == \'waiting\' " class="btn-group"><button class="btn btn-success" data-loading-text="接单中..." @click="accept_order">接受订单</button><button class="btn btn-default" data-loading-text="撤销中..." @click="cancel_order">取消订单</button></div>\
-                                    <div v-else-if="order.order_status == \'accepted\' " class="btn-group"><button class="btn btn-theme" @click="complete_order">确认送达</button><button class="btn btn-default" data-loading-text="撤销中..." @click="cancel_order">撤销订单</button></div>\
-                                    <div v-else-if="order.order_status == \'completed\' " class="btn-group"><button class="btn btn-primary" disabled>货物送达</button><button class="btn btn-default" diabled>等待确认</button></div>\
+                                    <div v-if="order.order_status == \'waiting\' " class="btn-group"><button class="btn btn-success" data-loading-text="接单中..." @click="edit_order(\'accept_order\')">接受订单</button><button class="btn btn-default" data-loading-text="撤销中..." @click="cancel_order">取消订单</button></div>\
+                                    <div v-else-if="order.order_status == \'accepted\' " class="btn-group"><button class="btn btn-theme" @click="edit_order(\'complete_order\')">确认送达</button><button class="btn btn-default" data-loading-text="撤销中..." @click="edit_order(\'cancel_order\')">撤销订单</button></div>\
+                                    <div v-else-if="order.order_status == \'completed\' " class="btn-group"><button class="btn btn-primary" disabled>货物送达</button><button class="btn btn-default" disabled>等待确认</button></div>\
                                     <div v-else-if="order.order_status == \'finished\' " class="btn-group"><button class="btn btn-theme" disabled>订单完成</button></div>\
                                 </div>\
                             </div>\
@@ -268,39 +268,48 @@
                         },
                     },
                     methods:{
-                        accept_order:function(){
+                        edit_order:function(action){
                             var order = this.order;
-                            $.getJSON('../core/api-v1.php',{action:'accept_order',order_id:order.order_id},function(data){
+                            $.getJSON('../core/api-v1.php',{action:action,order_id:order.order_id},function(data){
                                 if (data.status == 'success') {
+                                    switch (action) {
+                                        case 'accept_order':
+                                            sweetAlert('接单成功！','您已接手了该订单（订单ID：'+order.order_id+'），请记得及时送达商品哦！','success');
+                                            break;
+                                        case 'cancel_order':
+                                            sweetAlert('撤销成功','您已撤销了该订单','warning');                                    
+                                            break;
+                                        case 'complete_order':
+                                            sweetAlert('确认送达','您已将该订单下的商品送达，请等待买家确认','success');                                    
+                                            break;
+                                        case 'finish_order':
+                                            sweetAlert('确认收货','您已确认收到该订单下的货物，订单完成','success');                                    
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                     orders_init(self_info.info.student_id.value);
-                                    sweetAlert('接单成功！','您已接手了该订单（订单ID：'+order.order_id+'），请记得及时送达商品哦！','success');
-                                }
-                            });
-                        },
-                        cancel_order:function(){
-                            var order_id = this.order.order_id;
-                            $.getJSON('../core/api-v1.php',{action:'cancel_order',order_id:order_id},function(data){
-                                if (data.status == 'success') {
-                                    sweetAlert('撤销成功','您已撤销了该订单','warning');                                    
+                                }else if (data.status == 'failed') {
+                                    switch (data.error) {
+                                        case 'No such order':
+                                            sweetAlert('订单不存在','该订单已被用户撤回','error');                                            
+                                            break;
+                                        case 'Unknown database error at cancel_order_from_user':
+                                            sweetAlert('粗问题了！！！','系统出现故障，请联系工作人员检修。','error');                                            
+                                            break;
+                                        case 'Access dined':
+                                            sweetAlert('权限不足','非登陆状态，没有操作订单的权限','error');                                            
+                                            break;
+                                        case 'You have no access to accept this order':
+                                            sweetAlert('权限不足','您不是该商品卖家，没有操作订单的权限','error');                                            
+                                            break;
+                                        case "There's order but no goods??":
+                                            sweetAlert('粗问题了！！！','该订单下的商品不存在','error');                                            
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                     orders_init(self_info.info.student_id.value);
-                                }
-                            });
-                        },
-                        complete_order:function(){
-                            var order_id = this.order.order_id;
-                            $.getJSON('../core/api-v1.php',{action:'complete_order',order_id:order_id},function(data){
-                                if (data.status == 'success') {
-                                    orders_init(self_info.info.student_id.value);
-                                    sweetAlert('确认送达','您已将该订单下的商品送达，请等待买家确认','success');                                    
-                                }
-                            });
-                        },
-                        finish_order:function(){
-                            var order_id = this.order.order_id;
-                            $.getJSON('../core/api-v1.php',{action:'finish_order',order_id:order_id},function(data){
-                                if (data.status == 'success') {
-                                    orders_init(self_info.info.student_id.value);
-                                    sweetAlert('确认收货','您已确认收到该订单下的货物，订单完成','success');                                    
                                 }
                             });
                         },

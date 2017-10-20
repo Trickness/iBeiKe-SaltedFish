@@ -28,7 +28,7 @@
 		<ul class="nav navbar-nav">
 			<li><a href="../index.php">商城</a></li>
 			<li v-if="is_login"><a href="../users/index.php">个人中心</a></li>
-			<li v-if="is_login"><a href="../core/api-v1.php?action=logout">注销</a></li>
+			<li v-if="is_login"><a @click="logout">注销</a></li>
 		</ul>
 		<ul v-if="!is_login" class="nav navbar-nav navbar-right">
 			<li><a href="../login/login.php">登陆</a></li>
@@ -68,6 +68,16 @@
 		},
 		computed:{
 			bg:function(){return bg_ch(this.info.header);},
+		},
+		methods:{
+			logout:function(){
+				$.getJSON('../core/api-v1.php?action=logout',function(data){
+					console.log(data);
+					if (data.status == 'success') {
+						window.location = '../index.php';
+					}
+				});
+			},
 		},
 		created:function(){
 			$.getJSON("../core/api-v1.php?action=fetch_self_info",function(data){

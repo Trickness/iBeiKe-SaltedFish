@@ -147,16 +147,22 @@
 
                         <div class="modal-footer">
                             <transition name="bounce">
-                                <div v-if="is_successful==false">
+                                <div v-if="status=='editing'">
                                         <button type="button" @click="new_order" class="btn btn-primary">确认结算</button>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                 </div>
                             </transition>
                             <transition name="bounce">
-                                <div v-if="is_successful==true">
+                                <div v-if="status=='success'">
                                     <div style="text-align:center">
                                         <div class="row"><h4>恭喜，下单成功！本页面将在3秒后跳转。</h4></div>
                                         <!-- <div class="row"><button class="btn btn-default" @click="jump()" data-dismiss="modal">继续购物</button></div> -->
+                                    </div>
+                                </div>
+                                <div v-if="status == 'error'">
+                                    <div style="text-align:center;">
+                                        <div class="row"><h4>{{error}}</h3></div>
+                                        <div class="row"><button class="btn btn-default" @click="status = 'editing'" data-dismiss="modal">继续购物</button></div>
                                     </div>
                                 </div>
                             </transition>
@@ -238,7 +244,9 @@
                             single_cost:0,
                             offer:0,
                         },
-                        is_successful:false,
+
+                        status:'editing',
+                        error:null,
 
                         // 图片试验
                         // imgs:[],
@@ -280,11 +288,27 @@
                     methods:{
                         new_order:function(){
                             $.getJSON('../core/api-v1.php?action=new_order',this.order_info,function(data){
+                                console.log(data);
                                 if (data.status=="success") {
-                                    show_goods.is_successful = true;
+                                    show_goods.status = 'success';
                                     setTimeout(function() {
                                         window.location = "../users/orders.php";
                                     }, 3000);
+                                }else if(data.status == 'failed'){
+                                    show_goods.status = 'error';
+                                    switch (data.error) {
+                                        case 'This goods is not available':
+                                            show_goods.error = '非常抱歉，该商品暂时下架，无法下单购买。';                                            
+                                            break;
+                                        case 'No enough goods':
+                                            show_goods.error = '非常抱歉，您的选购数量超过了商品库存,无法下单。';                                            
+                                            break;
+                                        case 'No such goods':
+                                            show_goods.error = '非常抱歉，由于某种神秘力量，商品消失了。';                                            
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 }
                             });
                         },

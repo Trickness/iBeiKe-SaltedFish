@@ -20,7 +20,7 @@
         ?>
 
         <style>
-            .panel{max-width: 927px;background-color: white;border-radius: 4px;box-shadow: 0 0 4px #cccccc;}
+            .panel{max-width: 927px;background-color: white;border-radius: 2px;box-shadow:0 1px 3px rgba(0,0,0,.1);}
             .info-item{line-height:20px;height:20px;}   .info-item img{width:18px;height:20px;}     .info-item span{margin-left:15px;}
             .header{width:160px;height:160px;margin-top:-50px;border:4px solid white;border-radius:10px;}
             .rank{height:40px;border-radius:7px;background-color:antiquewhite;margin-bottom:15px;}     .rank-item{float:left;padding:0 10px 0 10px;}
@@ -167,7 +167,6 @@
                             <div class="row" style="padding:0 10px 0 10px;">\
                                 <div class="col-xs-12 rank">\
                                     <div class="rank-item" style="line-height:40px;"><span class="rank-act">新品抢鲜</span></div>\
-                                    <div class="rank-item" style="line-height:40px;">人气排行</div>\
                                 </div>\
                             </div>\
                             <div class="row">\
