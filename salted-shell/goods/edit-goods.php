@@ -110,7 +110,7 @@
                 <div class="row">
                     <div class="col-xs-6 form-group">
                         <label>商品状态</label>
-                        <select class="form-control" v-model="goods_info.goods_status">
+                        <select class="form-control" v-model="goods_info.goods_status" disabled>
                             <option value="available" selected>在售</option>
                         </select>
                     </div>
@@ -181,6 +181,10 @@
                             </table>
                         </div>
                         <div v-if="status == 'success'" class="modal-footer" style="text-align:center;"><h3>修改成功,3秒后转到商品页面</h3></div>
+                        <div v-if="status == 'failed'" class="modal-footer" style="text-align:center;">
+                            <div><h4>{{error}}</h4></div>
+                            <div style="text-align:center;"><button type="button" class="btn btn-default" data-dismiss="modal" @click="status = 'editing'">返回编辑</button></div>
+                        </div>
                         <div v-if="status == 'editing'" class="modal-footer">
                             <button type="button" class="btn btn-success" @click="edit_goods">确定修改</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -280,6 +284,7 @@
                         cl_lv3:[],
                         imgs:[],
                         status:'editing',
+                        error:'',
                     },
                     computed:{
                         lv_2:function(){
@@ -343,13 +348,21 @@
                                     console.log(edit_goods.status);
                                     setTimeout(function(){window.location="show.php?goods_id="+data.goods_id;},3000);
                                 }else if(status === "failed"){
-                                    console.log(status);
-                                    console.log(data.error);
+                                    edit_goods.error = edit_goods.error_analyze(data.error);
                                 }else{
                                     console.log(data);
                                 }
                             });
-                        }
+                        },
+                        error_analyze:function(error){
+                            var error_info = '';
+                            switch (error) {
+                                case 'access denied':error_info = '您尚未登陆'; break;
+                                case 'No such goods':error_info = '该商品不存在'; break;
+                                default:break;
+                            }
+                            return error_info;
+                        },
                     },
                     created:function(){
                         $.getJSON('../core/api-show-goods.php',{action:'fetch_goods_info',goods_id:goods_id},function(data){

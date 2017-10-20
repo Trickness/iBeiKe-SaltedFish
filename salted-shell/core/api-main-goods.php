@@ -18,7 +18,7 @@ require_once "./goods.php";
 	    	$amount = $_GET['amount'];
 			$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 			if ($rank == "new") {
-				$sql = "SELECT goods_id FROM $db_goods_table ORDER BY ttm DESC LIMIT 0,$amount";
+				$sql = "SELECT goods_id FROM $db_goods_table WHERE goods_status = 'available' ORDER BY ttm DESC LIMIT 0,$amount";
 			}elseif ($rank == "hot") {
 				$sql = "SELECT goods_id FROM $db_goods_table LIMIT 0,$amount";
 			}

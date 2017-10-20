@@ -19,7 +19,7 @@ if (isset($_GET['action'])) {
 		$goods_list = array();
 		
 		$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-		$sel_sql = "SELECT goods_id FROM $db_goods_table ORDER BY goods_id DESC LIMIT 0,4";
+		$sel_sql = "SELECT goods_id FROM $db_goods_table WHERE goods_status = 'available' ORDER BY goods_id DESC LIMIT 0,4";
 		$sel_query = mysqli_query($link,$sel_sql);
 		mysqli_close($link);
 		while ($res = mysqli_fetch_assoc($sel_query)){
@@ -73,4 +73,5 @@ if (isset($_GET['action'])) {
 		}
 	}
 }
+// goods_id,goods_title,goods_img,single_cost,delivery_fee,goods_type,goods_status,remain,tags,cl_lv_1,cl_lv_2,cl_lv_3
 ?>

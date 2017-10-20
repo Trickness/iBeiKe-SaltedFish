@@ -146,7 +146,7 @@
 					<div class="col-xs-12" style="padding:0;line-height:30px;background-color:#f3f3f3;color:grey;">
 						<div class="col-xs-3">商品ID：{{goods.goods_id}}</div>
 						<div class="col-xs-3">交易方式：{{convert_info.goods_type}}</div>
-						<div class="col-xs-3">商品状态：{{convert_info.goods_status}}</div>
+						<div class="col-xs-3">商品状态：<span style="color:#FD9860;">{{convert_info.goods_status}}</span></div>
 					</div>
 					<div class="col-xs-12" style="padding:0;">
 						<div class="col-xs-5" style="padding:10px;border-right:1px solid #cccccc;height:90px;">
@@ -252,7 +252,7 @@
 						if (this.goods.goods_type == "sale") info.goods_type = '出售';
 							else info.goods_type = '租赁';
 						// info.tags = JSON.parse(this.goods.tags[0]).join(' ');
-						// info.tags = this.goods.tags[0].join(' ');
+						info.tags = this.goods.tags.join(' ');
 						return info;
 					},
 					edit:function(){

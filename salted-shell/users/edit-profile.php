@@ -145,8 +145,8 @@
                     <div class="row" style="margin-top:15px;">
                         <div class="col-xs-12">
                             <label>学院</label>
-                            <input v-if="state" type="text" class="form-control" v-model="profile.department.value" />
-                            <select v-if="!state" class="form-control" v-model="profile.department.access">
+                            <input v-if="state" type="text" class="form-control" v-model="profile.class_info.department.value" />
+                            <select v-if="!state" class="form-control" v-model="profile.class_info.department.access">
                                 <option value="public">公开</option>
                                 <option value="protected">登陆可见</option>
                             </select>

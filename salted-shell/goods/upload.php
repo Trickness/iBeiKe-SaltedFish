@@ -105,7 +105,7 @@
                 <div class="row">
                     <div class="col-xs-6 form-group">
                         <label>商品状态</label>
-                        <select class="form-control" v-model="goods_info.goods_status">
+                        <select class="form-control" v-model="goods_info.goods_status" disabled>
                             <option value="available" selected>在售</option>
                         </select>
                     </div>
@@ -176,6 +176,10 @@
                             </table>
                         </div>
                         <div v-if="status == 'success'" class="modal-footer" style="text-align:center;"><h3>成功发布,3秒后转到商品页面</h3></div>
+                        <div v-if="status == 'failed'" class="modal-footer" style="text-align:center;">
+                            <div><h4>{{error}}</h4></div>
+                            <div style="text-align:center;"><button type="button" class="btn btn-default" data-dismiss="modal" @click="status = 'editing'">返回编辑</button></div>
+                        </div>
                         <div v-if="status == 'editing'" class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <button type="button" class="btn btn-success" @click="submit_goods">确定发布</button>
@@ -233,14 +237,14 @@
                 });
                 var goods_cl = [
                     ['实体商品',[
-                        ['开学季',['全部','军训物资','二手教材书','学霸笔记','被子','电话卡','其他']],
-                        ['电子产品',['全部','手机配件','电脑配件','其他']],
-                        ['吃喝',['全部','零食','特产','饮品','其他']],
-                        ['乐器',['全部','吉他','小提琴','尤克里里','口琴','其他']],
-                        ['生活用品',['全部','床上用品','学习用品','洗漱用品','日常用品','其他']],
-                        ['体育用品',['全部','球类','竞技类','有氧类','健身类','其他']],
-                        ['书类',['全部','教材','课外书','杂志订阅','GRE','雅思托福','学霸笔记','复习材料','其他']],
-                        ['服饰',['全部','男装','女装','鞋','帽','围巾','手套','其他']],
+                        ['开学季',['军训物资','二手教材书','学霸笔记','被子','电话卡','其他']],
+                        ['电子产品',['手机配件','电脑配件','其他']],
+                        ['吃喝',['零食','特产','饮品','其他']],
+                        ['乐器',['吉他','小提琴','尤克里里','口琴','其他']],
+                        ['生活用品',['床上用品','学习用品','洗漱用品','日常用品','其他']],
+                        ['体育用品',['球类','竞技类','有氧类','健身类','其他']],
+                        ['书类',['教材','课外书','杂志订阅','GRE','雅思托福','学霸笔记','复习材料','其他']],
+                        ['服饰',['男装','女装','鞋','帽','围巾','手套','其他']],
                         ['服装定制',[]],
                     ]],
                     ['非实体商品',[
@@ -264,7 +268,7 @@
                             remain:'',
                             tags:'',
                             goods_type:'',
-                            delivery_fee:'',
+                            delivery_fee:0,
                             cl_lv_1:'',
                             cl_lv_2:'',
                             cl_lv_3:'',
@@ -275,6 +279,7 @@
                         cl_lv3:[],
                         imgs:[],
                         status:'editing',
+                        error:'',
                     },
                     computed:{
                         lv_2:function(){
@@ -331,20 +336,29 @@
                                 goods_info:JSON.stringify(upload_goods.goods_info),
                             },function(data){
                                 data = JSON.parse(data);
-                                var status = data.status;
-                                if(status === "success"){
-                                    upload_goods.status = 'success';
-                                    console.log(upload_goods.status);
+                                upload_goods.status = data.status;
+                                console.log(upload_goods.status);
+                                if(upload_goods.status === "success"){
                                     setTimeout(function(){window.location="show.php?goods_id="+data.goods_id;},3000);
-                                }else if(status === "failed"){
-                                    console.log(status);
-                                    console.log(data.error);
                                 }else{
-                                    console.log(data);
+                                    upload_goods.error = upload_goods.error_analyze(data.error);
                                 }
                             });
                             console.log(this.goods_info);
-                        }
+                        },
+                        error_analyze:function(error){
+                            var error_info = '';
+                            switch (error) {
+                                case 'syntax error, no title specified':error_info = '商品名称'; break;
+                                case 'syntax error, no single cost specified':error_info = '价格'; break;
+                                case 'syntax error, no goods status specified':error_info = '商品状态'; break;
+                                case 'syntax error, no goods type specified':error_info = '交易方式'; break;
+                                case 'syntax error, no remain specified':error_info = '商品数量'; break;
+                                default:break;
+                            }
+                            var error_info = (error=='Not logged in')? '您尚未登陆' : '发布失败，'+error_info+'必须填写';
+                            return error_info;
+                        },
                     },
                 });
             });

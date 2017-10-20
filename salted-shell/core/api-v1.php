@@ -199,12 +199,17 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     }elseif($action == "edit_goods"){
         
     }elseif($action == "fetch_user_goods") {
-        $user_id = $student_id;    $page = 1;  $amount=2;
+        $user_id = $student_id;    $page = 1;  $amount=8;   $goods = null;
         if (isset($_GET['page'])) $page = $_GET['page'];
-        if (isset($_GET['user_id'])) $user_id = $_GET['user_id'];
+        if (isset($_GET['user_id'])) {
+            $user_id = $_GET['user_id'];
+            $goods = fetch_goods_for_sale_from_user($user_id,$page,$amount);
+        }else{
+            $goods = fetch_all_goods_from_user($user_id,$page,$amount);
+        }
         die(json_encode(array(
             'status'    =>  'success',
-            'goods'     =>  fetch_goods_for_sale_from_user($user_id,$page,$amount),
+            'goods'     =>  $goods,
             'total'     =>  fetch_total_pages($student_id,$amount),
         )));
     }elseif($action == "update_goods_info"){

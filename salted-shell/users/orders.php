@@ -269,46 +269,60 @@
                     },
                     methods:{
                         edit_order:function(action){
+                            var t = this;
+                            var title = '';
+                            switch (action) {
+                                case 'accept_order':title = '是否确认接单？';break;
+                                case 'cancel_order':title = '是否取消订单？';break;
+                                case 'complete_order':title = '确认送达';break;
+                                case 'finish_order':title = '确认收货';break;
+                                default:break;
+                            }
+                            swal({
+                                title:title,
+                                imageUrl:'../pic/funny.jpg',
+                                showCancelButton: true,
+                                confirmButtonColor: "#FD9860",
+                                confirmButtonText: "确定",
+                                cancelButtonText: "取消",
+                                closeOnConfirm: false,
+                                closeOnCancel: true,
+                                },
+                                function(isConfirm){
+                                    if (isConfirm) {
+                                        t.edit_result(action);
+                                    }
+                            });
+                        },
+                        edit_result:function(action){
                             var order = this.order;
                             $.getJSON('../core/api-v1.php',{action:action,order_id:order.order_id},function(data){
                                 if (data.status == 'success') {
                                     switch (action) {
-                                        case 'accept_order':
-                                            sweetAlert('接单成功！','您已接手了该订单（订单ID：'+order.order_id+'），请记得及时送达商品哦！','success');
-                                            break;
-                                        case 'cancel_order':
-                                            sweetAlert('撤销成功','您已撤销了该订单','warning');                                    
-                                            break;
-                                        case 'complete_order':
-                                            sweetAlert('确认送达','您已将该订单下的商品送达，请等待买家确认','success');                                    
-                                            break;
-                                        case 'finish_order':
-                                            sweetAlert('确认收货','您已确认收到该订单下的货物，订单完成','success');                                    
-                                            break;
-                                        default:
-                                            break;
+                                        case 'accept_order':swal('接单成功！','您已接手了该订单（订单ID：'+order.order_id+'），请记得及时送达商品哦！','success');break;
+                                        case 'cancel_order':swal('撤销成功','您已撤销了该订单','warning');break;
+                                        case 'complete_order':swal('确认送达','您已将该订单下的商品送达，请等待买家确认','success');break;
+                                        case 'finish_order':swal('确认收货','您已确认收到该订单下的货物，订单完成','success');break;
+                                        default:break;
                                     }
                                     orders_init(self_info.info.student_id.value);
                                 }else if (data.status == 'failed') {
+                                    var title = '';
+                                    var error = ''
                                     switch (data.error) {
-                                        case 'No such order':
-                                            sweetAlert('订单不存在','该订单已被用户撤回','error');                                            
-                                            break;
-                                        case 'Unknown database error at cancel_order_from_user':
-                                            sweetAlert('粗问题了！！！','系统出现故障，请联系工作人员检修。','error');                                            
-                                            break;
-                                        case 'Access dined':
-                                            sweetAlert('权限不足','非登陆状态，没有操作订单的权限','error');                                            
-                                            break;
-                                        case 'You have no access to accept this order':
-                                            sweetAlert('权限不足','您不是该商品卖家，没有操作订单的权限','error');                                            
-                                            break;
-                                        case "There's order but no goods??":
-                                            sweetAlert('粗问题了！！！','该订单下的商品不存在','error');                                            
-                                            break;
-                                        default:
-                                            break;
+                                        case 'No such order':title='订单不存在';error='该订单已被用户撤回';break;
+                                        case 'Access dined':title='权限不足';error='非登陆状态，没有操作订单的权限';break;
+                                        case ('You have no access to accept this order'||"This order is not yours"):title='权限不足';error='您不是该商品卖家，没有操作订单的权限';break;
+                                        case "There's order but no goods??":title='粗问题了！！！';error='该订单下的商品不存在';break;
+                                        case "You haven't accepted this order":title='权限不足';error='非登陆状态，没有操作订单的权限';break;
+                                        case "There's order but no goods??":title='粗问题了！！！';error='该订单下的商品不存在';break;
+                                        case "Bad status":title='粗问题了！！！';error='订单状态出错';break;
+                                        case "This order had been completed already":title='操作有误';error='卖家已确认送货';break;
+                                        case "Seller haven't completed this order yet!":title='操作有误';error='卖家尚未送货';break;
+                                        case "This order had been finished already":title='操作有误';error='买家已确认收货';break;
+                                        default:break;
                                     }
+                                    swal(title,error,'error');
                                     orders_init(self_info.info.student_id.value);
                                 }
                             });
