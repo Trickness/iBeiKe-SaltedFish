@@ -3,6 +3,11 @@
 <script src="./js/bootstrap/bootstrap.min.js"></script>
 <script src="./js/vue.js"></script>
 <style>
+	@font-face {
+		font-family: msyh;
+		src: url('./fonts/msyh.ttf');
+	}
+	body{font-family: msyh;}
 	#logo{height: 50px;margin-top: -15px;width: 40px;}
 	.lb{float:left;color:white;}
 	.act{background-color:#FF6633;}

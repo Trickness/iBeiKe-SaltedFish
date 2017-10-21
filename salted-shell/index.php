@@ -40,7 +40,7 @@
             .cl1:hover{background-color:#FFCC33;}   .cl1 a{color:white;}    .cl1 a:hover{text-decoration:underline;}
             .reco-lt,.reco-rt{padding:0;overflow:hidden;}
             .order{height:90px;border:1px solid #e6e5e5;margin-bottom:18px;transition-duration:0.3s;}    .order:hover{box-shadow:0 0 6px grey;}
-            .order-info{height:25px;background-color:#E6E5E5;line-height:25px;font-size:11px;}
+            .order-info{height:25px;background-color:#E6E5E5;line-height:25px;font-size:10px;}
             .rt-float.affix{top:70px;}
             .goods{transition-duration:0.3s;}       .goods:hover{background-color:#F3F3F3;box-shadow:0 0 4px #cccccc;}      .goods-title{margin-top:5px;height:30px;}   .single-cost{font-size:12px;}
             .hov{transition-duration:0.3s;}     .hov:hover{opacity:0.6;box-shadow:0 0 6px grey;}
@@ -225,7 +225,7 @@
             </script>
 
             <script type="text/x-template" id="list-orders">
-                <div class="rt-float" data-spy="affix" data-offset-top="95" style="width:fit-content;">
+                <div class="rt-float" data-spy="affix" data-offset-top="95" style="width:156px;">
                     <div class="row" style="border-bottom:2px solid #FD9860;margin-bottom:5px;">
                         <span style="font-size:18px;color:#FD9860;">我的购物车</span>
                     </div>
@@ -233,7 +233,7 @@
                         <div v-for="or in list" class="row order">
                             <div class="order-info" style="color:grey">
                                 <div class="col-xs-5">ID:{{or.order_id}}</div>
-                                <div class="col-xs-7">卖家：<a :href="jump(or.goods_owner,'user')">{{or.goods_owner}}</a></div>
+                                <div class="col-xs-7" style="padding:0;">卖家：<a :href="jump(or.goods_owner,'user')">{{or.goods_owner}}</a></div>
                             </div>
                             <div>
                                 <div style="float:left;"><div style="width:50px;height:50px;margin:6px;" :style="bg(or.goods_img)"></div></div>

@@ -33,7 +33,7 @@
                 .single-cost{font-size:10px;}                
                 .header{width:140px;height:140px;margin-top:-25px;border:4px solid white;border-radius:10px;}
                 .info-item{padding:0;}
-                .info-item span{margin: 0;margin-left: 6px;font-size: 11px;}          
+                .info-item span{margin: 0;font-size: 11px;}          
                 .goods-title{font-size:10px;margin-top:2px;height:15px;}
             }
         </style>
@@ -94,7 +94,7 @@
             $(document).ready(function(){
                 var Goods = {
                     props:['go'],
-                    template:'<a :href="jump"><div class="col-xs-3" style="margin-bottom:10px;">\
+                    template:'<a :href="jump"><div class="col-sm-3" style="margin-bottom:10px;">\
                             <div class="goods">\
                                 <div class="preview" ><div style="width:100%;border-radius:4px;" :style="bg"></div></div>\
                                 <div style="padding:5px;">\
@@ -170,7 +170,7 @@
                                 </div>\
                             </div>\
                             <div class="row">\
-                                <div class="col-xs-12"><div class="col-xs-3"><div class="preview"></div></div></div>\
+                                <div class="col-xs-12"><div class="col-sm-3"><div class="preview"></div></div></div>\
                                 <div class="col-xs-12">\
                                     <goods v-for="go in goods" :key="go.goods_id" :go="go" />\
                                 </div>\
