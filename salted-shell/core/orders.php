@@ -70,19 +70,19 @@ function cancel_order_from_user($current, $order_id){
     global $db_order_table;
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
-    $sql = "SELECT goods_id, order_submitter,purchase_amount from $db_order_table where order_id = '$order_id'";
+    $sql = "SELECT goods_id, order_submitter,purchase_amount,order_status from $db_order_table where order_id = '$order_id'";
     $result = $link->query($sql);
     if($result && $result->num_rows != 0){
         $result = mysqli_fetch_assoc($result);
         $goods_id = $result['goods_id'];
         $user_id  = $result['order_submitter'];
         $purchase_amount = $result['purchase_amount'];
-        if($current == $user_id || $current == fetch_goods_owner($goods_id)){
+        if($current == $user_id || $current == fetch_goods_owner($goods_id) and $result['order_status'] != 'finished'){
             $sql = "DELETE FROM $db_order_table WHERE order_id = '$order_id'";
             $result = $link->query($sql);
             $link->commit();
             $link->close();
-            if($result){
+            if($result && $result['order_status'] != 'waiting'){
                 increase_goods_remain($goods_id, $purchase_amount);
                 post_cancel_order();
                 return json_encode(array(
