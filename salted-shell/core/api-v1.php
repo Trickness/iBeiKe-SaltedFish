@@ -4,6 +4,7 @@ require_once "utils.php";
 require_once "users.php";
 require_once "goods.php";
 require_once "authorization.php";
+require_once 'sms.php';
 require_once "orders.php";
 
 // TODO: intval($goods_id)
@@ -109,9 +110,10 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         $offer = $_GET['offer'];
         $order_id = create_order_from_user($student_id, $order_type, $goods_id, $delivery_fee, $purchase_amount, $single_cost, $offer);
         if($order_id){
+            $sms = new OrderSms;    $sms_status = $sms->create_order($order_id);
             die(json_encode(array(
                 "status" => "success",
-                "order_id" => $order_id
+                "order_id" => $order_id,
             )));
         }else{
             die(json_encode(array(

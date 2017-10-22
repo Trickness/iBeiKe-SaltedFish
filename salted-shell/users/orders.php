@@ -209,7 +209,7 @@
                                     <div v-else-if="order.order_status == \'finished\' " class="btn-group"><button class="btn btn-theme" disabled>订单完成</button></div>\
                                 </div>\
                                 <div v-else-if="type == \'sale\'" class="col-sm-3 bt" style="overflow:hidden;text-align:center;">\
-                                    <div v-if="order.order_status == \'waiting\' " class="btn-group"><button class="btn btn-success" data-loading-text="接单中..." @click="edit_order(\'accept_order\')">接受订单</button><button class="btn btn-default" data-loading-text="撤销中..." @click="cancel_order">取消订单</button></div>\
+                                    <div v-if="order.order_status == \'waiting\' " class="btn-group"><button class="btn btn-success" data-loading-text="接单中..." @click="edit_order(\'accept_order\')">接受订单</button><button class="btn btn-default" data-loading-text="撤销中..." @click="edit_order(\'cancel_order\')">取消订单</button></div>\
                                     <div v-else-if="order.order_status == \'accepted\' " class="btn-group"><button class="btn btn-theme" @click="edit_order(\'complete_order\')">确认送达</button><button class="btn btn-default" data-loading-text="撤销中..." @click="edit_order(\'cancel_order\')">撤销订单</button></div>\
                                     <div v-else-if="order.order_status == \'completed\' " class="btn-group"><button class="btn btn-primary" disabled>货物送达</button><button class="btn btn-default" disabled>等待确认</button></div>\
                                     <div v-else-if="order.order_status == \'finished\' " class="btn-group"><button class="btn btn-theme" disabled>订单完成</button></div>\
