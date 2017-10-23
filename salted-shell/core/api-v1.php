@@ -261,6 +261,16 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         }else{
             die(generate_error_report("Please specify id and password"));
         }
+    }elseif($action == "reset"){
+        if(isset($_GET['id']) and isset($_GET['password'])){
+            if(confirm_student(strval($_GET['id']),strval($_GET['password']))){
+                if(change_password(strval($_GET['id']),strval($_GET['password']))){
+                    die(json_encode(array(
+                        "status" => "success"
+                    )));
+                }
+            }
+        }
     }
 }
 // 这个名字是不是有点太随意了？

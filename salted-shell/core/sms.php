@@ -15,11 +15,11 @@ class Sms{
         global $db_order_table;
         global $db_goods_table;
         global $db_users_table;
-        global $sms_apikey;
-        global $sms_tpl_id;
+        global $addons;
 
-        $this->sms_apikey       =   $sms_apikey;
-        $this->sms_tpl_id       =   $sms_tpl_id;
+        $this->sms_apikey       =   $addons["sms"]['sms_apikey'];
+        $this->sms_tpl_id       =   $addons["sms"]['sms_tpl_id'];
+        $this->is_enabled       =   $addons["sms"]['is_enabled'];
         $this->db_host          =   $db_host;
         $this->db_pass          =   $db_pass;
         $this->db_name          =   $db_name;
@@ -31,6 +31,9 @@ class Sms{
 
     protected function tpl_send($data){
         $this->ch = curl_init();
+        if (!$this->is_enabled){
+            return;
+        }
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Accept:text/plain;charset=utf-8','Content-Type:application/x-www-form-urlencoded', 'charset=utf-8'));
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->ch, CURLOPT_TIMEOUT, 10);
