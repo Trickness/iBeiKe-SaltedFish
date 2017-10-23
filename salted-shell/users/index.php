@@ -127,7 +127,7 @@
 				</div>
 				<div style="text-align:center;">
 					<div class="dropdown">
-						<button class="btn btn-success" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<button style="width:60%;" class="btn btn-success" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							骚操作<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dLabel">

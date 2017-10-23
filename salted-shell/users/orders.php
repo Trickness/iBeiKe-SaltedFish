@@ -77,10 +77,20 @@
                                 <li :class="{active:(request.target=='sale')}"><a :href="jump('sale')">我卖的</a></li>
                             </ul>
                             <div style="overflow:hidden;">
-                                <div>
-                                    <div v-if="request.target == 'buy' " class="row"><div class="col-xs-12"><my-order v-for="order in orders" :key="order.order_id" :order="order" type="buy" /></div></div>
-                                    <div v-if="request.target == 'sale' " class="row"><div class="col-xs-12"><my-order v-for="order in orders" :key="order.order_id" :order="order" type="sale" /></div></div>
+                                <div v-if="orders != 0">
+                                    <div v-if="request.target == 'buy' " class="row"><div class="col-xs-12">
+                                        <my-order v-for="order in orders" :key="order.order_id" :order="order" type="buy" /></div>
+                                    </div>
+                                    <div v-if="request.target == 'sale' " class="row"><div class="col-xs-12">
+                                        <my-order v-for="order in orders" :key="order.order_id" :order="order" type="sale" /></div>
+                                    </div>
                                     <!-- <div v-if="request.target == 'both' " class="row"><div class="col-xs-12"><my-order v-for="order in orders" :key="order.order_id" :order="order" type="sale" /></div></div> -->
+                                </div>
+                                <div v-else>
+                                    <div class="col-xs-12" style="text-align:center">
+                                        <img src="../pic/idol/idol2.png" style="width:60%;" />
+                                        <h4>怎么还没有订单呀？</h4>
+                                    </div>
                                 </div>
                                 <div>
                                     <pagi :total="total_pages"/>

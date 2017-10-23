@@ -73,6 +73,11 @@
                 background-image:none;
                 background-repeat: repeat-x;
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+                width: 40px;
+                height: 40px;
+                border: 3px solid white;
+                border-radius: 20px;
+                opacity: 0.7;
             }
             .carousel-control.right {
                 left: auto;
@@ -80,6 +85,11 @@
                 background-image:none;
                 background-repeat: repeat-x;
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
+                width: 40px;
+                height: 40px;
+                border: 3px solid white;
+                border-radius: 20px;
+                opacity: 0.7;
             }
         </style>
 
@@ -203,10 +213,8 @@
                                     <div class="item active" :style="bg(pic[0])"></div>
                                     <div v-for="url in pic.slice(1)" class="item" :style="bg(url)"></div>
                                 </div>
-                                <a class="carousel-control left" href="#myCarousel" 
-                                data-slide="prev">&lsaquo;</a>
-                                <a class="carousel-control right" href="#myCarousel" 
-                                data-slide="next">&rsaquo;</a>
+                                <a class="carousel-control left" href="#myCarousel" style="margin-left:20px;" data-slide="prev">&lsaquo;</a>
+                                <a class="carousel-control right" href="#myCarousel" style="margin-right:20px;" data-slide="next">&rsaquo;</a>
                             </div>
                         </div></div>
                         
@@ -230,31 +238,45 @@
                         <span style="font-size:18px;color:#FD9860;">我的购物车</span>
                     </div>
                     <div v-if="islogin">
-                        <div v-for="or in list" class="row order">
-                            <div class="order-info" style="color:grey">
-                                <div class="col-xs-5">ID:{{or.order_id}}</div>
-                                <div class="col-xs-7" style="padding:0;">卖家：<a :href="jump(or.goods_owner,'user')">{{or.goods_owner}}</a></div>
-                            </div>
-                            <div>
-                                <div style="float:left;"><div style="width:50px;height:50px;margin:6px;" :style="bg(or.goods_img)"></div></div>
-                                <div style="float:left;margin:5px;height:50px;" class="or-con">
-                                    <div style="height:30px;width:100%;font-size:12px;line-height:15px;overflow:hidden;"><a :href="jump(or.goods_id,'goods')">{{or.goods_title}}</a></div>
-                                    <div style="height:20px;width:100%;font-size:12px;color:#FD9860;text-align:right;">￥{{or.offer}}</div>
+                        <div v-if="list.length == 0" style="text-align:center;">
+                            <img src="./pic/idol/idol3.png" style="width:80%;" />
+                            <div style="color:#FD9860;">
+                                <h5>吃土，是一种信仰。</h5>
+                                <h5>我们的征途是星辰大海！</h5>
+                            </div>                        
+                        </div>
+                        <div v-else>
+                            <div v-for="or in list" class="row order">
+                                <div class="order-info" style="color:grey">
+                                    <div class="col-xs-5">ID:{{or.order_id}}</div>
+                                    <div class="col-xs-7" style="padding:0;">卖家：<a :href="jump(or.goods_owner,'user')">{{or.goods_owner}}</a></div>
+                                </div>
+                                <div>
+                                    <div style="float:left;"><div style="width:50px;height:50px;margin:6px;" :style="bg(or.goods_img)"></div></div>
+                                    <div style="float:left;margin:5px;height:50px;" class="or-con">
+                                        <div style="height:30px;width:100%;font-size:12px;line-height:15px;overflow:hidden;"><a :href="jump(or.goods_id,'goods')">{{or.goods_title}}</a></div>
+                                        <div style="height:20px;width:100%;font-size:12px;color:#FD9860;text-align:right;">￥{{or.offer}}</div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div style="text-align:center;">
+                            <a href="./users/orders.php" role="button" class="btn btn-success" style="margin-top:15px;width:100%">全部订单</a>
+                            <a href="./users/edit-profile.php" role="button" class="btn btn-warning" style="margin-top:15px;width:100%;">编辑名片</a>
+                            <a href="./goods/upload.php" role="button" class="btn btn-danger" style="margin-top:15px;width:100%;">上传商品</a>
                         </div>
                     </div>
                     <div v-else-if="islogin == false">
                         <div class="row" style="width:186px;">
-                            <div style="height:300px;border:1px solid #cccccc;border-radius:4px;">
+                            <div style="min-height:300px;overflow:hidden;border:1px solid #cccccc;border-radius:4px;">
                                 <div class="col-xs-12" style="text-align:center;">
-                                    <img src="./pic/image1/摄影.png" style="width:80px;height:80px;border-radius:40px;margin-top:30px;margin-bottom:10px;" />
+                                    <img src="./pic/idol/idol3.png" style="width:80%;" />
                                 </div>
                                 <div class="col-xs-12" style="color:#FD9860;text-align:center;">
                                     <b>登陆之后<br>世界更精彩哦！</b>
                                 </div>
                                 <div class="col-xs-12" style="text-align:center;padding:15px;">
-                                    <a href="./login/login.php" role="button" class="btn btn-primary" style="margin-bottom:10px;">快速登陆</a><br>
+                                    <a href="./login/login.php" role="button" class="btn btn-warning" style="margin-bottom:10px;">快速登陆</a><br>
                                     <a href="./signin/signin.php" role="button" class="btn btn-default">免费注册</a>
                                 </div>
                             </div>
@@ -274,7 +296,9 @@
                     <div class="row"><div class="col-xs-12"><div class="col-sm-3"><div class="preview" style="height:0;"></div></div></div></div>
                     <div class="row tab-content" style="overflow:hidden;">
                         <div id="new-goods" class="col-xs-12 tab-pane active">
-                            <goods v-for="goods in list" :key="goods.goods_id" :go="goods" />
+                            <div v-if="list.length != 0">
+                                <goods v-for="goods in list" :key="goods.goods_id" :go="goods" />
+                            </div>
                         </div>
                         <!-- <div id="hot-goods" class="col-xs-12 tab-pane">{{list}}</div> -->
                     </div>
@@ -284,14 +308,23 @@
             <script type="text/x-template" id="search-show">
                 <div>
                     <div class="col-xs-12"><div class="col-sm-3"><div class="preview" style="height:0;"></div></div></div>
-                    <div class="col-xs-12">
-                        <goods v-for="go in list" :key="go.goods_id" :go="go" />
+                    <div v-if="list.length != 0">
+                        <div class="col-xs-12">
+                            <goods v-for="go in list" :key="go.goods_id" :go="go" />
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="col-xs-12" style="text-align:center">
+                            <img src="./pic/idol/idol3.png" style="width:22%;" />
+                            <h4>这里还没有商品哦！</h4>
+                            <h5>市场很广阔，需要你来开拓！</h5>
+                        </div>
                     </div>
                 </div>
             </script>
 
             <script type="text/x-template" id="pagi">
-                <div v-if="total > 0">
+                <div v-if="total">
                     <div class="col-xs-12" style="text-align:center">
                         <ul v-if="total < 10" class="pagination pagination-sm">
                             <li v-if="(target.page!=1)"><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
@@ -563,7 +596,7 @@
                             './pic/image1/北京周边游.png',
                             './pic/image1/摄影.png',
                         ],
-                        sch_res:null,
+                        sch_res:[],
                         total_pages:0,
                         is_login:is_login,
                     },
