@@ -312,13 +312,13 @@ if($action == "fetch_user_total_info"){
     )));
 }elseif ($action == 'search_goods_by_title') {
     if (isset($_GET['goods_title'])) {
-        $page = 1;  $amount = 1;
+        $page = 1;  $amount = 12;
         if (isset($_GET['page'])) $page = $_GET['page'];
         die(search_goods_by_title($_GET['goods_title'],$page,$amount));
     }
 }elseif ($action == 'search_goods_by_category') {
     if (isset($_GET['category'],$_GET['level'])) {
-        $page = 1;  $amount = 1;
+        $page = 1;  $amount = 12;
         if (isset($_GET['page'])) $page = $_GET['page'];
         die(search_goods_by_category($_GET['category'],$_GET['level'],$page,$amount));
     }

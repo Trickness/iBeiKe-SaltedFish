@@ -21,7 +21,7 @@
         <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
         <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
         <style>
-            a{color:#95989A;text-decoration:none;transition-duration:0.4s;}
+            a{color:#95989A;text-decoration:none;}
             a:hover{color:#FD9860;}
             .content{background-color: white;border-radius: 2px;min-height: 573px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:20px;}            
             .my-order{
@@ -103,7 +103,7 @@
                             <div class="tag-content">
                                 <name-tag :info="self_info" />
                             </div>
-                            <div class="tag-content" style="margin-top:9px;">
+                            <div class="tag-content" style="margin-top:9px;height:400px;">
                                 <new-goods :goods="new_goods" />                                
                             </div>
                         </div>
@@ -114,7 +114,7 @@
 
         <div>
             <script type="text/x-template" id="pagi">
-                <div v-if="total > 0">
+                <div v-if="total > 1">
                     <div class="col-xs-12" style="text-align:center">
                         <ul v-if="total < 10" class="pagination pagination-sm">
                             <li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
@@ -349,7 +349,7 @@
                             <div class="col-xs-12" style="margin-top:15px;">\
                                 <div style="overflow:hidden;padding-bottom:10px;border-bottom:2px solid #FD9860;">\
                                     <div class="col-xs-2" style="padding:0;width:fit-content;"><div style="width:60px;height:60px;border-radius:2px;" :style="bg"></div></div>\
-                                    <div class="col-xs-9" style="line-height:60px;font-size:20px;"><a href="./index.php">{{info.nickname}}</a></div>\
+                                    <div class="col-xs-9" style="line-height:60px;font-size:20px;"><a href="./index.php">{{info.nickname.length >5 ? info.nickname.substring(0,6)+\'...\' : info.nickname}}</a></div>\
                                 </div>\
                             </div>\
                             <div class="col-xs-12" style="text-align:center;font-size:15px;margin-top:10px;">\

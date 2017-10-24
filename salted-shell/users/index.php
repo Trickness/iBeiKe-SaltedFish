@@ -171,7 +171,7 @@
 		</script>
 
 		<script type="text/x-template" id="pagi">
-			<div v-if="total > 0">
+			<div v-if="total > 1">
 				<div class="col-xs-12" style="text-align:center">
 					<ul v-if="total < 10" class="pagination pagination-sm">
 						<li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>

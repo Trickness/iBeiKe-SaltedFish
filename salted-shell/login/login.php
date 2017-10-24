@@ -27,10 +27,8 @@
         }
         @media(min-width:768px){
             .win{margin-top:100px;}
-            /* .login{background-color:white;opacity:0.8;padding:20px 20px 40px 20px;position:absolute;left:1000px;top:200px;width:350px;border:1px solid #cccccc;border-radius:5px;} */
-            .login{transition-duration:0.4s;height:580px;background-color:white;opacity:0.8;border-radius:2px;border-top:2px solid #fd9860;padding:20px 40px 40px 40px;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+            .login{height:580px;background-color:white;opacity:0.8;border-radius:2px;border-top:2px solid #fd9860;padding:20px 40px 40px 40px;box-shadow:0 1px 3px rgba(0,0,0,.1);}
         }
-        .login:hover{opacity:1;}
     </style>
     <div class="container win">
         <div class="col-sm-8 hidden-xs" style="height:580px;">

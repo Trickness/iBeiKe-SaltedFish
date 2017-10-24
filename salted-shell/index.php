@@ -309,12 +309,12 @@
                 <div>
                     <div class="col-xs-12"><div class="col-sm-3"><div class="preview" style="height:0;"></div></div></div>
                     <div v-if="list.length != 0">
-                        <div class="col-xs-12">
+                        <div class="col-xs-12" style="min-height:400px;">
                             <goods v-for="go in list" :key="go.goods_id" :go="go" />
                         </div>
                     </div>
                     <div v-else>
-                        <div class="col-xs-12" style="text-align:center">
+                        <div class="col-xs-12" style="text-align:center;min-height:400px;">
                             <img src="./pic/idol/idol3.png" style="width:22%;" />
                             <h4>这里还没有商品哦！</h4>
                             <h5>市场很广阔，需要你来开拓！</h5>
@@ -324,9 +324,9 @@
             </script>
 
             <script type="text/x-template" id="pagi">
-                <div v-if="total">
+                <div v-if="total && total > 1">
                     <div class="col-xs-12" style="text-align:center">
-                        <ul v-if="total < 10" class="pagination pagination-sm">
+                        <ul v-if="total < 10 && total" class="pagination pagination-sm">
                             <li v-if="(target.page!=1)"><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <li v-for="pg in total" :class="{active:(pg==target.page)}"><a :href="jump(pg)">{{pg}}</a></li>
                             <li v-if="(target.page!=total)"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>

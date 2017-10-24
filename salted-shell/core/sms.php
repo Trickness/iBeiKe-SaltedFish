@@ -75,7 +75,7 @@ class OrderSms extends Sms{
     // %25E6%25B5%258B%25E8%25AF%2595%25E5%2593%25812
 
     public function create_order($order_id  = ''){
-        if ($order_id != '') {
+        if (trim($order_id) != '') {
             $db_goods_table = $this->db_goods_table;
             $db_order_table = $this->db_order_table;
             $sql = "SELECT order_submitter,purchase_amount,offer,$db_goods_table.goods_title,$db_goods_table.goods_owner FROM $db_order_table
@@ -103,7 +103,7 @@ class OrderSms extends Sms{
     }
 
     public function accept_order($order_id = ''){
-        if ($order_id != '') {
+        if (trim($order_id) != '') {
             $db_goods_table = $this->db_goods_table;
             $db_order_table = $this->db_order_table;
 
@@ -131,7 +131,7 @@ class OrderSms extends Sms{
     }
 
     public function complete_order($order_id = ''){
-        if ($order_id != '') {
+        if (trim($order_id) != '') {
             $db_goods_table = $this->db_goods_table;
             $db_order_table = $this->db_order_table;
 
@@ -156,7 +156,7 @@ class OrderSms extends Sms{
     }
 
     public function finish_order($order_id = ''){
-        if ($order_id != '') {
+        if (trim($order_id) != '') {
             $db_goods_table = $this->db_goods_table;
             $db_order_table = $this->db_order_table;
 
@@ -182,11 +182,41 @@ class OrderSms extends Sms{
             return array('status'=>'failed','error'=>'-1');
         }
     }
+
+    public function cancel_order($order_id = '',$is_buyer = true){
+        if (trim($order_id) != '') {
+            $db_goods_table = $this->db_goods_table;
+            $db_order_table = $this->db_order_table;
+            $sql = "SELECT goods_title,goods_owner,$db_order_table.order_submitter FROM $db_goods_table INNER JOIN $db_order_table ON $db_goods_table.goods_id = $db_order_table.goods_id
+                WHERE $db_order_table.order_id = '$order_id'";
+            $result = mysqli_fetch_assoc($this->query($sql));
+            $tpl = '';  $mobile = '';
+            if ($is_buyer == true) {
+                $tpl = $this->sms_tpl_id['cancel_order_by_buyer'];
+                $mobile =   $this->fetch_phone_number($result['goods_owner']);
+            }elseif ($is_buyer == false) {
+                $tpl = $this->sms_tpl_id['cancel_order_by_seller'];
+                $mobile =   $this->fetch_phone_number($result['order_submitter']);
+            }
+            $data = array(
+                'tpl_id'    =>  $tpl,
+                'tpl_value' =>
+                    '#orderid#'    .'='.   $order_id.'&'.
+                    '#goodstitle#' .'='.   $result['goods_title'],
+                'apikey'    =>  $this->sms_apikey,
+                'mobile'    =>  $mobile,
+            );
+            $result = $this->tpl_send($data);
+            return $result;
+        }else {
+            return array('status'=>'failed','error'=>'-1');
+        }
+    }
 }
 
 // $order_sms = new OrderSms;
 
-// var_dump($order_sms->accept_order());
+// var_dump($order_sms->cancel_order('125',false));
 // echo($order_sms->accept_order('11111111','11111111','实验商'));
 // echo($order_sms->complete_order('11111111','20','www.ibeike.com'));
 // var_dump($order_sms->finish_order('11111111','11111111',30,'实验品',10));
