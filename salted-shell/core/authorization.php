@@ -104,15 +104,15 @@ function confirm_student($student_id, $student_pw){
         "value"     => $data["性别"]
     );
     $ret['birthday'] = array(
-        "access"    => "private",
+        "access"    => "protected",
         "value"     => $data["出生日期"]
     );
     $ret['type']    = array(
-        "access"    => "private",
+        "access"    => "protected",
         "value"     => $data["学生类别"]
     );
     $ret['nationality'] = array(
-        "access"    => "private",
+        "access"    => "protected",
         "value"     => $data["民族"]
     );
     $ret['nickname']    = "'?\/";
@@ -128,7 +128,7 @@ function confirm_student($student_id, $student_pw){
             "value"     => $data["入学年级"]
         ),
         "class_no"  => array(
-            "access"    => "private",
+            "access"    => "protected",
             "value"     => $data["班级"]
         )
     );
@@ -139,12 +139,12 @@ function confirm_student($student_id, $student_pw){
             "value"         => ""
         ),
         "room_no"       => array(
-            "access"        => "private",
+            "access"        => "protected",
             "value"         => ""
         ) 
     );
     $ret['phone_number'] = array(
-        "access"    => "private",
+        "access"    => "protected",
         "value"     => ""
     );
     return $ret;

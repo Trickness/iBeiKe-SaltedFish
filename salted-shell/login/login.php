@@ -47,8 +47,7 @@
             </div>
         </div>
     </div>
-    <canvas class="background">
-    </canvas>
+    <canvas class="background"></canvas>
     <script src="../js/pt/dist/particles.min.js"></script>
     <script>
         window.onload = function() {

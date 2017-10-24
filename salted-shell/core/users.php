@@ -19,13 +19,13 @@ require_once "./authorization.php";*/
  *      - (@String) session_key     会话密钥，作为后面所有操作的唯一凭证
  *
  **/
-function user_bind($original_un,$original_pw,$student_id,$student_pw){
+function user_bind($student_id,$student_pw,$original_un='',$original_pw=''){
     $student_info = confirm_student($student_id,$student_pw);
     if($student_info == false)
         return false;
-    $bbs_info = confirm_bbs($original_un, $original_pw);
-    if($bbs_info == false)
-        return false;
+    // $bbs_info = confirm_bbs($original_un, $original_pw);
+    // if($bbs_info == false)
+    //     return false;
     $result = user_create($student_id,$student_pw,json_encode($student_info));
     if(!$result)
         return false;

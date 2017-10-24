@@ -245,7 +245,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             die(generate_error_report("Please specify student id and password"));
     }elseif($action == "signup"){
         if(isset($_GET['student_id']) and isset($_GET['password'])){
-            $session = user_bind($_GET['student_id'],$_GET['password']);
+            $session_key = user_bind($_GET['student_id'],$_GET['password']);
             if($session_key){
                 session_unset();
                 session_destroy();
