@@ -72,9 +72,9 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             "session" => session_id()
         )));
     }elseif($action == "change_password"){
-        if(isset($_GET['original_pass']) && isset($_GET['new_pass'])){
-            $original_pass = filter_password($_GET['original_pass']);
-            $new_pass = filter_password($_GET['new_pass']);
+        if(isset($_POST['original_pass']) && isset($_POST['new_pass'])){
+            $original_pass = filter_password($_POST['original_pass']);
+            $new_pass = filter_password($_POST['new_pass']);
             if(check_pass($student_id,$original_pass)){
                 if(change_password($student_id,$new_pass)){
                     die(json_encode(array(
@@ -218,6 +218,11 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         if(isset($_POST['goods_info'])){
             die(update_goods_info($_POST['goods_info'],$student_id));
         }
+    }elseif ($action == 'check') {
+        die(json_encode(array(
+            'status'    =>  'failed',
+            'error'     =>  'you have logged in',
+        )));
     }
 }else{                                              // 未登录
     if($action == "login"){                             // 登陆操作
@@ -239,22 +244,44 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             die(generate_error_report("Wrong username or password"));
         }
     }elseif($action == "check"){                     // 检查用户是否为学生 TODO:检验
-        if(isset($_GET["student_id"]) and isset($_GET["password"]))
-            die(json_encode(confirm_student($_GET["student_id"],$_GET["password"])));
-        else
-            die(generate_error_report("Please specify student id and password"));
+        if(isset($_GET["student_id"]) and isset($_GET["password"])){
+            $info = confirm_student($_GET["student_id"],$_GET["password"]);
+            if ($info == false) {
+                die(json_encode(array(
+                    'status'        =>  'failed',
+                    'error'         =>  'Wrong username or password',
+                )));
+            }else{
+                die(json_encode(array(
+                    'status'        =>  'success',
+                    'student_info'  =>  $info,
+                )));
+            }
+        }else die(generate_error_report("Please specify student id and password"));
     }elseif($action == "signup"){
-        if(isset($_GET['student_id']) and isset($_GET['password'])){
-            $session_key = user_bind($_GET['student_id'],$_GET['password']);
+        if(isset($_POST['student_id']) and isset($_POST['password']) and isset($_POST['student_info']) and isset($_POST['new_password'])){
+            $session_key = user_bind($_POST['student_id'],$_POST['password']);
             if($session_key){
                 session_unset();
                 session_destroy();
                 session_id($session_key);
                 session_start();
-                die(json_encode(array(
-                    "status" => "success",
-                    "session" => $session_key
-                )));
+                $info_hash = update_user_info(json_encode($_POST['student_info']),$_POST['student_id']);
+                $change_result = change_password($_POST['student_id'],$_POST['new_password']);
+                if ($change_result == true) {
+                    die(json_encode(array(
+                        "status" => "success",
+                        "session" => $session_key,
+                        'info_hash'=>$info_hash,
+                    )));
+                }else {
+                    die(json_encode(array(
+                        "status" => "failed",
+                        'error'  => 'failed to reset password',
+                        "session" => $session_key,
+                        'info_hash'=>$info_hash,
+                    )));
+                }
             }else{
                 die(generate_error_report("Wrong username or password"));
             }
@@ -267,6 +294,26 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
                 if(change_password(strval($_GET['id']),strval($_GET['password']))){
                     die(json_encode(array(
                         "status" => "success"
+                    )));
+                }
+            }
+        }
+    }elseif($action == 'fetch_phone_captcha'){
+        if (isset($_GET['phone_number'])) {
+            $sms = new Captcha;
+            die(json_encode($sms->phone_captcha($_GET['phone_number'])));
+        }else {
+            die(json_encode(array(
+                'status'   =>  'failed',
+                'error'    =>  'no phone_number',
+            )));
+        }
+    }elseif ($action == 'forget_password') {
+        if(isset($_POST['student_id']) and isset($_POST['password']) and isset($_POST['new_password'])){
+            if(confirm_student(strval($_POST['student_id']),strval($_POST['password']))){
+                if(change_password(strval($_POST['student_id']),strval($_POST['new_password']))){
+                    die(json_encode(array(
+                        "status" => "success",
                     )));
                 }
             }

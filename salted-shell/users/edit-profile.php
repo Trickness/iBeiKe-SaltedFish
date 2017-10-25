@@ -210,9 +210,8 @@
                         <div class="col-xs-12">
                             <label>手机号码</label>
                             <input v-if="state" type="text" class="form-control" v-model="profile.phone_number.value" />
-                            <select v-if="!state" class="form-control" v-model="profile.phone_number.access">
+                            <select v-if="!state" class="form-control" v-model="profile.phone_number.access" disabled>
                                 <option value="public">公开</option>
-                                <option value="protected">登陆可见</option>
                             </select>
                         </div>
                     </div>

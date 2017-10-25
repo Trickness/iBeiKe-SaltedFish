@@ -139,6 +139,7 @@
                                 <div class="row info-con" style="height:30px;">\
                                     <div class="col-xs-4 info-item"><img src="../pic/users/type.png" /><span>{{info.type.value}}</span></div>\
                                     <div class="col-xs-4 info-item"><img style="width: 25px;height: 30px;margin-left: -3px;margin-top: -5px;" :src="gender" /></div>\
+                                    <div class="col-xs-4 info-item"><img src="../pic/users/type.png" /><span>{{info.phone_number.value}}</span></div>\
                                 </div>\
                             </div>\
                         </div>',

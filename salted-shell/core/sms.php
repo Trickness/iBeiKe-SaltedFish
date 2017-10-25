@@ -214,6 +214,40 @@ class OrderSms extends Sms{
     }
 }
 
+class Captcha extends Sms{
+    function __construct(){
+        parent::__construct();        
+    }
+
+    public function phone_captcha($mobile){
+        $captcha = rand(100000,999999);
+        $data = array(
+            'tpl_id'    =>  $this->sms_tpl_id['signup_captcha'],
+            'tpl_value' =>  '#code#='.$captcha,
+            'apikey'    =>  $this->sms_apikey,
+            'mobile'    =>  $mobile,
+        );
+        $result = json_decode($this->tpl_send($data),true);
+        // $result = $this->tpl_send($data);
+        if ($result['code'] == '0') {
+            return array(
+                'status'    =>  'success',
+                'captcha'   =>  $captcha,
+            );
+        }else{
+            return array(
+                'status'    =>  'failed',
+                'error'     =>  $result['code'],
+                'msg'       =>  $result['msg'],
+            );
+        }
+        // return $result;
+    }
+}
+
+// $sms = new Captcha;
+// var_dump($sms->phone_captcha('15901230631'));
+
 // $order_sms = new OrderSms;
 
 // var_dump($order_sms->cancel_order('125',false));

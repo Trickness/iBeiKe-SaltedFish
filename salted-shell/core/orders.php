@@ -279,7 +279,7 @@ function list_orders_from_user($user_id, $filters=array(),$page=1, $limit=10){
     }
     $base = ($page-1)*$limit;
     $sql = $sql.$filter_str." ORDER BY order_id DESC";
-    $sql = $sql." LIMIT $base, $limit";   
+    $sql = $sql." LIMIT $base, $limit";
     $results = $link->query($sql);
     $return_var = array();
     $link->close();
