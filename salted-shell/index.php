@@ -55,6 +55,9 @@
                 .ct-rt{padding-right:0;}
                 .ct-goods{height:97px;}
             }
+            @media(min-device-width:450px){
+                .container{width:1170px;}                
+            }
             @media(max-width:768px){
                 .ct-rt{padding:0;}
                 .ct-goods{height:45px;}
@@ -179,7 +182,7 @@
                         <div class="row lt-tl">商品类目</div>
                         <a v-for="cl1 in goods">
                             <div class="row cl1" @mouseover="show(cl1)" @mouseout="hide">
-                                <a :href="nav_head(cl1[0],false,1)"><img style="width:30px;height:30px;margin-right:2px;" :src="nav_head(cl1[0],true,1)" />{{cl1[0]}}</a>
+                                <a :href="nav_head(cl1[0],false,1)"><img style="width:30px;height:30px;margin-right:2px;" :src="nav_head(cl1[0],true,1)" v-cloak />{{cl1[0]}}</a>
                             </div>
                         </a>
                     </div>
@@ -187,10 +190,10 @@
                         <div class="row"><div class="col-xs-12">
                             <div v-for="cl2 in cl[1]" class="col-xs-4" style="min-height:85px;margin-bottom:5px;">
                                 <div class="row" style="margin: 0 -8px 0 -8px;border-bottom: 1px solid #FD9860;line-height:25px;">
-                                    <a :href="nav_head(cl2[0],false,2)"><img :src="nav_head(cl2[0],true,2)" style="height:25px;width:25px;margin-right:2px;">{{cl2[0]}}</a>
+                                    <a :href="nav_head(cl2[0],false,2)"><img :src="nav_head(cl2[0],true,2)" style="height:25px;width:25px;margin-right:2px;" v-cloak>{{cl2[0]}}</a>
                                 </div>
                                 <div v-if="cl2[1] != null" class="row">
-                                    <div v-for="cl3 in cl2[1]" class="col-xs-4" style="padding:0;text-align:center;font-size:12px;"><a :href="nav_head(cl3,false,3)">{{cl3}}</a></div>
+                                    <div v-for="cl3 in cl2[1]" class="col-xs-4" style="padding:0;text-align:center;font-size:12px;"><a :href="nav_head(cl3,false,3)" v-cloak>{{cl3}}</a></div>
                                 </div>
                                 <div v-else class="row"><div class="col-xs-12">
                                     <a :href="nav_head(cl2[0],false,2)"><img :src="nav_head(cl2[0],true,2,true)" class="hov" style="width:100%;height:80px;margin-top:5px;margin-bottom:5px;"/></a>
@@ -248,14 +251,14 @@
                         <div v-else>
                             <div v-for="or in list" class="row order">
                                 <div class="order-info" style="color:grey">
-                                    <div class="col-xs-5">ID:{{or.order_id}}</div>
-                                    <div class="col-xs-7" style="padding:0;">卖家：<a :href="jump(or.goods_owner,'user')">{{or.goods_owner}}</a></div>
+                                    <div class="col-xs-5" v-cloak>ID:{{or.order_id}}</div>
+                                    <div class="col-xs-7" style="padding:0;">卖家：<a :href="jump(or.goods_owner,'user')" v-cloak>{{or.goods_owner}}</a></div>
                                 </div>
                                 <div>
                                     <div style="float:left;"><div style="width:50px;height:50px;margin:6px;" :style="bg(or.goods_img)"></div></div>
                                     <div style="float:left;margin:5px;height:50px;" class="or-con">
-                                        <div style="height:30px;width:100%;font-size:12px;line-height:15px;overflow:hidden;"><a :href="jump(or.goods_id,'goods')">{{or.goods_title}}</a></div>
-                                        <div style="height:20px;width:100%;font-size:12px;color:#FD9860;text-align:right;">￥{{or.offer}}</div>
+                                        <div style="height:30px;width:100%;font-size:12px;line-height:15px;overflow:hidden;"><a :href="jump(or.goods_id,'goods')" v-cloak>{{or.goods_title}}</a></div>
+                                        <div style="height:20px;width:100%;font-size:12px;color:#FD9860;text-align:right;" v-cloak>￥{{or.offer}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -328,30 +331,30 @@
                     <div class="col-xs-12" style="text-align:center">
                         <ul v-if="total < 10 && total" class="pagination pagination-sm">
                             <li v-if="(target.page!=1)"><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <li v-for="pg in total" :class="{active:(pg==target.page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li v-for="pg in total" :class="{active:(pg==target.page)}"><a :href="jump(pg)" v-cloak>{{pg}}</a></li>
                             <li v-if="(target.page!=total)"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                         <ul v-else-if="total >= 10 && target.page < 5" class="pagination pagination-sm">
                             <li v-if="(target.page!=1)"><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <li v-for="pg in 5" :class="{active:(pg==target.page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li v-for="pg in 5" :class="{active:(pg==target.page)}"><a :href="jump(pg)" v-cloak>{{pg}}</a></li>
                             <li class="disabled"><a>...</a></li>                            
-                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li><a :href="jump(total)" v-cloak>{{total}}</a></li>
                             <li v-if="(target.page!=5)"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                         <ul v-else-if="total > 6 && target.page > total-5" class="pagination pagination-sm">
                             <li><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <li><a :href="jump(1)">1</a></li>
                             <li class="disabled"><a>...</a></li>
-                            <li v-for="pg in 5" :class="{active:((pg+total-5)==target.page)}"><a :href="jump(pg+total-5)">{{pg+total-5}}</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+total-5)==target.page)}"><a :href="jump(pg+total-5)" v-cloak>{{pg+total-5}}</a></li>
                             <li v-if="(target.page!=total)"><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                         <ul v-else class="pagination pagination-sm">
                             <li><a :href="jump(target.page != 1? target.page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <li><a :href="jump(1)">1</a></li>
                             <li class="disabled"><a>...</a></li>
-                            <li v-for="pg in 5" :class="{active:((pg+parseInt(target.page)-3)==target.page)}"><a :href="jump(pg+parseInt(target.page)-3)">{{pg+parseInt(target.page)-3}}</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+parseInt(target.page)-3)==target.page)}"><a :href="jump(pg+parseInt(target.page)-3)" v-cloak>{{pg+parseInt(target.page)-3}}</a></li>
                             <li class="disabled"><a>...</a></li>                            
-                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li><a :href="jump(total)" v-cloak>{{total}}</a></li>
                             <li><a :href="jump(target.page != total? parseInt(target.page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                     </div>
@@ -430,11 +433,11 @@
                                 <div class="preview" ><div style="width:100%;border-radius:4px;" :style="bg"></div></div>\
                                 <div style="padding:5px;">\
                                     <div class="row">\
-                                        <div class="col-xs-12 goods-title" style="word-wrap:break-word;overflow:hidden;line-height:15px;">{{go.goods_title}}</div>\
+                                        <div class="col-xs-12 goods-title" style="word-wrap:break-word;overflow:hidden;line-height:15px;" v-cloak>{{go.goods_title}}</div>\
                                     </div>\
                                     <div class="row">\
-                                        <div class="col-sm-6" style="height:12px;line-height:12px;overflow:hidden;font-size:10px;">{{go.goods_owner}}</div>\
-                                        <div class="col-sm-6 single-cost" style="height:12px;line-height:12px;overflow:hidden;color:#FD9860;text-align:right;font-size:15px;"><b>￥{{go.single_cost}}</b></div>\
+                                        <div class="col-sm-6" style="height:12px;line-height:12px;overflow:hidden;font-size:10px;" v-cloak>{{go.goods_owner}}</div>\
+                                        <div class="col-sm-6 single-cost" style="height:12px;line-height:12px;overflow:hidden;color:#FD9860;text-align:right;font-size:15px;"><b v-cloak>￥{{go.single_cost}}</b></div>\
                                     </div>\
                                 </div>\
                             </div>\

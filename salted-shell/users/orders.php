@@ -118,30 +118,30 @@
                     <div class="col-xs-12" style="text-align:center">
                         <ul v-if="total < 10" class="pagination pagination-sm">
                             <li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <li v-for="pg in total" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li v-for="pg in total" :class="{active:(pg==now_page)}"><a :href="jump(pg)" v-cloak>{{pg}}</a></li>
                             <li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                         <ul v-else-if="total >= 10 && now_page < 5" class="pagination pagination-sm">
                             <li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <li v-for="pg in 5" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+                            <li v-for="pg in 5" :class="{active:(pg==now_page)}"><a :href="jump(pg)" v-cloak>{{pg}}</a></li>
                             <li class="disabled"><a>...</a></li>                            
-                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li><a :href="jump(total)" v-cloak>{{total}}</a></li>
                             <li v-if="(now_page!=5)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                         <ul v-else-if="total > 6 && now_page > total-5" class="pagination pagination-sm">
                             <li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <li><a :href="jump(1)">1</a></li>
                             <li class="disabled"><a>...</a></li>
-                            <li v-for="pg in 5" :class="{active:((pg+total-5)==now_page)}"><a :href="jump(pg+total-5)">{{pg+total-5}}</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+total-5)==now_page)}"><a :href="jump(pg+total-5)" v-cloak>{{pg+total-5}}</a></li>
                             <li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                         <ul v-else class="pagination pagination-sm">
                             <li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <li><a :href="jump(1)">1</a></li>
                             <li class="disabled"><a>...</a></li>
-                            <li v-for="pg in 5" :class="{active:((pg+parseInt(now_page)-3)==now_page)}"><a :href="jump(pg+parseInt(now_page)-3)">{{pg+parseInt(now_page)-3}}</a></li>
+                            <li v-for="pg in 5" :class="{active:((pg+parseInt(now_page)-3)==now_page)}"><a :href="jump(pg+parseInt(now_page)-3)" v-cloak>{{pg+parseInt(now_page)-3}}</a></li>
                             <li class="disabled"><a>...</a></li>                            
-                            <li><a :href="jump(total)">{{total}}</a></li>
+                            <li><a :href="jump(total)" v-cloak>{{total}}</a></li>
                             <li><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                         </ul>
                     </div>
@@ -196,21 +196,21 @@
                     props:['order','type'],
                     template:'<div class="col-xs-12 my-order">\
                             <div class="row header">\
-                                <div class="col-xs-5">{{convert_info.ordering_date}}</div>\
-                                <div class="col-xs-4">订单ID：{{order.order_id}}</div>\
-                                <div class="col-xs-3">卖家：<a :href="convert_info.goods_owner">{{order.goods_owner}}</a></div>\
+                                <div class="col-xs-5" v-cloak>{{convert_info.ordering_date}}</div>\
+                                <div class="col-xs-4" v-cloak>订单ID：{{order.order_id}}</div>\
+                                <div class="col-xs-3">卖家：<a :href="convert_info.goods_owner" v-cloak>{{order.goods_owner}}</a></div>\
                             </div>\
                             <div class="row hd" style="background-color:white;">\
                                 <div class="col-sm-4" style="padding-top:10px;padding-bottom:10px;overflow:hidden;">\
                                     <div class="col-xs-3" style="padding:0;">\
                                         <div style="width:50px;height:50px;" :style="bg"></div>\
                                     </div>\
-                                    <div class="col-xs-7"><a :href="convert_info.goods_title">{{order.goods_title}}</a></div>\
-                                    <div class="col-xs-2">x{{order.purchase_amount}}</div>\
+                                    <div class="col-xs-7"><a :href="convert_info.goods_title" v-cloak>{{order.goods_title}}</a></div>\
+                                    <div class="col-xs-2" v-cloak>x{{order.purchase_amount}}</div>\
                                 </div>\
                                 <div class="col-sm-5 md" style="overflow:hidden;text-align:center;">\
-                                    <div class="col-xs-7 item">总额<span style="color:#FD9860;">￥{{order.offer}}</span></div>\
-                                    <div class="col-xs-5 item">运费<span style="color:#FD9860;">￥{{order.delivery_fee}}</span></div>\
+                                    <div class="col-xs-7 item">总额<span style="color:#FD9860;" v-cloak>￥{{order.offer}}</span></div>\
+                                    <div class="col-xs-5 item">运费<span style="color:#FD9860;" v-cloak>￥{{order.delivery_fee}}</span></div>\
                                 </div>\
                                 <div v-if="type == \'buy\'" class="col-sm-3 bt" style="overflow:hidden;text-align:center;">\
                                     <div v-if="order.order_status == \'waiting\' " class="btn-group"><button class="btn btn-theme" disabled>等待受理</button><button class="btn btn-default" @click="edit_order(\'cancel_order\')">取消订单</button></div>\
@@ -349,7 +349,7 @@
                             <div class="col-xs-12" style="margin-top:15px;">\
                                 <div style="overflow:hidden;padding-bottom:10px;border-bottom:2px solid #FD9860;">\
                                     <div class="col-xs-2" style="padding:0;width:fit-content;"><div style="width:60px;height:60px;border-radius:2px;" :style="bg"></div></div>\
-                                    <div class="col-xs-9" style="line-height:60px;font-size:20px;"><a href="./index.php">{{info.nickname.length >5 ? info.nickname.substring(0,6)+\'...\' : info.nickname}}</a></div>\
+                                    <div class="col-xs-9" style="line-height:60px;font-size:20px;"><a href="./index.php" v-cloak>{{info.nickname.length >5 ? info.nickname.substring(0,6)+\'...\' : info.nickname}}</a></div>\
                                 </div>\
                             </div>\
                             <div class="col-xs-12" style="text-align:center;font-size:15px;margin-top:10px;">\
@@ -358,9 +358,9 @@
                                 <div class="col-xs-4">班级</div>\
                             </div>\
                             <div class="col-xs-12" style="text-align:center;margin-top:10px;">\
-                                <div class="col-xs-4">{{info.student_id.value}}</div>\
-                                <div class="col-xs-4">{{info.name.value}}</div>\
-                                <div class="col-xs-4" style="font-size:12px;">{{info.class_info.class_no.value}}</div>\
+                                <div class="col-xs-4" v-cloak>{{info.student_id.value}}</div>\
+                                <div class="col-xs-4" v-cloak>{{info.name.value}}</div>\
+                                <div class="col-xs-4" style="font-size:12px;" v-cloak>{{info.class_info.class_no.value}}</div>\
                             </div>\
                         </div>\
                     ',
@@ -395,9 +395,9 @@
                                         <div style="width:70px;height:70px;border-radius:2px;" :style="img(go.goods_img)"></div>\
                                     </div>\
                                     <div class="col-xs-6">\
-                                        <div style="word-wrap:break-word;"><a :href="show_goods(go.goods_id)">{{go.goods_title}}</a></div>\
+                                        <div style="word-wrap:break-word;"><a :href="show_goods(go.goods_id)" v-cloak>{{go.goods_title}}</a></div>\
                                     </div>\
-                                    <div class="col-xs-1" style="color:#FD9860;padding:0;">￥{{go.single_cost}}</div>\
+                                    <div class="col-xs-1" style="color:#FD9860;padding:0;" v-cloak>￥{{go.single_cost}}</div>\
                                 </div>\
                             </div>\
                         </div>',

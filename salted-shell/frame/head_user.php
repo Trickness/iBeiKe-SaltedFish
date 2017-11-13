@@ -7,6 +7,9 @@
 		font-family: msyh;
 		src: url('../fonts/msyh.ttf');
 	}
+	[v-cloak] {
+		display: none;
+	}
 	body{font-family: msyh;}
 	#logo{height: 50px;margin-top: -15px;width: 40px;}
 	.lb{float:left;color:white;}
@@ -25,7 +28,7 @@
 		<a class="navbar-brand" style="overflow:hidden;" href="#">
 			<div class="row">
 				<div class="col-xs-4"><img id="logo" src="../pic/beikelogo.png"></div>
-				<div class="col-xs-8" style="padding:0 0 0 10px;"><span class="lb">贝壳商城</span></div>
+				<div class="col-xs-8" style="padding:0 0 0 15px;font-size:25px;"><span class="lb">iBuy</span></div>
 			</div>
 		</a>
 	</div>

@@ -121,19 +121,19 @@
                     <div class="col-xs-2 form-group">
                         <label>一级分类</label>
                         <select id="cl1" v-model="goods_info.cl_lv_1" class="form-control">
-                            <option v-for="lv1 in goods_cl" :value="lv1[0]">{{lv1[0]}}</option>
+                            <option v-for="lv1 in goods_cl" :value="lv1[0]" v-cloak>{{lv1[0]}}</option>
                         </select>
                     </div>
                     <div class="col-xs-2 form-group">
                         <label>二级分类</label>
                         <select v-model="goods_info.cl_lv_2" class="form-control sel">
-                            <option v-for="lv2 in lv_2" :value="lv2[0]">{{lv2[0]}}</option>
+                            <option v-for="lv2 in lv_2" :value="lv2[0]" v-cloak>{{lv2[0]}}</option>
                         </select>
                     </div>
                     <div class="col-xs-2 form-group">
                         <label>三级分类</label>
                         <select v-model="goods_info.cl_lv_3" class="form-control sel">
-                            <option v-for="lv3 in lv_3" :value="lv3">{{lv3}}</option>
+                            <option v-for="lv3 in lv_3" :value="lv3" v-cloak>{{lv3}}</option>
                         </select>
                     </div>
                     <div class="col-xs-6 form-group">
@@ -163,21 +163,21 @@
                             <table class="table table-bordered">
                                 <thead><th>商品名称</th><th>交易方式</th><th>商品状态</th><th>数量</th><th>单价</th><th>运费</th><th>一级分类</th><th>二级分类</th><th>三级分类</th></thead>
                                 <tbody><tr>
-                                    <td>{{goods_info.goods_title}}</td>
-                                    <td>{{convert_info.goods_type}}</td>
-                                    <td>{{convert_info.goods_status}}</td>
-                                    <td>{{goods_info.remain}}</td>
-                                    <td>{{goods_info.single_cost}}</td>
-                                    <td>{{goods_info.delivery_fee}}</td>
-                                    <td>{{goods_info.cl_lv_1}}</td>
-                                    <td>{{goods_info.cl_lv_2}}</td>
-                                    <td>{{goods_info.cl_lv_3}}</td>
+                                    <td v-cloak>{{goods_info.goods_title}}</td>
+                                    <td v-cloak>{{convert_info.goods_type}}</td>
+                                    <td v-cloak>{{convert_info.goods_status}}</td>
+                                    <td v-cloak>{{goods_info.remain}}</td>
+                                    <td v-cloak>{{goods_info.single_cost}}</td>
+                                    <td v-cloak>{{goods_info.delivery_fee}}</td>
+                                    <td v-cloak>{{goods_info.cl_lv_1}}</td>
+                                    <td v-cloak>{{goods_info.cl_lv_2}}</td>
+                                    <td v-cloak>{{goods_info.cl_lv_3}}</td>
                                 </tr></tbody>
                             </table>
                         </div>
                         <div v-if="status == 'success'" class="modal-footer" style="text-align:center;"><h3>成功发布,3秒后转到商品页面</h3></div>
                         <div v-if="status == 'failed'" class="modal-footer" style="text-align:center;">
-                            <div><h4>{{error}}</h4></div>
+                            <div><h4 v-cloak>{{error}}</h4></div>
                             <div style="text-align:center;"><button type="button" class="btn btn-default" data-dismiss="modal" @click="status = 'editing'">返回编辑</button></div>
                         </div>
                         <div v-if="status == 'editing'" class="modal-footer">

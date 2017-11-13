@@ -227,10 +227,8 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
 }else{                                              // 未登录
     if($action == "login"){                             // 登陆操作
         $session_key = false;
-        if(isset($_GET['username']) and isset($_GET['password']))
-            $session_key = user_login($_GET['username'],$_GET['password']);
-        elseif(isset($_POST['username']) and isset($_POST['password']))
-            $session_key = user_login($_GET['username'],$_GET['password']);
+        if(isset($_POST['username']) and isset($_POST['password']))
+            $session_key = user_login($_POST['username'],$_POST['password']);
         if($session_key){
             session_unset();
             session_destroy();
@@ -244,8 +242,8 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             die(generate_error_report("Wrong username or password"));
         }
     }elseif($action == "check"){                     // 检查用户是否为学生 TODO:检验
-        if(isset($_GET["student_id"]) and isset($_GET["password"])){
-            $info = confirm_student($_GET["student_id"],$_GET["password"]);
+        if(isset($_POST["student_id"]) and isset($_POST["password"])){
+            $info = confirm_student($_POST["student_id"],$_POST["password"]);
             if ($info == false) {
                 die(json_encode(array(
                     'status'        =>  'failed',
@@ -289,9 +287,9 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
             die(generate_error_report("Please specify id and password"));
         }
     }elseif($action == "reset"){
-        if(isset($_GET['id']) and isset($_GET['password'])){
-            if(confirm_student(strval($_GET['id']),strval($_GET['password']))){
-                if(change_password(strval($_GET['id']),strval($_GET['password']))){
+        if(isset($_POST['id']) and isset($_POST['password'])){
+            if(confirm_student(strval($_GET['id']),strval($_POST['password']))){
+                if(change_password(strval($_GET['id']),strval($_POST['password']))){
                     die(json_encode(array(
                         "status" => "success"
                     )));

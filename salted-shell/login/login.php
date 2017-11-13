@@ -31,9 +31,9 @@
         }
     </style>
     <div class="container win">
-        <div class="col-sm-8 hidden-xs" style="height:580px;">
-        </div>
-        <div id="login" class="col-sm-4 login">
+        <!-- <div class="col-sm-8 hidden-xs" style="height:580px;">
+        </div> -->
+        <div id="login" class="col-sm-offset-4 col-sm-4 login">
             <div style="text-align:center;color:#fd9860;">
                 <h2>贝壳商城</h2>
             </div>
@@ -73,7 +73,8 @@
                 methods:{
                     login:function(){
                         var t = this;
-                        $.getJSON('../core/api-v1.php?action=login',{username:t.username,password:t.password},function(data){
+                        $.post('../core/api-v1.php?action=login',{username:t.username,password:t.password},function(data){
+                            data = JSON.parse(data);
                             var status = data.status;
                             switch(status){
                                 case "success":

@@ -116,13 +116,13 @@
 						<li style="text-align:center;height:120px;">
 							<div class="header" :style="bg(info.header)"></div>
 						</li>
-						<li style="text-align:center;font-size:20px;">{{info.nickname}}</li>
-						<li>学号：{{info.student_id.value}}</li>
-						<li>姓名：{{info.name.value}}</li>
-						<li>生日：{{info.birthday.value}}</li>
-						<li>宿舍：{{dorm}}</li>
-						<li>身份：{{info.type.value}}</li>
-						<li>性别：{{info.gender.value}}</li>
+						<li style="text-align:center;font-size:20px;" v-cloak>{{info.nickname}}</li>
+						<li v-cloak>学号：{{info.student_id.value}}</li>
+						<li v-cloak>姓名：{{info.name.value}}</li>
+						<li v-cloak>生日：{{info.birthday.value}}</li>
+						<li v-cloak>宿舍：{{dorm}}</li>
+						<li v-cloak>身份：{{info.type.value}}</li>
+						<li v-cloak>性别：{{info.gender.value}}</li>
 					</ul>
 				</div>
 				<div style="text-align:center;">
@@ -145,21 +145,21 @@
 			<div class="col-xs-12" style="margin-bottom:15px;"><div class="row">
 				<div style="border:1px solid #cccccc;overflow:hidden;">
 					<div class="col-xs-12" style="padding:0;line-height:30px;background-color:#f3f3f3;color:grey;">
-						<div class="col-xs-3">商品ID：{{goods.goods_id}}</div>
-						<div class="col-xs-3">交易方式：{{convert_info.goods_type}}</div>
-						<div class="col-xs-3">商品状态：<span style="color:#FD9860;">{{convert_info.goods_status}}</span></div>
+						<div class="col-xs-3" v-cloak>商品ID：{{goods.goods_id}}</div>
+						<div class="col-xs-3" v-cloak>交易方式：{{convert_info.goods_type}}</div>
+						<div class="col-xs-3" v-cloak>商品状态：<span style="color:#FD9860;" v-cloak>{{convert_info.goods_status}}</span></div>
 					</div>
 					<div class="col-xs-12" style="padding:0;">
 						<div class="col-xs-5" style="padding:10px;border-right:1px solid #cccccc;height:90px;">
 							<div style="margin-right:5px;height:70px;width:70px;float:left;" :style="bg(goods.goods_img)"></div>
-							<div style="margin-right:5px;float:left;width:170px;word-wrap:break-word;"><a :href="jump(goods.goods_id)">{{goods.goods_title}}</a></div>
-							<div style="float:left;">x{{goods.remain}}</div>
+							<div style="margin-right:5px;float:left;width:170px;word-wrap:break-word;"><a :href="jump(goods.goods_id)" v-cloak>{{goods.goods_title}}</a></div>
+							<div style="float:left;" v-cloak>x{{goods.remain}}</div>
 						</div>
 						<div class="col-xs-2" style="padding:0;border-right:1px solid #cccccc;">
-							<div style="line-height:45px;text-align:center;border-bottom:1px solid #cccccc;">单价<span style="color:#FD9860;">￥{{goods.single_cost}}</span></div>
-							<div style="line-height:45px;text-align:center;">运费<span style="color:#FD9860;">￥{{goods.delivery_fee}}</span></div>
+							<div style="line-height:45px;text-align:center;border-bottom:1px solid #cccccc;">单价<span style="color:#FD9860;" v-cloak>￥{{goods.single_cost}}</span></div>
+							<div style="line-height:45px;text-align:center;">运费<span style="color:#FD9860;" v-cloak>￥{{goods.delivery_fee}}</span></div>
 						</div>
-						<div class="col-xs-3" style="padding:10px;border-right:1px solid #cccccc;height:90px;word-wrap:break-word;">
+						<div class="col-xs-3" style="padding:10px;border-right:1px solid #cccccc;height:90px;word-wrap:break-word;" v-cloak>
 							标签：{{convert_info.tags}}
 						</div>
 						<div class="col-xs-2">
@@ -176,30 +176,30 @@
 				<div class="col-xs-12" style="text-align:center">
 					<ul v-if="total < 10" class="pagination pagination-sm">
 						<li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-						<li v-for="pg in total" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+						<li v-for="pg in total" :class="{active:(pg==now_page)}"><a :href="jump(pg)" v-cloak>{{pg}}</a></li>
 						<li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 					</ul>
 					<ul v-else-if="total >= 10 && now_page < 5" class="pagination pagination-sm">
 						<li v-if="(now_page!=1)"><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-						<li v-for="pg in 5" :class="{active:(pg==now_page)}"><a :href="jump(pg)">{{pg}}</a></li>
+						<li v-for="pg in 5" :class="{active:(pg==now_page)}"><a :href="jump(pg)" v-cloak>{{pg}}</a></li>
 						<li class="disabled"><a>...</a></li>                            
-						<li><a :href="jump(total)">{{total}}</a></li>
+						<li><a :href="jump(total)" v-cloak>{{total}}</a></li>
 						<li v-if="(now_page!=5)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 					</ul>
 					<ul v-else-if="total > 6 && now_page > total-5" class="pagination pagination-sm">
 						<li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 						<li><a :href="jump(1)">1</a></li>
 						<li class="disabled"><a>...</a></li>
-						<li v-for="pg in 5" :class="{active:((pg+total-5)==now_page)}"><a :href="jump(pg+total-5)">{{pg+total-5}}</a></li>
+						<li v-for="pg in 5" :class="{active:((pg+total-5)==now_page)}"><a :href="jump(pg+total-5)" v-cloak>{{pg+total-5}}</a></li>
 						<li v-if="(now_page!=total)"><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 					</ul>
 					<ul v-else class="pagination pagination-sm">
 						<li><a :href="jump(now_page != 1? now_page-1 : 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 						<li><a :href="jump(1)">1</a></li>
 						<li class="disabled"><a>...</a></li>
-						<li v-for="pg in 5" :class="{active:((pg+parseInt(now_page)-3)==now_page)}"><a :href="jump(pg+parseInt(now_page)-3)">{{pg+parseInt(now_page)-3}}</a></li>
+						<li v-for="pg in 5" :class="{active:((pg+parseInt(now_page)-3)==now_page)}"><a :href="jump(pg+parseInt(now_page)-3)" v-cloak>{{pg+parseInt(now_page)-3}}</a></li>
 						<li class="disabled"><a>...</a></li>                            
-						<li><a :href="jump(total)">{{total}}</a></li>
+						<li><a :href="jump(total)" v-cloak>{{total}}</a></li>
 						<li><a :href="jump(now_page != total? parseInt(now_page)+1 : total)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 					</ul>
 				</div>
@@ -216,10 +216,10 @@
 							<div class="preview" ><div style="width:100%;border-radius:4px;" :style="bg"></div></div>\
 							<div style="padding:5px;">\
 								<div class="row">\
-									<div class="col-xs-12 goods-title" style="word-wrap:break-word;overflow:hidden;line-height:15px;">{{go.goods_title}}</div>\
+									<div class="col-xs-12 goods-title" style="word-wrap:break-word;overflow:hidden;line-height:15px;" v-cloak>{{go.goods_title}}</div>\
 								</div>\
 								<div class="row">\
-									<div class="col-sm-6" style="height:12px;line-height:12px;overflow:hidden;font-size:10px;">{{go.goods_owner}}</div>\
+									<div class="col-sm-6" style="height:12px;line-height:12px;overflow:hidden;font-size:10px;" v-cloak>{{go.goods_owner}}</div>\
 									<div class="col-sm-6 single-cost" style="height:12px;line-height:12px;overflow:hidden;color:#FD9860;text-align:right;font-size:15px;"><b>￥{{go.single_cost}}</b></div>\
 								</div>\
 							</div>\

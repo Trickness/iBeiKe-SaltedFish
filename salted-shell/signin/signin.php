@@ -39,9 +39,9 @@
                 <div v-show="sign_0" class="login">
                     <div style="color:#fd9860;"><h2>免费注册</h2></div>
                     <div style="margin-top:30px;"><input type="text" class="form-control input-lg" placeholder="请输入您的学号" v-model="student_id" /></div>
-                    <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="请输入您的密码" v-model="password" /></div>
+                    <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="请输入本科教学网密码" v-model="password" /></div>
                     <div style="margin-top:20px;"><button class="btn btn-warning btn-lg" style="width:100%;" @click="confirm">验证你的信息</button></div>
-                </div>                    
+                </div>
             </transition>
             <transition enter-active-class="animated bounceInRight" leave-active-class="animated bounceOutLeft">
                 <div v-show="sign_1" class="login">
@@ -75,7 +75,7 @@
                             <div class="col-xs-8" style="padding-left:0;"><input type="text" class="form-control" placeholder="短信验证码" v-model="check_phone.user_cap" /></div>
                             <div class="col-xs-4" style="padding-right:0;">
                                 <button v-if="check_phone.status" style="width:100%;" class="btn btn-warning" @click="fetch_captcha">获取</button>
-                                <button v-if="!check_phone.status" style="width:100%;" class="btn" disabled>获取({{check_phone.count_down}})</button>
+                                <button v-if="!check_phone.status" style="width:100%;" class="btn" disabled v-cloak>获取({{check_phone.count_down}})</button>
                             </div>
                         </div>
                         <div v-if="!check_captcha" class="col-xs-8" style="padding-left:0;"><p style="color:red;">验证码不正确</p></div>
@@ -236,10 +236,11 @@
                         if ((t.student_id).Trim() == '' || (t.password).Trim() == '') {
                             swal('','学号或密码不能为空','error');
                         }else{
-                            $.getJSON('../core/api-v1.php?action=check',{
+                            $.post('../core/api-v1.php?action=check',{
                                 student_id:t.student_id,
                                 password:t.password,
                             },function(data){
+                                data = JSON.parse(data);
                                 if (!data) {
                                     swal('','学号或密码错误','error');
                                 }else if (data.status == 'failed') {
