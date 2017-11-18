@@ -242,15 +242,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{profile.student_id.value}}</td>
-                                        <td>{{profile.nickname}}</td>
-                                        <td>{{profile.name.value}}</td>
-                                        <td>{{profile.gender.value}}</td>
-                                        <td>{{profile.class_info.department.value}}</td>
-                                        <td>{{profile.class_info.class_no.value}}</td>
-                                        <td>{{profile.dormitory.dormitory_id.value + '斋' + profile.dormitory.room_no.value}}</td>
-                                        <td>{{profile.birthday.value}}</td>
-                                        <td>{{profile.phone_number.value}}</td>
+                                        <td v-cloak>{{profile.student_id.value}}</td>
+                                        <td v-cloak>{{profile.nickname}}</td>
+                                        <td v-cloak>{{profile.name.value}}</td>
+                                        <td v-cloak>{{profile.gender.value}}</td>
+                                        <td v-cloak>{{profile.class_info.department.value}}</td>
+                                        <td v-cloak>{{profile.class_info.class_no.value}}</td>
+                                        <td v-cloak>{{profile.dormitory.dormitory_id.value + '斋' + profile.dormitory.room_no.value}}</td>
+                                        <td v-cloak>{{profile.birthday.value}}</td>
+                                        <td v-cloak>{{profile.phone_number.value}}</td>
                                     </tr>
                                 </tbody>
                             </table>
