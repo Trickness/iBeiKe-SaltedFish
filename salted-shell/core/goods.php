@@ -317,9 +317,9 @@ function update_goods_info($goods_info, $student_id){
 	
 	$content			= urldecode(__JSON($goods_info,"goods_info"		,$res['goods_info']));
 
-	$lv1 				= __JSON($goods_info,"cl_lv_1"					,$res['cl_lv_1']);
-	$lv2 				= __JSON($goods_info,"cl_lv_2"					,$res['cl_lv_2']);
-	$lv3 				= __JSON($goods_info,"cl_lv_3"					,$res['cl_lv_3']);
+	$lv1 				= urlencode(__JSON($goods_info,"cl_lv_1"					,$res['cl_lv_1']));
+	$lv2 				= urlencode(__JSON($goods_info,"cl_lv_2"					,$res['cl_lv_2']));
+	$lv3 				= urlencode(__JSON($goods_info,"cl_lv_3"					,$res['cl_lv_3']));
 	
 
 	$goods_tags_str = strval(urlencode(json_encode($goods_tags)));
