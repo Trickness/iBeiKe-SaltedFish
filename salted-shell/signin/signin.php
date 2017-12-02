@@ -70,12 +70,12 @@
                     <div style="text-align:left;">
                         <div style="margin-top:20px;"><input type="number" class="form-control" placeholder="请输入斋号" v-model="info.dormitory.dormitory_id.value" /></div>
                         <div style="margin-top:20px;"><input type="number" class="form-control" placeholder="请输入房号" v-model="info.dormitory.room_no.value" /></div>
-                        <div style="margin-top:20px;"><input type="text" class="form-control" placeholder="请输入手机号" v-model="info.phone_number.value" /></div>
+                        <div style="margin-top:20px;"><input disabled="disabled" type="text" class="form-control" placeholder="请输入手机号" v-model="info.phone_number.value" /></div>
                         <div style="margin-top:20px;overflow:hidden;">
-                            <div class="col-xs-8" style="padding-left:0;"><input type="text" class="form-control" placeholder="短信验证码" v-model="check_phone.user_cap" /></div>
+                            <div class="col-xs-8" style="padding-left:0;"><input disabled="disabled" type="text" class="form-control" placeholder="短信验证码" v-model="check_phone.user_cap" /></div>
                             <div class="col-xs-4" style="padding-right:0;">
-                                <button v-if="check_phone.status" style="width:100%;" class="btn btn-warning" @click="fetch_captcha">获取</button>
-                                <button v-if="!check_phone.status" style="width:100%;" class="btn" disabled v-cloak>获取({{check_phone.count_down}})</button>
+                                <button v-if="check_phone.status" style="width:100%;" disabled="disabled"  class="btn btn-warning" @click="fetch_captcha">获取</button>
+                                <button v-if="!check_phone.status" style="width:100%;" disabled="disabled"  class="btn" disabled v-cloak>获取({{check_phone.count_down}})</button>
                             </div>
                         </div>
                         <div v-if="!check_captcha" class="col-xs-8" style="padding-left:0;"><p style="color:red;">验证码不正确</p></div>
@@ -264,8 +264,8 @@
                             swal('','验证密码不一致','error');
                         }else if((t.new_password).Trim() == ''){
                             swal('','新密码不能为空','error');                            
-                        }else if(( (t.info.phone_number.value).Trim() == '') || t.check_captcha == false){
-                            swal('','手机验证失败','error')
+                        //}else if(( (t.info.phone_number.value).Trim() == '') || t.check_captcha == false){
+                         //   swal('','手机验证失败','error')
                         }else{
                             $.post('../core/api-v1.php?action=signup',{
                                 student_id:t.student_id,
