@@ -47,8 +47,8 @@
                         </div></div>
                         <div class="row" style="border-top:1px dashed #cccccc;"><div class="col-xs-12">
                             <div style="background-color:#FFE1C9;padding:10px 0 10px 15px;border-radius:5px;margin-top:30px;">
-                                <span>价格&nbsp;&nbsp;</span>
-                                <span style="color:#FD9860;font-size:25px;">￥<span v-html="goods_info.single_cost"></span></span>
+                                <span>定价&nbsp;&nbsp;</span>
+                                <span style="color:#FD9860;font-size:25px;">￥<span v-html="goods_info.single_cost"></span><span v-if="goods_info.goods_type == 'rent'">/天</span></span>
                             </div>
                         </div></div>
                         <div class="row" style="border-top:1px dashed #cccccc;padding-top:10px;">
@@ -67,8 +67,44 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-xs-3">
+                                <h4 style="float:left">议价：</h4>
+                            </div>
+                            <div class="form-group col-xs-4">
+                                <input type="number" class="form-control" min="0" max="999999" v-model="order_info.single_cost">
+                            </div>
+                            <div class="col-xs-4">
+                                <h5 v-cloak v-if="goods_info.goods_type == 'sale'">（元/个）</h5>
+                                <h5 v-cloak v-else-if="goods_info.goods_type == 'rent'">（元/(个*天)）</h5>
+                            </div>
+                        </div>
+                        <div class="row" v-if="goods_info.goods_type == 'rent'">
+                            <div class="col-xs-3">
+                                <h4 style="float:left">租期：</h4>
+                            </div>
+                            <div class="form-group col-xs-4">
+                                <input type="number" class="form-control" min="1" :max="999" v-model="order_info.rent_duration">
+                            </div>
+                            <div class="col-xs-4">
+                                <h5 v-cloak>（天）</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <h4 style="float:left">递送：</h4>
+                            </div>
+                            <div class="form-group col-xs-4">
+                                <select v-model="order_info.delivery_fee">  
+                                    <option v-for="option in delivery_options" v-bind:value="option.value">  
+                                        {{ option.text }}  
+                                    </option>  
+                                </select>  
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-12">
-                                <button v-if="goods_info.buyer_info!=undefined && islogin == true" class="col-xs-4 col-xs-offset-4 new_order" data-toggle="modal" data-target="#myModal">立即购买</button>
+                                <button v-if="goods_info.buyer_info!=undefined && islogin == true && goods_info.goods_type == 'sale'" class="col-xs-4 col-xs-offset-4 new_order" data-toggle="modal" data-target="#myModal">立即购买</button>
+                                <button v-else-if="goods_info.buyer_info!=undefined && islogin == true && goods_info.goods_type == 'rent'" class="col-xs-4 col-xs-offset-4 new_order" data-toggle="modal" data-target="#myModal">申请租赁</button>
                                 <button v-else-if="goods_info.buyer_info!=undefined && islogin == false" disabled="true" class="col-xs-4 col-xs-offset-4 banned_order" data-toggle="modal" data-target="#myModal">您尚未登陆</button>
                                 <button v-else disabled="true" class="col-xs-4 col-xs-offset-4 banned_order" data-toggle="modal" data-target="#myModal">立即购买</button>
                             </div>
@@ -141,7 +177,15 @@
                                 <div class="row"><div class="col-xs-10 col-xs-offset-1">
                                     <table class="table table-bordered">
                                         <thead><th>商品ID</th><th>商品名称</th><th>交易方式</th><th>单价</th><th>购买数量</th><th>运费</th><th>总计</th></thead>
-                                        <tbody><tr><td v-cloak>{{order_info.goods_id}}</td><td v-cloak>{{goods_info.goods_title}}</td><td v-cloak>{{convert_info.goods_type}}</td><td v-cloak>{{order_info.single_cost}}</td><td v-cloak>{{order_info.purchase_amount}}</td><td v-cloak>{{order_info.delivery_fee}}</td><td v-cloak>{{offer_cal}}</td></tr></tbody>
+                                        <tbody>
+                                            <tr>
+                                                <td v-cloak>{{order_info.goods_id}}</td>
+                                                <td v-cloak>{{goods_info.goods_title}}</td>
+                                                <td v-cloak>{{convert_info.goods_type}}</td>
+                                                <td v-cloak>{{order_info.single_cost}}<span v-if="goods_info.goods_type == 'rent'">/天</span></td>
+                                                <td v-cloak>{{order_info.purchase_amount}} 个<span v-if="goods_info.goods_type == 'rent'"> x {{order_info.rent_duration}} 天</td>
+                                                <td v-cloak>{{order_info.delivery_fee}}</td>
+                                                <td v-cloak>{{offer_cal}}</td></tr></tbody>
                                     </table>
                                 </div></div>
                             </div>
@@ -149,7 +193,7 @@
                             <div class="modal-footer">
                                 <transition name="bounce">
                                     <div v-if="status=='editing'">
-                                            <button type="button" @click="new_order" class="btn btn-primary">确认结算</button>
+                                            <button type="button" @click="new_order" class="btn btn-primary">确认申请</button>
                                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                     </div>
                                 </transition>
@@ -250,6 +294,7 @@
                             purchase_amount:1,
                             single_cost:0,
                             offer:0,
+                            rent_duration:1,
                         },
 
                         status:'editing',
@@ -259,7 +304,16 @@
                         // 图片试验
                         // imgs:[],
                         goods_thumb:'',
-                        // 
+                        // delivery type
+                        delivery_options : [
+                            {
+                                text : "送达宿舍",
+                                value : 0
+                            },{
+                                text : "买家自取",
+                                value : 0
+                            }
+                        ]
                     },
                     computed:{
                         islogin:function(){
@@ -279,7 +333,10 @@
                             return info;
                         },
                         offer_cal:function(){
-                            this.order_info.offer = this.order_info.single_cost * this.order_info.purchase_amount + this.order_info.delivery_fee;
+                            if (this.goods_info.goods_type == 'sale')
+                                this.order_info.offer = this.order_info.single_cost * this.order_info.purchase_amount + this.order_info.delivery_fee;
+                            else 
+                                this.order_info.offer = this.order_info.single_cost * this.order_info.purchase_amount * this.order_info.rent_duration + this.order_info.delivery_fee;
                             return this.order_info.offer;
                         },
                         imgs:function(){
@@ -360,6 +417,14 @@
                                 }
                                 show_goods.goods_info = data;
                                 show_goods.order_info.goods_id = show_goods.goods_info.goods_id;
+                                // delivery fee
+                                show_goods.delivery_options[0].value = data.delivery_fee;
+                                show_goods.delivery_options[0].text = "送达宿舍（"+data.delivery_fee+"元）";
+                                show_goods.delivery_options[1].value = 0;
+                                show_goods.delivery_options[1].text = "买家自提（0元）";
+
+                                // rent duration
+
                                 show_goods.order_info.order_type = show_goods.goods_info.goods_type;
                                 show_goods.order_info.delivery_fee = parseFloat(data.delivery_fee);
                                 show_goods.order_info.single_cost = parseFloat(data.single_cost);

@@ -101,14 +101,20 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
                 $_GET['purchase_amount'],
                 $_GET['single_cost'],
                 $_GET['offer']
-            )){die("Please check code for usage");}
+            )){die(generate_error_report("Please check code for usage"));}
         $goods_id = $_GET['goods_id'];
         $order_type = $_GET['order_type'];
-        $delivery_fee = $_GET['delivery_fee'];
-        $purchase_amount = $_GET['purchase_amount'];
-        $single_cost = $_GET['single_cost'];
-        $offer = $_GET['offer'];
-        $order_id = create_order_from_user($student_id, $order_type, $goods_id, $delivery_fee, $purchase_amount, $single_cost, $offer);
+        if($order_type == 'rent'){
+            if(!isset($_GET['rent_duration']))  die(generate_error_report("No duration specified!"));
+            $rent_duration = intval($_GET['rent_duration']);
+        }else{
+            $rent_duration = 0;
+        }
+        $delivery_fee = floatval($_GET['delivery_fee']);
+        $purchase_amount = intval($_GET['purchase_amount']);
+        $single_cost = floatval($_GET['single_cost']);
+        $offer = floatval($_GET['offer']);
+        $order_id = create_order_from_user($student_id, $order_type, $rent_duration, $goods_id, $delivery_fee, $purchase_amount, $single_cost, $offer);
         if($order_id){
             $sms = new OrderSms;    $sms_status = $sms->create_order($order_id);
             die(json_encode(array(

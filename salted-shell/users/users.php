@@ -215,6 +215,8 @@
                             if (data.status=="success") {
                                 info_show.goods = data.goods;
                                 info_show.total_pages = data.total;
+
+                                console.log(data.goods);
                             }
                         });
                     },

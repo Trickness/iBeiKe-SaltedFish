@@ -1,7 +1,7 @@
 <?php
 
 
-function create_order_from_user($order_submitter,$order_type,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer){
+function create_order_from_user($order_submitter,$order_type,$rent_duration,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer){
     global $db_host;
     global $db_pass;
     global $db_name;
@@ -22,9 +22,9 @@ function create_order_from_user($order_submitter,$order_type,$goods_id,$delivery
     }else{
         die(generate_error_report("No such goods"));
     }
-    $sql = "INSERT INTO $db_order_table (goods_id, order_type,order_submitter, delivery_fee, purchase_amount, single_cost, offer, order_status) 
+    $sql = "INSERT INTO $db_order_table (goods_id, order_type,rent_duration, order_submitter, delivery_fee, purchase_amount, single_cost, offer, order_status) 
             VALUE 
-            ('$goods_id','$order_type','$order_submitter','$delivery_fee','$purchase_amount','$single_cost','$offer','waiting')";
+            ('$goods_id','$order_type','$rent_duration','$order_submitter','$delivery_fee','$purchase_amount','$single_cost','$offer','waiting')";
     $result = $link->query($sql);
     $insert_id = $link->insert_id;
     $link->commit();
@@ -35,9 +35,9 @@ function create_order_from_user($order_submitter,$order_type,$goods_id,$delivery
         die(generate_error_report($link->error));
     }
 }
-function create_order($session_key,$order_type,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer){
+function create_order($session_key,$order_type,$rent_duration,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer){
     if($student_id = get_student_id_from_session_key($session_key)){
-        $result = create_order_from_user($student_id,$order_type,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer);
+        $result = create_order_from_user($student_id,$order_type,$rent_duration,$goods_id,$delivery_fee,$purchase_amount,$single_cost,$offer);
         if($result){
             post_create_order();
             return $result;
