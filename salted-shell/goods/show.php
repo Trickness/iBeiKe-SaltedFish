@@ -415,6 +415,7 @@
                                         arr[index].commenter_info.user_url = "../users/users.php?user_id=" + val.commenter;
                                     });
                                 }
+                                document.title = "商品详情 "+data.goods_title;
                                 show_goods.goods_info = data;
                                 show_goods.order_info.goods_id = show_goods.goods_info.goods_id;
                                 // delivery fee

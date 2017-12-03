@@ -115,7 +115,7 @@ function confirm_student($student_id, $student_pw){
         "access"    => "protected",
         "value"     => $data["民族"]
     );
-    $ret['nickname']    = "'?\/";
+    $ret['nickname']    = "";
     $ret['header']      = "";
     $ret['class_info']  = array(
         "access"    =>  "protected",

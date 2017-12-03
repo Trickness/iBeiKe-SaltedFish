@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>贝壳商城-让你的闲置动起来(O(∩_∩)O)</title>
+        <title>贝壳商城-IBuy-贝壳人热专属商城(O(∩_∩)O)</title>
     </head>
     <body>
         <?php 
