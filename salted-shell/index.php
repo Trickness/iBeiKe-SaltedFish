@@ -436,8 +436,8 @@
                                         <div class="col-xs-12 goods-title" style="word-wrap:break-word;overflow:hidden;line-height:15px;" v-cloak>{{go.goods_title}}</div>\
                                     </div>\
                                     <div class="row">\
-                                        <div class="col-sm-6" style="height:12px;line-height:12px;overflow:hidden;font-size:10px;" v-cloak>{{go.goods_owner}}</div>\
-                                        <div class="col-sm-6 single-cost" style="height:12px;line-height:12px;overflow:hidden;color:#FD9860;text-align:right;font-size:15px;"><b v-cloak>￥{{go.single_cost}}</b></div>\
+                                        <div class="col-sm-6" style="padding-top:5px;height:20px;line-height:12px;overflow:hidden;font-size:10px;" v-cloak>{{go.goods_owner}}</div>\
+                                        <div class="col-sm-6 single-cost" style="padding-top:5px;height:20px;line-height:12px;overflow:hidden;color:#FD9860;text-align:right;font-size:15px;"><b v-cloak>￥{{go.single_cost}}</b></div>\
                                     </div>\
                                 </div>\
                             </div>\
