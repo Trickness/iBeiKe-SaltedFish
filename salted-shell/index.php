@@ -39,7 +39,7 @@
             .lt-pn{height:450px;background-color:#FD9860;border-radius:2px;}
             .cl1:hover{background-color:#FFCC33;}   .cl1 a{color:white;}    .cl1 a:hover{text-decoration:underline;}
             .reco-lt,.reco-rt{padding:0;overflow:hidden;}
-            .order{height:90px;border:1px solid #e6e5e5;margin-bottom:18px;transition-duration:0.3s;}    .order:hover{box-shadow:0 0 6px grey;}
+            .order{height:90px;border:1px solid #e6e5e5;margin-bottom:10px;transition-duration:0.3s;}    .order:hover{box-shadow:0 0 6px grey;}
             .order-info{height:25px;background-color:#E6E5E5;line-height:25px;font-size:10px;}
             .rt-float.affix{top:70px;}
             .goods{transition-duration:0.3s;}       .goods:hover{background-color:#F3F3F3;box-shadow:0 0 4px #cccccc;}      .goods-title{margin-top:5px;height:30px;}   .single-cost{font-size:12px;}
@@ -56,7 +56,7 @@
                 .ct-goods{height:97px;}
             }
             @media(min-device-width:450px){
-                .container{width:1170px;}                
+                .container{width:1170px;}
             }
             @media(max-width:768px){
                 .ct-rt{padding:0;}
@@ -264,9 +264,9 @@
                             </div>
                         </div>
                         <div style="text-align:center;">
-                            <a href="./users/orders.php" role="button" class="btn btn-success" style="margin-top:15px;width:100%">全部订单</a>
-                            <a href="./users/edit-profile.php" role="button" class="btn btn-warning" style="margin-top:15px;width:100%;">编辑名片</a>
-                            <a href="./goods/upload.php" role="button" class="btn btn-danger" style="margin-top:15px;width:100%;">上传商品</a>
+                            <a href="./users/orders.php" role="button" class="btn btn-success" style="margin-top:5px;width:100%">全部订单</a>
+                            <a href="./users/edit-profile.php" role="button" class="btn btn-warning" style="margin-top:5px;width:100%;">编辑名片</a>
+                            <a href="./goods/upload.php" role="button" class="btn btn-danger" style="margin-top:5px;width:100%;">上传商品</a>
                         </div>
                     </div>
                     <div v-else-if="islogin == false">
@@ -401,7 +401,7 @@
                 };
 
                 var fetch_orders = function(){
-                    $.getJSON("./core/api-v1.php",{action:"list_orders",order_submitter:'self',page:"1",limit:"4"},function(data){
+                    $.getJSON("./core/api-v1.php",{action:"list_orders",order_submitter:'self',page:"1",limit:"3"},function(data){
                         if(data.status == 'success'){
                             main_page.orders_list = data.orders;
                         }

@@ -94,7 +94,7 @@
                                 <h4 style="float:left">递送：</h4>
                             </div>
                             <div class="form-group col-xs-4">
-                                <select v-model="order_info.delivery_fee">  
+                                <select class="form-control" v-model="order_info.delivery_fee">  
                                     <option v-for="option in delivery_options" v-bind:value="option.value">  
                                         {{ option.text }}  
                                     </option>  

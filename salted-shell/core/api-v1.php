@@ -116,7 +116,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         $offer = floatval($_GET['offer']);
         $order_id = create_order_from_user($student_id, $order_type, $rent_duration, $goods_id, $delivery_fee, $purchase_amount, $single_cost, $offer);
         if($order_id){
-            $sms = new OrderSms;    $sms_status = $sms->create_order($order_id);
+            // $sms = new OrderSms;    $sms_status = $sms->create_order($order_id);
             die(json_encode(array(
                 "status" => "success",
                 "order_id" => $order_id,
