@@ -56,7 +56,7 @@
                 .ct-goods{height:97px;}
             }
             @media(min-device-width:450px){
-                .container{width:1170px;}                
+                .container{width:1170px;}
             }
             @media(max-width:768px){
                 .ct-rt{padding:0;}
