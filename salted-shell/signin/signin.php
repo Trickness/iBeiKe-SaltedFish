@@ -70,15 +70,15 @@
                     <div style="text-align:left;">
                         <div style="margin-top:20px;"><input type="number" class="form-control" placeholder="请输入斋号" v-model="info.dormitory.dormitory_id.value" /></div>
                         <div style="margin-top:20px;"><input type="number" class="form-control" placeholder="请输入房号" v-model="info.dormitory.room_no.value" /></div>
-                        <div style="margin-top:20px;"><input disabled="disabled" type="text" class="form-control" placeholder="请输入手机号" v-model="info.phone_number.value" /></div>
-                        <div style="margin-top:20px;overflow:hidden;">
+                        <div style="margin-top:20px;"><input type="text" class="form-control" placeholder="请输入手机号" v-model="info.phone_number.value" /></div>
+                        <!-- <div style="margin-top:20px;overflow:hidden;">
                             <div class="col-xs-8" style="padding-left:0;"><input disabled="disabled" type="text" class="form-control" placeholder="短信验证码" v-model="check_phone.user_cap" /></div>
                             <div class="col-xs-4" style="padding-right:0;">
                                 <button v-if="check_phone.status" style="width:100%;" disabled="disabled"  class="btn btn-warning" @click="fetch_captcha">获取</button>
                                 <button v-if="!check_phone.status" style="width:100%;" disabled="disabled"  class="btn" disabled v-cloak>获取({{check_phone.count_down}})</button>
                             </div>
                         </div>
-                        <div v-if="!check_captcha" class="col-xs-8" style="padding-left:0;"><p style="color:red;">验证码不正确</p></div>
+                        <div v-if="!check_captcha" class="col-xs-8" style="padding-left:0;"><p style="color:red;">验证码不正确</p></div> -->
                         <div style="margin-top:20px;"><button class="btn btn-warning btn-lg" style="width:100%;" @click="pagi(11)">上一页</button></div>
                         <div style="margin-top:20px;"><button class="btn btn-warning btn-lg" style="width:100%;" @click="pagi(2)">下一页</button></div>
                     </div>

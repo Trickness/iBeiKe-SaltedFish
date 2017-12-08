@@ -146,12 +146,12 @@ function accept_order_from_user($user_id, $order_id){
                 decrease_goods_remain($goods_id,$purchase_amount);
                 $link->close();
                 post_accept_order();
-                $sms = new OrderSms;    $sms_status = $sms->accept_order($order_id);
+                // $sms = new OrderSms;    $sms_status = $sms->accept_order($order_id);
                 die(json_encode(array(
                     "status" => "success",
                     "order_id" => $order_id,
                     "order_status" => "accepted",
-                    'sms_status'   => $sms_status,
+                    // 'sms_status'   => $sms_status,
                 )));
             }else{
                 $link->close();
@@ -193,12 +193,12 @@ function complete_order_from_user($student_id, $order_id){      // 卖方完成�
         if(!$status)
             die(generate_error_report("Unknown error with database"));
         post_complete_order();
-        $sms = new OrderSms;    $sms_status = $sms->complete_order($order_id);        
+        // $sms = new OrderSms;    $sms_status = $sms->complete_order($order_id);        
         return json_encode(array(
             "status" => "success",
             "order_id" => "$order_id",
             "order_status" => "completed",
-            'sms_status'    =>  $sms_status,
+            // 'sms_status'    =>  $sms_status,
         ));
     }else{
         die(generate_error_report("Unknown error as complete_order_from_use"));
@@ -230,12 +230,12 @@ function finish_order_from_user($student_id, $order_id){
         if(!$status)
             die(generate_error_report("Unknown error with database at finish_order_from_user"));
         post_complete_order();
-        $sms = new OrderSms;    $sms_status = $sms->finish_order($order_id);        
+        // $sms = new OrderSms;    $sms_status = $sms->finish_order($order_id);        
         return json_encode(array(
             "status" => "success",
             "order_id" => "$order_id",
             "order_status" => "finished",
-            'sms_status'    =>  $sms_status,
+            // 'sms_status'    =>  $sms_status,
         ));
     }else{
         die(generate_error_report("Database error at finish_order_from_user"));

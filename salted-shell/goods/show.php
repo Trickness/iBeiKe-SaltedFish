@@ -94,7 +94,7 @@
                                 <h4 style="float:left">递送：</h4>
                             </div>
                             <div class="form-group col-xs-4">
-                                <select v-model="order_info.delivery_fee">  
+                                <select class="form-control" v-model="order_info.delivery_fee">  
                                     <option v-for="option in delivery_options" v-bind:value="option.value">  
                                         {{ option.text }}  
                                     </option>  
@@ -119,7 +119,10 @@
                                     <li v-cloak>学号：{{goods_info.goods_owner_info.student_id}}</li>
                                     <li v-cloak>姓名：{{goods_info.goods_owner_info.name}}</li>
                                     <li v-cloak>电话：{{goods_info.goods_owner_info.phone_number}}</li>
-                                    <li style="text-align:center;"><a :href="convert_info.goods_owner_info"><button id="contect">联系卖家</button></a></li>
+                                    <li style="text-align:center;">
+					<a v-if="islogin" :href="convert_info.goods_owner_info"><button id="contect">联系卖家</button></a>
+					<button disabled v-else class="banned_order">您尚未登陆</button>
+				    </li>
                                 </ul>
                             </div>
                         </div>
