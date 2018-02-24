@@ -235,6 +235,8 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         $session_key = false;
         if(isset($_POST['username']) and isset($_POST['password']))
             $session_key = user_login($_POST['username'],$_POST['password']);
+        else
+        $session_key = user_login($_GET['username'],$_GET['password']);
         if($session_key){
             session_unset();
             session_destroy();
