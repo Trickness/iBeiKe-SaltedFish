@@ -185,7 +185,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     }elseif($action == "fetch_user_info"){
         if(!isset($_GET['user_id']))
             die(generate_error_report("Please specify user id as user_id=xxx in url"));
-        $return_var = fetch_info_from_user($student_id);
+        $return_var = fetch_info_from_user($_GET['user_id']);
         $return_var = recursion_remove_sensitive_info($return_var,"protected");
         if($return_var){
             die(json_encode(array(
