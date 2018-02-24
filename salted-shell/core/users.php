@@ -112,7 +112,7 @@ function user_login($username,$password){
     $password = md5(md5($password).$pass_salt);
     if ($password==$res['student_pass']) {
         $session_key = getRandom(32);
-        $insert = "insert into $db_session_table (session_key, student_id)values ('$session_key','$username')";
+        $insert = "insert into $db_session_table (session_key, student_id) values ('$session_key','$username')";
         $link->query($insert);
         $link->commit();
         $link->close();
