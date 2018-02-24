@@ -11,6 +11,7 @@ sqlTableUsers="salted_fish_users"
 sqlTableGoods="salted_fish_goods"
 sqlTableOrders="orders"
 sqlTableSession="session"
+sqlTableMessage="messages"
 
 studentInfo="%7B%22student_id%22%3A%7B%22access%22%3A%22public%22%2C%22value%22%3A%22REPLACESTUDENTID%22%7D%2C%22name%22%3A%7B%22access%22%3A%22public%22%2C%22value%22%3A%22%5Cu5f20%5Cu5cfb%5Cu950b%22%7D%2C%22gender%22%3A%7B%22access%22%3A%22public%22%2C%22value%22%3A%22%5Cu7537%22%7D%2C%22birthday%22%3A%7B%22access%22%3A%22protected%22%2C%22value%22%3A%2220160101%22%7D%2C%22type%22%3A%7B%22access%22%3A%22private%22%2C%22value%22%3A%22%5Cu672c%5Cu79d1%22%7D%2C%22nationality%22%3A%7B%22access%22%3A%22private%22%2C%22value%22%3A%22%5Cu6c49%5Cu65cf%22%7D%2C%22nickname%22%3A%22%5Cu4e8c%5Cu72d7%5Cu5b50%22%2C%22header%22%3A%22..%2fcss%2fdefault-header.jpg%22%2C%22class_info%22%3A%7B%22access%22%3A%22protected%22%2C%22department%22%3A%7B%22access%22%3A%22public%22%2C%22value%22%3A%22%5Cu9b54%5Cu6cd5%5Cu5b66%5Cu9662%22%7D%2C%22enrollment%22%3A%7B%22access%22%3A%22public%22%2C%22value%22%3A%222016%22%7D%2C%22class_no%22%3A%7B%22access%22%3A%22public%22%2C%22value%22%3A%22%5Cu80fd%5Cu6e901605%22%7D%7D%2C%22dormitory%22%3A%7B%22access%22%3Anull%2C%22dormitory_id%22%3A%7B%22access%22%3A%22protected%22%2C%22value%22%3A%225%22%7D%2C%22room_no%22%3A%7B%22access%22%3A%22public%22%2C%22value%22%3A%22666%22%7D%2C%22value%22%3Anull%7D%2C%22phone_number%22%3A%7B%22access%22%3A%22protected%22%2C%22value%22%3A%2213996309201%22%7D%2C%22department%22%3A%7B%22access%22%3A%22protected%22%2C%22value%22%3A%22%5Cu9b54%5Cu6cd5%5Cu5b66%5Cu9662%22%7D%7D"
 
@@ -100,6 +101,22 @@ function create_db_table(){
         echo "done."
     fi
 
+    echo -e "Creating message table......\c"
+    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableMessage(    \
+        msg_id INT NOT NULL AUTO_INCREMENT, \
+        msg_content TEXT,                   \
+        msg_datetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,     \
+        sender_id CHAR(16) NOT NULL,        \
+        recver_id CHAR(16) NOT NULL,        \
+        has_read    BOOLEAN NOT NULL DEFAULT FALSE, \
+        PRIMARY KEY(msg_id) \
+    );" 2>>$errLogFile`
+    if [ "$?" -ne "0" ]; then
+        echo "error"
+    else
+        echo "done."
+    fi
+
     while true
     do
         echo ""
@@ -142,7 +159,7 @@ function generate_config_file(){
         return
     fi
     echo -e "generating config.php......\c"
-    echo -e "<?php\n\n\$db_host = \"$sqlSer\";\n\$db_user = \"$sqlSerUser\";\n\$db_pass = \"$sqlSerPass\";\n\$db_name = \"$sqlDbName\";\n\$db_users_table = \"$sqlTableUsers\";\n\$db_goods_table = \"$sqlTableGoods\";\n\$db_order_table = \"$sqlTableOrders\";\n\$db_session_table = \"$sqlTableSession\";    \n\n\$addons = array(\n\t\"ueditor\" => \"../addons/ueditor/php\"\n);    \n\ndate_default_timezone_set('Asia/Chongqing');\n?>" > $configFile
+    echo -e "<?php\n\n\$db_host = \"$sqlSer\";\n\$db_user = \"$sqlSerUser\";\n\$db_pass = \"$sqlSerPass\";\n\$db_name = \"$sqlDbName\";\n\$db_users_table = \"$sqlTableUsers\";\n\$db_goods_table = \"$sqlTableGoods\";\n\$db_order_table = \"$sqlTableOrders\";\n\$db_session_table = \"$sqlTableSession\";\n\$db_message_table = \"$sqlTableMessage\";    \n\n\$addons = array(\n\t\"ueditor\" => \"../addons/ueditor/php\"\n);    \n\ndate_default_timezone_set('Asia/Chongqing');\n?>" > $configFile
     echo "done."
 }
 

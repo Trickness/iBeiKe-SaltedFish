@@ -182,6 +182,13 @@ function filter_session_key($session_key){
     return $x[0];
 }
 
+function filter_student_id($student_id){
+    preg_match_all("/[a-zA-Z0-9]/", $student_id, $x);      //  正则表达式
+    if(count($x[0]) < 8)   return false;
+    $x[0] = implode("",$x[0]);
+    return $x[0];
+}
+
 function filter_password($password){
     return $password;   // TODOS
 }

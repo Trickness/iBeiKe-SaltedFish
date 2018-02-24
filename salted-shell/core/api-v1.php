@@ -6,6 +6,7 @@ require_once "goods.php";
 require_once "authorization.php";
 require_once 'sms.php';
 require_once "orders.php";
+require_once "message.php";
 
 // TODO: intval($goods_id)
 
@@ -224,6 +225,28 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
         if(isset($_POST['goods_info'])){
             die(update_goods_info($_POST['goods_info'],$student_id));
         }
+    }elseif($action == "msg_send"){
+        if(isset($_GET["msg_content"]) && isset($_GET["peer_id"])){
+            $peer_id = filter_student_id($_GET['peer_id']);
+            $content = base64_encode($_GET['msg_content']);
+            new_msg($student_id, $peer_id, $content);   // 只在成功时返回
+            die(json_encode(array(
+                "status" => "success"
+            )));
+        }else{
+            die(generate_error_report("No enough params, please read doc for further information"));
+        }
+    }elseif($action == "fetch_msg"){
+        if(isset($_GET["peer_id"])){
+            $peer_id = filter_student_id($_GET['peer_id']);
+            $result = fetch_msg($peer_id, $student_id);
+            die(json_encode($result));
+        }else{
+            die(generate_error_report("No enough params, please read doc for further information"));
+        }
+    }elseif($action == "msg_count"){
+        $result = msg_count($student_id);
+        die(json_encode($result));
     }elseif ($action == 'check') {
         die(json_encode(array(
             'status'    =>  'failed',
