@@ -25,7 +25,7 @@ config.php (全局配置文件)
     student_id      CHAR(16) NOT NULL,
     student_pass    CHAR(32) NOT NULL,
     pass_salt       CHAR(8)  NOT NULL,
-    student_info    VARCHAR(65535),
+    student_info    TEXT,
     info_hash       CHAR(64),
     account_header  VARCHAR(64),
     bbs_id          CHAR(32),
@@ -40,8 +40,8 @@ Session
 (
     session_key     CHAR(32) NOT NULL,
     student_id      CHAR(16) NOT NULL,
-    ttl             INT      NOT NULL,
-    vaild_date      DATETIME NOT NULL,
+    ttl             INT      ,
+    vaild_date      DATETIME ,
     PRIMARY KEY(session_key)
 );
 ```
