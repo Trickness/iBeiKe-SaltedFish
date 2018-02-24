@@ -138,13 +138,13 @@
                             </ul>
                             <div class="tab-content">
                                 <div id="comments" class="tab-pane active">
-                                    <comments-tab :comments="goods_info.comments">
+                                    <comments-tab :comments="goods_info.comments" />
                                 </div>
                                 <div id="info" class="tab-pane" v-html="goods_info.goods_info" style="word-wrap:break-word;padding:20px;overflow-x:auto;"></div>
                                 <div id="editor" class="tab-pane">
                                     <div class="row">
                                         <div class="col-xs-10 col-xs-offset-1" style="padding-top:20px;">
-                                            <script type="text/plain" id="ueditor" style="height:300px;"></script>
+                                            <textarea type="text/plain" id="ueditor" style="height:300px;"></textarea>
                                         </div>
                                     </div>
                                     <div class="row" style="padding-top:20px;text-align:center;">
@@ -209,7 +209,7 @@
                                     </div>
                                     <div v-if="status == 'error'">
                                         <div style="text-align:center;">
-                                            <div class="row"><h4 v-cloak>{{error}}</h3></div>
+                                            <div class="row"><h4 v-cloak>{{error}}</h4></div>
                                             <div class="row"><button class="btn btn-default" @click="status = 'editing'" data-dismiss="modal">继续购物</button></div>
                                         </div>
                                     </div>
@@ -250,16 +250,6 @@
                 $(".goods_header").css("height",$(".goods_header").css("width"));
                 $(".preview").css("height",$(".preview").css("width"));
                 $("#comment_tab li:eq(0) a").tab('show');
-
-                var ue = UE.getEditor('ueditor',{
-                    toolbars: [
-                        ['emotion','undo', 'redo', 'bold','italic','underline','strikethrough','subscript','formatmatch','simpleupload','insertimage',
-                            'justifyleft','justifycenter','justifyright','justifyjustify','forecolor']
-                    ],
-                    autoHeightEnabled: false,
-                    autoFloatEnabled: false,
-                    zIndex:1,
-                });
 
                 Vue.component('comments-tab',{
                     props:['comments'],
@@ -316,7 +306,8 @@
                                 text : "买家自取",
                                 value : 0
                             }
-                        ]
+                        ],
+                        ue:{},
                     },
                     computed:{
                         islogin:function(){
@@ -381,7 +372,7 @@
                             });
                         },
                         comment_submit:function(){
-                            var comment = ue.getContent();
+                            var comment = this.ue.getContent();
                             $.getJSON("../core/api-show-goods.php",{goods_id:goods_id,action:"comment",comment:comment},function(data){
                                 if (data.status=="success") {
                                     window.location = "./show.php?goods_id="+goods_id;
@@ -405,7 +396,7 @@
                             };
                             return style;
                         },
-                        change_thumb(img){
+                        change_thumb:function(img){
                             this.goods_thumb = img;
                         }
                     },
@@ -439,6 +430,18 @@
                             console.log(data);
                         });
                     },
+                    updated:function () {
+                        console.log("数据更改");
+                        this.ue = UE.getEditor('ueditor',{
+                            toolbars: [
+                                ['emotion','undo', 'redo', 'bold','italic','underline','strikethrough','subscript','formatmatch','simpleupload','insertimage',
+                                    'justifyleft','justifycenter','justifyright','justifyjustify','forecolor']
+                            ],
+                            autoHeightEnabled: false,
+                            autoFloatEnabled: false,
+                            zIndex:1,
+                        });
+                    }
                 });
 
             });
