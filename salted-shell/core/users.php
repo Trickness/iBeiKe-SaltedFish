@@ -102,6 +102,7 @@ function user_login($username,$password){
     global $db_name;
     global $db_user;
     global $db_users_table;
+    global $db_session_table;
     $username = (int)$username;
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
     $select = "SELECT * from $db_users_table WHERE student_id = '$username'";
@@ -111,7 +112,7 @@ function user_login($username,$password){
     $password = md5(md5($password).$pass_salt);
     if ($password==$res['student_pass']) {
         $session_key = getRandom(32);
-        $insert = "insert into sessions values ('$session_key','$username')";
+        $insert = "insert into $db_session_table (session_key, student_id)values ('$session_key','$username')";
         $link->query($insert);
         $link->commit();
         $link->close();

@@ -73,7 +73,7 @@
                 methods:{
                     login:function(){
                         var t = this;
-                        $.post('/core/api-v1.php?action=login',{username:t.username,password:t.password},function(data){
+                        $.post('../core/api-v1.php?action=login',{username:t.username,password:t.password},function(data){
                             data = JSON.parse(data);
                             var status = data.status;
                             switch(status){
