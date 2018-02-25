@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# default config
 errLogFile="install_err_log.txt"
 configFile="config.php"
 sqlSer="127.0.0.1"
@@ -17,7 +18,7 @@ studentInfo="%7B%22student_id%22%3A%7B%22access%22%3A%22public%22%2C%22value%22%
 
 function create_db_table(){
     echo -e "Creating user table.......\c"
-    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -D $sqlDbName -e " CREATE TABLE $sqlTableUsers (  \
+    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -D $sqlDbName -e " CREATE TABLE $sqlTableUsers (  \
         student_id      CHAR(16) NOT NULL,  \
         student_pass    CHAR(32) NOT NULL,  \
         pass_salt       CHAR(8)  NOT NULL,  \
@@ -35,7 +36,7 @@ function create_db_table(){
     
 
     echo -e "Creating goods table......\c"
-    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableGoods(  \
+    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableGoods(  \
         goods_id       INT NOT NULL AUTO_INCREMENT, \
         goods_title    VARCHAR(128) NOT NULL,       \
         goods_img      VARCHAR(256) NOT NULL,       \
@@ -67,7 +68,7 @@ function create_db_table(){
     fi
 
     echo -e "Creating order table......\c"
-    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableOrders(  \
+    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableOrders(  \
             order_id         INT NOT NULL AUTO_INCREMENT,   \
             order_type       CHAR(16) NOT NULL,             \
             goods_id         INT NOT NULL,                  \
@@ -88,7 +89,7 @@ function create_db_table(){
     fi
 
     echo -e "Creating session table......\c"
-    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableSession(  \
+    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableSession(  \
             session_key     CHAR(32) NOT NULL,  \
             student_id      CHAR(16) NOT NULL,  \
             ttl             INT      ,  \
@@ -102,7 +103,7 @@ function create_db_table(){
     fi
 
     echo -e "Creating message table......\c"
-    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableMessage(    \
+    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableMessage(    \
         msg_id INT NOT NULL AUTO_INCREMENT, \
         msg_content TEXT,                   \
         msg_datetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,     \
@@ -116,14 +117,17 @@ function create_db_table(){
     else
         echo "done."
     fi
+}
 
+function create_test_user(){
     while true
     do
-        echo ""
-        read -p "Create a test account? (Y/n) "
+        read -n1 -p "Create a test account? (Y/n) "
         if [[ "$REPLY" = "N" || "$REPLY" = "n" ]];then 
+            echo "    ...... skip"
             break
         fi
+        echo ""
         read -p "Student ID (8 digit number): " uname
         read -s -p "Password: " pword
         echo ""
@@ -153,126 +157,187 @@ function create_db_table(){
 }
 
 function generate_config_file(){
-    echo ""
-    read -p "Update config.php? (Y/n) "
+    read -n1 -p "Do you want to generate config.php? (Y/n) "
     if [[ "$REPLY" = "N" || "$REPLY" = "n" ]];then
+        echo "    ...... skip"
         return
     fi
-    echo -e "generating config.php......\c"
+    echo -e "\nGenerating config.php......\c"
     echo -e "<?php\n\n\$db_host = \"$sqlSer\";\n\$db_user = \"$sqlSerUser\";\n\$db_pass = \"$sqlSerPass\";\n\$db_name = \"$sqlDbName\";\n\$db_users_table = \"$sqlTableUsers\";\n\$db_goods_table = \"$sqlTableGoods\";\n\$db_order_table = \"$sqlTableOrders\";\n\$db_session_table = \"$sqlTableSession\";\n\$db_message_table = \"$sqlTableMessage\";    \n\n\$addons = array(\n\t\"ueditor\" => \"../addons/ueditor/php\"\n);    \n\ndate_default_timezone_set('Asia/Chongqing');\n?>" > $configFile
     echo "done."
 }
 
-read -p "Input Mysql Server Address (Default $sqlSer): "
-if [ ! -z $REPLY ]; then
-    sqlSer=$REPLY
-fi
+function input_mysql_tables_config(){
 
-read -p "Input Mysql Server User (Default $sqlSerUser): " 
-if [ ! -z $REPLY ]; then
-    sqlSerUser=$REPLY
-fi
-
-
-read -s -p "Input Mysql Server Pass (Default $sqlSerPass): " 
-if [ ! -z $REPLY ]; then
-    sqlSerPass=$REPLY
-fi
-
-echo ""
-
-read -p "Input Mysql Database Name (Default $sqlDbName): " 
-if [ ! -z $REPLY ]; then
-    sqlDbName=$REPLY
-fi
-
-
-read -p "Input Database user table (Default $sqlTableUsers): " 
-if [ ! -z $REPLY ]; then
-    sqlTableUsers=$REPLY
-fi
-
-
-read -p "Input Database goods table (Default $sqlTableGoods): " 
-if [ ! -z $REPLY ]; then
-    sqlTableGoods=$REPLY
-fi
-
-
-read -p "Input Database orders table (Default $sqltableOrders): " 
-if [ ! -z $REPLY ]; then
-    sqlTableOrders=$REPLY
-fi
-
-
-read -p "Input Database session table (Default $sqlTableSession): " 
-if [ ! -z $REPLY ]; then
-    sqlTableSession=$REPLY
-fi
-
-echo ""
-
-result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
-if [ "$?" -ne "0" ]; then
-    echo "Your mysql may not be configured correctly,or username password mismatch."
-    echo "Configure exited"
-    exit
-fi
-
-if [ -z "$result" ]; then   # 数据库不存在
-    echo -e "Database has not been created, creating.......\c"
-    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e " CREATE DATABASES $sqlDbName 2>>$errLogFile"`
-    if [ "$?" -ne "0" ]; then
-        echo ""
-        read -p "Your mysql may not be configured correctly,or lack of authority, continue? (Y/n) "
-        if [[ "$REPLY" = "N" || "$REPLY" = "n" ]];then
-            echo "Configure exited"
-            exit
-        fi
-    else
-        echo "done"
+    read -n1 -p "Do you want manually config database tables? (y/N) "
+    echo ""
+    if [[ "$REPLY" = "n" || "$REPLY" = "N" ]];then 
+        return
     fi
-else
-    read -p "Do you want to clear and rebuild databases? (y/N) "
-    if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
-        if [[ ! "$sqlSerUser" = "root" ]];then
-            read -p "Root password required(No password will exit): "
-            if [ -z "$REPLY" ];then
-                echo "Configure exit."
-                exit
-            fi
-            sqlRootPass=$REPLY
-        else
-            sqlRootPass=$sqlSerPass
-        fi
-        echo -e "Dropping databases......\c"
-        result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " DROP DATABASE $sqlDbName " 2>>$errLogFile`
-        if [ "$?" -ne "0" ]; then
-            echo "error"
-            exit
-        else
-            echo "done"
-        fi
 
-        echo -e "Creating databases......\c"
-        result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " CREATE DATABASE $sqlDbName"  2>>$errLogFile`
-        if [ "$?" -ne "0" ]; then
-            echo "error"
-            exit
-        else
-            echo "done"
-        fi
-    else
-        generate_config_file
+    read -p "Input Database user table (Default $sqlTableUsers): " 
+    if [ ! -z $REPLY ]; then
+        sqlTableUsers=$REPLY
+    fi
 
+
+    read -p "Input Database goods table (Default $sqlTableGoods): " 
+    if [ ! -z $REPLY ]; then
+        sqlTableGoods=$REPLY
+    fi
+
+
+    read -p "Input Database orders table (Default $sqltableOrders): " 
+    if [ ! -z $REPLY ]; then
+        sqlTableOrders=$REPLY
+    fi
+
+
+    read -p "Input Database session table (Default $sqlTableSession): " 
+    if [ ! -z $REPLY ]; then
+        sqlTableSession=$REPLY
+    fi
+}
+
+function check_database(){
+    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
+    if [ "$?" -ne "0" ]; then
+        echo "Your mysql may not be configured correctly,or username and password mismatch."
+        echo "Configure exited"
         exit
     fi
-fi
 
-echo -e "\nCreating database tables......"
+    if [ -z "$result" ]; then   # 数据库不存在
+        echo -e "Creating database.......\c"
+        result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e " CREATE DATABASES $sqlDbName 2>>$errLogFile"`
+        if [ "$?" -ne "0" ]; then
+            echo ""
+            read -n1 -p "Your mysql may not be configured correctly,or lack of authority, continue? (Y/n) "
+            if [[ "$REPLY" = "N" || "$REPLY" = "n" ]];then
+                echo "Configure exited"
+                exit
+            fi
+        else
+            echo "done"
+        fi
+    else
+        read -n1 -p "Do you want to clear and rebuild database tables? (y/N) "
+        echo -e "Dropping database tables......\c"
+        if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " select concat('drop table ',table_name,';') from TABLES where table_schema='$sqlDbName'; " 2>>$errLogFile`
+            if [ "$?" -ne "0" ]; then
+                echo "error"
+                exit
+            else
+                echo "done"
+            fi
+        else
+            echo "skip"
+            generate_config_file
+            exit
+        fi
+    fi
 
-create_db_table
+    echo -e "\nCreating database tables......"
 
-generate_config_file
+    create_db_table
 
-echo -e "\nConfigure done."
+    generate_config_file
+
+    echo -e "\nConfigure done."
+}
+
+function mysql_database_config(){
+    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
+    if [ "$?" -ne "0" ]; then
+        echo "Your mysql may not be configured correctly,or username and password mismatch."
+        echo "Configure exited"
+        exit
+    fi
+
+    if [ -z "$result" ]; then   # 数据库不存在
+        echo -e "Creating database.......\c"
+        result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " CREATE DATABASES $sqlDbName 2>>$errLogFile"`
+        if [ "$?" -ne "0" ]; then
+            echo ""
+            echo "Your mysql may not be configured correctly,or username and password mismatch."
+            echo "Configure exited"
+            exit
+        else
+            echo "done"
+        fi
+        input_mysql_tables_config
+        create_db_table
+    else
+        read -n1 -p "Do you want to clear and rebuild database tables? (y/N) "
+        if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
+            echo -e "\nDropping database tables......\c"
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -Dinformation_schema  -e " select concat('drop table ',table_name,';') from TABLES where table_schema='$sqlDbName'; " 2>>$errLogFile`
+            if [ "$?" -ne "0" ]; then
+                echo "error"
+                exit
+            else
+                echo "done"
+            fi
+            input_mysql_tables_config
+            create_db_table
+        else
+            echo "    ...... skip"
+        fi
+    fi
+}
+
+function main(){
+    read -p "Input Mysql Server Address (Default $sqlSer): "
+    if [ ! -z $REPLY ]; then
+        sqlSer=$REPLY
+    fi
+
+    read -p "Input Mysql Server User (Default $sqlSerUser): " 
+    if [ ! -z $REPLY ]; then
+        sqlSerUser=$REPLY
+    fi
+
+    read -s -p "Input Mysql Server Pass (Default $sqlSerPass): " 
+    if [ ! -z $REPLY ]; then
+        sqlSerPass=$REPLY
+    fi
+
+    echo ""
+
+    read -p "Input Mysql Database Name (Default $sqlDbName): " 
+    if [ ! -z $REPLY ]; then
+        sqlDbName=$REPLY
+    fi
+
+    # 检查数据库是否存在
+    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
+    if [ "$?" -ne "0" ]; then
+        echo "Your mysql may not be configured correctly,or username and password mismatch."
+        echo "Configure exited"
+        exit
+    fi
+
+    if [ -z "$result" ]; then   # 数据库不存在
+        if [ ! "$sqlSerUser" = "root" ];then
+            echo ""
+            read "Database does not exist, root password is required to create a database (Press anykey to exit) "
+            exit
+        fi
+    else
+        read -n1 -p "Do you want to config database? (y/N) "
+        if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
+            echo ""
+            sqlRootPass=$sqlSerPass
+            mysql_database_config
+        else
+            echo "    ...... skip"
+        fi
+    fi
+    create_test_user
+    generate_config_file
+
+    echo -e "\nConfig done."
+}
+
+main
