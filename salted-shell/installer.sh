@@ -55,10 +55,10 @@ function create_db_table(){
         cl_lv_1        VARCHAR(128),                \
         cl_lv_2        VARCHAR(128),                \
         cl_lv_3        varchar(128),                \
-        goods_heat     INT NOT NULL,                \
-        goods_sv       INT NOT NULL,                \
-        goods_pv       INT NOT NULL,                \
-        goods_tu       INT NOT NULL,                \
+        goods_heat     INT NOT NULL DEFAULT 0,      \
+        goods_sv       INT NOT NULL DEFAULT 0,      \
+        goods_pv       INT NOT NULL DEFAULT 0,      \
+        goods_tu       INT NOT NULL DEFAULT 0,      \
         PRIMARY KEY (goods_id)                      \
         );" 2>>$errLogFile`
     if [ "$?" -ne "0" ]; then
@@ -224,7 +224,8 @@ function check_database(){
         read -n1 -p "Do you want to clear and rebuild database tables? (y/N) "
         echo -e "Dropping database tables......\c"
         if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
-            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " select concat('drop table ',table_name,';') from TABLES where table_schema='$sqlDbName'; " 2>>$errLogFile`
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "DROP DATABASE $sqlDbName;  " 2>>$errLogFile`
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "CREATE DATABASE $sqlDbName;;  " 2>>$errLogFile`
             if [ "$?" -ne "0" ]; then
                 echo "error"
                 exit
@@ -269,10 +270,18 @@ function mysql_database_config(){
         input_mysql_tables_config
         create_db_table
     else
-        read -n1 -p "Do you want to clear and rebuild database tables? (y/N) "
+        read -n1 -p "Do you want to clear and rebuild database? (y/N) "
         if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
-            echo -e "\nDropping database tables......\c"
-            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -Dinformation_schema  -e " select concat('drop table ',table_name,';') from TABLES where table_schema='$sqlDbName'; " 2>>$errLogFile`
+            echo -e "\nDropping database......\c"
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "DROP DATABASE $sqlDbName;  " 2>>$errLogFile`
+            if [ "$?" -ne "0" ]; then
+                echo "error"
+                exit
+            else
+                echo "done"
+            fi
+            echo -e "Creating database......\c"
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "CREATE DATABASE $sqlDbName;;  " 2>>$errLogFile`
             if [ "$?" -ne "0" ]; then
                 echo "error"
                 exit
