@@ -399,4 +399,5 @@ if($action == "fetch_user_total_info"){
         die(search_goods_by_category($_GET['category'],$_GET['level'],$page,$amount));
     }
 }
+die(generate_error_report( "No such method, please read sources and try again"));
 ?>
