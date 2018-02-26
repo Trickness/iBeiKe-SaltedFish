@@ -260,7 +260,7 @@ function mysql_database_config(){   # 此时用户有权限（查询）
         read -n1 -p "Do you want to clear and rebuild database? (y/N) "
         echo ""
         if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
-            if [[ ! "$sqlSerUser" = "root" || -z "$sqlRootPass" ]];then    # 如果没有root密码
+            if [[ ! "$sqlSerUser" = "root" && -z "$sqlRootPass" ]];then    # 如果没有root密码
                 read -s -p "root password is required to continue (Press enter to skip) "
                 if [ -z $REPLY ]; then
                     echo " ...... skip"
@@ -354,7 +354,7 @@ function main(){
         if [ ! -z $REPLY ];then 
             sqlRootPass=$REPLY
             echo -e "Creating database user $sqlSerUser......\c"
-            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "CREATE USER $sqlSerUser@'%' IDENTIFIED BY '$sqlSerPass';" 2>>$errLogFile`
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "CREATE USER '$sqlSerUser'@'*' IDENTIFIED BY '$sqlSerPass';" 2>>$errLogFile`
             if [ "$?" -ne "0" ]; then
                 echo "error"
                 echo "Your mysql may not be configured correctly,or username and password mismatch."
@@ -369,13 +369,15 @@ function main(){
     if [ -z "$result" ]; then   # 数据库不存在(或者没有权限)
         if [ ! "$sqlSerUser" = "root" ];then    # 可能是没有权限的情况
             echo ""
-            echo "No such database or no enough privileges"
-            read -s -p "Enter root password to continue. (Press enter to exit) "   # 输入root密码
-            echo ""
-            if [ -z $REPLY ]; then
-                exit
+            if [ -z $sqlRootPass ];then
+                echo "No such database or no enough privileges"
+                read -s -p "Enter root password to continue. (Press enter to exit) "   # 输入root密码
+                echo ""
+                if [ -z $REPLY ]; then
+                    exit
+                fi
+                sqlRootPass=$REPLY
             fi
-            sqlRootPass=$REPLY
             # 用root查询
             result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
             if [ "$?" -ne "0" ]; then
