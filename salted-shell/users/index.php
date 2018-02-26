@@ -34,6 +34,13 @@
 			background-repeat: repeat-x;
 			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
 		}
+        #msg-pad::-webkit-scrollbar{
+            width: 5px;
+        }
+        #msg-pad::-webkit-scrollbar-thumb{
+            background-color: #cccccc;
+            border-radius: 7px;
+        }
 	</style>
 
 	<div id="show_info" style="padding-bottom:50px;">
@@ -62,9 +69,43 @@
 <!--					新品推荐-->
 <!--				</div></div>-->
 <!--				<goods v-for="go in new_goods" :key="go.goods_id" :go="go" />-->
-                <div style="width: 100%;height: 500px;background-color: #f3f8ff;border-radius: 5px;border: 1px solid rgba(27,31,35,0.15)">
+                <div style="width: 100%;background-color: #f3f8ff;border-radius: 5px;border: 1px solid rgba(27,31,35,0.15)">
                     <div style="padding: 10px;font-size: 15px;"><b>电波提醒</b></div>
-                    <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                    <div id="msg-pad" style="min-height: 500px;max-height: 900px;overflow-y: scroll;">
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                        <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                    </div>
                 </div>
 			</div>
 		</div>

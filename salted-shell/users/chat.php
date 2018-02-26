@@ -21,6 +21,15 @@
         background-color: #e6e6e6;
         overflow-y: scroll;
     }
+    #scrolldiv::-webkit-scrollbar{
+        width: 10px;
+        background-color: #cccccc;
+        box-shadow: 0 0 5px black;
+    }
+    #scrolldiv::-webkit-scrollbar-thumb{
+        background-color: #fd9860;
+        border-radius: 5px;
+    }
     .gradient{
         background: linear-gradient(#e8e8e8,#cccccc);
     }
