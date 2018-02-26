@@ -61,7 +61,7 @@
                     }
                 },
                 content:function () {
-                    return this.msg.msg_content;
+                    return decodeURI(this.msg.msg_content);
                 }
             }
         }

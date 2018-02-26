@@ -88,9 +88,10 @@ function fetch_msg($peer_id, $recver_id, $limit=30){
     if ($results){
         $result_arr = array();
         while($result = mysqli_fetch_assoc($results)){
-            $item['msg_content'] = utf8_encode(base64_decode($result['msg_content']));
+            $item['msg_content'] = base64_decode($result['msg_content']);
             $item['sender'] = urldecode($result['sender_id']);
             $item['datetime'] = urldecode($result['msg_datetime']);
+
 
             //  设置成已读
             if($result['has_read'] == 0 && $result['recver_id'] == $recver_id){

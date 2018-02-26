@@ -8,6 +8,8 @@ require_once 'sms.php';
 require_once "orders.php";
 require_once "message.php";
 
+header('Content-type: application/json');
+
 // TODO: intval($goods_id)
 
 session_start();
