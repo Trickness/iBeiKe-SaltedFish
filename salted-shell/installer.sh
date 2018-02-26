@@ -244,6 +244,9 @@ function mysql_database_config(){   # 此时用户有权限（查询）
             fi
             sqlRootPass=$REPLY
         fi
+        if [[ "$sqlSerUser" == "root" ]];then
+            sqlRootPass=$sqlSerPass
+        fi
         echo -e "Creating database.......\c"
         result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " CREATE DATABASES $sqlDbName" 2>>$errLogFile`
         if [ "$?" -ne "0" ]; then
@@ -305,7 +308,7 @@ function mysql_database_drop(){
 
 function mysql_database_create(){
     echo -e "\nCreating database......\c"
-    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " CREATE DATABASES $sqlDbName" 2>>$errLogFile`
+    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " CREATE DATABASE $sqlDbName" 2>>$errLogFile`
     if [ "$?" -ne "0" ]; then
         echo ""
         echo "Your mysql may not be configured correctly,or username and password mismatch."
@@ -402,6 +405,7 @@ function main(){
             if [[ "$REPLY" = "N" || "$REPLY" = "n" ]];then 
                 echo " ...... skip"
             else
+                sqlRootPass=$sqlSerPass
                 mysql_database_create
             fi
         fi
