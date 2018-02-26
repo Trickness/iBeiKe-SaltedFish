@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-    <title>与。。。的会话</title>
+    <title id="tl">正在与 {{nickname}} 的聊天中</title>
 </head>
 <body style="height: calc(100% - 80px);">
 <?php
@@ -21,12 +21,18 @@
         background-color: #e6e6e6;
         overflow-y: scroll;
     }
+    .gradient{
+        background: linear-gradient(#e8e8e8,#cccccc);
+    }
+    body{
+        background-color: #f0f0f0;
+    }
 </style>
 
 <div id="chat" style="margin-top: 70px;height: 100%;">
 <!--    <div>{{peer_id}}</div>-->
-    <div class="container" style="height: 100%;max-width: 900px">
-        <div style="height: 70px;background-color: #d6d6d6;text-align: center;padding: 25px;">{{user_info.nickname}}</div>
+    <div class="container" style="height: 100%;max-width: 850px;background-color: white;border-radius: 3px;box-shadow: 0 0 2px #cccccc;padding-top: 15px">
+        <div style="height: 70px;background-color: #d6d6d6;text-align: center;padding: 5px;border-radius: 3px;" class="gradient"><h4>正在与 {{user_info.nickname}} 的聊天中</h4></div>
         <div id="scrolldiv">
             <msg v-for="msg in chat_info.msg" :msg="msg" :subject="self_info.student_id.value"></msg>
         </div>
@@ -39,12 +45,14 @@
 
 <script type="text/x-template" id="msg">
     <div style="padding: 5px;overflow: hidden;">
-        <div style="min-height: 40px;width: fit-content;border: 1px solid black;padding: 6px;" :style="sty" v-html="content"></div>
+        <div style="height: 40px;width: 40px;background-position: center;background-size: cover;" :style="header"></div>
+        <div style="min-height: 40px;width: fit-content;border-radius: 4px;padding: 10px;" :style="sty" v-html="content"></div>
     </div>
 </script>
 
 <script>
     $(document).ready(function () {
+        var chat;
         var Msg = {
             props:['msg','subject'],
             template: '#msg',
@@ -52,21 +60,45 @@
                 sty:function () {
                     if (this.msg.sender == this.subject){
                         return {
-                            float:'left'
+                            float: 'right',
+                            backgroundColor: '#00c822',
+                            color: 'white',
+                            boxShadow: '0 0 2px #cccccc',
                         }
                     }else {
                         return {
-                            float:'right'
+                            float:'left',
+                            backgroundColor: 'white',
+                            boxShadow: '0 0 2px #cccccc',
                         }
                     }
                 },
                 content:function () {
                     return decodeURI(this.msg.msg_content);
+<<<<<<< HEAD
+                },
+                header:function () {
+                    var vm = this;
+                    if (vm.msg.sender == vm.subject){
+                        return {
+                            float: 'right',
+                            backgroundImage: 'url("'+chat.self_info.header+'")',
+                            marginLeft: '20px',
+                        }
+                    }else {
+                        return {
+                            float: 'left',
+                            backgroundImage: 'url("'+chat.user_info.header+'")',
+                            marginRight: '20px',
+                        }
+                    }
+=======
+>>>>>>> f6592ba679698ce6ba74efcdc0a2ad3891207398
                 }
             }
         }
 
-        var chat = new Vue({
+        chat = new Vue({
             el:'#chat',
             data:{
                 peer_id:peer_id,
@@ -84,6 +116,7 @@
                     $.getJSON('../core/api-v1.php?action=fetch_user_info',{user_id:vm.peer_id},function (data) {
                         if (data.status == 'success'){
                             vm.user_info = data.user_info;
+                            tl.nickname = vm.user_info.nickname;
                         }else {
 
                         }
@@ -164,6 +197,12 @@
             },
             components:{
                 'msg': Msg,
+            }
+        });
+        var tl = new Vue({
+            el:'#tl',
+            data:{
+                nickname:'',
             }
         })
     })
