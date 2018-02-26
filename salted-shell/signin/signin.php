@@ -240,7 +240,6 @@
                                 student_id:t.student_id,
                                 password:t.password,
                             },function(data){
-                                data = JSON.parse(data);
                                 if (!data) {
                                     swal('','学号或密码错误','error');
                                 }else if (data.status == 'failed') {
@@ -273,7 +272,6 @@
                                 student_info:t.info,
                                 new_password:t.new_password,
                             },function(data){
-                                data = JSON.parse(data);
                                 console.log(data);
                                 if (data.status == 'success') {
                                     swal('注册成功！','3秒后跳转','success');

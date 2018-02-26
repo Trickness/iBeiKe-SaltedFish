@@ -105,7 +105,6 @@
                                 if (!data) {
                                     swal('重置失败','登录状态下，无法通过“忘记密码”方式重置密码','error');
                                 }else{
-                                    data = JSON.parse(data);
                                     var status = data.status;
                                     switch(status){
                                         case "success":

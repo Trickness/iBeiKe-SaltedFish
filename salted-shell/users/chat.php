@@ -75,7 +75,6 @@
                 },
                 content:function () {
                     return decodeURI(this.msg.msg_content);
-<<<<<<< HEAD
                 },
                 header:function () {
                     var vm = this;
@@ -92,8 +91,6 @@
                             marginRight: '20px',
                         }
                     }
-=======
->>>>>>> f6592ba679698ce6ba74efcdc0a2ad3891207398
                 }
             }
         }

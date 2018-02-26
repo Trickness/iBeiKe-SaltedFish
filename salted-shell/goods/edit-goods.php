@@ -149,7 +149,7 @@
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         <label>图文详情</label>
-                        <script id="editor" type="text/plain" style="height:500px;"></script>
+                        <textarea id="editor" type="text/plain" style="height:500px;"></textarea>
                     </div>
                 </div>
             </div>
@@ -341,7 +341,7 @@
                             $.post("../core/api-v1.php?action=update_goods_info",{
                                 goods_info:JSON.stringify(edit_goods.goods_info),
                             },function(data){
-                                data = JSON.parse(data);
+                                // data = JSON.parse(data);
                                 var status = data.status;
                                 if(status === "success"){
                                     edit_goods.status = 'success';

@@ -98,7 +98,7 @@
                                 original_pass:t.password,
                                 new_pass:t.new_password
                             },function(data){
-                                data = JSON.parse(data);
+                                // data = JSON.parse(data);
                                 var status = data.status;
                                 switch(status){
                                     case "success":

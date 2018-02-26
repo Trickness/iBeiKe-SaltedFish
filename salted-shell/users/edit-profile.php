@@ -311,7 +311,6 @@
                         submit_edit:function(){
                             $.post('../core/api-v1.php?action=update_self_info',{info:JSON.stringify(edit_profile.profile)},function(data){
                                 console.log(data);
-                                data = JSON.parse(data);
                                 if (data.status == 'success') {
                                     edit_profile.status = 'success';
                                     setTimeout(function() {

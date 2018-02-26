@@ -302,7 +302,6 @@
 							else info.goods_status = '下架';
 						if (this.goods.goods_type == "sale") info.goods_type = '出售';
 							else info.goods_type = '租赁';
-						// info.tags = JSON.parse(this.goods.tags[0]).join(' ');
 						info.tags = this.goods.tags.join(' ');
 						return info;
 					},
