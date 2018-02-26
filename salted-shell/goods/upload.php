@@ -335,7 +335,7 @@
                             $.post("../core/api-v1.php?action=submit_goods",{
                                 goods_info:JSON.stringify(upload_goods.goods_info),
                             },function(data){
-                                data = JSON.parse(data);
+                                //data = JSON.parse(data);
                                 upload_goods.status = data.status;
                                 console.log(upload_goods.status);
                                 if(upload_goods.status === "success"){
