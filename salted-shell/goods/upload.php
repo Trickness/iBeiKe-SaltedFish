@@ -144,7 +144,7 @@
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         <label>图文详情</label>
-                        <script id="editor" type="text/plain" style="height:500px;"></script>
+                        <textarea id="editor" type="text/plain" style="height:500px;"></textarea>
                     </div>
                 </div>
             </div>
@@ -191,7 +191,7 @@
         </div>
         <script>
             function add_pic(){
-                var formdata=new FormData($("#add_pic")[0]);
+                var formdata = new FormData($("#add_pic")[0]);
                 $.ajax({
                     type : 'post',
                     url : "../addons/ueditor/php/controller.php?action=uploadimage",
@@ -206,6 +206,7 @@
                             $("#preview").attr("src",data.url);
                         }
                         upload_goods.insertImage(data.url);
+                        $("#add_pic :input").not(":button, :submit, :reset, :hidden").val("")
                     },
                     error:function(){
                         console.log("def");
@@ -335,7 +336,7 @@
                             $.post("../core/api-v1.php?action=submit_goods",{
                                 goods_info:JSON.stringify(upload_goods.goods_info),
                             },function(data){
-                                data = JSON.parse(data);
+                                // data = JSON.parse(data);
                                 upload_goods.status = data.status;
                                 console.log(upload_goods.status);
                                 if(upload_goods.status === "success"){
