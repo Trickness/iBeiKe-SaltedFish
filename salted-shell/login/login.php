@@ -82,7 +82,7 @@
                                     window.location="../users/index.php";
                                     break;
                                 case "failed":
-                                    if (data.error == 'Wrong username or password') {
+                                    if (data.error) {
                                         swal('','账号或密码不正确','error');
                                     }
                                     break;
