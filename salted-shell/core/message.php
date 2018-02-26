@@ -57,9 +57,10 @@ function new_msg($sender, $recver, $content){
 
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
     $sql = "INSERT INTO $db_message_table (msg_content,sender_id, recver_id) VALUE ('$content', '$sender', '$recver')";
+//    $sql = "SELECT * FROM $db_message_table";
     $result = $link->query($sql);
 
-    //$insert_id = $link->insert_id;
+    $insert_id = $link->insert_id;
 
     $link->commit();
     if ($result){
@@ -87,7 +88,7 @@ function fetch_msg($peer_id, $recver_id, $limit=30){
     if ($results){
         $result_arr = array();
         while($result = mysqli_fetch_assoc($results)){
-            $item['msg_content'] = base64_decode($result['msg_content']);
+            $item['msg_content'] = utf8_encode(base64_decode($result['msg_content']));
             $item['sender'] = urldecode($result['sender_id']);
             $item['datetime'] = urldecode($result['msg_datetime']);
 

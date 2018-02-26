@@ -76,6 +76,7 @@
                 editor:{},
                 scrolldiv:{},
                 msg_polling:null,
+                msg_count:0,
             },
             methods:{
                 fetch_user_info:function () {
@@ -128,6 +129,7 @@
                     vm.msg_poll = setInterval(function () {
                         vm.chat_info_init();
                     },3000);
+                    this.scrolldiv.scrollTop = this.scrolldiv.scrollHeight;
                 },
                 send_msg:function () {
                     var vm = this;
@@ -154,7 +156,11 @@
                 this.start_msg_polling();
             },
             updated:function () {
-                this.scrolldiv.scrollTop = this.scrolldiv.scrollHeight;
+                var vm = this;
+                if (vm.msg_count != vm.chat_info.count){
+                    vm.scrolldiv.scrollTop = vm.scrolldiv.scrollHeight;
+                    vm.msg_count = vm.chat_info.count;
+                }
             },
             components:{
                 'msg': Msg,

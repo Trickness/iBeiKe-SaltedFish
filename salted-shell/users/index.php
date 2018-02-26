@@ -58,10 +58,14 @@
 				</div>
 			</div>
 			<div class="col-xs-3">
-				<div class="col-xs-12"><div style="width:100%;border-bottom:2px solid #FD9860;color:#FD9860;font-size:20px;padding-bottom:2px;margin-bottom:10px;" class="preview">
-					新品推荐
-				</div></div>
-				<goods v-for="go in new_goods" :key="go.goods_id" :go="go" />
+<!--				<div class="col-xs-12"><div style="width:100%;border-bottom:2px solid #FD9860;color:#FD9860;font-size:20px;padding-bottom:2px;margin-bottom:10px;" class="preview">-->
+<!--					新品推荐-->
+<!--				</div></div>-->
+<!--				<goods v-for="go in new_goods" :key="go.goods_id" :go="go" />-->
+                <div style="width: 100%;height: 500px;background-color: #f3f8ff;border-radius: 5px;border: 1px solid rgba(27,31,35,0.15)">
+                    <div style="padding: 10px;font-size: 15px;"><b>电波提醒</b></div>
+                    <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
+                </div>
 			</div>
 		</div>
 
@@ -88,6 +92,18 @@
 	</div>
 
 	<div>
+        <script type="text/x-template" id="pvt-msg">
+            <a :href="convert.link">
+                <div style="width: 100%;height: 60px;border-bottom: 1px solid rgba(216,212,217,0.63);" :style="judge">
+                    <div style="float: left;height: 50px;width: 50px;margin: 5px;" :style="header"></div>
+                    <div style="float: left;height: 50px;margin: 5px 0 5px 0;width: calc(100% - 70px);">
+                        <div style="height: 50%;width: 100%;" class="one-row">{{convert.nickname}}</div>
+                        <div style="height: 50%;width: 100%;" class="one-row"><div style="font-size: 11px;width: 15px;height: 15px;background-color: #ff0442;float: left;border-radius: 15px;padding-left: 5px;color: white;margin: 2px;" v-text="convert.count"></div> 条未读消息</div>
+                    </div>
+                </div>
+            </a>
+        </script>
+
 		<script type="text/x-template" id="gallery">
 			<div class="row"><div class="col-xs-12">
 				<div class="row"><div class="col-xs-12">
@@ -163,8 +179,14 @@
 							标签：{{convert_info.tags}}
 						</div>
 						<div class="col-xs-2">
-							<div class="col-xs-12" style="line-height:45px;"><a :href="edit" role="button" class="btn btn-primary">编辑商品</a></div>
-							<div class="col-xs-12" style="line-height:45px;"><button class="btn btn-default" data-toggle="modal" data-target="#myModal" @click="pre_revoke">撤回商品</button></div>
+							<div class="col-xs-12" style="line-height:45px;">
+								<a v-if="goods.goods_status=='available'" :href="edit" role="button" class="btn btn-primary">编辑商品</a>
+								<button v-else disabled="disabled" class="btn btn-danger">已经下架</button>
+							</div>
+							<div class="col-xs-12" style="line-height:45px;">
+								<button v-if="goods.goods_status=='available'" class="btn btn-default" data-toggle="modal" data-target="#myModal" @click="pre_revoke">撤回商品</button>
+								<button v-else disabled class="btn btn-default">撤回商品</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -209,6 +231,34 @@
 
 	<script>
 		$(document).ready(function(){
+		    var PvtMsg = {
+		        props:['peer'],
+		        template: '#pvt-msg',
+                computed:{
+		            judge:function () {
+		                if (this.peer[2] % 2 ==0) {
+		                    return {backgroundColor:"white"}
+                        }else{
+                            return {backgroundColor:"#f3f8ff"}
+                        }
+		            },
+                    convert:function () {
+		                var vm = this;
+                        return {
+                            nickname: vm.peer[1].peer_nickname,
+                            count:vm.peer[1].count,
+                            link: "./chat.php?user_id="+vm.peer[0],
+                        }
+                    },
+                    header:function () {
+		                var vm = this;
+                        return {
+                            backgroundImage: 'url("'+vm.peer[1].peer_header+'"',
+                            backgroundSize: 'cover'
+                        }
+                    },
+                },
+            }
 			var Goods = {
 				props:['go'],
 				template:'<a :href="jump"><div class="col-xs-12" style="margin-bottom:10px;">\
@@ -237,7 +287,6 @@
 					},
 				},
 			};
-
 			var MyGoods = {
 				props:['goods'],
 				template:'#my-goods',
@@ -272,7 +321,6 @@
 					}
 				},
 			}
-
 			var NameTag = {
 				props:['info'],
 				template:'#name-tag',
@@ -292,7 +340,7 @@
 				props:['list','pic'],
 				template:'#gallery',
 				methods:{
-					bg(url){
+					bg:function(url){
 						return bg_ch(url);
 					},
 					jump:function(id){
@@ -301,7 +349,6 @@
 					},
 				},
 			};
-
 			var Pagi = {
 				props:['total'],
 				template:'#pagi',
@@ -318,6 +365,8 @@
 			var show_info = new Vue({
 				el:'#show_info',
 				data:{
+                    msg_polling:null,
+                    chat_info:{},
 					pic:[
 						'../pic/image1/ustb.png',
 						'../pic/image1/北京周边游.png',
@@ -330,6 +379,11 @@
 						id:'',
 						status:false,
 					},
+                    testInfo:{
+					    nickname:'just a test',
+                        student_id:'11111111'
+                    },
+                    msg_count: 0,
 				},
 				computed:{
 					self_info:function(){
@@ -352,6 +406,17 @@
 							}
 						});
 					},
+                    start_polling:function () {
+                        var vm = this;
+                        $.getJSON('../core/api-v1.php',{action:'msg_count'},function (data) {
+                            vm.chat_info = data;
+                        });
+                        vm.msg_polling = setInterval(function () {
+                            $.getJSON('../core/api-v1.php',{action:'msg_count'},function (data) {
+                                vm.chat_info = data;
+                            });
+                        },5000);
+                    },
 				},
 				created:function(){
 					$.getJSON('../core/api-users-info.php?action=new',function(data){
@@ -368,12 +433,20 @@
 						console.log(data);
 					});
 				},
+                updated:function () {
+                    this.msg_count = 0;
+                },
+                mounted:function () {
+                    var vm = this;
+                    vm.start_polling();
+                },
 				components:{
 					'name-tag':NameTag,
 					'ct-gallery':Gallery,
 					'goods':Goods,
 					'my-goods':MyGoods,
 					'pagi':Pagi,
+                    'pvt-msg':PvtMsg,
 				},
 			});
 		});

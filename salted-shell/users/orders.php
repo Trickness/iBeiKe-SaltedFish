@@ -207,6 +207,9 @@
                                     </div>\
                                     <div class="col-xs-7"><a :href="convert_info.goods_title" v-cloak>{{order.goods_title}}</a></div>\
                                     <div class="col-xs-2" v-cloak>x{{order.purchase_amount}}</div>\
+                                    <div class="col-xs-7">\
+                                        <a :href="chat_link" style="color:#fd9860;">联系卖家</a>\
+                                    </div>\
                                 </div>\
                                 <div class="col-sm-5 md" style="overflow:hidden;text-align:center;">\
                                     <div class="col-xs-7 item">总额<span style="color:#FD9860;" v-cloak>￥{{order.offer}}</span></div>\
@@ -276,6 +279,9 @@
                                 display:sh,
                             };
                         },
+                        chat_link:function () {
+                            return "./chat.php?user_id="+this.order.goods_owner;
+                        }
                     },
                     methods:{
                         edit_order:function(action){

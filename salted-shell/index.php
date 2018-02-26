@@ -481,20 +481,20 @@
                     props:['goods'],
                     template:'#left-pane',
                     methods:{
-                        nav_head(name,isIcon,lv,isImg = false){
+                        nav_head:function(name,isIcon,lv,isImg = false){
                             if (isIcon==true && isImg == false) return './pic/'+ name +'.png';
                                 else if(isIcon==true && isImg == true) return './pic/image1/'+ name +'.png';
                                 else return '?category='+ name + '&level=' + lv;
                         },
-                        show(cl1){
+                        show:function(cl1){
                             if(cl1.length == 2){this.cl = cl1;}
                             this.cat.display = 'block';
                         },
-                        hide(){
+                        hide:function(){
                             this.cat.display = 'none';
                         },
                     },
-                    data(){
+                    data:function(){
                         return{
                             cat:{
                                 width:'410%',
@@ -518,7 +518,7 @@
                     props:['list','pic'],
                     template:'#gallery',
                     methods:{
-                        bg(url){
+                        bg:function(url){
                             return bg_ch(url);
                         },
                         jump:function(id){
