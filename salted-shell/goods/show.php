@@ -114,13 +114,13 @@
                         <div class="row">
                             <div style="margin-top:20px;">
                                 <ul class="name-card hidden-xs" style="background-color:white;list-style-type:none;line-height:30px;padding:35px;border-radius:5px;" data-spy="affix">
-                                    <li style="text-align:center;"><img class="owner_header" :src="goods_info.goods_owner_info.header" style="width:120px;height:120px;border-radius:60px;" /></li>
-                                    <li style="text-align:center;font-size:20px;" v-cloak>{{goods_info.goods_owner_info.nickname}}</li>
+                                    <li style="text-align:center;"><a :href="convert_info.goods_owner_info"><img class="owner_header" :src="goods_info.goods_owner_info.header" style="width:120px;height:120px;border-radius:60px;" /></a></li>
+                                    <li style="text-align:center;font-size:20px;" v-cloak><a :href="convert_info.goods_owner_info">{{goods_info.goods_owner_info.nickname}}</a></li>
                                     <li v-cloak>学号：{{goods_info.goods_owner_info.student_id}}</li>
                                     <li v-cloak>姓名：{{goods_info.goods_owner_info.name}}</li>
                                     <li v-cloak>电话：{{goods_info.goods_owner_info.phone_number}}</li>
                                     <li style="text-align:center;">
-					<a v-if="islogin" :href="convert_info.goods_owner_info"><button id="contect">联系卖家</button></a>
+					<a v-if="islogin" :href="convert_info.chat_link"><button id="contect">联系卖家</button></a>
 					<button disabled v-else class="banned_order">您尚未登陆</button>
 				    </li>
                                 </ul>
@@ -319,6 +319,7 @@
                                 goods_owner_info:'../users/users.php?user_id='+this.goods_info.goods_owner,
                                 goods_status:'',
                                 goods_type:'',
+                                chat_link: '../users/chat.php?user_id='+this.goods_info.goods_owner,
                             };
                             if (this.goods_info.goods_status == "available") info.goods_status = '在售';
                                 else info.goods_status = '下架';

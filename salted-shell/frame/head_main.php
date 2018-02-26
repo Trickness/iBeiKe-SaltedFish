@@ -5,7 +5,7 @@
 <style>
 	@font-face {
 		font-family: msyh;
-		src: url('./fonts/msyh.ttf');
+		src: url('../fonts/msyh.ttf');
 	}
 	[v-cloak] {
 		display: none;
@@ -16,6 +16,7 @@
 	.act{background-color:#FF6633;}
 	#navi-item a:hover{opacity:0.5;color:white;}
 	#navi-item a{color:white;transition-duration:0.3s;}
+    .one-row{white-space: nowrap;-o-text-overflow:ellipsis;text-overflow: ellipsis;}
 </style>
 <nav id="topbanner" class="navbar" role="navigation" style="width:100%;background-color:#FD9860;border-radius:0;border:none;color:white;position:fixed;top:0;left:0;z-index:10;">
 	<div class="container-fluid">
@@ -46,7 +47,7 @@
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:5px;overflow:hidden;">
 					<div style="width:40px;height:40px;border-radius:20px;float:left;margin-left:15px;" :style="bg"></div>
-					<span class="lb" style="line-height:40px;margin-left:10px;margin-right:15px;">{{info.nickname}}<b class="caret" style="margin-left:5px;"></b></span>
+					<span class="lb" style="line-height:40px;margin-left:10px;margin-right:15px;" v-cloak>{{info.nickname}}<b class="caret" style="margin-left:5px;"></b></span>
 				</a>
 				<ul class="dropdown-menu" style="background-color:#FF6633;">
                     <li><a href="./users/edit-profile.php">个人信息编辑</a></li>

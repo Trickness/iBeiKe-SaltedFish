@@ -127,7 +127,7 @@
                             <div style="float:left">\
                                 <p class="header" :style="bg(info.header)"></p>\
                             </div>\
-                            <div class="col-xs-7" style="padding-top:10px;">\
+                            <div class="col-sm-7" style="padding-top:10px;">\
                                 <div class="row">\
                                     <div class="col-xs-12" style="font-size:25px;padding-bottom:10px;">{{info.nickname}}</div>\
                                 </div>\
@@ -141,6 +141,9 @@
                                     <div class="col-xs-4 info-item"><img style="width: 25px;height: 30px;margin-left: -3px;margin-top: -5px;" :src="gender" /></div>\
                                     <div class="col-xs-4 info-item"><img src="../pic/users/type.png" /><span>{{info.phone_number.value}}</span></div>\
                                 </div>\
+                            </div>\
+                            <div class="col-sm-2" style="padding-top: 10px;">\
+                                <a role="button" class="btn btn-warning" style="margin:30px;" :href="link">私信</a>\
                             </div>\
                         </div>',
                     methods:{
@@ -157,6 +160,9 @@
                         },
                         dorm:function(){
                             return this.info.dormitory.dormitory_id.value + "斋" + this.info.dormitory.room_no.value;
+                        },
+                        link:function () {
+                            return './chat.php?user_id='+this.user;
                         }
                     },
                 };
