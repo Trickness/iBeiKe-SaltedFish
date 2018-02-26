@@ -254,7 +254,8 @@
 		                var vm = this;
                         return {
                             backgroundImage: 'url("'+vm.peer[1].peer_header+'"',
-                            backgroundSize: 'cover'
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
                         }
                     },
                 },
