@@ -119,6 +119,35 @@ function create_db_table(){
     fi
 }
 
+function grant_privileges(){
+    read -n1 -p "Do you want to refresh privileges? (y/N) "
+    echo ""
+    if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
+        if [[ ! "$sqlSerUser" = "root" && -z "$sqlRootPass" ]];then    # 如果没有root密码
+            read -s -p "root password is required to continue (Press enter to skip) "
+            if [ -z $REPLY ]; then
+                echo " ...... skip"
+                return
+            fi
+            sqlRootPass=$REPLY
+        fi
+        echo -e "Grant privileges on $sqlDbName to $sqlSerUser......\c"
+        result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " GRANT ALL PRIVILEGES ON $sqlDbName.* TO $sqlSerUser@'%' IDENTIFIED BY '$sqlSerPass';" 2>>$errLogFile`
+        if [ "$?" -ne "0" ]; then
+            echo "error"
+        else
+            echo "done."
+        fi
+        echo -e "Refreshing privileges......\c"
+        result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "FLUSH PRIVILEGES;" 2>>$errLogFile`
+        if [ "$?" -ne "0" ]; then
+            echo "error"
+        else
+            echo "done."
+        fi
+    fi
+}
+
 function create_test_user(){
     while true
     do
@@ -199,7 +228,7 @@ function input_mysql_tables_config(){
     fi
 }
 
-function check_database(){
+function mysql_database_config(){   # 此时用户有权限（查询）
     result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
     if [ "$?" -ne "0" ]; then
         echo "Your mysql may not be configured correctly,or username and password mismatch."
@@ -208,57 +237,15 @@ function check_database(){
     fi
 
     if [ -z "$result" ]; then   # 数据库不存在
-        echo -e "Creating database.......\c"
-        result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e " CREATE DATABASES $sqlDbName 2>>$errLogFile"`
-        if [ "$?" -ne "0" ]; then
-            echo ""
-            read -n1 -p "Your mysql may not be configured correctly,or lack of authority, continue? (Y/n) "
-            if [[ "$REPLY" = "N" || "$REPLY" = "n" ]];then
-                echo "Configure exited"
+        if [[ ! "$sqlSerUser" = "root" && -z "$sqlRootPass" ]];then    # 如果没有root密码
+            read -s -p "Database does not exist, root password is required to create a database (Press enter to exit) "
+            if [ -z $REPLY ]; then
                 exit
             fi
-        else
-            echo "done"
+            sqlRootPass=$REPLY
         fi
-    else
-        read -n1 -p "Do you want to clear and rebuild database tables? (y/N) "
-        echo -e "Dropping database tables......\c"
-        if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
-            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "DROP DATABASE $sqlDbName;  " 2>>$errLogFile`
-            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "CREATE DATABASE $sqlDbName;;  " 2>>$errLogFile`
-            if [ "$?" -ne "0" ]; then
-                echo "error"
-                exit
-            else
-                echo "done"
-            fi
-        else
-            echo "skip"
-            generate_config_file
-            exit
-        fi
-    fi
-
-    echo -e "\nCreating database tables......"
-
-    create_db_table
-
-    generate_config_file
-
-    echo -e "\nConfigure done."
-}
-
-function mysql_database_config(){
-    result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
-    if [ "$?" -ne "0" ]; then
-        echo "Your mysql may not be configured correctly,or username and password mismatch."
-        echo "Configure exited"
-        exit
-    fi
-
-    if [ -z "$result" ]; then   # 数据库不存在
         echo -e "Creating database.......\c"
-        result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " CREATE DATABASES $sqlDbName 2>>$errLogFile"`
+        result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " CREATE DATABASES $sqlDbName" 2>>$errLogFile`
         if [ "$?" -ne "0" ]; then
             echo ""
             echo "Your mysql may not be configured correctly,or username and password mismatch."
@@ -271,7 +258,16 @@ function mysql_database_config(){
         create_db_table
     else
         read -n1 -p "Do you want to clear and rebuild database? (y/N) "
+        echo ""
         if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
+            if [[ ! "$sqlSerUser" = "root" || -z "$sqlRootPass" ]];then    # 如果没有root密码
+                read -s -p "root password is required to continue (Press enter to skip) "
+                if [ -z $REPLY ]; then
+                    echo " ...... skip"
+                    return
+                fi
+                sqlRootPass=$REPLY
+            fi
             echo -e "\nDropping database......\c"
             result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "DROP DATABASE $sqlDbName;  " 2>>$errLogFile`
             if [ "$?" -ne "0" ]; then
@@ -294,6 +290,32 @@ function mysql_database_config(){
             echo "    ...... skip"
         fi
     fi
+}
+
+function mysql_database_drop(){
+    echo -e "\nDropping database......\c"
+    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "DROP DATABASE $sqlDbName;  " 2>>$errLogFile`
+    if [ "$?" -ne "0" ]; then
+        echo "error"
+        exit
+    else
+        echo "done"
+    fi
+}
+
+function mysql_database_create(){
+    echo -e "\nCreating database......\c"
+    result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e " CREATE DATABASES $sqlDbName" 2>>$errLogFile`
+    if [ "$?" -ne "0" ]; then
+        echo ""
+        echo "Your mysql may not be configured correctly,or username and password mismatch."
+        echo "Configure exited"
+        exit
+    else
+        echo "done"
+    fi
+    input_mysql_tables_config
+    create_db_table
 }
 
 function main(){
@@ -322,18 +344,66 @@ function main(){
     # 检查数据库是否存在
     result=`mysql -u$sqlSerUser -p$sqlSerPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
     if [ "$?" -ne "0" ]; then
-        echo "Your mysql may not be configured correctly,or username and password mismatch."
-        echo "Configure exited"
-        exit
-    fi
-
-    if [ -z "$result" ]; then   # 数据库不存在
-        if [ ! "$sqlSerUser" = "root" ];then
-            echo ""
-            read "Database does not exist, root password is required to create a database (Press anykey to exit) "
+        if [ "$sqlSerUser" = "root" ];then
+            echo "Your mysql may not be configured correctly,or username and password mismatch."
             exit
         fi
-    else
+        echo "Your mysql may not be configured correctly or no such user"
+        read -s -p "Enter root password to create this user(Press enter to skip) "
+        echo ""
+        if [ ! -z $REPLY ];then 
+            sqlRootPass=$REPLY
+            echo -e "Creating database user $sqlSerUser......\c"
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "CREATE USER $sqlSerUser@'%' IDENTIFIED BY '$sqlSerPass';" 2>>$errLogFile`
+            if [ "$?" -ne "0" ]; then
+                echo "error"
+                echo "Your mysql may not be configured correctly,or username and password mismatch."
+                exit
+            else
+                echo "done"
+            fi
+        else
+            exit
+        fi
+    fi
+    if [ -z "$result" ]; then   # 数据库不存在(或者没有权限)
+        if [ ! "$sqlSerUser" = "root" ];then    # 可能是没有权限的情况
+            echo ""
+            echo "No such database or no enough privileges"
+            read -s -p "Enter root password to continue. (Press enter to exit) "   # 输入root密码
+            echo ""
+            if [ -z $REPLY ]; then
+                exit
+            fi
+            sqlRootPass=$REPLY
+            # 用root查询
+            result=`mysql -uroot -p$sqlRootPass -h$sqlSer -e "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='$sqlDbName'" 2>>$errLogFile`
+            if [ "$?" -ne "0" ]; then
+                echo "Your mysql may not be configured correctly,or username and password mismatch."
+                exit
+            fi
+            if [ -z "$result" ]; then   # 如果还是没有数据库
+                read -n1 -p "Do you want to create database ($sqlDbName)? (Y/n) "
+                if [[ "$REPLY" = "N" || "$REPLY" = "n" ]];then 
+                    # do nothing
+                    echo " ...... skip"
+                else
+                    mysql_database_create
+                fi
+            else            # 如果是没有权限（有数据库）
+                echo "Your account $sqlSerUser has no enough privileges."
+                grant_privileges
+                mysql_database_config
+            fi
+        else # 没有数据库的情况(用户为root)
+            read -n1 -p "Do you want to create database ($sqlDbName)? (Y/n) "
+            if [[ "$REPLY" = "N" || "$REPLY" = "n" ]];then 
+                echo " ...... skip"
+            else
+                mysql_database_create
+            fi
+        fi
+    else    # 有数据库的情况(不知道用户是谁，但是有查询权限)
         read -n1 -p "Do you want to config database? (y/N) "
         if [[ "$REPLY" = "Y" || "$REPLY" = "y" ]];then 
             echo ""
@@ -343,9 +413,9 @@ function main(){
             echo "    ...... skip"
         fi
     fi
+    grant_privileges
     create_test_user
     generate_config_file
-
     echo -e "\nConfig done."
 }
 
