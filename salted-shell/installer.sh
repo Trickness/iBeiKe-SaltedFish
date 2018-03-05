@@ -74,7 +74,7 @@ function create_db_table(){
             goods_id         INT NOT NULL,                  \
             rent_duration    INT,                           \
             order_submitter  CHAR(16) NOT NULL,             \
-            ordering_date    TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),    \
+            ordering_date    TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,    \
             single_cost      INT NOT NULL,                  \
             delivery_fee     FLOAT NOT NULL,                \
             purchase_amount  INT NOT NULL,                  \
@@ -106,7 +106,7 @@ function create_db_table(){
     result=`mysql -uroot -p$sqlRootPass -h$sqlSer -D $sqlDbName -e "CREATE TABLE $sqlTableMessage(    \
         msg_id INT NOT NULL AUTO_INCREMENT, \
         msg_content TEXT,                   \
-        msg_datetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,     \
+        msg_datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,     \
         sender_id CHAR(16) NOT NULL,        \
         recver_id CHAR(16) NOT NULL,        \
         has_read    BOOLEAN NOT NULL DEFAULT FALSE, \
