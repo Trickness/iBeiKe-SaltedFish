@@ -75,7 +75,7 @@
                 color:white;
             }
         </style>
-        <div id="edit_profile" class="container" style="height:800px;margin-top: 70px;margin-bottom: 70px;width: 800px;padding: 0px 40px 0 25px;background-color: white;box-shadow:0 1px 3px rgba(0,0,0,.1);border-radius: 2px;">
+        <div id="edit_profile" class="container" style="margin-top: 70px;margin-bottom: 70px;width: 800px;padding: 0px 40px 20px 25px;background-color: white;box-shadow:0 1px 3px rgba(0,0,0,.1);border-radius: 2px;">
             <div class="row">
                 <div class="col-xs-12">
                     <div style="border-bottom:2px solid #FD9860;color:#FD9860;">
@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-xs-12">
                         <button class="goods_commit" style="width:100%;height:35px;">
-                            <label style="margin:7px;">上传你的头像</label>
+                            <label style="margin:7px;font-size: 100%;">上传你的头像</label>
                             <form id="add_pic" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data" style="margin-top:-34px;">
                                 <input type="file" name="upfile" id="upfile"  onchange="add_pic()" style="width: 100%;opacity:0;" />
                             </form>
