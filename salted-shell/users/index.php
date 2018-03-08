@@ -71,7 +71,7 @@
 <!--				<goods v-for="go in new_goods" :key="go.goods_id" :go="go" />-->
                 <div style="width: 100%;background-color: #f3f8ff;border-radius: 5px;border: 1px solid rgba(27,31,35,0.15)">
                     <div style="padding: 10px;font-size: 15px;"><b>电波提醒</b></div>
-                    <div id="msg-pad" style="min-height: 500px;max-height: 900px;overflow-y: scroll;">
+                    <div id="msg-pad" style="min-height: 350px;max-height: 900px;overflow-y: scroll;">
                         <pvt-msg v-for="(value,key,index) in chat_info" :key="index" :peer="[key,value,index]"></pvt-msg>
                     </div>
                 </div>
