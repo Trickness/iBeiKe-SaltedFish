@@ -103,13 +103,13 @@
                         <div class="row">
                             <div class="col-xs-4 ct"><a href="./login/login.php" style="color:#FD9860;">快速登录</a></div>
                             <div class="col-xs-4 ct"><a href="./signin/signin.php">免费注册</a></div>
-                            <div class="col-xs-4 ct" style="padding-right:0;">手机逛商城</div>
+                            <!-- <div class="col-xs-4 ct" style="padding-right:0;">手机逛商城</div> -->
                         </div>
                     </div>
                     <div class="col-md-3 rt">
                         <div class="row">
-                            <div class="col-xs-4 col-sm-offset-4 ct">联系客服</div>
-                            <div class="col-xs-4 ct">新手须知</div>
+                            <!-- <div class="col-xs-4 col-sm-offset-4 ct">联系客服</div> -->
+                            <!-- <div class="col-xs-4 ct">新手须知</div> -->
                         </div>
                     </div>
                 </div>
@@ -595,8 +595,8 @@
                         goods_list:[],
                         orders_list:[],
                         pic:[
-                            './pic/image1/ustb.png',
-                            './pic/image1/北京周边游.png',
+                            './pic/image1/index_bg.png',
+                            './pic/image1/chat_bg.jpg',
                             './pic/image1/摄影.png',
                         ],
                         sch_res:[],

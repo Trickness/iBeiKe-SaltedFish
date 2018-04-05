@@ -126,6 +126,7 @@ function fetch_class_score($student_id,$id_pass){
 
     $number = $xpath->query('tr[5]/td/table/tr',$table->item(0));
     $length = $number->length;
+    $ret = array();
     for($i=2; $i<$length; $i++){
         $td = $xpath->query('td', $number->item($i));
         $res['innoScore'][] = array(

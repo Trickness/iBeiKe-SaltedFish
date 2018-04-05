@@ -35,13 +35,13 @@
         </div> -->
         <div id="login" class="col-sm-offset-4 col-sm-4 login">
             <div style="text-align:center;color:#fd9860;">
-                <h2>贝壳商城</h2>
+                <h2>iBuy商城</h2>
             </div>
             <div style="border-bottom:1px solid #cccccc;padding-bottom:10px;">
                 <div style="margin-top:30px;"><input type="text" class="form-control input-lg" placeholder="请输入您的用户名" v-model="username" /></div>
                 <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="请输入您的密码" v-model="password" /></div>
                 <div style="margin-top:20px;"><button class="btn btn-lg btn-warning" style="width:100%;" @click="login">登陆</button></div>
-                <div style="margin-top:20px;text-align:right;color:#fd9860;"><a href="./forget.php">忘记密码</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../signin/signin.php">免费注册</a></div>
+                <!-- <div style="margin-top:20px;text-align:right;color:#fd9860;"><a href="./forget.php">忘记密码</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../signin/signin.php">免费注册</a></div> -->
             </div>
         </div>
     </div>

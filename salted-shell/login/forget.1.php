@@ -36,8 +36,8 @@
                 <h2>重置您的密码</h2>
             </div>
             <div style="padding-bottom:10px;">
-                <div style="margin-top:30px;"><input type="text" class="form-control input-lg" placeholder="iBeiKe账号" v-model="student_id" /></div>
-                <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="iBeiKe密码" v-model="password" /></div>
+                <div style="margin-top:30px;"><input type="text" class="form-control input-lg" placeholder="学号" v-model="student_id" /></div>
+                <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="教务信息管理系统密码" v-model="password" /></div>
                 <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="新密码" v-model="new_password" /></div>
                 <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="再次确认新密码" v-model="confirm_password" /></div>
                 <div v-if="!check_password" style="margin-top:20px;"><p style="color:red;">新密码不一致！</p></div>

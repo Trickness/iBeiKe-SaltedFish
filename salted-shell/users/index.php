@@ -159,7 +159,7 @@
 							<li><a href="./edit-profile.php">编辑名片</a></li>
 							<li><a href="../goods/upload.php">上传商品</a></li>
 							<li><a href="./orders.php">我的订单</a></li>
-							<li><a href="../login/change.php">修改密码</a></li>
+<!--							<li><a href="../login/change.php">修改密码</a></li>-->
 						</ul>
 					</div>
 				</div>
@@ -311,6 +311,7 @@
 							else info.goods_status = '下架';
 						if (this.goods.goods_type == "sale") info.goods_type = '出售';
 							else info.goods_type = '租赁';
+                        console.log(this.goods.tags);
 						info.tags = this.goods.tags.join(' ');
 						return info;
 					},

@@ -55,7 +55,7 @@ function refresh_session_key($session_key){
  *      - student_info      (@Object)  学生信息，失败返回 false
  *
  **/
-function confirm_student($student_id, $student_pw){
+function confirm_student1($student_id, $student_pw){
     $login_url = "http://seam.ustb.edu.cn:8080/jwgl/Login";
     $cookie = tempnam('.','~teach');
     $fields_post = array(
@@ -148,6 +148,90 @@ function confirm_student($student_id, $student_pw){
         "value"     => ""
     );
     return $ret;
+}
+
+function confirm_student($user_id,$user_pw){
+    global $db_host;
+    global $db_user;
+    global $db_pass;
+    global $db_name;
+    $config = array(
+        'db_host'   =>  $db_host,
+        'db_user'   =>  $db_user,
+        'db_pass'   =>  $db_pass,
+        'db_1'      =>  array(
+            'name'  =>  'city',
+            'table' =>  'cdb_uc_members'
+        ),
+        'db_2'      =>  array(
+            'name'  =>  'christmas_game',
+            'table' =>  'score_rank'
+        )
+    );
+    $ctl = new Controller($config);
+    $result = $ctl->check($user_id,$user_pw);
+    $ret = array();
+    if ($result['code'] == 0) {
+        $ret['student_id'] = array(
+            "access"=>  "protected",
+            "value" =>  $user_id
+        );
+        $ret['name'] = array(
+            "access"=>  "public",
+            "value" =>  ''
+        );
+        $ret['gender'] = array(
+            "access"    => "public",
+            "value"     => ''
+        );
+        $ret['birthday'] = array(
+            "access"    => "protected",
+            "value"     => ''
+        );
+        $ret['type']    = array(
+            "access"    => "protected",
+            "value"     => ''
+        );
+        $ret['nationality'] = array(
+            "access"    => "protected",
+            "value"     => ''
+        );
+        $ret['nickname']    = "";
+        $ret['header']      = "../css/default-header.jpg";
+        $ret['class_info']  = array(
+            "access"    =>  "protected",
+            "department"=> array(
+                "access"    => "protected",
+                "value"     => ""
+            ),
+            "enrollment"=> array(
+                "access"    => "public",
+                "value"     => ''
+            ),
+            "class_no"  => array(
+                "access"    => "protected",
+                "value"     => ''
+            )
+        );
+        $ret['dormitory'] = array(
+            "access"    => "protected",
+            "dormitory_id"  => array(
+                "access"        => "protected",
+                "value"         => ""
+            ),
+            "room_no"       => array(
+                "access"        => "protected",
+                "value"         => ""
+            ) 
+        );
+        $ret['phone_number'] = array(
+            "access"    => "protected",
+            "value"     => ""
+        );
+        return $ret;
+    }else{
+        return false;
+    }
 }
 
 

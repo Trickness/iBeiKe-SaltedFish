@@ -44,7 +44,7 @@ function submit_goods_from_id($goods_info,$goods_owner){
 	$goods_status 	= __JSON($goods_info,"goods_status") 	or 	die(generate_error_report("syntax error, no goods status specified")) ;
 	$goods_type 	= __JSON($goods_info,"goods_type") 		or 	die(generate_error_report("syntax error, no goods type specified")) ;
 	$goods_remain 	= __JSON($goods_info,"remain")			or 	die(generate_error_report("syntax error, no remain specified")) ;
-	$goods_tags 	= __JSON($goods_info,"tags",'[]');
+	$goods_tags 	= __JSON($goods_info,"tags",array());
 	$goods_img 		= __JSON($goods_info,"goods_img","");
 	$delivery_fee 	= __JSON($goods_info,"delivery_fee",'0');
 	$lv1 			= __JSON($goods_info,"cl_lv_1","");
@@ -194,7 +194,7 @@ function comment_goods($goods_id, $comment, $session_key)
 	$goods_info['search_summary'] = urldecode($res['search_summary']);
 	$goods_info['comments'] 	= json_decode($res['comments'],true);
 	$goods_info['delivery_fee'] = $res['delivery_fee'];
-	$goods_info['tags'] 		= json_decode(urldecode($res['tags']));
+	$goods_info['tags'] 		= $res['tags'];
 	$goods_info['goods_img']	= urldecode($res['goods_img']);
 	$goods_info['cl_lv_1']		= urldecode($res['cl_lv_1']);
 	$goods_info['cl_lv_2']		= urldecode($res['cl_lv_2']);
@@ -313,7 +313,7 @@ function update_goods_info($goods_info, $student_id){
 	$goods_remain		= intval(__JSON($goods_info,"remain"			,$res['remain']));
 	$goods_last_modified= date("Y/m/d");
 	$goods_delivery_fee = floatval(__JSON($goods_info,'delivery_fee'	,$res['delivery_fee']));
-	$goods_tags 		= __JSON($goods_info,"tags"						,$res['tags']);
+	$goods_tags 		= __JSON($goods_info,"tags"						,array());
 	
 	$content			= urldecode(__JSON($goods_info,"goods_info"		,$res['goods_info']));
 
@@ -322,7 +322,11 @@ function update_goods_info($goods_info, $student_id){
 	$lv3 				= urlencode(__JSON($goods_info,"cl_lv_3"					,$res['cl_lv_3']));
 	
 
-	$goods_tags_str = strval(urlencode(json_encode($goods_tags)));
+	$goods_tags_str = '';
+    foreach($goods_tags as $tag){
+        $tag = urlencode($tag);
+        $goods_tags_str = $goods_tags_str." ".$tag;
+    }
 
 	$goods_search_summary  = urlencode(mb_substr($content,0,100,"utf-8").";".$goods_type.";".$goods_title.";".$lv1.";".$lv2.";".$lv3.";".$goods_tags_str);
 	if(($goods_type != "rent") 		and ($goods_type != "sale"))						die(generate_error_report("syntax error2")) ;

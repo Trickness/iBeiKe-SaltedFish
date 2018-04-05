@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-xs-12">
                         <button class="goods_commit" style="width:100%;height:35px;">
-                            <label style="margin:7px;font-size: 100%;">上传你的头像</label>
+                            <label style="margin:7px;font-size: 100%;">上传头像</label>
                             <form id="add_pic" action="../addons/ueditor/php/controller.php?action=uploadimage" method="post" enctype="multipart/form-data" style="margin-top:-34px;">
                                 <input type="file" name="upfile" id="upfile"  onchange="add_pic()" style="width: 100%;opacity:0;" />
                             </form>

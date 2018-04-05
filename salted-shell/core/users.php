@@ -51,7 +51,7 @@ function user_create($student_id,$password,$student_info){
     global $db_user;
     global $db_users_table;
 	$pass_salt = getRandom(8);
-	$student_id = (int)$student_id;
+    // $student_id = (int)$student_id;
 	$password = md5(md5($password).$pass_salt);
     $student_info = urlencode($student_info);
 	$link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
@@ -83,7 +83,7 @@ function check_pass($username,$password){
     global $db_name;
     global $db_user;
     global $db_users_table;
-    $username = (int)$username;
+    // $username = (int)$username;
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
     $select = "SELECT * from $db_users_table WHERE student_id = '$username'";
     $query = mysqli_query($link,$select);
@@ -103,7 +103,7 @@ function user_login($username,$password){
     global $db_user;
     global $db_users_table;
     global $db_session_table;
-    $username = (int)$username;
+    // $username = (int)$username;
     $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
     $select = "SELECT * from $db_users_table WHERE student_id = '$username'";
     $query = mysqli_query($link,$select);

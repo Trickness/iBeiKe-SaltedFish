@@ -8,7 +8,7 @@
 <body style="height: calc(100% - 80px);">
 <?php
     include '../frame/head_user.php';
-    if(isset($_GET['user_id'])) echo "<script>var peer_id=".$_GET['user_id'].";</script>";
+    if(isset($_GET['user_id'])) echo "<script>var peer_id='".$_GET['user_id']."';</script>";
         else echo "<script>var peer_id = null;</script>";
 ?>
 <script type="text/javascript" charset="utf-8" src="../addons/ueditor/ueditor.config.js"></script>
@@ -155,6 +155,7 @@
                 },
                 chat_info_init:function () {
                     var vm = this;
+                    console.log(vm.peer_id);
                     $.getJSON('../core/api-v1.php',{action:'fetch_msg',peer_id:vm.peer_id},function (data) {
                         if (data.status == 'success'){
                             vm.chat_info = data;

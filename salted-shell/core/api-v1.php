@@ -7,10 +7,12 @@ require_once "authorization.php";
 require_once 'sms.php';
 require_once "orders.php";
 require_once "message.php";
+require_once "./dzApi.php";
 
 header('Content-type: application/json');
 
 // TODO: intval($goods_id)
+
 
 session_start();
 if(!isset($_GET['action'])) die(generate_error_report("No action! Please check document for usage"));
@@ -276,6 +278,7 @@ if($student_id = get_student_id_from_session_key(session_id())){    // 已登录
     }elseif($action == "check"){                     // 检查用户是否为学生 TODO:检验
         if(isset($_POST["student_id"]) and isset($_POST["password"])){
             $info = confirm_student($_POST["student_id"],$_POST["password"]);
+            // $info = confirm_ibeike($_POST["student_id"],$_POST["password"]);            
             if ($info == false) {
                 die(json_encode(array(
                     'status'        =>  'failed',

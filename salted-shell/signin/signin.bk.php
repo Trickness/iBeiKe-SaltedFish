@@ -38,8 +38,8 @@
             <transition enter-active-class="animated bounceInRight" leave-active-class="animated bounceOutLeft">
                 <div v-show="sign_0" class="login">
                     <div style="color:#fd9860;"><h2>免费注册</h2></div>
-                    <div style="margin-top:30px;"><input type="text" class="form-control input-lg" placeholder="请输入您的iBeiKe账号" v-model="student_id" /></div>
-                    <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="请输入iBeiKe密码" v-model="password" /></div>
+                    <div style="margin-top:30px;"><input type="text" class="form-control input-lg" placeholder="请输入您的学号" v-model="student_id" /></div>
+                    <div style="margin-top:20px;"><input type="password" class="form-control input-lg" placeholder="请输入本科教学网密码" v-model="password" /></div>
                     <div style="margin-top:20px;"><button class="btn btn-warning btn-lg" style="width:100%;" @click="confirm">验证你的信息</button></div>
                 </div>
             </transition>
@@ -47,10 +47,10 @@
                 <div v-show="sign_1" class="login">
                     <div style="color:#fd9860;"><h2>验证你的信息</h2></div>
                     <div style="text-align:left;">
-                        <div style="margin-top:20px;"><label>姓名</label><input type="text" class="form-control" v-model="info.name.value"  /></div>
-                        <div style="margin-top:20px;"><label>班级</label><input type="text" class="form-control" v-model="info.class_info.class_no.value"  /></div>
-                        <div style="margin-top:20px;"><label>学年</label><input type="text" class="form-control" v-model="info.class_info.enrollment.value"  /></div>
-                        <div style="margin-top:20px;"><label>性别</label><input type="text" class="form-control" v-model="info.gender.value"  /></div>
+                        <div style="margin-top:20px;"><label>姓名</label><input type="text" class="form-control" v-model="info.name.value" disabled /></div>
+                        <div style="margin-top:20px;"><label>班级</label><input type="text" class="form-control" v-model="info.class_info.class_no.value" disabled /></div>
+                        <div style="margin-top:20px;"><label>学年</label><input type="text" class="form-control" v-model="info.class_info.enrollment.value" disabled /></div>
+                        <div style="margin-top:20px;"><label>性别</label><input type="text" class="form-control" v-model="info.gender.value" disabled /></div>
                        
                         <!-- <table class="table table-hover">
                             <tr><td>姓名</td><td>{{info.name.value}}</td></tr>
@@ -89,9 +89,9 @@
                     <div style="color:#fd9860;"><h2>修改你的信息</h2></div>
                     <div style="text-align:left;">
                         <div style="margin-top:20px;"><input type="text" class="form-control" placeholder="请输入昵称" v-model="info.nickname" /></div>
-                        <!-- <div style="margin-top:20px;"><input type="password" class="form-control" placeholder="请输入你的新密码" v-model="password" /></div>
+                        <div style="margin-top:20px;"><input type="password" class="form-control" placeholder="请输入你的新密码" v-model="new_password" /></div>
                         <div style="margin-top:20px;"><input type="password" class="form-control" placeholder="再次输入你的新密码" v-model="confirm_password" /></div>
-                        <div v-if="!check_password" style="margin-top:20px;"><p style="color:red;">验证密码不一致！</p></div> -->
+                        <div v-if="!check_password" style="margin-top:20px;"><p style="color:red;">验证密码不一致！</p></div>
                         <div style="margin-top:20px;"><button class="btn btn-warning btn-lg" style="width:100%;" @click="pagi(12)">上一页</button></div>
                         <div style="margin-top:20px;"><button class="btn btn-danger btn-lg" style="width:100%;" @click="signup">注册</button></div>
                     </div>
@@ -189,14 +189,6 @@
                             else return true;
                     }
                 },
-                watch:{
-                    new_password:function(val){
-                        this.new_password = this.password;
-                    },
-                    confirm_password:function(val){
-                        this.confirm_password = this.password;
-                    },
-                },
                 methods:{
                     pagi:function(page){
                         switch (page) {
@@ -267,18 +259,18 @@
                     signup:function(){
                         var t = this;
                         console.log(t.info);
-                        // if(t.check_password == false){
-                        //     swal('','验证密码不一致','error');
-                        // }else if((t.new_password).Trim() == '0'){
-                        //     swal('','新密码不能为空','error');                            
-                        // //}else if(( (t.info.phone_number.value).Trim() == '') || t.check_captcha == false){
-                        //  //   swal('','手机验证失败','error')
-                        // }else{
+                        if(t.check_password == false){
+                            swal('','验证密码不一致','error');
+                        }else if((t.new_password).Trim() == ''){
+                            swal('','新密码不能为空','error');                            
+                        //}else if(( (t.info.phone_number.value).Trim() == '') || t.check_captcha == false){
+                         //   swal('','手机验证失败','error')
+                        }else{
                             $.post('../core/api-v1.php?action=signup',{
                                 student_id:t.student_id,
                                 password:t.password,
                                 student_info:t.info,
-                                new_password:t.password,
+                                new_password:t.new_password,
                             },function(data){
                                 console.log(data);
                                 if (data.status == 'success') {
@@ -292,7 +284,7 @@
                                     }
                                 }
                             });
-                        // }
+                        }
                     }
                 },
             });
