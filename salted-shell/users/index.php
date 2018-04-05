@@ -159,7 +159,7 @@
 							<li><a href="./edit-profile.php">编辑名片</a></li>
 							<li><a href="../goods/upload.php">上传商品</a></li>
 							<li><a href="./orders.php">我的订单</a></li>
-<!--							<li><a href="../login/change.php">修改密码</a></li>-->
+							<li><a href="../login/change.php">修改密码</a></li>
 						</ul>
 					</div>
 				</div>
